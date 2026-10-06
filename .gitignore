@@ -2,3 +2,18 @@ node_modules/
 data/uploads/
 data/reports/
 *.log
+data/state.json
+data/state.json.tmp
+data/kernels/
+
+data/admin-key.txt
+data/skill-pulls/
+
+data/accounts.json
+data/accounts.json.tmp
+
+data/diagram-runtime/
+data/diagram-cache/
+
+# Local kernel checkout; publish benchmark evidence, not downloaded source caches.
+kernel_linux_6.6/

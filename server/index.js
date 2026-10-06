@@ -1,129 +1,94 @@
-const express = require('express');
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-
-const app = express();
-const PORT = process.env.PORT || 8787;
-const root = path.join(__dirname, '..');
-const dataRoot = path.join(root, 'data');
-const uploadRoot = path.join(dataRoot, 'uploads');
-const reportRoot = path.join(dataRoot, 'reports');
-[dataRoot, uploadRoot, reportRoot].forEach((folder) => fs.mkdirSync(folder, { recursive: true }));
-app.use(express.json());
-app.use(express.static(path.join(root, 'public')));
-
-const upload = multer({
-  dest: uploadRoot,
-  limits: { fileSize: 1024 * 1024 * 1024 },
-  fileFilter: (_, file, done) => done(null, /\.(zip|tar|gz|tgz)$/i.test(file.originalname))
+const express=require('express'),multer=require('multer'),fs=require('fs'),path=require('path'),crypto=require('crypto');
+const {execFile}=require('child_process');const {promisify}=require('util');const run=promisify(execFile);
+const kernels=require('./kernels');const {analyze,inspect,builtins}=require('./analyzer');
+const root=path.join(__dirname,'..'),data=process.env.KERNEL_INSIGHT_DATA_DIR||path.join(root,'data'),uploads=path.join(data,'uploads'),reports=path.join(data,'reports'),benchmarkDir=path.join(root,'data/benchmark');
+for(const p of [data,uploads,reports])fs.mkdirSync(p,{recursive:true});
+const statePath=path.join(data,'state.json');let state=fs.existsSync(statePath)?JSON.parse(fs.readFileSync(statePath)): {jobs:[],skills:builtins};
+for(const j of state.jobs)if(['queued','running'].includes(j.status)){j.status='failed';j.error='服务重启，请重新提交';}
+const save=()=>{fs.writeFileSync(statePath+'.tmp',JSON.stringify(state,null,2));fs.renameSync(statePath+'.tmp',statePath);};
+const benchmark=()=>fs.existsSync(path.join(benchmarkDir,'manifest.json'))?JSON.parse(fs.readFileSync(path.join(benchmarkDir,'manifest.json'))):{version:'linux-community-v1',cases:[]};
+const app=express();app.use(express.json({limit:'8mb'}));app.use(express.static(path.join(root,'public')));
+app.use('/vendor/mermaid',express.static(path.join(root,'node_modules/mermaid/dist')));
+app.get('/vendor/highlight.css',(_,res)=>res.sendFile(path.join(root,'node_modules/highlight.js/styles/github.css')));
+app.use((req,res,next)=>{if(req.method!=='GET'&&req.headers.origin&&!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(req.headers.origin))return res.status(403).json({error:'只允许本地工作台写入'});next();});
+const upload=multer({dest:uploads,limits:{fileSize:64*1024*1024,files:20},fileFilter:(_,f,cb)=>/\.(log|txt|zip|gz|tgz|tar)$/i.test(f.originalname)?cb(null,true):cb(Error('支持 .log .txt .zip .tar .gz .tgz'))});
+require('./accounts')(app,{data,state,save});
+require('./experience').install(app,{state,data});
+const taskProgress=require('./task-progress')({state,save});
+const ownerId=req=>req.user?.id||null;
+for(const j of state.jobs)if(j.error==='服务重启，请重新提交'&&j.agent?.status==='running')taskProgress.step(j,'failed',j.progress||0,j.error,'failed');
+app.post('/api/me/claim-skill',(req,res)=>{const id=ownerId(req),s=state.skills.find(s=>s.id===req.body.id);if(!id||!s?.ownerToken||crypto.createHash('sha256').update(String(req.body.token||'')).digest('hex')!==crypto.createHash('sha256').update(s.ownerToken).digest('hex'))return res.status(403).json({error:'投稿凭据不匹配'});if(s.ownerId&&s.ownerId!==id)return res.status(409).json({error:'投稿已绑定其他个人空间'});s.ownerId=id;save();res.json({ok:true});});
+app.get('/api/me',(req,res)=>{const id=ownerId(req);if(!id)return res.status(400).json({error:'缺少本地个人标识'});res.json({jobs:state.jobs.filter(j=>j.ownerId===id),skills:state.skills.filter(s=>s.ownerId===id).map(({ownerToken,content,...s})=>s),benchmarkRuns:(state.skillRuns||[]).filter(r=>r.ownerId===id),legacyCount:req.user.role==='admin'?state.jobs.filter(j=>!j.ownerId).length:0});});
+const wrap=fn=>(req,res,next)=>Promise.resolve(fn(req,res,next)).catch(next);
+const skillWorkflow=require('./skill-workflow')(app,{state,save,data,benchmark,benchmarkDir});
+app.get('/api/health',(_,res)=>res.json({ok:true,engine:'deterministic-triage-v1',llmConnected:false}));
+app.get('/api/benchmark',(_,res)=>{const b=benchmark();res.json({...b,total:b.cases.length});});
+app.get('/api/benchmark/:id/log',(req,res)=>{const c=benchmark().cases.find(c=>c.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});res.type('text/plain').send(fs.readFileSync(path.join(benchmarkDir,c.logPath),'utf8'));});
+app.get('/api/jobs',(req,res)=>res.json(state.jobs.filter(j=>req.user.role==='admin'||j.ownerId===req.user.id)));
+app.get('/api/jobs/:id/progress',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});res.json(taskProgress.snapshot(j));});
+app.get('/api/jobs/:id/events',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});taskProgress.stream(req,res,j);});
+app.get('/api/kernels',(_,res)=>res.json(kernels.list()));
+app.get('/api/kernels/:key/source',wrap(async(req,res)=>{
+ const k=kernels.list().find(k=>k.key===req.params.key);if(k?.status!=='ready')return res.status(409).json({error:'源码尚未就绪'});
+ const file=String(req.query.file||''),line=Number(req.query.line||1);if(!/^[a-zA-Z0-9_./,-]+$/.test(file)||file.startsWith('/')||file.split('/').includes('..')||!Number.isInteger(line)||line<1)return res.status(400).json({error:'非法源码路径或行号'});
+ const sourceRoot=fs.realpathSync(k.sourcePath),target=path.resolve(sourceRoot,file);if(!target.startsWith(sourceRoot+path.sep))return res.status(400).json({error:'路径超出源码目录'});
+ if(!fs.existsSync(target))return res.status(404).json({error:'该版本源码中不存在此文件'});const real=fs.realpathSync(target);if(!real.startsWith(sourceRoot+path.sep)||!fs.statSync(real).isFile()||fs.statSync(real).size>2*1024*1024)return res.status(400).json({error:'源码文件不可读取'});
+ const lines=fs.readFileSync(real,'utf8').split(/\r?\n/);if(line>lines.length)return res.status(400).json({error:'行号超出源码文件范围'});const start=Math.max(1,line-8),end=Math.min(lines.length,line+8);res.json({file,line,version:k.version,commit:k.commit,lines:lines.slice(start-1,end).map((text,i)=>({line:start+i,text}))});
+}));
+app.post('/api/kernels',wrap(async(req,res)=>res.status(202).json(kernels.ensure(req.body))));
+app.get('/api/dashboard',(_,res)=>{
+ const submitted=state.jobs.filter(j=>!j.isBenchmark);
+ const groups=new Map();for(const j of submitted){const key=j.analysis?.signature||j.id;const prev=groups.get(key);if(!prev||j.status==='resolved'&&prev.status!=='resolved')groups.set(key,j);}
+ const jobs=[...groups.values()],resolved=jobs.filter(j=>j.status==='resolved');
+ const paired=resolved.filter(j=>Number(j.review?.baselineMinutes)>0);const avg=a=>a.length?a.reduce((s,n)=>s+n,0)/a.length:null;
+ const avgBaseline=avg(paired.map(j=>j.review.baselineMinutes)),avgActual=avg(paired.map(j=>(new Date(j.resolvedAt)-new Date(j.createdAt))/60000));
+ const categories={};for(const j of jobs){const k=j.analysis?.category||'等待分析';categories[k]=(categories[k]||0)+1;}
+ const trend=Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const day=d.toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai'});return {day,total:resolved.filter(j=>new Date(j.resolvedAt).toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai'})===day).length};});
+ res.json({total:jobs.length,submitted:submitted.length,resolved:resolved.length,pending:jobs.filter(j=>j.status!=='resolved').length,avgMinutes:avg(resolved.map(j=>(new Date(j.resolvedAt)-new Date(j.createdAt))/60000)),avgBaseline,avgActual,improvement:avgBaseline?100*(1-avgActual/avgBaseline):null,pairedCount:paired.length,duplicates:submitted.length-jobs.length,categories,trend,benchmarkTotal:benchmark().cases.length,readyKernels:kernels.list().filter(k=>k.status==='ready').length,refreshedAt:new Date().toISOString(),definition:'真实上传任务按版本、commit、异常和调用链归并；排除 benchmark 试跑。平均耗时从提交到人工确认；提升率只比较填有人工基线的同一批问题。'});
 });
-
-const dashboardSeed = {
-  kpis: { open: 38, medianMinutes: 46, accuracy: 91.4, coverage: 73.8 },
-  locations: [
-    { name: 'Nanchang', android: 64, ohos: 36, total: 100, trend: 12 },
-    { name: 'Guangzhou', android: 51, ohos: 29, total: 80, trend: 8 },
-    { name: 'Chengdu', android: 43, ohos: 22, total: 65, trend: 5 },
-    { name: 'Wuhan', android: 36, ohos: 18, total: 54, trend: -3 }
-  ],
-  statuses: [
-    { label: '未解决', value: 38, color: '#ef5b68' },
-    { label: '定位中', value: 26, color: '#f5b94c' },
-    { label: '实施修改', value: 19, color: '#5b8def' },
-    { label: '结论审核', value: 11, color: '#47c7a5' }
-  ],
-  types: [
-    { name: 'Crash / ANR', android: 31, ohos: 14 },
-    { name: '启动稳定性', android: 22, ohos: 16 },
-    { name: '内存泄漏', android: 18, ohos: 9 },
-    { name: '卡顿 / 丢帧', android: 15, ohos: 12 },
-    { name: '功耗异常', android: 9, ohos: 6 }
-  ],
-  timeline: [54, 61, 58, 70, 76, 73, 82, 88, 91, 96, 103, 112],
-  radar: [86, 78, 92, 71, 88]
-};
-const benchmarkCases = [
-  { id: 'BM-ANR-001', platform: 'Android', version: 'Nanchang R12', category: 'Crash / ANR', occurredAt: '2026-07-21 18:42:11', probability: 0.92, resetCause: 'watchdog timeout after RenderThread lock contention', falseLogs: ['normal GC pause', 'surface reconnect'], rootCause: 'BufferQueue lock contention', status: 'verified' },
-  { id: 'BM-OHOS-002', platform: 'OHOS', version: 'Guangzhou 4.1', category: '启动稳定性', occurredAt: '2026-07-22 09:14:03', probability: 0.87, resetCause: 'Ability restart after cold-start timeout', falseLogs: ['network retry', 'bundle cache miss'], rootCause: 'UIAbility initialization race', status: 'verified' },
-  { id: 'BM-MEM-003', platform: 'Android', version: 'Chengdu R11', category: '内存泄漏', occurredAt: '2026-07-23 13:08:55', probability: 0.89, resetCause: 'LMK reclaim after native heap growth', falseLogs: ['background trim', 'image cache eviction'], rootCause: 'Retained Activity context in observer', status: 'verified' },
-  { id: 'BM-FPS-004', platform: 'OHOS', version: 'Nanchang 4.0', category: '卡顿 / 丢帧', occurredAt: '2026-07-24 20:31:40', probability: 0.81, resetCause: 'Frame scheduler missed 3 consecutive vsyncs', falseLogs: ['low battery warning', 'thermal hint'], rootCause: 'Main thread synchronous asset decode', status: 'verified' },
-  { id: 'BM-POWER-005', platform: 'Android', version: 'Guangzhou R12', category: '功耗异常', occurredAt: '2026-07-25 02:16:27', probability: 0.78, resetCause: 'Doze exit caused by repeating alarm', falseLogs: ['radio wakeup', 'health check'], rootCause: 'Unbounded retry alarm in sync worker', status: 'verified' },
-  { id: 'BM-ANR-006', platform: 'Android', version: 'Wuhan R10', category: 'Crash / ANR', occurredAt: '2026-07-26 11:03:19', probability: 0.74, resetCause: 'Input dispatch timeout', falseLogs: ['binder buffer warning', 'low memory'], rootCause: 'Binder call on main thread', status: 'verified' },
-  { id: 'BM-OHOS-007', platform: 'OHOS', version: 'Chengdu 4.1', category: '启动稳定性', occurredAt: '2026-07-27 07:48:01', probability: 0.84, resetCause: 'Rosen render service restart', falseLogs: ['permission prompt', 'asset prewarm'], rootCause: 'Invalid surface lifecycle transition', status: 'verified' },
-  { id: 'BM-MEM-008', platform: 'OHOS', version: 'Guangzhou 3.9', category: '内存泄漏', occurredAt: '2026-07-28 16:52:34', probability: 0.76, resetCause: 'Memory pressure callback triggered process kill', falseLogs: ['large bitmap allocation', 'JS heap warning'], rootCause: 'Listener not released on page destroy', status: 'verified' }
-];
-let jobs = [];
-let skills = [
-  { id: 'builtin-crash-v3', name: 'crash-root-cause', version: '3.2.1', score: 94.2, coverage: 81, status: 'baseline', updated: '2026-07-28', gates: { benchmark: true, ci: true, ablation: true, admin: true } },
-  { id: 'builtin-anr-v2', name: 'anr-trace', version: '2.8.0', score: 91.6, coverage: 76, status: 'baseline', updated: '2026-07-25', gates: { benchmark: true, ci: true, ablation: true, admin: true } },
-  { id: 'builtin-ohos-v1', name: 'ohos-ability', version: '1.4.2', score: 89.8, coverage: 67, status: 'baseline', updated: '2026-07-20', gates: { benchmark: true, ci: true, ablation: true, admin: true } }
-];
-
-function filteredDashboard(platform, location) {
-  const result = JSON.parse(JSON.stringify(dashboardSeed));
-  if (location && location !== '全部版本') result.locations = result.locations.filter((item) => item.name === location);
-  if (platform === 'Android') result.locations = result.locations.map((item) => ({ ...item, ohos: 0, total: item.android }));
-  if (platform === 'OHOS') result.locations = result.locations.map((item) => ({ ...item, android: 0, total: item.ohos }));
-  if (platform === 'Android') result.types = result.types.map((item) => ({ ...item, ohos: 0 }));
-  if (platform === 'OHOS') result.types = result.types.map((item) => ({ ...item, android: 0 }));
-  return result;
+async function readLog(file){
+ if(/\.(txt|log)$/i.test(file.originalname))return fs.readFileSync(file.path,'utf8');
+ if(/\.gz$/i.test(file.originalname)&&!/(\.tar\.gz|\.tgz)$/i.test(file.originalname)){const zlib=require('zlib');const raw=fs.readFileSync(file.path);try{return zlib.gunzipSync(raw,{maxOutputLength:32*1024*1024}).toString('utf8');}catch{} }
+ const {stdout}=await run('tar',['-tf',file.path],{maxBuffer:2*1024*1024,timeout:30000});
+ const names=stdout.trim().split(/\r?\n/).filter(n=>/\.(log|txt)$/i.test(n));
+ if(!names.length)throw Error('压缩包中未找到 .log / .txt 文件');if(names.length>100)throw Error('单个压缩包最多 100 个日志');
+ if(names.some(n=>n.startsWith('/')||n.includes('\\')||n.split('/').includes('..')||/^[A-Za-z]:/.test(n)))throw Error('压缩包路径不安全');
+ let combined='';for(const n of names){const r=await run('tar',['-xOf',file.path,'--',n],{maxBuffer:32*1024*1024,timeout:30000});combined+=`\n# FILE: ${n}\n${r.stdout}`;if(Buffer.byteLength(combined)>32*1024*1024)throw Error('解压日志超过 32MB');}return combined;
 }
-
-app.get('/api/dashboard', (req, res) => res.json({ ...filteredDashboard(req.query.platform, req.query.location), refreshedAt: new Date().toISOString() }));
-app.get('/api/benchmark', (_, res) => res.json({ version: 'benchmark-2026.08', total: benchmarkCases.length, cases: benchmarkCases }));
-app.get('/api/skills', (_, res) => res.json(skills));
-app.get('/api/jobs', (_, res) => res.json(jobs));
-app.get('/api/reports/:id', (req, res) => {
-  const reportPath = path.join(reportRoot, `${req.params.id}.md`);
-  if (!fs.existsSync(reportPath)) return res.status(404).json({ error: 'report not found' });
-  res.type('text/markdown').send(fs.readFileSync(reportPath, 'utf8'));
-});
-
-app.post('/api/analyze', upload.fields([{ name: 'logArchive', maxCount: 1 }, { name: 'symbolArchive', maxCount: 1 }]), (req, res) => {
-  if (!req.files?.logArchive?.[0]) return res.status(400).json({ error: 'log archive is required' });
-  const id = crypto.randomUUID();
-  const job = { id, name: req.files.logArchive[0].originalname, location: req.body.location || 'Nanchang', framework: req.body.framework || 'Android', mode: req.body.skillMode || 'auto', status: 'queued', progress: 8, createdAt: new Date().toISOString(), reportReady: false };
-  jobs.unshift(job); setTimeout(() => runMockAnalysis(job), 600); res.status(202).json(job);
-});
-
-function runMockAnalysis(job) {
-  const steps = ['unpack and validate logs', 'extract crash scene and traces', 'call Codex Agent', 'run evidence evaluator', 'write report'];
-  let index = 0;
-  const timer = setInterval(() => {
-    job.status = index < steps.length - 1 ? 'running' : 'completed'; job.step = steps[index]; job.progress = Math.min(100, 18 + index * 18); index += 1;
-    if (job.status === 'completed') {
-      job.progress = 100; job.reportReady = true; job.score = 92.4;
-      const markdown = [`# ${job.location} ${job.framework} Stability Analysis`, '', `> Task: ${job.id} | Generated: ${new Date().toISOString()}`, '', '## Conclusion', '', 'Detected **RenderThread watchdog timeout** with confidence **0.92**.', '', '## Evidence chain', '', '1. `system_server` emitted ANR at 18:42:11.284.', '2. Main thread waited on `BufferQueueProducer::dequeueBuffer` for over 5 seconds.', '3. RenderThread held `mMutex` in the same window as the latest change.', '', '## Decision tree path', '', '`Stability > ANR > Native wait > Graphics pipeline > BufferQueue lock contention`', '', '## PlantUML investigation sequence', '', '```plantuml', '@startuml', 'App -> RenderThread: dequeueBuffer', 'RenderThread -> SurfaceFlinger: request buffer', 'SurfaceFlinger --> RenderThread: lock contention', 'RenderThread --> App: watchdog timeout', '@enduml', '```', '', '## Fix suggestions', '', '- Add lock contention sampling and timeout logs before submit.', '- Regress cold start, rotation and background resume.', '- After evidence review, move the issue to implementation.'].join('\n');
-      fs.writeFileSync(path.join(reportRoot, `${job.id}.md`), markdown); fs.writeFileSync(path.join(reportRoot, `${job.id}.json`), JSON.stringify({ algorithm: 'evidence-v1', score: 92.4, evidence: { completeness: 0.95, consistency: 0.91, reproducibility: 0.9 }, baselineDelta: 1.8 }, null, 2)); clearInterval(timer);
-    }
-  }, 900);
+function createJob(name,options={}){const j={id:crypto.randomUUID(),name,createdAt:new Date().toISOString(),status:'queued',progress:0,ownerId:options.ownerId||null,benchmarkCaseId:options.benchmarkCaseId||null,machine:options.machine||'未指定机器',isBenchmark:!!options.isBenchmark,reportReady:false};state.jobs.unshift(j);taskProgress.step(j,'queued',0,'任务已接收，等待分析执行','queued');return j;}
+function report(j){const a=j.analysis;return [`# ${j.name}`,``, `状态：${j.status} · 分析引擎：${a.engine}`,``, `## 初步定位`,a.headline,`类别：${a.category}；内核：${a.kernelVersion||'未识别'}；commit：${a.kernelCommit||'未识别'}`,``, `## 分析选用组合`,`组合：${j.skillSelection?.preset||'recommended'}；Skill ID：${(j.skillSelection?.ids||[]).join(', ')}`,``, `## Skill 贡献者`,...a.skills.map(s=>`- ${s.name} v${s.version} — ${s.contributor} / ${s.team}\n  ${s.guidance}`),``, `## 日志证据`,...a.evidence.map(e=>`- L${e.line}: ${e.text}`),``, `## 社区候选根因（待核实）`,...a.candidates.map(c=>`- ${c.rootCause}\n  来源：${c.sourceUrl}\n  修复：${c.fixTitle} (${c.fix})\n  匹配依据：${c.matchBasis}`),``, `## 分析边界`,a.limitations,``, `输入 SHA256：${j.inputHash}`,j.review?`审核：${j.review.note}；人工基线：${j.review.baselineMinutes||'未填'} 分钟`: '尚未人工确认'].join('\n');}
+async function processJob(j,log,options={}){
+ try{j.status='running';taskProgress.step(j,'reading',10,'正在读取和校验输入日志');await new Promise(r=>setImmediate(r));if(!log.trim()||log.includes('\u0000'))throw Error('请提供非空文本日志');j.inputHash=crypto.createHash('sha256').update(log).digest('hex');fs.writeFileSync(path.join(reports,j.id+'.log'),log);
+ taskProgress.step(j,'extracting',30,'提取异常特征、版本和调用链');await new Promise(r=>setImmediate(r));
+ const inspection=inspect(log);taskProgress.step(j,'matching',55,'匹配选定 Skill 和社区修复案例');await new Promise(r=>setImmediate(r));j.analysis=analyze(log,options.selectedSkills||state.skills,benchmark().cases,inspection);j.skillSelection={preset:options.skillPreset||'recommended',ids:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(s=>s.id)};j.progress=70;
+ const previous=state.jobs.find(x=>x.id!==j.id&&x.ownerId===j.ownerId&&!x.isBenchmark&&x.analysis?.signature===j.analysis.signature);if(previous)j.duplicateOf=previous.id;
+ const spec=options.sourceSpec || {version:j.analysis.kernelVersion,commit:j.analysis.kernelCommit,repository:options.repository||j.analysis.repository};
+ taskProgress.step(j,'source',75,options.autoSource!==false?'解析源码版本并提交缓存下载任务':'本次未启用源码下载');await new Promise(r=>setImmediate(r));
+ if(options.autoSource!==false){try{j.kernelKey=kernels.ensure(spec).key;}catch(e){j.sourceError=e.message;}}
+ taskProgress.step(j,'report',90,'整理证据与贡献者署名，生成报告');await new Promise(r=>setImmediate(r));
+ j.status='needs_review';j.progress=100;j.reportReady=true;j.analyzedAt=new Date().toISOString();j.analysisSeconds=(Date.now()-new Date(j.createdAt))/1000;fs.writeFileSync(path.join(reports,j.id+'.md'),report(j));taskProgress.step(j,'complete',100,'分析已完成，等待人工核对与验证','completed');
+ }catch(e){j.status='failed';j.error=e.message;taskProgress.step(j,'failed',j.progress||0,e.message,'failed');}
 }
-
-app.post('/api/skills', upload.single('skillArchive'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'skill archive is required' });
-  const item = { id: crypto.randomUUID(), name: req.body.name || req.file.originalname.replace(/\.(zip|tar|gz|tgz)$/i, ''), version: req.body.version || '0.1.0', score: null, coverage: null, status: 'benchmark_pending', updated: new Date().toISOString().slice(0, 10), gates: { benchmark: false, ci: false, ablation: false, admin: false } };
-  skills.unshift(item); res.status(202).json(item);
-});
-
-app.post('/api/skills/:id/gate', (req, res) => {
-  const skill = skills.find((item) => item.id === req.params.id);
-  if (!skill) return res.status(404).json({ error: 'skill not found' });
-  const action = req.body.action;
-  const transitions = { run_benchmark: 'benchmark', run_ci: 'ci', run_ablation: 'ablation', approve: 'admin' };
-  const gate = transitions[action];
-  if (!gate) return res.status(400).json({ error: 'unsupported gate action' });
-  const prerequisites = { ci: 'benchmark', ablation: 'ci', admin: 'ablation' };
-  if (prerequisites[gate] && !skill.gates[prerequisites[gate]]) return res.status(409).json({ error: `complete ${prerequisites[gate]} first` });
-  skill.gates[gate] = true;
-  if (gate === 'benchmark') { skill.score = 93.1; skill.coverage = 74; skill.benchmark = { dataset: 'benchmark-2026.08', cases: benchmarkCases.length, baselineDelta: 0.7 }; }
-  if (gate === 'ci') skill.ci = { passed: 24, total: 24, completedAt: new Date().toISOString() };
-  if (gate === 'ablation') skill.ablation = { passed: true, delta: 0.4, completedAt: new Date().toISOString() };
-  if (gate === 'admin') skill.status = 'baseline'; else skill.status = gate === 'benchmark' ? 'benchmark_passed' : `${gate}_passed`;
-  skill.updated = new Date().toISOString().slice(0, 10);
-  res.json(skill);
-});
-
-app.get('*', (_, res) => res.sendFile(path.join(root, 'public', 'index.html')));
-app.listen(PORT, () => console.log(`Stability Insight running at http://localhost:${PORT}`));
+const engineFingerprint=crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'analyzer.js'))).digest('hex');
+function enqueueAnalysis(name,log,options,force=false){
+ const fingerprint=crypto.createHash('sha256').update(JSON.stringify({owner:options.ownerId,preset:options.skillPreset||'recommended',log:log.replace(/\r\n/g,'\n').trimEnd(),skills:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(({id,version,category,patterns,guidance})=>({id,version,category,patterns,guidance})),source:options.sourceSpec||null,repository:options.repository||null,autoSource:!!options.autoSource,benchmark:!!options.isBenchmark,caseId:options.benchmarkCaseId||null,dataset:benchmark(),engine:engineFingerprint})).digest('hex');
+ const previous=state.jobs.find(j=>j.dedupKey===fingerprint&&j.status!=='failed'&&(['queued','running'].includes(j.status)||j.reportReady));
+ if(previous&&(!force||['queued','running'].includes(previous.status))){previous.reuseCount=(previous.reuseCount||0)+1;previous.lastSubmittedAt=new Date().toISOString();previous.submissions=previous.submissions||[];previous.submissions.push({name,machine:options.machine||'',at:previous.lastSubmittedAt});save();return {...previous,reused:true};}
+ const j=createJob(name,options);j.dedupKey=fingerprint;j.reuseCount=0;j.submissions=[{name,machine:options.machine||'',at:j.createdAt}];save();setImmediate(()=>processJob(j,log,options));return {...j,reused:false};
+}
+app.post('/api/analyze',upload.array('logs',20),wrap(async(req,res)=>{
+ if(!req.files?.length&&!req.body.logText?.trim())return res.status(400).json({error:'请选择日志或粘贴日志内容'});
+ const options={ownerId:ownerId(req),machine:String(req.body.machine||'').slice(0,120),autoSource:req.body.autoSource!=='false',repository:['stable','next'].includes(req.body.repository)?req.body.repository:null,sourceSpec:req.body.kernelCommit||req.body.kernelVersion?{version:req.body.kernelVersion,commit:req.body.kernelCommit,repository:req.body.repository||'mainline'}:null};
+ options.selectedSkills=skillWorkflow.select(req.body).map(s=>({...s,patterns:[...s.patterns]}));options.skillPreset=req.body.skillPreset||'recommended';
+ const submitted=[];for(const f of req.files||[]){try{submitted.push(enqueueAnalysis(f.originalname,await readLog(f),options,req.body.forceRerun==='true'||req.body.forceRerun===true));}finally{fs.unlinkSync(f.path);}}
+ if(req.body.logText?.trim())submitted.push(enqueueAnalysis('粘贴的 kernel 日志',req.body.logText,options,req.body.forceRerun==='true'||req.body.forceRerun===true));res.status(202).json(submitted);
+}));
+app.post('/api/benchmark/:id/analyze',wrap(async(req,res)=>{const c=benchmark().cases.find(x=>x.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});const options={isBenchmark:true,ownerId:ownerId(req),benchmarkCaseId:c.id,machine:'社区 benchmark',autoSource:req.body.autoSource===true,sourceSpec:{version:c.kernelVersion,commit:c.kernelCommit,repository:c.repository},selectedSkills:skillWorkflow.select({}).map(s=>({...s,patterns:[...s.patterns]}))};res.status(202).json(enqueueAnalysis(c.id+' · '+c.symbol,fs.readFileSync(path.join(benchmarkDir,c.logPath),'utf8'),options,req.body.forceRerun===true));}));
+app.get('/api/reports/:id',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.analysis)return res.status(404).json({error:'报告未就绪'});res.type('text/markdown').send(report(j));});
+app.get('/api/jobs/:id/log',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.reportReady)return res.status(404).json({error:'日志不存在'});res.type('text/plain').sendFile(path.join(reports,j.id+'.log'));});
+app.post('/api/jobs/:id/review',wrap(async(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.reportReady)return res.status(409).json({error:'报告尚未就绪'});if(!String(req.body.note||'').trim())return res.status(400).json({error:'请填写验证结论或退回原因'});const baseline=req.body.baselineMinutes===''||req.body.baselineMinutes==null?null:Number(req.body.baselineMinutes);if(baseline!==null&&(!Number.isFinite(baseline)||baseline<=0))return res.status(400).json({error:'人工基线必须大于 0'});if(typeof req.body.accepted!=='boolean')return res.status(400).json({error:'审核结果必须是布尔值'});const rating=req.body.rating===''||req.body.rating==null?null:Number(req.body.rating);if(rating!==null&&(!Number.isInteger(rating)||rating<1||rating>5))return res.status(400).json({error:'满意度评分必须为 1–5 的整数'});j.review={rating,accepted:req.body.accepted,note:String(req.body.note).slice(0,4000),baselineMinutes:baseline,at:new Date().toISOString()};j.status=j.review.accepted?'resolved':'needs_expert';if(j.review.accepted)j.resolvedAt=j.resolvedAt||new Date().toISOString();else delete j.resolvedAt;taskProgress.settle(j);res.json(j);}));
+app.use('/api',(_,res)=>res.status(404).json({error:'API 不存在'}));
+app.use((err,req,res,next)=>res.status(err instanceof multer.MulterError?413:400).json({error:err.message}));
+app.get('*',(_,res)=>res.sendFile(path.join(root,'public/index.html')));
+const port=process.env.PORT||8787;if(require.main===module)app.listen(port,'127.0.0.1',()=>console.log(`Kernel Insight: http://localhost:${port}`));
+module.exports=app;
