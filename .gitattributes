@@ -1,2 +1,5 @@
 # Community report hashes describe exact original bytes, including line endings.
 data/benchmark/*.txt -text
+*.sh text eol=lf
+
+tests/fixtures/community-v1/*.txt -text

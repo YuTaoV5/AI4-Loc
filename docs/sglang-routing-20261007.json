@@ -1,0 +1,140 @@
+{
+  "dataset": "linux-community-v1",
+  "protocol": "SGLang constrained multi-question routing; no benchmark labels supplied to model. Scores are category accuracy, not root-cause accuracy or calibrated probabilities.",
+  "completedAt": "2026-10-06T17:20:46.969Z",
+  "cases": [
+    {
+      "caseId": "LINUX-001",
+      "split": "train",
+      "expectedCategory": "内存越界",
+      "result": {
+        "category": "内存越界",
+        "needsExpert": true,
+        "hasVersion": true,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "gdb",
+          "crash"
+        ],
+        "reason": "The log explicitly reports 'BUG: KASAN: slab-out-of-bounds' in the overlayfs code path (ovl_upperdentry_dereference/ovl_inode_upper), which maps to the memory_oob classification.",
+        "categoryCode": "memory_oob",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 4.66,
+        "probability": null
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-002",
+      "split": "test",
+      "expectedCategory": "内存越界",
+      "result": {
+        "category": "内存越界",
+        "needsExpert": true,
+        "hasVersion": true,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "gdb",
+          "crash"
+        ],
+        "reason": "The log explicitly reports 'BUG: KASAN: slab-out-of-bounds' in the function 'selinux_sock' (inlined in 'selinux_ip_output'). According to the classification rules, an out-of-bounds access is classified as 'memory_oob'. The root cause is not fully proven by the log alone (requires analysis of the specific object size and access offset), so expert review is required.",
+        "categoryCode": "memory_oob",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 6.218,
+        "probability": null
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-003",
+      "split": "test",
+      "expectedCategory": "任务挂起",
+      "result": {
+        "category": "任务挂起",
+        "needsExpert": true,
+        "hasVersion": true,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "crash",
+          "gdb"
+        ],
+        "reason": "The log explicitly reports 'INFO: task syz-executor217:5320 blocked for more than 143 seconds', which is the signature of a hung task. The call trace shows the task is stuck in `schedule` called from `_free_event` during `perf_event_release_kernel`, indicating a deadlock or long wait in the perf subsystem. While lockdep information is present, the primary fatal condition reported is the hung task.",
+        "categoryCode": "hung_task",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 5.935,
+        "probability": null
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-004",
+      "split": "train",
+      "expectedCategory": "内存越界",
+      "result": {
+        "category": "内存越界",
+        "needsExpert": true,
+        "hasVersion": true,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "gdb",
+          "crash"
+        ],
+        "reason": "The log explicitly reports 'BUG: KASAN: slab-out-of-bounds' in the function 'linear_transfer' within the sound subsystem, indicating an out-of-bounds memory access.",
+        "categoryCode": "memory_oob",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 4.212,
+        "probability": null
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-005",
+      "split": "train",
+      "expectedCategory": "释放后使用",
+      "result": {
+        "category": "释放后使用",
+        "needsExpert": true,
+        "hasVersion": true,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "gdb",
+          "crash"
+        ],
+        "reason": "The log explicitly reports 'BUG: KASAN: use-after-free' in __lock_acquire. The call trace shows the access occurring in a timer softirq context (nilfs_construction_timeout) while the object (task_struct) was freed via RCU (delayed_put_task_struct). This matches the definition of use-after-free.",
+        "categoryCode": "uaf",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 5.633,
+        "probability": null
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-006",
+      "split": "test",
+      "expectedCategory": "锁依赖",
+      "result": {
+        "category": "锁依赖",
+        "needsExpert": true,
+        "hasVersion": false,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "gdb",
+          "crash"
+        ],
+        "reason": "The log explicitly states 'WARNING: possible circular locking dependency detected' and provides lockdep trace data showing conflicting lock acquisition orders involving nbd, block layer, and socket locks.",
+        "categoryCode": "lockdep",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 4.575,
+        "probability": null
+      },
+      "categoryCorrect": true
+    }
+  ],
+  "categoryAccuracy": 1
+}

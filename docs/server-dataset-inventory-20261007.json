@@ -1,0 +1,549 @@
+{
+  "schema": "kernel-server-dataset-inventory/v1",
+  "observedAt": "2026-10-07 approximately 17:00 Asia/Shanghai",
+  "lab": "/root/gpufree-data/kernel-insight-lab",
+  "verification": {
+    "appformat": {
+      "exists": true,
+      "symlink": false,
+      "resolved": "/root/gpufree-data/kernel-insight-lab/benchmark/app-format",
+      "count": 64,
+      "errors": [],
+      "version": "openharmony-lkdtm-lab-v1",
+      "manifestSha256": "cd0e19112943852c5447caa998668c57be246b7bac067d353e8857c9d29b3e96",
+      "splitCounts": {
+        "train": 43,
+        "test": 21
+      },
+      "categoryCounts": {
+        "待专家分析": 36,
+        "内存越界": 10,
+        "释放后使用": 8,
+        "RCU / 锁死": 5,
+        "任务挂起": 1,
+        "锁依赖": 4
+      }
+    },
+    "community": {
+      "exists": true,
+      "symlink": false,
+      "resolved": "/opt/kernel-insight/data/backups/benchmark.linux-community-v1.20261007-130120",
+      "count": 6,
+      "errors": [],
+      "version": "linux-community-v1",
+      "manifestSha256": "acfebd9ff31044d7af8b364ee89abf1a26ddeedfef8c76b2520bbab42ed00559",
+      "splitCounts": {
+        "train": 3,
+        "test": 3
+      },
+      "categoryCounts": {
+        "内存越界": 3,
+        "任务挂起": 1,
+        "释放后使用": 1,
+        "锁依赖": 1
+      }
+    },
+    "release_benchmark": {
+      "exists": true,
+      "symlink": false,
+      "resolved": "/opt/kernel-insight/releases/1ee04edd2ecb/data/benchmark",
+      "count": 64,
+      "errors": [],
+      "version": "openharmony-lkdtm-lab-v1",
+      "manifestSha256": "cd0e19112943852c5447caa998668c57be246b7bac067d353e8857c9d29b3e96",
+      "splitCounts": {
+        "train": 43,
+        "test": 21
+      },
+      "categoryCounts": {
+        "待专家分析": 36,
+        "内存越界": 10,
+        "释放后使用": 8,
+        "RCU / 锁死": 5,
+        "任务挂起": 1,
+        "锁依赖": 4
+      }
+    },
+    "stabilityCounts": {
+      "ready": 60,
+      "excluded": 8
+    },
+    "stabilityCaseKeys": [
+      "id",
+      "family",
+      "mechanismGroup",
+      "split",
+      "status",
+      "exclusionReasons",
+      "files"
+    ],
+    "scenarioMapping": [
+      {
+        "scenario": "baseline",
+        "appId": "OHOS-001",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": ""
+      },
+      {
+        "scenario": "corrupt_oob_kmalloc",
+        "appId": "OHOS-002",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "slab-out-of-bounds"
+      },
+      {
+        "scenario": "corrupt_uaf_kmalloc",
+        "appId": "OHOS-003",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: use-after-free in ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+      },
+      {
+        "scenario": "leak_kmalloc",
+        "appId": "OHOS-004",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)"
+      },
+      {
+        "scenario": "leak_kmem_cache",
+        "appId": "OHOS-005",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)"
+      },
+      {
+        "scenario": "leak_ptr_overwrite",
+        "appId": "OHOS-006",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "2 new suspected memory leaks (see /sys/kernel/debug/kmemleak)"
+      },
+      {
+        "scenario": "leak_vmalloc",
+        "appId": "OHOS-007",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)"
+      },
+      {
+        "scenario": "lkdtm_ACCESS_NULL",
+        "appId": "OHOS-008",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: wild-memory-access in rcu_nmi_enter+0x4a/0xe0"
+      },
+      {
+        "scenario": "lkdtm_ACCESS_USERSPACE",
+        "appId": "OHOS-009",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "general protection fault, probably for non-canonical address 0xe0000bf9e6142800: 0000 [#1] SMP KASAN NOPTI"
+      },
+      {
+        "scenario": "lkdtm_BUG",
+        "appId": "OHOS-010",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "drivers/misc/lkdtm/bugs.c:76!"
+      },
+      {
+        "scenario": "lkdtm_CORRUPT_LIST_ADD",
+        "appId": "OHOS-011",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "list_add corruption. next->prev should be prev (ff110000084a7d50), but was 0000000000000000. (next=ff110000084a7d70)."
+      },
+      {
+        "scenario": "lkdtm_CORRUPT_LIST_DEL",
+        "appId": "OHOS-012",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "list_del corruption. next->prev should be ff110000084a7d40, but was 0000000000000000"
+      },
+      {
+        "scenario": "lkdtm_CORRUPT_STACK",
+        "appId": "OHOS-013",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "stack-out-of-bounds"
+      },
+      {
+        "scenario": "lkdtm_CORRUPT_STACK_STRONG",
+        "appId": "OHOS-014",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "stack-out-of-bounds"
+      },
+      {
+        "scenario": "lkdtm_EXCEPTION",
+        "appId": "OHOS-015",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "general protection fault, maybe for address 0xffffffff826a3ae0: 0000 [#1] SMP KASAN NOPTI"
+      },
+      {
+        "scenario": "lkdtm_EXEC_DATA",
+        "appId": "OHOS-016",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ffffffff872af540"
+      },
+      {
+        "scenario": "lkdtm_EXEC_KMALLOC",
+        "appId": "OHOS-017",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ff110000105b6640"
+      },
+      {
+        "scenario": "lkdtm_EXEC_NULL",
+        "appId": "OHOS-018",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "Kernel panic - not syncing: Fatal exception"
+      },
+      {
+        "scenario": "lkdtm_EXEC_RODATA",
+        "appId": "OHOS-019",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ffffffff84116820"
+      },
+      {
+        "scenario": "lkdtm_EXEC_STACK",
+        "appId": "OHOS-020",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ff110000084a7d60"
+      },
+      {
+        "scenario": "lkdtm_EXEC_USERSPACE",
+        "appId": "OHOS-021",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: 00007f8677256000"
+      },
+      {
+        "scenario": "lkdtm_EXEC_VMALLOC",
+        "appId": "OHOS-022",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ffa000000001c000"
+      },
+      {
+        "scenario": "lkdtm_EXHAUST_STACK",
+        "appId": "OHOS-023",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 0 PID: 1 at kernel/locking/lockdep.c:200 __lock_acquire+0xe5f/0x42b0"
+      },
+      {
+        "scenario": "lkdtm_HARDLOCKUP",
+        "appId": "OHOS-024",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "rcu: INFO: rcu_sched detected stalls on CPUs/tasks:"
+      },
+      {
+        "scenario": "lkdtm_HUNG_TASK",
+        "appId": "OHOS-025",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "Kernel panic - not syncing: hung_task: blocked tasks"
+      },
+      {
+        "scenario": "lkdtm_LOOP",
+        "appId": "OHOS-026",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "watchdog: BUG: soft lockup - CPU#1 stuck for 23s! [init:1]"
+      },
+      {
+        "scenario": "lkdtm_OVERWRITE_ALLOCATION",
+        "appId": "OHOS-027",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "slab-out-of-bounds"
+      },
+      {
+        "scenario": "lkdtm_PANIC",
+        "appId": "OHOS-028",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "Kernel panic - not syncing: dumptest"
+      },
+      {
+        "scenario": "lkdtm_READ_AFTER_FREE",
+        "appId": "OHOS-029",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: use-after-free in lkdtm_READ_AFTER_FREE.cold+0x10f/0x133"
+      },
+      {
+        "scenario": "lkdtm_READ_BUDDY_AFTER_FREE",
+        "appId": "OHOS-030",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: use-after-free in lkdtm_READ_BUDDY_AFTER_FREE.cold+0x11d/0x13f"
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW",
+        "appId": "OHOS-031",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: saturated; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_ADD_OVERFLOW",
+        "appId": "OHOS-032",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: saturated; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_DEC_NEGATIVE",
+        "appId": "OHOS-033",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: decrement hit 0; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_DEC_SATURATED",
+        "appId": "OHOS-034",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: decrement hit 0; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_DEC_ZERO",
+        "appId": "OHOS-035",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: decrement hit 0; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW",
+        "appId": "OHOS-036",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: saturated; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_INC_OVERFLOW",
+        "appId": "OHOS-037",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: saturated; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_REFCOUNT_INC_SATURATED",
+        "appId": "OHOS-038",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "refcount_t: saturated; leaking memory."
+      },
+      {
+        "scenario": "lkdtm_SLAB_FREE_CROSS",
+        "appId": "OHOS-039",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 1 PID: 1 at mm/slab.h:467 kmem_cache_free+0x1e2/0x2a0"
+      },
+      {
+        "scenario": "lkdtm_SLAB_FREE_DOUBLE",
+        "appId": "OHOS-040",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: double-free or invalid-free in kmem_cache_free+0xa7/0x2a0"
+      },
+      {
+        "scenario": "lkdtm_SLAB_FREE_PAGE",
+        "appId": "OHOS-041",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "Kernel panic - not syncing: Fatal exception"
+      },
+      {
+        "scenario": "lkdtm_SOFTLOCKUP",
+        "appId": "OHOS-042",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [init:1]"
+      },
+      {
+        "scenario": "lkdtm_SPINLOCKUP",
+        "appId": "OHOS-043",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: wild-memory-access in rcu_nmi_enter+0x4a/0xe0"
+      },
+      {
+        "scenario": "lkdtm_STACK_GUARD_PAGE_LEADING",
+        "appId": "OHOS-044",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "slab-out-of-bounds"
+      },
+      {
+        "scenario": "lkdtm_STACK_GUARD_PAGE_TRAILING",
+        "appId": "OHOS-045",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "slab-out-of-bounds"
+      },
+      {
+        "scenario": "lkdtm_UNSET_SMEP",
+        "appId": "OHOS-046",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 0 PID: 1 at arch/x86/kernel/cpu/common.c:397 native_write_cr4+0x45/0x60"
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+        "appId": "OHOS-047",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "mm/usercopy.c:99!"
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+        "appId": "OHOS-048",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "mm/usercopy.c:99!"
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_HEAP_WHITELIST_FROM",
+        "appId": "OHOS-049",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 0 PID: 1 at mm/usercopy.c:75 usercopy_warn+0x79/0xa0"
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_HEAP_WHITELIST_TO",
+        "appId": "OHOS-050",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 1 PID: 1 at mm/usercopy.c:75 usercopy_warn+0x79/0xa0"
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_KERNEL",
+        "appId": "OHOS-051",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "mm/usercopy.c:99!"
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_STACK_BEYOND",
+        "appId": "OHOS-052",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "mm/usercopy.c:99!"
+      },
+      {
+        "scenario": "lkdtm_WARNING",
+        "appId": "OHOS-053",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 1 PID: 1 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0xe/0x20"
+      },
+      {
+        "scenario": "lkdtm_WARNING_MESSAGE",
+        "appId": "OHOS-054",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "WARNING: CPU: 1 PID: 1 at drivers/misc/lkdtm/bugs.c:88 lkdtm_WARNING_MESSAGE+0x1b/0x30"
+      },
+      {
+        "scenario": "lkdtm_WRITE_AFTER_FREE",
+        "appId": "OHOS-055",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: use-after-free in lkdtm_WRITE_AFTER_FREE.cold+0xbc/0xbe"
+      },
+      {
+        "scenario": "lkdtm_WRITE_BUDDY_AFTER_FREE",
+        "appId": "OHOS-056",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: KASAN: use-after-free in lkdtm_WRITE_BUDDY_AFTER_FREE.cold+0x4e/0x77"
+      },
+      {
+        "scenario": "lkdtm_WRITE_KERN",
+        "appId": "OHOS-057",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "global-out-of-bounds"
+      },
+      {
+        "scenario": "lkdtm_WRITE_RO",
+        "appId": "OHOS-058",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ffffffff84115640"
+      },
+      {
+        "scenario": "lkdtm_WRITE_RO_AFTER_INIT",
+        "appId": "OHOS-059",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: unable to handle page fault for address: ffffffff845ef350"
+      },
+      {
+        "scenario": "lock_mutex_abba",
+        "appId": "OHOS-060",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "possible circular locking dependency detected"
+      },
+      {
+        "scenario": "lock_rcu_stall",
+        "appId": "OHOS-061",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "rcu: INFO: rcu_sched self-detected stall on CPU"
+      },
+      {
+        "scenario": "lock_recursive_spin",
+        "appId": "OHOS-062",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "rcu: INFO: rcu_sched self-detected stall on CPU"
+      },
+      {
+        "scenario": "lock_sleep_atomic",
+        "appId": "OHOS-063",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: scheduling while atomic: ki_bench/ki_thr/93/0x00000002"
+      },
+      {
+        "scenario": "lock_spin_abba",
+        "appId": "OHOS-064",
+        "labelStatus": "constructed-injection / ground-truth-log",
+        "primarySignature": "BUG: sleeping function called from invalid context at include/linux/percpu-rwsem.h:49"
+      }
+    ],
+    "communityArchiveComparison": {
+      "matchedFiles": 7,
+      "mismatches": []
+    }
+  },
+  "differences": {
+    "oldIncludedNowExcluded": [
+      {
+        "scenario": "lkdtm_HARDLOCKUP",
+        "appId": "OHOS-024",
+        "oldSignature": "rcu: INFO: rcu_sched detected stalls on CPUs/tasks:",
+        "newExclusionReasons": [
+          "expected diagnostic absent",
+          "wall-clock timeout"
+        ]
+      },
+      {
+        "scenario": "lkdtm_SPINLOCKUP",
+        "appId": "OHOS-043",
+        "oldSignature": "BUG: KASAN: wild-memory-access in rcu_nmi_enter+0x4a/0xe0",
+        "newExclusionReasons": [
+          "expected diagnostic absent"
+        ]
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_HEAP_WHITELIST_FROM",
+        "appId": "OHOS-049",
+        "oldSignature": "WARNING: CPU: 0 PID: 1 at mm/usercopy.c:75 usercopy_warn+0x79/0xa0",
+        "newExclusionReasons": [
+          "expected diagnostic absent"
+        ]
+      },
+      {
+        "scenario": "lkdtm_USERCOPY_HEAP_WHITELIST_TO",
+        "appId": "OHOS-050",
+        "oldSignature": "WARNING: CPU: 1 PID: 1 at mm/usercopy.c:75 usercopy_warn+0x79/0xa0",
+        "newExclusionReasons": [
+          "expected diagnostic absent"
+        ]
+      },
+      {
+        "scenario": "lock_recursive_spin",
+        "appId": "OHOS-062",
+        "oldSignature": "rcu: INFO: rcu_sched self-detected stall on CPU",
+        "newExclusionReasons": [
+          "expected diagnostic absent"
+        ]
+      }
+    ],
+    "newReadyNotInApp": [
+      "pressure_oom"
+    ],
+    "oldUnknownToNew": [],
+    "readyLogBytesChanged": 59
+  },
+  "services": {
+    "release": "1ee04edd2ecb",
+    "web8787": "not listening; curl exit 7",
+    "projectSupervisor": "socket connection refused; no matching project process observed",
+    "compat11435": "not listening",
+    "ollama11434": "models endpoint responds",
+    "sglang30000": "models endpoint responds",
+    "cause": "Unknown; historical EADDRINUSE logs do not establish why currently offline.",
+    "changesMade": "No service restart or dataset replacement."
+  },
+  "stabilityValidation": {
+    "complete": true,
+    "checkedFiles": 423,
+    "cases": 68,
+    "readyCases": 60,
+    "faultCases": 59,
+    "errors": []
+  },
+  "storage": {
+    "rootAvailable": "17G",
+    "dataAvailable": "61G"
+  },
+  "historicalSample10Evaluation": {
+    "dataset": "openharmony-lkdtm-lab-v1",
+    "categoryMatch": "7/10",
+    "testCategoryMatch": "2/3",
+    "rootCauseAccuracy": null
+  }
+}

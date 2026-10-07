@@ -17,3 +17,20 @@ data/diagram-cache/
 
 # Local kernel checkout; publish benchmark evidence, not downloaded source caches.
 kernel_linux_6.6/
+
+data/toolchains/
+data/agent-runs/
+data/materials/
+data/agent-config/
+data/tool-evidence/
+data/remote-ops/
+data/deployment/
+.env
+.env.*
+__pycache__/
+*.pyc
+
+data/test-tmp/
+data/ui-validation/
+data/dataset-audit/
+data/kernel-datasets/

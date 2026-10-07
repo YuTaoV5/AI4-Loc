@@ -1,5 +1,11 @@
 # AI 接手手册 · Kernel Insight
 
+> **2026-10-07 网站恢复及 agent 迭代最新验收（覆盖以下停服记录）**：服务器当前发布 `f4648fac616c`，网站 8787、代理 11435 和项目 Supervisor 正常，健康接口 `closed-loop / ollama-native / llmConnected=true`；平台 Ollama/SGLang 未接管。网站仍用 64 例 `openharmony-lkdtm-lab-v1`，旧社区备份与新 stability-v1 均保留。新自检入口 `scripts/run-website-selfcheck.py`：服务器 Node 36/36、Python 29/29、隔离业务 15/15、线上 9/9、匹配源码真实模型 8/8 通过；Linux 6.6.1 真实下载、官方 SHA256、缓存复用与源码读取通过。修复原日志字节损失、debug 首错标题、报告证据格式兼容和 sandbox 执行权限。相同 6 例 log+source 对照：故障代码命中 3/5→5/5，模型请求 21→6，总分析 181.347→95.834 秒；额外 3 例命中 2/3，RCU stall 仍未定位。代码命中不等于独立根因证明，OOM 目标/实际分配量措辞仍需复核。详见 `docs/WEBSITE_SELFCHECK.md`、`docs/website-acceptance-20261007.json`、`docs/agent-iteration-20261007.json`。
+
+> **2026-10-07 约 17:00（北京时间）服务器实查补充**：SSH 已恢复。服务器发布目录仍为 `1ee04edd2ecb`，其中 `app/data/benchmark` 已是 64 例 `openharmony-lkdtm-lab-v1`（43 train / 21 test），与 `$LAB/benchmark/app-format` manifest 相同，64 日志哈希通过；不是旧的 6 例社区集。旧社区集目录 `/opt/kernel-insight/data/backups/benchmark.linux-community-v1.20261007-130120` 与 `$LAB/backups/benchmark.linux-community-v1.20261007-130120.tgz` 均保留，7 个文件一致。`$LAB=/root/gpufree-data/kernel-insight-lab`。新 `stability-v1` 是重新采集并严格校验的独立版本，68 场景中 60 有效（59 故障+健康），423 文件重新深验通过；旧版 64 中有 5 场景在新版排除，新版新增 pressure_oom，不能混算。当前网站 8787、兼容代理 11435 无监听，项目 Supervisor socket 拒绝连接；平台 Ollama 11434、SGLang 30000 模型端点正常。停服原因尚未确认，历史端口占用日志不能作为本次停服根因。本轮仅核查，未重启/替换数据。服务器发布包内 handover 仍为旧版，交接以本文件最新记录为准。v8/v9 完整评测 JSON 和 5 份调用轨迹已取回。详见 `docs/server-dataset-inventory-20261007.json`。
+
+> **2026-10-07 最新优先级覆盖下文旧的“暂停采集”说明**：用户要求先确保日志/产物/源码数据集完备，再重点提升 agent 工具调用、第一现场定界与代码/提交定位。网站功能暂缓扩充。已在服务器重新采集 68 场景，59 故障+1 健康有效、8 排除，运行 GNU Build ID、源码补丁与 423 文件完整性检查通过。目录 `/root/gpufree-data/kernel-insight-lab/datasets/stability-v1`；本地只有证据副本，大型产物仍在服务器。首错提取的 debug/BUG 误匹配已修复并纳入回归，标注版本 v2。新可选工具循环、定位评测和独立机制审核见 `docs/KERNEL_LOCALIZATION_LOOP.md`、`scripts/localization_agent.py`、`scripts/run-localization-benchmark.py`、`scripts/review-localization.py`。代表性真实模型回归已完成：首轮全材料故障代码命中 2/5，后续原生接口复跑锁依赖和原子睡眠成功，OOM 因果代码仍未命中。v9 UAF 日志+源码 3 次请求、53.539 秒，首诊断提取 0.0047 秒；不同版本成绩禁止混算。Python 27/27、Node 31/31 通过。成绩见 `docs/kernel-localization-benchmark-20261007.json`；v8/v9 原始 JSON 与轨迹现已取回（此前 SSH 拒绝连接的缺口已关闭）。新引擎未切换线上。不能用分类正确率替代根因定位准确率；未证明引入提交、未采集 vmcore、未自动验证修复。
+
 更新时间：2026-10-06。项目仓库：https://github.com/YuTaoV5/AI4-Loc 。本文件是后续 AI 的入口，记录用户需求、最终设计和实现边界；历史设计文档冲突时，以最新需求及本文件为准。
 
 ## 用户 Prompt 与需求演进
@@ -61,7 +67,7 @@ Node.js 22.14+：`npm ci` → `npm run setup:diagrams` → `npm start`。地址 
 
 ## 必须保留的实现约束
 
-1. 当前“agent”进度来自实际确定性解析 / 检索 / 源码 / 报告流程，尚未接入 LLM 或 Codex worker。不得在 UI 或文档宣称自动根因证明、自动复现或通用定位准确率。
+1. 本地默认“agent”仍为确定性流程；远端已通过 dsh SDK 接入 Qwen、工具调用及 SGLang 分诊，真实任务进度来自执行事件。不得在 UI 或文档宣称自动根因证明、自动复现或通用定位准确率。
 2. 六个案例是真实社区 crash report，不是完整 console log，根因摘要来自关联补丁。固定 Benchmark 为类别检索守护，包含正常日志负例；有限案例不代表任意日志无退化。源码优先 commit，不能把厂商内核静默当官方基础版本。
 3. 审核门禁必须在服务端执行。管理员可跳过审核但需记录原因；Benchmark 只能提交者或管理员手动触发，不能靠刷新自动启动。合入必须确认基准集合未变。
 4. 任务 / 投稿归属按服务端用户 ID 校验。非管理员不能管理账号，最后一个管理员不能被降级。注册不能自选身份。
@@ -73,3 +79,18 @@ Node.js 22.14+：`npm ci` → `npm run setup:diagrams` → `npm start`。地址 
 ## 后续改进建议（尚未实现）
 
 领导：区分独立故障和多机器重复发生次数，同时显示复用节省的分析量。专家：类别筛选、按满意度 / 解决数排序、经验版本演进。测试人员：任务关联机器与批次，区分故障复发和重复上传，批量反馈及更大规模检索。扩充真实社区样本并引入独立根因评估之后，再讨论完整智能诊断指标。
+
+## 2026-10-07 Agent 设计更新
+用户最新 prompt：暂时不需要做日志收集，重点根据之前收集的工具设计 kernel 稳定性问题定位 Agent。暂停 OpenHarmony 故障采集，构建曾停在缺少 ccache；不得宣称已启动该内核或已有 50 份样本。新增 kernel_triage.py 固定工具证据层、dsh 紧凑证据输入、实际阶段事件和报告证据展开。设计与实现边界见 docs/KERNEL_AGENT_DESIGN.md；缺少 vmcore/匹配符号时不得宣称根因已验证。
+
+## 2026-10-07 服务器接管与材料链更新
+
+用户要求执行状态核查后的修复与后续实现。发现旧网站进程停留在 d607526437b3，另一个 Supervisor 因端口占用 FATAL；已关闭两个项目 Supervisor 后以单一实例接管 5f5f46116887，保留平台 Ollama/SGLang。新 scripts/manage-supervisor.py 按精确配置定位进程、拒绝在活跃分析期间维护，部署不再因 status 非零删除仍在使用的 socket。
+
+接管后真实单例任务 09152880-187e-4dd6-aa96-238712cad9e7 完成（231.278 秒，类别正确，2 次模型工具调用），生成新版 evidence.json；结果位于服务器 data/agent-evidence-recovery.json。这是单例分类验证，不是根因证明。
+
+本轮新增：账号隔离的符号/ELF vmcore/.config 材料上传与任务绑定，SHA256 和材料指纹；多故障事件分组与可能 panic 连锁标注；Build ID/架构/版本门禁下的固定 crash sys/bt 和 drgn 任务摘要。构建不匹配或缺证据时停止查询。原日志和附件在沙箱只读挂载。没有真实配套 vmcore，因此固定查询的门禁测试不能替代真实转储验证；不支持压缩 kdump，未开放任意脚本或地址自动转换。
+
+本地验收：Node 31 / 31、Python 9 / 9 通过；浏览器完成 .config 附件选择及提交并显示任务回执。当前设计细节见 docs/KERNEL_AGENT_DESIGN.md；日志采集保持暂停。
+
+部署验收：新版实跑任务 10c154e4-cf62-49bc-8d3b-958f5aef58b7 在 54.32 秒完成，schema v2、3 个事件、类别正确、rootCauseVerified=false，保存在 data/agent-materials-release-smoke.json。服务器 Node 31 / 31、Python 证据测试通过；配置哈希冲突另加了拒绝转储查询测试。所有结果仍待人工根因验证。

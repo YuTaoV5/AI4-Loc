@@ -1,0 +1,1969 @@
+{
+  "schema": "kernel-localization-pilot-report/v1",
+  "date": "2026-10-07",
+  "model": "qwen3.8:27b-kernel-8k",
+  "scope": "Representative pilot; not full 60-case x 7-profile evaluation. Separate code versions and reruns must not be merged into an accuracy score.",
+  "experiments": [
+    {
+      "experiment": "localization-v6",
+      "evidence": "downloaded evaluator results",
+      "resultSha256": "20b8b2c2e77183c51f01b7d564b5d001348999edc5726fa4497b57d4f99b139b",
+      "schema": "kernel-localization-benchmark/v1",
+      "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "agentSha256": "485fe572ff26b5073bb5e7a606218529510e5820041f9f78759bc4e7674ec320",
+      "model": "qwen3.8:27b-kernel-8k",
+      "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+      "runs": [
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log+artifacts+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 4,
+            "toolCalls": 4,
+            "localizationSeconds": 57.205,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "日志显示 kmalloc 对象在 kfree 后被写入，触发 KASAN UAF；源码 ki_uaf_kmalloc 在 kfree 后写 p[0]。",
+            "hypotheses": [
+              {
+                "cause": "ki_uaf_kmalloc 在 kfree(p) 后继续写 p[0]，造成释放后使用",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "源码 T4 行 108-113 与日志 KASAN UAF 栈一致；需复现或 KASAN 报告确认对象地址匹配"
+              },
+              {
+                "cause": "ki_trigger_write 调用 ki_uaf_kmalloc 触发该路径",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "T3 显示 write 入口调用 ki_uaf_kmalloc；需确认日志触发路径来自该 write"
+              }
+            ],
+            "nextSteps": [
+              "读取 ki_bench.c 225-262 确认 write 触发链",
+              "用 KASAN 报告对象地址与 kmalloc 大小核对",
+              "复现 write 触发并检查是否仅该路径"
+            ],
+            "limitations": [
+              "未读取 225-262 行完整触发链",
+              "无 KASAN 对象地址与源码分配大小直接比对",
+              "未确认日志触发入口是否唯一"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "external/ki_bench.c",
+              "description": "运行时通过 write 触发 ki_uaf_kmalloc，kfree 后写已释放对象",
+              "evidenceRefs": [
+                "T2",
+                "T3",
+                "T4"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kmalloc 分配后 kfree，随后对同一指针写 p[0]，KASAN 报告 UAF",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_uaf_kmalloc",
+                  "startLine": 106,
+                  "endLine": 114,
+                  "evidenceRefs": [
+                    "T2",
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "KASAN 对象地址与分配大小比对",
+                  "write 触发链完整读取"
+                ],
+                "nextCheck": "读取 ki_bench.c 225-262 并复现 write 触发"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 59.398,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "KASAN 报告 ki_bench 模块 ki_uaf_kmalloc 对已 kfree 的 kmalloc-128 对象执行 1 字节写，分配与释放均发生在同一函数内，随后再次写入触发 UAF。",
+            "hypotheses": [
+              {
+                "cause": "ki_uaf_kmalloc 在同一调用中先 kmalloc、再 kfree，随后继续向该指针写入，构成释放后使用。",
+                "evidenceLines": [
+                  448,
+                  449,
+                  485,
+                  500,
+                  501
+                ],
+                "confidence": "high",
+                "verification": "需读取 ki_uaf_kmalloc 源码确认 free 后仍解引用写入；当前无源码，仅日志函数候选。"
+              },
+              {
+                "cause": "ki_trigger_write 调用 ki_uaf_kmalloc 时传入/复用了指针，导致释放后访问。",
+                "evidenceLines": [
+                  463,
+                  486,
+                  501
+                ],
+                "confidence": "low",
+                "verification": "需源码确认 ki_trigger_write 与 ki_uaf_kmalloc 的指针生命周期关系。"
+              }
+            ],
+            "nextSteps": [
+              "获取 ki_bench 模块源码并读取 ki_uaf_kmalloc 实现",
+              "确认 free 与后续写之间的控制流与指针来源",
+              "用 KASAN 复现并核对地址 ff1100000fe2af80 的分配/释放/访问顺序"
+            ],
+            "limitations": [
+              "无源码、无符号化、无 git 历史，无法定位具体行或引入提交",
+              "日志仅能证明函数级 UAF，不能证明因果代码位置",
+              "Unverified source location removed: unknown (ki_bench module)"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench (ki_uaf_kmalloc)",
+              "description": "init/1 经 debugfs trigger 写入触发 ki_bench 模块内对已释放 kmalloc 对象的写访问。",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "kmalloc 分配后 kfree，随后对同一对象执行 1 字节写，KASAN 检测到 use-after-free。",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_bench 模块源码",
+                  "ki_uaf_kmalloc 函数实现",
+                  "free 与写之间的控制流"
+                ],
+                "nextCheck": "读取 ki_uaf_kmalloc 源码确认 kfree 后是否仍解引用写入"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "leak_kmalloc",
+          "family": "memory_leak",
+          "profile": "log+artifacts+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 4,
+            "toolCalls": 4,
+            "localizationSeconds": 137.402,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "kmemleak 报告 ki_bench 模块触发的一次 4096 字节 kmalloc 泄漏，分配栈指向 ki_leak_kmalloc，源码显示其故意丢弃引用。",
+            "hypotheses": [
+              {
+                "cause": "ki_leak_kmalloc 分配 4096 字节后将指针存入 leak_sink 再置 NULL，故意泄漏该对象",
+                "evidenceLines": [
+                  446,
+                  447,
+                  453,
+                  454
+                ],
+                "confidence": "high",
+                "verification": "源码 external/ki_bench.c:55-62 与日志分配栈一致，对象大小 4096 匹配 ki_alloc_kmalloc"
+              },
+              {
+                "cause": "ki_trigger_write 在写触发路径中调用 ki_leak_kmalloc 导致泄漏",
+                "evidenceLines": [
+                  454
+                ],
+                "confidence": "medium",
+                "verification": "需确认 line 240 调用上下文及触发参数"
+              }
+            ],
+            "nextSteps": [
+              "读取 external/ki_bench.c 225-262 确认 ki_trigger_write 调用分支",
+              "检查 leak_sink 全局变量定义与生命周期",
+              "确认该泄漏为模块设计行为而非缺陷"
+            ],
+            "limitations": [
+              "未读取 ki_trigger_write 完整实现",
+              "未确认 leak_sink 定义",
+              "无 git 历史验证引入提交",
+              "Unverified source location removed: external/ki_bench.c"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kmemleak",
+              "affectedComponent": "ki_bench",
+              "description": "模块加载后写触发导致一次 4096 字节 kmalloc 对象无引用泄漏",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kmalloc 分配后指针被置 NULL 且无 kfree，kmemleak 判定为泄漏",
+              "candidateSymbols": [
+                "ki_leak_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_leak_kmalloc",
+                  "startLine": 55,
+                  "endLine": 62,
+                  "evidenceRefs": [
+                    "T2",
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "ki_trigger_write 完整实现",
+                  "leak_sink 定义"
+                ],
+                "nextCheck": "读取 225-262 行确认调用分支"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "leak_kmalloc",
+          "family": "memory_leak",
+          "profile": "log",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 57.5,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "内存越界",
+            "summary": "kmemleak 报告 ki_bench 模块触发写入时分配的 4096 字节对象无引用，疑似内存泄漏；无源码，无法验证因果归属。",
+            "hypotheses": [
+              {
+                "cause": "ki_bench 模块 ki_trigger_write 调用 ki_leak_kmalloc 分配 4096 字节后未保存引用或释放，导致 kmemleak 报告泄漏",
+                "evidenceLines": [
+                  446,
+                  447,
+                  453,
+                  454
+                ],
+                "confidence": "medium",
+                "verification": "需源码检查 ki_trigger_write 与 ki_leak_kmalloc 的指针生命周期及释放路径"
+              },
+              {
+                "cause": "该对象为故意保留的缓存/状态区，kmemleak 误报（如通过非指针方式访问）",
+                "evidenceLines": [
+                  447,
+                  450,
+                  451
+                ],
+                "confidence": "low",
+                "verification": "检查模块是否以非指针方式（如固定地址）访问该内存"
+              }
+            ],
+            "nextSteps": [
+              "获取 ki_bench 模块源码，检查 ki_trigger_write 与 ki_leak_kmalloc 实现",
+              "确认该 4096 字节对象是否有非指针引用或释放路径",
+              "复现触发并检查 /sys/kernel/debug/kmemleak 扫描结果"
+            ],
+            "limitations": [
+              "无源码，无法验证因果归属",
+              "kmemleak 为观察性报告，非故障证明",
+              "无 git 历史或补丁信息"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kmemleak",
+              "affectedComponent": "ki_bench (out-of-tree module)",
+              "description": "ki_bench 模块在 debugfs 触发写入时分配 4096 字节对象，kmemleak 报告为无引用泄漏",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "ki_trigger_write 调用 ki_leak_kmalloc 分配内存后未保留引用或释放",
+              "candidateSymbols": [
+                "ki_leak_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_bench 模块源码",
+                  "ki_trigger_write 实现",
+                  "ki_leak_kmalloc 实现",
+                  "指针生命周期与释放路径"
+                ],
+                "nextCheck": "获取 ki_bench 源码并检查分配/释放逻辑"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_mutex_abba",
+          "family": "lock_order",
+          "profile": "log+artifacts+source",
+          "split": "test",
+          "status": "failed",
+          "metrics": {
+            "modelRequests": 4,
+            "toolCalls": 3,
+            "localizationSeconds": 150.032,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": null,
+          "error": "timed out"
+        },
+        {
+          "caseId": "lock_mutex_abba",
+          "family": "lock_order",
+          "profile": "log",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 53.201,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "RCU / 锁死",
+            "summary": "lockdep 检测到 ki_bench 模块 ki_thr_mutex_abba 中 ki_mutex_a/ki_mutex_b 的 ABBA 循环锁依赖，报告 DEADLOCK 场景。",
+            "hypotheses": [
+              {
+                "cause": "ki_thr_mutex_abba 以相反顺序获取 ki_mutex_a 与 ki_mutex_b，形成 ABBA 死锁",
+                "evidenceLines": [
+                  450,
+                  454,
+                  483,
+                  486
+                ],
+                "confidence": "high",
+                "verification": "源码中确认 ki_thr_mutex_abba 的加锁顺序及是否存在反向路径"
+              },
+              {
+                "cause": "lockdep 误报或锁实例复用导致依赖链误判",
+                "evidenceLines": [
+                  461,
+                  468
+                ],
+                "confidence": "low",
+                "verification": "检查两把 mutex 是否同一实例或存在别名"
+              }
+            ],
+            "nextSteps": [
+              "读取 ki_bench 模块 ki_thr_mutex_abba 实现确认加锁顺序",
+              "检查是否存在另一路径以 b->a 顺序加锁",
+              "复现并确认是否真实死锁而非仅 lockdep 告警"
+            ],
+            "limitations": [
+              "无源码可用，无法验证 ki_thr_mutex_abba 实际加锁顺序",
+              "仅凭日志可确认函数名与锁名，不能证明因果代码位置",
+              "Unverified source location removed: unknown (ki_bench 模块)"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "lockdep",
+              "affectedComponent": "ki_bench (ki_thr_mutex_abba)",
+              "description": "模块加载后 ki_thr 线程触发 lockdep 循环锁依赖告警",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "ABBA 循环锁依赖：持有 ki_mutex_b 时再取 ki_mutex_a，与既有 a->b 依赖冲突",
+              "candidateSymbols": [
+                "ki_thr_mutex_abba"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_bench 模块源码",
+                  "ki_thr_mutex_abba 加锁顺序实现"
+                ],
+                "nextCheck": "获取 ki_bench 源码并检查 ki_thr_mutex_abba 中 mutex_lock 调用顺序"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_sleep_atomic",
+          "family": "atomic_sleep",
+          "profile": "log+artifacts+source",
+          "split": "train",
+          "status": "failed",
+          "metrics": {
+            "modelRequests": 5,
+            "toolCalls": 4,
+            "localizationSeconds": 150.017,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": null,
+          "error": "timed out"
+        },
+        {
+          "caseId": "lock_sleep_atomic",
+          "family": "atomic_sleep",
+          "profile": "log",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 105.18,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "RCU / 锁死",
+            "summary": "ki_bench 模块线程 ki_thr 在持有自旋锁 ki_spin_a 期间调用 msleep 触发调度，导致 scheduling while atomic 并因 panic_on_warn 触发内核 panic。",
+            "hypotheses": [
+              {
+                "cause": "ki_thr_sleep_atomic 在持有 ki_spin_a 自旋锁期间执行 msleep/schedule，违反原子上下文不可睡眠约束",
+                "evidenceLines": [
+                  446,
+                  448,
+                  469,
+                  472
+                ],
+                "confidence": "high",
+                "verification": "需查看 ki_bench 源码 ki_thr_sleep_atomic 实现，确认锁获取与 msleep 的相对顺序"
+              },
+              {
+                "cause": "panic 为 panic_on_warn 的连锁后果，非独立故障",
+                "evidenceLines": [
+                  450,
+                  459
+                ],
+                "confidence": "high",
+                "verification": "日志已显示 check_panic_on_warn 路径，属后果而非根因"
+              }
+            ],
+            "nextSteps": [
+              "获取 ki_bench 模块源码，定位 ki_thr_sleep_atomic 中 spin_lock 与 msleep 的调用顺序",
+              "确认 ki_spin_a 的获取/释放范围，判断是否应在睡眠前释放锁",
+              "复现时关闭 panic_on_warn 以观察完整行为并验证修复"
+            ],
+            "limitations": [
+              "source 不可用，无法验证 ki_thr_sleep_atomic 的具体实现，仅能基于日志推断函数级候选",
+              "无 git 历史，无法定位引入提交",
+              "Unverified source location removed: ki_bench (out-of-tree module, source unavailable)"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kernel/sched (scheduling while atomic)",
+              "affectedComponent": "ki_bench (out-of-tree module)",
+              "description": "ki_bench 模块线程在持有自旋锁期间调用 msleep 导致原子上下文调度，panic_on_warn 触发内核 panic",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "持有自旋锁 ki_spin_a 期间调用 msleep→schedule_timeout→__schedule，触发 __schedule_bug 检测原子上下文调度",
+              "candidateSymbols": [
+                "ki_thr_sleep_atomic",
+                "msleep",
+                "schedule_timeout",
+                "__schedule",
+                "__schedule_bug"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_bench 模块源码",
+                  "ki_thr_sleep_atomic 函数实现",
+                  "ki_spin_a 锁的获取与释放范围"
+                ],
+                "nextCheck": "获取 ki_bench 源码后检查 ki_thr_sleep_atomic 中 spin_lock 与 msleep 的调用顺序"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "pressure_oom",
+          "family": "oom",
+          "profile": "log+artifacts+source",
+          "split": "train",
+          "status": "failed",
+          "metrics": {
+            "modelRequests": 5,
+            "toolCalls": 5,
+            "localizationSeconds": 141.591,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": null,
+          "error": "timed out"
+        },
+        {
+          "caseId": "pressure_oom",
+          "family": "oom",
+          "profile": "log",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 110.805,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "OOM",
+            "summary": "运行时进程 pressure 触发缺页分配，系统无 swap 且内存耗尽，panic_on_oom 导致内核 panic。",
+            "hypotheses": [
+              {
+                "cause": "pressure 进程 RSS 约 363334 页，缺页时 alloc_pages 失败，OOM 触发 panic_on_oom",
+                "evidenceLines": [
+                  501,
+                  502,
+                  520,
+                  522
+                ],
+                "confidence": "medium",
+                "verification": "需确认 pressure 内存增长来源及是否存在泄漏或配置过小"
+              },
+              {
+                "cause": "系统总内存 524157 页且无 swap，单进程占用接近上限导致强制 OOM",
+                "evidenceLines": [
+                  494,
+                  496,
+                  501,
+                  502
+                ],
+                "confidence": "medium",
+                "verification": "检查 cgroup/内存限制与进程分配行为"
+              }
+            ],
+            "nextSteps": [
+              "确认 pressure 进程内存分配模式与上限配置",
+              "检查是否存在内存泄漏或异常增长",
+              "复现并抓取分配调用栈"
+            ],
+            "limitations": [
+              "无源码与符号化，无法定位具体分配代码",
+              "日志仅证明 OOM 现象，不能证明泄漏或具体缺陷"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "OOM killer / panic",
+              "affectedComponent": "pressure 进程内存分配",
+              "description": "pressure 缺页分配失败触发 OOM，panic_on_oom 使内核 panic",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "handle_mm_fault -> alloc_pages_vma -> __alloc_pages_slowpath 分配失败，out_of_memory 触发 panic",
+              "candidateSymbols": [
+                "handle_mm_fault",
+                "alloc_pages_vma",
+                "__alloc_pages_slowpath",
+                "out_of_memory"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "pressure 源码",
+                  "分配调用栈符号化",
+                  "内存增长数据"
+                ],
+                "nextCheck": "获取 pressure 源码并检查其内存分配与释放逻辑"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "baseline",
+          "family": "healthy",
+          "profile": "log+artifacts+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 44.09,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "仅获得启动早期日志(至80行),未见故障、panic或调用栈,无法定位因果代码。",
+            "hypotheses": [
+              {
+                "cause": "证据不足:日志仅到启动内存初始化阶段,无故障现场",
+                "evidenceLines": [
+                  1,
+                  2,
+                  73,
+                  80
+                ],
+                "confidence": "low",
+                "verification": "需获取完整日志中的首个异常/panic行及调用栈"
+              }
+            ],
+            "nextSteps": [
+              "获取完整日志中首个异常/panic行及调用栈",
+              "用vmlinux/System.map符号化故障地址",
+              "定位并阅读涉事函数源码"
+            ],
+            "limitations": [
+              "日志被截断,无故障行",
+              "无调用栈与地址",
+              "无法区分检测者与故障所有者"
+            ],
+            "firstScene": {
+              "stage": "boot",
+              "reportingComponent": "kernel/printk",
+              "affectedComponent": "unknown",
+              "description": "启动早期内存初始化,未见故障",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "无故障现场,无法确定机制",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "故障行",
+                  "调用栈",
+                  "故障地址",
+                  "涉事函数源码"
+                ],
+                "nextCheck": "获取完整日志首个异常行并符号化"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "baseline",
+          "family": "healthy",
+          "profile": "log",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 3,
+            "toolCalls": 1,
+            "localizationSeconds": 135.792,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "仅有启动早期日志，未见故障、panic 或调用栈，无法定位因果代码。",
+            "hypotheses": [
+              {
+                "cause": "日志被截断，未包含首个诊断事件",
+                "evidenceLines": [
+                  1,
+                  2,
+                  80
+                ],
+                "confidence": "low",
+                "verification": "获取完整 dmesg 或串口日志中的首个错误/panic 段"
+              }
+            ],
+            "nextSteps": [
+              "提供包含首个异常、Oops 或 panic 的完整日志",
+              "提供内核源码或 vmlinux 以符号化调用栈",
+              "确认故障发生阶段与受影响组件"
+            ],
+            "limitations": [
+              "无源码、无工件",
+              "当前日志仅到启动早期内存初始化，无故障证据"
+            ],
+            "firstScene": {
+              "stage": "boot",
+              "reportingComponent": "kernel/printk",
+              "affectedComponent": "unknown",
+              "description": "启动早期正常初始化记录，未观察到故障",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "缺少首个诊断事件与调用栈，无法建立因果链",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "首个故障日志",
+                  "调用栈",
+                  "源码/符号"
+                ],
+                "nextCheck": "获取完整故障日志后重新分析"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        }
+      ],
+      "aggregate": {
+        "completed": 9,
+        "total": 12,
+        "codeLocationAccuracy": 0.4,
+        "codeLocationDenominator": 5,
+        "modelRequests": 37,
+        "localizationSeconds": 1202.213,
+        "rootCauseAccuracy": null
+      }
+    },
+    {
+      "experiment": "localization-ablations-v6",
+      "evidence": "downloaded evaluator results",
+      "resultSha256": "aef8e93b1507d54eead2093c6abf450e72519043e6d5f67b26115c4563deb32e",
+      "schema": "kernel-localization-benchmark/v1",
+      "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "agentSha256": "d58b4dc7e44d6f016bac0b3043c915c8df935a84c076715dd046fc42a146e381",
+      "model": "qwen3.8:27b-kernel-8k",
+      "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+      "runs": [
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log+artifacts",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 59.237,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "KASAN 报告 ki_bench 模块 ki_uaf_kmalloc 对 kmalloc-128 对象先 kfree 后写 1 字节，触发 use-after-free。",
+            "hypotheses": [
+              {
+                "cause": "ki_uaf_kmalloc 在同一函数内分配、释放后仍写已释放对象，构成 UAF",
+                "evidenceLines": [
+                  448,
+                  449,
+                  462,
+                  485,
+                  500,
+                  510
+                ],
+                "confidence": "high",
+                "verification": "需读取 ki_uaf_kmalloc 源码确认 free 与写指针顺序"
+              },
+              {
+                "cause": "ki_trigger_write 调用路径未持有对象生命周期，导致释放后访问",
+                "evidenceLines": [
+                  463,
+                  486,
+                  501
+                ],
+                "confidence": "medium",
+                "verification": "检查 ki_trigger_write 与 ki_uaf_kmalloc 的调用与指针传递"
+              }
+            ],
+            "nextSteps": [
+              "读取 ki_bench 源码中 ki_uaf_kmalloc 实现",
+              "核对 ki_trigger_write 调用与对象生命周期",
+              "用 vmlinux/System.map 符号化偏移确认函数边界"
+            ],
+            "limitations": [
+              "无源码，无法验证具体行与因果顺序",
+              "日志仅证明 KASAN 观察，非独立复现",
+              "Unverified source location removed: ki_bench.ko"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench",
+              "description": "init/1 写 /sys/kernel/debug/ki_bench/trigger 触发 ki_uaf_kmalloc 对已释放 kmalloc-128 对象写 1 字节",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "kmalloc-128 对象在 ki_uaf_kmalloc 内被 kfree 后仍被写 1 字节，KASAN 捕获 UAF",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_uaf_kmalloc 源码",
+                  "free 与写指针顺序",
+                  "ki_trigger_write 调用上下文"
+                ],
+                "nextCheck": "读取 ki_uaf_kmalloc 源码确认释放后写顺序"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log+source",
+          "split": "test",
+          "status": "failed",
+          "metrics": {
+            "modelRequests": 4,
+            "toolCalls": 3,
+            "localizationSeconds": 150.03,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": null,
+          "error": "timed out"
+        },
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "artifacts+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 57.417,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "log absent: multiple scenarios share identical source/artifacts"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "无日志、无首诊断行，仅有 vmlinux/模块/config/System.map 工件，无法定位故障点。",
+            "hypotheses": [
+              {
+                "cause": "缺少运行时日志与首诊断行，无法确定故障检测器与责任组件",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "需获取 dmesg/panic 日志或 hung task 报告"
+              },
+              {
+                "cause": "模块 ki_bench.ko 可能为故障源，但无调用栈或符号证据",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "用 System.map/symbolize 解析日志地址后核对模块符号"
+              }
+            ],
+            "nextSteps": [
+              "获取 panic/hung task 日志首行与调用栈",
+              "用 System.map 将地址符号化并定位 ki_bench.ko 函数",
+              "对候选函数做 source_read 检查分配/同步链"
+            ],
+            "limitations": [
+              "无日志，无法区分故障检测器与责任组件",
+              "无首诊断行，无法确定生命周期阶段",
+              "无调用栈，无法建立因果代码位置"
+            ],
+            "firstScene": {
+              "stage": "unknown",
+              "reportingComponent": "unknown",
+              "affectedComponent": "unknown",
+              "description": "仅有工件文件，无运行时观测，无法确定报告组件与受影响组件",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "无日志与调用栈，无法建立机制",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "运行时日志/panic 栈",
+                  "符号化地址",
+                  "候选函数源码"
+                ],
+                "nextCheck": "获取日志后 symbolize 并 source_read 候选函数"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "artifacts",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 54.715,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "log absent: multiple scenarios share identical source/artifacts"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "无日志、无源码，仅有 vmlinux/模块/config/System.map 工件，无法定位首个诊断、生命周期阶段或故障组件。",
+            "hypotheses": [
+              {
+                "cause": "缺少崩溃/告警日志与源码，无法确定故障检测器与责任组件",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "需获取 dmesg/panic 日志或 kmemleak/hung_task 输出"
+              },
+              {
+                "cause": "工件仅能用于符号化，不能证明因果代码位置",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "用 System.map/vmlinux 对日志地址做 symbolize"
+              }
+            ],
+            "nextSteps": [
+              "提供首个诊断日志行与时间窗",
+              "提供相关源码或允许读取模块源码",
+              "对日志地址执行 symbolize"
+            ],
+            "limitations": [
+              "无日志、无源码，无法形成 code_candidate",
+              "evidenceLines 无可用整数行号"
+            ],
+            "firstScene": {
+              "stage": "unknown",
+              "reportingComponent": "unknown",
+              "affectedComponent": "unknown",
+              "description": "仅有二进制工件，无事件日志，无法确定阶段与组件",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "无日志与源码，无法建立因果链",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "首个诊断日志",
+                  "故障组件源码",
+                  "地址符号化结果"
+                ],
+                "nextCheck": "获取日志后 symbolize 并读取责任函数实现"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 2,
+            "toolCalls": 1,
+            "localizationSeconds": 127.194,
+            "counting": "Each attempted HTTP chat/completions request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "log absent: multiple scenarios share identical source/artifacts"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "无日志、无工件，仅有源码可用；无法确定首个诊断、生命周期阶段或故障组件，证据不足。",
+            "hypotheses": [
+              {
+                "cause": "缺少日志与故障现场，无法定位首个诊断、报告组件或故障所有者，仅能基于源码做候选排查。",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "需补充内核日志、dmesg、调用栈或复现步骤后再定位。"
+              }
+            ],
+            "nextSteps": [
+              "提供内核日志/dmesg/panic 栈或 hung task 输出",
+              "提供受影响模块与复现条件",
+              "在源码中按可疑函数做候选排查"
+            ],
+            "limitations": [
+              "无日志、无工件，无法验证因果代码位置",
+              "无法确定阶段、报告组件或故障所有者",
+              "不能仅凭源码断言具体故障"
+            ],
+            "firstScene": {
+              "stage": "unknown",
+              "reportingComponent": "unknown",
+              "affectedComponent": "unknown",
+              "description": "无日志与工件，无法确定首个诊断、报告组件或受影响组件。",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "无日志、无工件，无法建立因果机制或代码候选。",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "内核日志/dmesg",
+                  "调用栈或 hung task 输出",
+                  "受影响模块与复现条件"
+                ],
+                "nextCheck": "补充日志与现场后再做源码候选排查"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        }
+      ],
+      "aggregate": {
+        "completed": 4,
+        "total": 5,
+        "codeLocationAccuracy": 0.0,
+        "codeLocationDenominator": 1,
+        "modelRequests": 12,
+        "localizationSeconds": 448.593,
+        "rootCauseAccuracy": null
+      }
+    },
+    {
+      "experiment": "localization-native-v8",
+      "evidence": "downloaded evaluator results; recovered during subsequent server inventory",
+      "resultSha256": "0834a2203aa5aa4715df729df3fc6ddcff85d34f61c860d7b59bc43e31d147a1",
+      "schema": "kernel-localization-benchmark/v1",
+      "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "agentSha256": "64af042c8b79a6626c62841f3c80e9b56d598ca3be2acbf7f7741cdcc714b694",
+      "model": "qwen3.8:27b-kernel-8k",
+      "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+      "runs": [
+        {
+          "caseId": "lock_mutex_abba",
+          "family": "lock_order",
+          "profile": "log+artifacts+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 4,
+            "toolCalls": 4,
+            "localizationSeconds": 111.309,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 38.693,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 1211,
+                  "outputTokens": 14,
+                  "generationSeconds": 0.702187
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 19.995,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4950,
+                  "outputTokens": 58,
+                  "generationSeconds": 2.591881
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 10.207,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5343,
+                  "outputTokens": 56,
+                  "generationSeconds": 2.698367
+                }
+              },
+              {
+                "index": 4,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 41.505,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5551,
+                  "outputTokens": 573,
+                  "generationSeconds": 31.598979
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "RCU / 锁死",
+            "summary": "ki_bench 模块 ki_thr_mutex_abba 以相反顺序获取 ki_mutex_a/ki_mutex_b，触发 lockdep 循环锁依赖告警（ABBA 死锁模式）。",
+            "hypotheses": [
+              {
+                "cause": "同一函数先按 a->b 再按 b->a 顺序加锁，形成循环依赖，lockdep 报 DEADLOCK",
+                "evidenceLines": [
+                  451,
+                  454,
+                  486
+                ],
+                "confidence": "high",
+                "verification": "源码 126-127 与 131-132 顺序相反，与日志 CPU0/CPU1 场景一致"
+              }
+            ],
+            "nextSteps": [
+              "统一 ki_mutex_a/ki_mutex_b 加锁顺序，消除 131-132 反向获取",
+              "复跑 ki_bench trigger 确认 lockdep 不再报 circular",
+              "检查 ki_thr_spin_abba 是否存在同类 ABBA"
+            ],
+            "limitations": [
+              "未执行复现，死锁为 lockdep 预测而非实际挂起",
+              "未审查 spinlock 路径完整实现"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "lockdep",
+              "affectedComponent": "ki_bench (ki_thr_mutex_abba)",
+              "description": "模块加载后线程以相反顺序获取两互斥锁，lockdep 检测到循环依赖",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "ABBA 锁顺序不一致导致循环依赖",
+              "candidateSymbols": [
+                "ki_thr_mutex_abba"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_thr_mutex_abba",
+                  "startLine": 124,
+                  "endLine": 137,
+                  "evidenceRefs": [
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "实际死锁复现",
+                  "引入提交"
+                ],
+                "nextCheck": "统一加锁顺序后复跑 trigger"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_sleep_atomic",
+          "family": "atomic_sleep",
+          "profile": "log+artifacts+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 4,
+            "toolCalls": 4,
+            "localizationSeconds": 129.915,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 11.705,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 1211,
+                  "outputTokens": 14,
+                  "generationSeconds": 0.801201
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 15.196,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 2932,
+                  "outputTokens": 57,
+                  "generationSeconds": 2.591174
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 66.409,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 3390,
+                  "outputTokens": 56,
+                  "generationSeconds": 5.196163
+                }
+              },
+              {
+                "index": 4,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 35.699,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 3420,
+                  "outputTokens": 436,
+                  "generationSeconds": 29.395905
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "锁依赖",
+            "summary": "ki_bench 模块线程 ki_thr_sleep_atomic 在持有自旋锁 ki_spin_a 期间调用 msleep()，触发 scheduling while atomic，panic_on_warn 导致内核 panic。",
+            "hypotheses": [
+              {
+                "cause": "持有自旋锁 ki_spin_a 时调用 msleep(50) 进入可睡眠调度，违反原子上下文约束",
+                "evidenceLines": [
+                  446,
+                  448,
+                  469,
+                  472
+                ],
+                "confidence": "high",
+                "verification": "源码 ki_bench.c:168-171 确认 spin_lock 后 msleep，与日志锁持有及调用栈一致"
+              }
+            ],
+            "nextSteps": [
+              "确认 panic_on_warn 配置以区分告警与 panic 后果",
+              "检查 ki_bench 其他线程(rcu_stall/recursive_spin)是否独立触发",
+              "修复建议：将 msleep 移出自旋锁临界区或改用不可睡眠等待"
+            ],
+            "limitations": [
+              "未执行复现或独立因果验证，仅源码与日志相互印证",
+              "未审查引入该缺陷的具体提交"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kernel/sched (scheduling while atomic)",
+              "affectedComponent": "ki_bench (ki_thr_sleep_atomic)",
+              "description": "模块线程持自旋锁调用 msleep 触发原子上下文调度告警并 panic",
+              "evidenceRefs": [
+                "T1",
+                "T4"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "spin_lock(&ki_spin_a) 后 msleep(50) 进入 schedule_timeout，原子上下文调度触发 __schedule_bug",
+              "candidateSymbols": [
+                "ki_thr_sleep_atomic",
+                "msleep",
+                "schedule_timeout"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_thr_sleep_atomic",
+                  "startLine": 166,
+                  "endLine": 173,
+                  "evidenceRefs": [
+                    "T2",
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "复现或独立因果验证",
+                  "引入提交"
+                ],
+                "nextCheck": "在测试环境触发 /sys/kernel/debug/ki_bench/trigger 复现并确认锁持有栈"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "pressure_oom",
+          "family": "oom",
+          "profile": "log+artifacts+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 6,
+            "toolCalls": 4,
+            "localizationSeconds": 146.796,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 12.788,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 1211,
+                  "outputTokens": 14,
+                  "generationSeconds": 0.805909
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 22.394,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5490,
+                  "outputTokens": 65,
+                  "generationSeconds": 3.393383
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 0.849,
+                "status": "error",
+                "error": "HTTP Error 500: Internal Server Error"
+              },
+              {
+                "index": 4,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 70.008,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 7753,
+                  "outputTokens": 14,
+                  "generationSeconds": 0.789368
+                }
+              },
+              {
+                "index": 5,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 3.797,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 7798,
+                  "outputTokens": 37,
+                  "generationSeconds": 1.783613
+                }
+              },
+              {
+                "index": 6,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 36.208,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 3845,
+                  "outputTokens": 372,
+                  "generationSeconds": 28.897158
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "仅获得启动早期日志(行1-60),未见故障、panic或调用栈;incident工具因HTTP 500失败,无法确定首个诊断场景与故障组件。",
+            "hypotheses": [
+              {
+                "cause": "证据不足:日志仅到ACPI初始化,未捕获任何异常、oops或挂起信息,无法定位故障函数或组件",
+                "evidenceLines": [
+                  1,
+                  2,
+                  44,
+                  60
+                ],
+                "confidence": "low",
+                "verification": "需获取完整dmesg/panic日志及incident工具返回的fault与lifetime窗口"
+              }
+            ],
+            "nextSteps": [
+              "重试incident工具以获取首个诊断、生命周期阶段与故障/生命周期窗口",
+              "读取日志后续行(60行之后)查找oops、BUG、hung task或panic调用栈",
+              "在获得故障函数后,用source_search/source_read检查其实现与分配/同步链"
+            ],
+            "limitations": [
+              "incident工具HTTP 500失败,无fault/lifetime窗口",
+              "日志仅覆盖启动早期(行1-60),无故障现场",
+              "无源码、符号或git历史可用,无法做code_candidate"
+            ],
+            "firstScene": {
+              "stage": "boot",
+              "reportingComponent": "unknown",
+              "affectedComponent": "unknown",
+              "description": "仅见5.10.210+内核启动早期(ACPI/内存映射),未见任何故障或panic记录",
+              "evidenceRefs": [
+                "T4"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "无故障调用栈或异常信息,无法确定机制",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "完整故障日志/调用栈",
+                  "incident工具fault与lifetime窗口",
+                  "故障函数源码"
+                ],
+                "nextCheck": "重试incident并读取日志60行之后定位oops/BUG/hung task"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        }
+      ],
+      "aggregate": {
+        "completed": 3,
+        "total": 3,
+        "codeLocationAccuracy": 0.6666666666666666,
+        "codeLocationDenominator": 3,
+        "modelRequests": 14,
+        "localizationSeconds": 388.02,
+        "rootCauseAccuracy": null
+      }
+    },
+    {
+      "experiment": "localization-boundary-v9",
+      "evidence": "downloaded evaluator results; recovered during subsequent server inventory",
+      "resultSha256": "2e3587646819d7a39b61462da909af54a1e533b43424782bc48fe6019403d5ac",
+      "schema": "kernel-localization-benchmark/v1",
+      "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "agentSha256": "b4d5a74cccfed9ef8e43f4976867f32b6d02a28e40faa4609614e33d84d8ef84",
+      "model": "qwen3.8:27b-kernel-8k",
+      "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+      "runs": [
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 3,
+            "toolCalls": 4,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 3,
+            "firstSceneSeconds": 0.0047,
+            "localizationSeconds": 53.539,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 10.229,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4994,
+                  "outputTokens": 58,
+                  "generationSeconds": 2.501005
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 4.183,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5332,
+                  "outputTokens": 57,
+                  "generationSeconds": 2.995282
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 38.203,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 6683,
+                  "outputTokens": 399,
+                  "generationSeconds": 27.306378
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "KASAN 报告 ki_bench 模块 ki_uaf_kmalloc 对已 kfree 的 128 字节对象写入 1 字节，触发 use-after-free。",
+            "hypotheses": [
+              {
+                "cause": "ki_uaf_kmalloc 在 kfree(p) 后仍执行 p[0]='X'，对已释放对象写入",
+                "evidenceLines": [
+                  448,
+                  449,
+                  485,
+                  500,
+                  513
+                ],
+                "confidence": "high",
+                "verification": "源码 external/ki_bench.c:108-113 显示 kmalloc 后 kfree 再写 p[0]，与 KASAN 分配/释放/访问栈一致"
+              }
+            ],
+            "nextSteps": [
+              "确认 ki_trigger_write 调用路径与触发条件",
+              "检查是否存在其他调用者复用该指针",
+              "复现并验证修复后 KASAN 不再报告"
+            ],
+            "limitations": [
+              "未执行复现或独立因果验证",
+              "未检查模块加载/卸载生命周期"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench",
+              "description": "init 任务写 /sys/kernel/debug/ki_bench/trigger 触发 ki_uaf_kmalloc，对已释放对象写入",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kmalloc 分配后 kfree 释放，随后对同一指针写入，KASAN 检测到 use-after-free",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_uaf_kmalloc",
+                  "startLine": 106,
+                  "endLine": 114,
+                  "evidenceRefs": [
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "复现验证",
+                  "独立因果检查"
+                ],
+                "nextCheck": "修复后重新触发并确认 KASAN 无报告"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 1,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": 0.0049,
+            "localizationSeconds": 31.798,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 31.791,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4542,
+                  "outputTokens": 389,
+                  "generationSeconds": 24.399722
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "ki_bench 模块在 ki_uaf_kmalloc 中先 kfree 再写 1 字节，KASAN 捕获 UAF。",
+            "hypotheses": [
+              {
+                "cause": "ki_uaf_kmalloc 在 kfree 后继续写入已释放对象",
+                "evidenceLines": [
+                  448,
+                  462,
+                  500,
+                  501
+                ],
+                "confidence": "high",
+                "verification": "无源码，无法确认具体写入语句"
+              }
+            ],
+            "nextSteps": [
+              "获取 ki_bench 源码审查 ki_uaf_kmalloc",
+              "确认触发路径 ki_trigger_write",
+              "复现并验证修复"
+            ],
+            "limitations": [
+              "无源码，无法定位具体代码行",
+              "无 git 历史"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench",
+              "description": "init 写 debugfs 触发 ki_bench UAF",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "kfree 后写入",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_bench 源码"
+                ],
+                "nextCheck": "审查 ki_uaf_kmalloc 实现"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        }
+      ],
+      "aggregate": {
+        "completed": 2,
+        "total": 2,
+        "codeLocationAccuracy": 1.0,
+        "codeLocationDenominator": 1,
+        "modelRequests": 4,
+        "localizationSeconds": 85.337,
+        "rootCauseAccuracy": null
+      }
+    }
+  ],
+  "observedRerunsPendingDownload": [],
+  "regressionQueue": [
+    {
+      "experiment": "localization-v6",
+      "caseId": "lock_mutex_abba",
+      "profile": "log+artifacts+source",
+      "reason": "timed out",
+      "originalFailureRetained": true
+    },
+    {
+      "experiment": "localization-v6",
+      "caseId": "lock_sleep_atomic",
+      "profile": "log+artifacts+source",
+      "reason": "timed out",
+      "originalFailureRetained": true
+    },
+    {
+      "experiment": "localization-v6",
+      "caseId": "pressure_oom",
+      "profile": "log+artifacts+source",
+      "reason": "timed out",
+      "originalFailureRetained": true
+    },
+    {
+      "experiment": "localization-ablations-v6",
+      "caseId": "corrupt_uaf_kmalloc",
+      "profile": "log+source",
+      "reason": "timed out",
+      "originalFailureRetained": true
+    },
+    {
+      "experiment": "localization-native-v8",
+      "profile": "log+artifacts+source",
+      "reason": "OOM boundary found, causal userspace pressure source location not hit",
+      "status": "open",
+      "caseId": "pressure_oom"
+    }
+  ],
+  "limitations": [
+    "First-scene milliseconds measure deterministic diagnostic extraction, not model semantic analysis or root-cause proof.",
+    "No introducing-commit ground truth; mechanism correctness awaits independent review.",
+    "Synthetic injection symbols can reveal mechanism; do not generalize to production.",
+    "No vmcore, automated fix verification or bisect proof."
+  ],
+  "validation": {
+    "pythonTests": {
+      "passed": 27,
+      "total": 27
+    },
+    "nodeTests": {
+      "passed": 31,
+      "total": 31
+    },
+    "productionEngineSwitched": false
+  },
+  "recoveryNote": "All four experiment JSON files downloaded and hashes recorded on subsequent 2026-10-07 server inspection. Website 8787 and project Supervisor found offline; platform models respond."
+}

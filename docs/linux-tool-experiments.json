@@ -1,0 +1,79 @@
+{
+  "platform": "posix",
+  "syntheticFixtures": true,
+  "results": [
+    {
+      "name": "compile-x86_64",
+      "passed": true,
+      "seconds": 0.4417
+    },
+    {
+      "name": "ELF-symbols-x86_64",
+      "passed": true,
+      "seconds": 0.1014
+    },
+    {
+      "name": "disassembly-x86_64",
+      "passed": true,
+      "seconds": 0.0994
+    },
+    {
+      "name": "DWARF-line-x86_64",
+      "passed": true,
+      "seconds": 0.0203
+    },
+    {
+      "name": "compile-aarch64",
+      "passed": true,
+      "seconds": 0.0379
+    },
+    {
+      "name": "ELF-symbols-aarch64",
+      "passed": true,
+      "seconds": 0.0423
+    },
+    {
+      "name": "disassembly-aarch64",
+      "passed": true,
+      "seconds": 0.0194
+    },
+    {
+      "name": "DWARF-line-aarch64",
+      "passed": true,
+      "seconds": 0.0895
+    },
+    {
+      "name": "large-log-search",
+      "passed": true,
+      "seconds": 0.0229,
+      "inputBytes": 108000055
+    },
+    {
+      "name": "GNU-symbol-inspection",
+      "passed": true,
+      "seconds": 0.0709
+    },
+    {
+      "name": "GDB-symbol-inspection",
+      "passed": true,
+      "seconds": 0.1484
+    },
+    {
+      "name": "crash-availability",
+      "passed": true,
+      "seconds": 0.0729
+    },
+    {
+      "name": "strace-availability",
+      "passed": true,
+      "seconds": 0.08
+    },
+    {
+      "name": "drgn-import",
+      "passed": true,
+      "version": "0.2.0",
+      "boundary": "No real vmcore provided; kernel-memory diagnosis remains untested."
+    }
+  ],
+  "passed": true
+}

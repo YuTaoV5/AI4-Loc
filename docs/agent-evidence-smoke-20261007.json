@@ -1,0 +1,112 @@
+{
+  "dataset": "linux-community-v1",
+  "startedAt": "2026-10-07T02:04:14Z",
+  "protocol": "Actual dsh/Qwen turns. Expected labels and community root causes are not supplied to the model. Category accuracy is not root-cause accuracy.",
+  "cases": [
+    {
+      "caseId": "LINUX-001",
+      "split": "train",
+      "jobId": "c1e7d2bf-129e-4976-8366-ac97446b8ffe",
+      "status": "needs_review",
+      "expectedCategory": "内存越界",
+      "modelCategory": "内存越界",
+      "seconds": 84.824,
+      "error": null,
+      "agent": {
+        "category": "内存越界",
+        "summary": "syzkaller 在 overlayfs(mmap/ovl_mmap→backing_file_mmap→ovl_file_accessed) 路径中读取上层 dentry 指针，但上层为 nilfs2_inode（size 1504，对象右缘偏移 1504，input.log L4、L74–79、L19–21），KASAN 报 slab-out-of-bounds Read of size 8 (input.log L2–5)。",
+        "hypotheses": [
+          {
+            "cause": "overlayfs 在 backing-file 的 mmap 路径中将下层 inode 视为 ovl_inode 布局，越界读取 1504B 处的 dentry 指针字段（nilfs2_inode 未含该字段）。",
+            "evidenceLines": [
+              2,
+              3,
+              4,
+              5,
+              19,
+              20,
+              74,
+              75,
+              76,
+              77,
+              79
+            ],
+            "confidence": "high",
+            "verification": "在相同内核 6.12.0-next-20241125 + nilfs2/overlayfs 下复现 open+mmap，核对 fs/overlayfs/util.c:380-390 与 fs/backing-file.c:335-350 中 ovl_inode_upper/ovl_i_dentry_upper 对非 ovl_inode 的兼容路径；对比已修复 commit 是否将直接字段偏移改为经 dentry 解引用。"
+          }
+        ],
+        "nextSteps": [
+          "以 rg -C6 检查 fs/overlayfs/util.c 与 fs/backing-file.c 中 i_dentry 访问与 ovl_cache 守卫",
+          "准备匹配 vmlinux+DWARF 与 vmcore，用 llvm-symbolizer 精确确认越界指令",
+          "复现并对比修复前后 KASAN 报告，验证偏移从 0x5E0(1504)→对象内偏移"
+        ],
+        "limitations": [
+          "无 vmlinux/调试信息，'i_dentry 位于 1504 偏移'仅依据对象大小推得，未用符号化确认",
+          "无 Freed by 栈，UAF 未验证（KASAN 标题明确为 out-of-bounds，故不影响结论）",
+          "未访问修复 commit / 上游 patch，结论仅为诊断假设"
+        ],
+        "model": "qwen3.8:27b-kernel-8k",
+        "provider": "ollama",
+        "harness": "deepseek-harness-sdk 0.1.5rc1",
+        "finishReason": "completed",
+        "attempts": 1,
+        "firstFinishReason": "completed",
+        "toolCalls": [
+          {
+            "name": "bash",
+            "callId": "call_7v3lmmnw"
+          },
+          {
+            "name": "bash",
+            "callId": "call_fydgjh79"
+          },
+          {
+            "name": "bash",
+            "callId": "call_a2zq29k7"
+          },
+          {
+            "name": "bash",
+            "callId": "call_l4bife5m"
+          },
+          {
+            "name": "bash",
+            "callId": "call_emhx1vav"
+          }
+        ],
+        "elapsedSeconds": 78.015,
+        "sourceFiles": [],
+        "sourceErrors": [
+          "lib/dump_stack.c: curl: (22) The requested URL returned error: 404\n",
+          "fs/overlayfs/ovl_entry.h: curl: (22) The requested URL returned error: 404\n",
+          "mm/kasan/report.c: curl: (22) The requested URL returned error: 404\n",
+          "fs/overlayfs/util.c: curl: (22) The requested URL returned error: 404\n",
+          "fs/backing-file.c: curl: (22) The requested URL returned error: 404\n",
+          "fs/overlayfs/file.c: curl: (22) The requested URL returned error: 404\n"
+        ],
+        "benchmarkGroundTruthProvided": false
+      },
+      "routing": {
+        "category": "内存越界",
+        "needsExpert": true,
+        "hasVersion": true,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "gdb",
+          "crash"
+        ],
+        "reason": "The log explicitly reports 'BUG: KASAN: slab-out-of-bounds' in the overlayfs code path (ovl_upperdentry_dereference/ovl_inode_upper), which maps to the memory_oob classification.",
+        "categoryCode": "memory_oob",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 4.893,
+        "probability": null
+      },
+      "routingError": null,
+      "categoryCorrect": true
+    }
+  ],
+  "completedAt": "2026-10-07T02:05:45Z",
+  "completedModelCases": 1,
+  "categoryAccuracy": 1.0,
+  "testCategoryAccuracy": null
+}

@@ -21,7 +21,23 @@ npm test
 npm run collect:benchmark
 ```
 
-当前 24 项自动验收测试全部通过，覆盖账号权限、任务归属、真实进度、分析去重、Benchmark 门禁、源码校验与安全解压、Markdown、PlantUML 和真实评分。
+当前 28 项自动验收测试全部通过，覆盖账号权限、任务归属、真实进度、分析去重、Benchmark 门禁、源码校验与安全解压、Markdown、PlantUML、模型报告校验和磁盘不足拒收保护。
+
+## 远端模型与定位工具
+
+远端已部署真实 **dsh harness + Qwen** 执行链及 **SGLang 结构化多问题分诊**；本地默认模式保留规则检索。模型调用使用独立任务目录和只读系统沙箱，个人空间可查看工具调用状态，报告含假设、原始行号和验证步骤。默认答案不传给模型，失败不伪装成成功。
+
+- [Windows / Linux 工具手册](docs/KERNEL_TOOLKIT.md)：ripgrep、LLVM ELF / DWARF / PDB 与反汇编，Linux GDB、crash、drgn 等；13 / 14 项实际工具实验。
+- [远端部署与恢复](docs/REMOTE_AGENT_DEPLOYMENT.md)：SSH 隧道、模型别名、SGLang 显存、只读沙箱、磁盘迁移与运行边界。
+- [模型 Benchmark](docs/agent-benchmark-20261007.json) 与 [首轮原始失败记录](docs/agent-benchmark-first-20261007.json)：真实模型输出与耗时；有限案例的类别得分不是根因准确率。
+
+通过 SSH 隧道访问远端：
+
+```bash
+ssh -p 30113 -L 127.0.0.1:8788:127.0.0.1:8787 root@120.209.70.195 -N
+```
+
+打开 http://127.0.0.1:8788 。密码只交互输入，不写入代码或 Git。网站及恢复后的模型 API 均以回环地址提供给本次执行链，不直接公开默认账号网站。
 
 ## 页面与使用流程
 
@@ -59,7 +75,7 @@ npm run collect:benchmark
 
 ## 数据与实现边界
 
-当前分析为确定性规则分诊和社区案例检索，尚未接入 LLM / Codex worker，也不自动证明根因或复现故障。实时状态反映实际服务端处理阶段。上传 Skill 是声明式文本规则与经验正文，不执行上传脚本。
+本地默认仍为确定性规则分诊；远端通过 KERNEL_AGENT_MODE=dsh 启用真实 dsh harness / Qwen 模型与工具分析，并增加 SGLang 结构化分诊。模型只生成待验证假设，不自动证明根因或复现故障。上传 Skill 是声明式文本规则与经验正文，不执行上传脚本。
 
 运行数据保存在 `data/state.json`、`data/accounts.json`、`data/uploads`、`data/reports`、`data/skill-pulls`；源码和图表运行环境为本地缓存。这些目录由 `.gitignore` 排除，GitHub 仅发布代码、公开 Benchmark 与设计文档。测试使用临时独立目录。
 
@@ -74,3 +90,17 @@ npm run collect:benchmark
 - [光束视觉设计](docs/AURORA_DESIGN.md)
 
 ![专家中心](docs/previews/experts-contrast.jpg)
+
+Kernel 定位 Agent 的证据流程、工具使用边界与后续接口见 [设计手册](docs/KERNEL_AGENT_DESIGN.md)。
+
+新增离线定位闭环：服务器 `stability-v1` 数据集含 59 个有效注入故障和 1 个健康基线，保存完整运行日志、匹配编译产物、源码快照及根因代码；另外 8 个场景明确排除。与网站现有 6 例社区分类守护集分开管理。新 agent 支持第一现场定界、按需工具取证、代码位置候选、实际模型请求/耗时统计及独立机制评审，详见 [定位闭环](docs/KERNEL_LOCALIZATION_LOOP.md) 与 [数据集核验](docs/kernel-dataset-audit-20261007.json)。
+
+### 诊断材料与转储边界
+
+分析选项可附加 vmlinux / ELF 模块、ELF vmcore 和内核 .config，材料按账号隔离并绑定任务。文件 SHA256 与材料编号参与结果追溯和去重。符号和转储的 Build ID、架构与日志版本一致，且无已知配置哈希冲突时，才运行固定的 crash / drgn 只读查询。缺失或不匹配会显示材料缺口；当前不支持压缩 kdump、任意查询脚本或自动 KASLR 地址转换。多异常日志按标题分组，后续 panic 标注为可能连锁反应。
+
+本轮验收为 31 项 Node 测试、9 项 Python 证据测试及远端真实模型单例。没有真实配套 vmcore，不能将门禁测试解释为转储根因已验证。详见 [Agent 设计](docs/KERNEL_AGENT_DESIGN.md) 和 [接管记录](docs/SERVER_STATUS_20261007.md)。
+
+定位闭环本轮验证：Python 27/27、Node 31/31；真实模型各版本成绩、历史超时及 OOM 定位缺口见 [定位评测报告](docs/kernel-localization-benchmark-20261007.json)。新引擎仍为可选实验路径，未切换线上。
+
+服务器网站已恢复并接入新版定位 Agent；当前完整验收为 Node 36/36、Python 29/29、业务与模型自检 32/32。重复执行入口及配对迭代成绩见 [网站自检手册](docs/WEBSITE_SELFCHECK.md)、[验收记录](docs/website-acceptance-20261007.json) 和 [定位迭代数据](docs/agent-iteration-20261007.json)。

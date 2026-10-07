@@ -61,3 +61,5 @@ small,.eyebrow,.panel-title>span,.hero p,.hero-art,.chart-col b,.chart-labels,.r
 .flip-front .eyebrow{color:#465d7c}.flip-front .rank-crown{color:#2861b2}.rank-1 .flip-front .rank-crown{color:#ffdb74}
 .rank-1 .flip-front p,.rank-1 .flip-front small,.rank-1 .flip-front .eyebrow,.metrics .metric:first-child small{color:#f0f6ff}
 .category-pills button.active{color:#fff}.chips button.active,.personal-tabs button.active{color:#2158b5}
+
+.diagnostic-materials{margin:18px 0;padding:18px;border:1px solid #d7e2f2;border-radius:16px;background:#f6f9ff;min-width:0}.diagnostic-materials legend{padding:0 8px;color:#193760;font-weight:700}.diagnostic-materials .form-row{margin-top:12px}.diagnostic-materials input[type=file]{max-width:100%;font-size:13px}.diagnostic-materials .caption{overflow-wrap:anywhere}

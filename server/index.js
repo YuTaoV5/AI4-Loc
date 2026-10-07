@@ -1,7 +1,9 @@
 const express=require('express'),multer=require('multer'),fs=require('fs'),path=require('path'),crypto=require('crypto');
 const {execFile}=require('child_process');const {promisify}=require('util');const run=promisify(execFile);
 const kernels=require('./kernels');const {analyze,inspect,builtins}=require('./analyzer');
-const root=path.join(__dirname,'..'),data=process.env.KERNEL_INSIGHT_DATA_DIR||path.join(root,'data'),uploads=path.join(data,'uploads'),reports=path.join(data,'reports'),benchmarkDir=path.join(root,'data/benchmark');
+const agent=require('./agent');
+const jevRouter=require('./jev-router');
+const root=path.join(__dirname,'..'),data=process.env.KERNEL_INSIGHT_DATA_DIR||path.join(root,'data'),uploads=path.join(data,'uploads'),reports=path.join(data,'reports'),benchmarkDir=process.env.KERNEL_BENCHMARK_DIR||path.join(root,'data/benchmark');
 for(const p of [data,uploads,reports])fs.mkdirSync(p,{recursive:true});
 const statePath=path.join(data,'state.json');let state=fs.existsSync(statePath)?JSON.parse(fs.readFileSync(statePath)): {jobs:[],skills:builtins};
 for(const j of state.jobs)if(['queued','running'].includes(j.status)){j.status='failed';j.error='服务重启，请重新提交';}
@@ -11,8 +13,15 @@ const app=express();app.use(express.json({limit:'8mb'}));app.use(express.static(
 app.use('/vendor/mermaid',express.static(path.join(root,'node_modules/mermaid/dist')));
 app.get('/vendor/highlight.css',(_,res)=>res.sendFile(path.join(root,'node_modules/highlight.js/styles/github.css')));
 app.use((req,res,next)=>{if(req.method!=='GET'&&req.headers.origin&&!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(req.headers.origin))return res.status(403).json({error:'只允许本地工作台写入'});next();});
+app.use((req,res,next)=>{
+ if(req.method==='POST'&&(/^\/api\/analyze$/.test(req.path)||/^\/api\/benchmark\/[^/]+\/analyze$/.test(req.path))){
+  try{const stat=fs.statfsSync(data),available=Number(stat.bavail)*Number(stat.bsize),needed=512*1024*1024+Number(req.headers['content-length']||0);if(available<needed)return res.status(507).json({error:'服务器磁盘空间不足，暂不接收新分析任务；原有报告仍可查看'});}catch(error){return next(error);}
+ }
+ next();
+});
 const upload=multer({dest:uploads,limits:{fileSize:64*1024*1024,files:20},fileFilter:(_,f,cb)=>/\.(log|txt|zip|gz|tgz|tar)$/i.test(f.originalname)?cb(null,true):cb(Error('支持 .log .txt .zip .tar .gz .tgz'))});
 require('./accounts')(app,{data,state,save});
+const materials=require('./materials')(app,{data});
 require('./experience').install(app,{state,data});
 const taskProgress=require('./task-progress')({state,save});
 const ownerId=req=>req.user?.id||null;
@@ -21,9 +30,9 @@ app.post('/api/me/claim-skill',(req,res)=>{const id=ownerId(req),s=state.skills.
 app.get('/api/me',(req,res)=>{const id=ownerId(req);if(!id)return res.status(400).json({error:'缺少本地个人标识'});res.json({jobs:state.jobs.filter(j=>j.ownerId===id),skills:state.skills.filter(s=>s.ownerId===id).map(({ownerToken,content,...s})=>s),benchmarkRuns:(state.skillRuns||[]).filter(r=>r.ownerId===id),legacyCount:req.user.role==='admin'?state.jobs.filter(j=>!j.ownerId).length:0});});
 const wrap=fn=>(req,res,next)=>Promise.resolve(fn(req,res,next)).catch(next);
 const skillWorkflow=require('./skill-workflow')(app,{state,save,data,benchmark,benchmarkDir});
-app.get('/api/health',(_,res)=>res.json({ok:true,engine:'deterministic-triage-v1',llmConnected:false}));
+app.get('/api/health',wrap(async(_,res)=>{let llmConnected=false;if(agent.enabled()){try{const native=agent.configuration().transport==='ollama-native',base=(process.env.KERNEL_AGENT_BASE_URL||(native?'http://127.0.0.1:11434':'http://127.0.0.1:11434/v1')).replace(/\/$/,'');const response=await fetch(base+(native?'/api/tags':'/models'),{signal:AbortSignal.timeout(3000)});const models=await response.json();llmConnected=response.ok&&(native?models.models?.some(m=>(m.name||m.model)===agent.configuration().model):models.data?.some(m=>m.id===agent.configuration().model));}catch{}}res.json({ok:true,...agent.configuration(),llmConnected});}));
 app.get('/api/benchmark',(_,res)=>{const b=benchmark();res.json({...b,total:b.cases.length});});
-app.get('/api/benchmark/:id/log',(req,res)=>{const c=benchmark().cases.find(c=>c.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});res.type('text/plain').send(fs.readFileSync(path.join(benchmarkDir,c.logPath),'utf8'));});
+app.get('/api/benchmark/:id/log',(req,res)=>{const c=benchmark().cases.find(c=>c.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});res.type('text/plain').sendFile(path.resolve(benchmarkDir,c.logPath));});
 app.get('/api/jobs',(req,res)=>res.json(state.jobs.filter(j=>req.user.role==='admin'||j.ownerId===req.user.id)));
 app.get('/api/jobs/:id/progress',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});res.json(taskProgress.snapshot(j));});
 app.get('/api/jobs/:id/events',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});taskProgress.stream(req,res,j);});
@@ -56,7 +65,7 @@ async function readLog(file){
  let combined='';for(const n of names){const r=await run('tar',['-xOf',file.path,'--',n],{maxBuffer:32*1024*1024,timeout:30000});combined+=`\n# FILE: ${n}\n${r.stdout}`;if(Buffer.byteLength(combined)>32*1024*1024)throw Error('解压日志超过 32MB');}return combined;
 }
 function createJob(name,options={}){const j={id:crypto.randomUUID(),name,createdAt:new Date().toISOString(),status:'queued',progress:0,ownerId:options.ownerId||null,benchmarkCaseId:options.benchmarkCaseId||null,machine:options.machine||'未指定机器',isBenchmark:!!options.isBenchmark,reportReady:false};state.jobs.unshift(j);taskProgress.step(j,'queued',0,'任务已接收，等待分析执行','queued');return j;}
-function report(j){const a=j.analysis;return [`# ${j.name}`,``, `状态：${j.status} · 分析引擎：${a.engine}`,``, `## 初步定位`,a.headline,`类别：${a.category}；内核：${a.kernelVersion||'未识别'}；commit：${a.kernelCommit||'未识别'}`,``, `## 分析选用组合`,`组合：${j.skillSelection?.preset||'recommended'}；Skill ID：${(j.skillSelection?.ids||[]).join(', ')}`,``, `## Skill 贡献者`,...a.skills.map(s=>`- ${s.name} v${s.version} — ${s.contributor} / ${s.team}\n  ${s.guidance}`),``, `## 日志证据`,...a.evidence.map(e=>`- L${e.line}: ${e.text}`),``, `## 社区候选根因（待核实）`,...a.candidates.map(c=>`- ${c.rootCause}\n  来源：${c.sourceUrl}\n  修复：${c.fixTitle} (${c.fix})\n  匹配依据：${c.matchBasis}`),``, `## 分析边界`,a.limitations,``, `输入 SHA256：${j.inputHash}`,j.review?`审核：${j.review.note}；人工基线：${j.review.baselineMinutes||'未填'} 分钟`: '尚未人工确认'].join('\n');}
+function report(j){const a=j.analysis;return [`# ${j.name}`,``, `状态：${j.status} · 分析引擎：${a.engine}`,``, `## 初步定位`,a.headline,`类别：${a.category}；内核：${a.kernelVersion||'未识别'}；commit：${a.kernelCommit||'未识别'}`,``, `## 分析选用组合`,`组合：${j.skillSelection?.preset||'recommended'}；Skill ID：${(j.skillSelection?.ids||[]).join(', ')}`,``, `## Skill 贡献者`,...a.skills.map(s=>`- ${s.name} v${s.version} — ${s.contributor} / ${s.team}\n  ${s.guidance}`),``, `## 日志证据`,...a.evidence.map(e=>`- L${e.line}: ${e.text}`),``, `## 社区候选根因（待核实）`,...a.candidates.map(c=>`- ${c.rootCause}\n  来源：${c.sourceUrl}\n  修复：${c.fixTitle} (${c.fix})\n  匹配依据：${c.matchBasis}`),``, ...(a.agent?[`## dsh / Qwen 分析`,`模型：${a.agent.model}；${a.agent.harness}；耗时 ${a.agent.elapsedSeconds} 秒`,a.agent.summary,...a.agent.hypotheses.map(h=>`- ${h.cause}（${h.confidence}）\n  日志行号：${h.evidenceLines.join(", ")}\n  验证：${h.verification}`),`### 后续步骤`,...a.agent.nextSteps.map(s=>`- ${s}`),`### 模型限制`,...a.agent.limitations.map(s=>`- ${s}`)]:[]),`## 分析边界`,a.limitations,``, `输入 SHA256：${j.inputHash}`,j.review?`审核：${j.review.note}；人工基线：${j.review.baselineMinutes||'未填'} 分钟`: '尚未人工确认'].join('\n');}
 async function processJob(j,log,options={}){
  try{j.status='running';taskProgress.step(j,'reading',10,'正在读取和校验输入日志');await new Promise(r=>setImmediate(r));if(!log.trim()||log.includes('\u0000'))throw Error('请提供非空文本日志');j.inputHash=crypto.createHash('sha256').update(log).digest('hex');fs.writeFileSync(path.join(reports,j.id+'.log'),log);
  taskProgress.step(j,'extracting',30,'提取异常特征、版本和调用链');await new Promise(r=>setImmediate(r));
@@ -65,26 +74,35 @@ async function processJob(j,log,options={}){
  const spec=options.sourceSpec || {version:j.analysis.kernelVersion,commit:j.analysis.kernelCommit,repository:options.repository||j.analysis.repository};
  taskProgress.step(j,'source',75,options.autoSource!==false?'解析源码版本并提交缓存下载任务':'本次未启用源码下载');await new Promise(r=>setImmediate(r));
  if(options.autoSource!==false){try{j.kernelKey=kernels.ensure(spec).key;}catch(e){j.sourceError=e.message;}}
+ if(agent.enabled()){
+  j.agentSourceSpec=spec;
+  if(jevRouter.enabled()&&agent.configuration().engine!=='closed-loop'){taskProgress.step(j,'routing',78,'SGLang 正在进行结构化多问题分诊');try{j.analysis.routing=await jevRouter.route(log);}catch(e){j.analysis.routingError=e.message;}}
+  j.agentName=agent.configuration().engine+' · '+agent.configuration().model;taskProgress.step(j,'agent',80,'排队进入定位 Agent 模型分析');
+  const output=await agent.execute({job:j,log,skills:options.selectedSkills||state.skills.filter(s=>s.status==='active'),data,stageMaterials:dir=>materials.stage(options.materials,dir),onEvent:event=>taskProgress.activity(j,event.message,event.phase)});
+  j.analysis.ruleCategory=j.analysis.category;j.analysis.category=output.category;j.analysis.agent=output;j.analysis.engine=agent.configuration().engine;j.analysis.limitations='dsh / Qwen 根据日志与选定经验生成待验证假设；社区候选另行检索，未向模型提供 Benchmark 答案。需要核对精确版本源码、符号信息与复现结果。';
+ }
  taskProgress.step(j,'report',90,'整理证据与贡献者署名，生成报告');await new Promise(r=>setImmediate(r));
  j.status='needs_review';j.progress=100;j.reportReady=true;j.analyzedAt=new Date().toISOString();j.analysisSeconds=(Date.now()-new Date(j.createdAt))/1000;fs.writeFileSync(path.join(reports,j.id+'.md'),report(j));taskProgress.step(j,'complete',100,'分析已完成，等待人工核对与验证','completed');
  }catch(e){j.status='failed';j.error=e.message;taskProgress.step(j,'failed',j.progress||0,e.message,'failed');}
 }
-const engineFingerprint=crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'analyzer.js'))).digest('hex');
+const engineFingerprint=crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'analyzer.js'))).update(agent.identity()).digest('hex');
 function enqueueAnalysis(name,log,options,force=false){
- const fingerprint=crypto.createHash('sha256').update(JSON.stringify({owner:options.ownerId,preset:options.skillPreset||'recommended',log:log.replace(/\r\n/g,'\n').trimEnd(),skills:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(({id,version,category,patterns,guidance})=>({id,version,category,patterns,guidance})),source:options.sourceSpec||null,repository:options.repository||null,autoSource:!!options.autoSource,benchmark:!!options.isBenchmark,caseId:options.benchmarkCaseId||null,dataset:benchmark(),engine:engineFingerprint})).digest('hex');
+ const fingerprint=crypto.createHash('sha256').update(JSON.stringify({owner:options.ownerId,preset:options.skillPreset||'recommended',log:log.replace(/\r\n/g,'\n').trimEnd(),skills:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(({id,version,category,patterns,guidance})=>({id,version,category,patterns,guidance})),source:options.sourceSpec||null,materials:options.materials||null,repository:options.repository||null,autoSource:!!options.autoSource,benchmark:!!options.isBenchmark,caseId:options.benchmarkCaseId||null,dataset:benchmark(),engine:engineFingerprint})).digest('hex');
  const previous=state.jobs.find(j=>j.dedupKey===fingerprint&&j.status!=='failed'&&(['queued','running'].includes(j.status)||j.reportReady));
  if(previous&&(!force||['queued','running'].includes(previous.status))){previous.reuseCount=(previous.reuseCount||0)+1;previous.lastSubmittedAt=new Date().toISOString();previous.submissions=previous.submissions||[];previous.submissions.push({name,machine:options.machine||'',at:previous.lastSubmittedAt});save();return {...previous,reused:true};}
- const j=createJob(name,options);j.dedupKey=fingerprint;j.reuseCount=0;j.submissions=[{name,machine:options.machine||'',at:j.createdAt}];save();setImmediate(()=>processJob(j,log,options));return {...j,reused:false};
+ const j=createJob(name,options);j.materials=options.materials?{id:options.materials.id,files:options.materials.files}:null;j.dedupKey=fingerprint;j.reuseCount=0;j.submissions=[{name,machine:options.machine||'',at:j.createdAt}];save();setImmediate(()=>processJob(j,log,options));return {...j,reused:false};
 }
 app.post('/api/analyze',upload.array('logs',20),wrap(async(req,res)=>{
  if(!req.files?.length&&!req.body.logText?.trim())return res.status(400).json({error:'请选择日志或粘贴日志内容'});
  const options={ownerId:ownerId(req),machine:String(req.body.machine||'').slice(0,120),autoSource:req.body.autoSource!=='false',repository:['stable','next'].includes(req.body.repository)?req.body.repository:null,sourceSpec:req.body.kernelCommit||req.body.kernelVersion?{version:req.body.kernelVersion,commit:req.body.kernelCommit,repository:req.body.repository||'mainline'}:null};
  options.selectedSkills=skillWorkflow.select(req.body).map(s=>({...s,patterns:[...s.patterns]}));options.skillPreset=req.body.skillPreset||'recommended';
+ options.materials=materials.resolve(req.body.materialsId,req.user);
  const submitted=[];for(const f of req.files||[]){try{submitted.push(enqueueAnalysis(f.originalname,await readLog(f),options,req.body.forceRerun==='true'||req.body.forceRerun===true));}finally{fs.unlinkSync(f.path);}}
  if(req.body.logText?.trim())submitted.push(enqueueAnalysis('粘贴的 kernel 日志',req.body.logText,options,req.body.forceRerun==='true'||req.body.forceRerun===true));res.status(202).json(submitted);
 }));
 app.post('/api/benchmark/:id/analyze',wrap(async(req,res)=>{const c=benchmark().cases.find(x=>x.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});const options={isBenchmark:true,ownerId:ownerId(req),benchmarkCaseId:c.id,machine:'社区 benchmark',autoSource:req.body.autoSource===true,sourceSpec:{version:c.kernelVersion,commit:c.kernelCommit,repository:c.repository},selectedSkills:skillWorkflow.select({}).map(s=>({...s,patterns:[...s.patterns]}))};res.status(202).json(enqueueAnalysis(c.id+' · '+c.symbol,fs.readFileSync(path.join(benchmarkDir,c.logPath),'utf8'),options,req.body.forceRerun===true));}));
 app.get('/api/reports/:id',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.analysis)return res.status(404).json({error:'报告未就绪'});res.type('text/markdown').send(report(j));});
+app.get('/api/jobs/:id/evidence',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.analysis?.agent?.evidence)return res.status(404).json({error:'工具证据尚未生成'});res.json(j.analysis.agent.evidence);});
 app.get('/api/jobs/:id/log',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.reportReady)return res.status(404).json({error:'日志不存在'});res.type('text/plain').sendFile(path.join(reports,j.id+'.log'));});
 app.post('/api/jobs/:id/review',wrap(async(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.reportReady)return res.status(409).json({error:'报告尚未就绪'});if(!String(req.body.note||'').trim())return res.status(400).json({error:'请填写验证结论或退回原因'});const baseline=req.body.baselineMinutes===''||req.body.baselineMinutes==null?null:Number(req.body.baselineMinutes);if(baseline!==null&&(!Number.isFinite(baseline)||baseline<=0))return res.status(400).json({error:'人工基线必须大于 0'});if(typeof req.body.accepted!=='boolean')return res.status(400).json({error:'审核结果必须是布尔值'});const rating=req.body.rating===''||req.body.rating==null?null:Number(req.body.rating);if(rating!==null&&(!Number.isInteger(rating)||rating<1||rating>5))return res.status(400).json({error:'满意度评分必须为 1–5 的整数'});j.review={rating,accepted:req.body.accepted,note:String(req.body.note).slice(0,4000),baselineMinutes:baseline,at:new Date().toISOString()};j.status=j.review.accepted?'resolved':'needs_expert';if(j.review.accepted)j.resolvedAt=j.resolvedAt||new Date().toISOString();else delete j.resolvedAt;taskProgress.settle(j);res.json(j);}));
 app.use('/api',(_,res)=>res.status(404).json({error:'API 不存在'}));

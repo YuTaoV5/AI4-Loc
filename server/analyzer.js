@@ -18,10 +18,11 @@ function inspect(log){
 function analyze(log,skills,cases,context){
  const {lines,frames,version,commit}=context||inspect(log);
  const matched=skills.filter(s=>s.status==='active' && s.patterns.some(p=>log.toLowerCase().includes(p.toLowerCase())));
- const evidence=[];for(let i=0;i<lines.length;i++){if(/BUG:|WARNING:|INFO:|Not tainted|Tainted:|Call Trace|Allocated by|Freed by|blocked for more|out of memory|oom-kill/i.test(lines[i]) || matched.some(s=>s.patterns.some(p=>lines[i].toLowerCase().includes(p.toLowerCase())))){evidence.push({line:i+1,text:lines[i]});if(evidence.length>=40)break;}}
+ const diagnostic=/\bBUG:|\bWARNING:|\bOops:|INFO:\s*(?:task.*(?:hung|blocked)|possible|rcu)|rcu.*(?:detected|self-detected).*stall|blocked for more|invoked oom-killer|oom-kill:|Out of memory|unreferenced object|kmemleak:.*[1-9][0-9]* new suspected|Kernel panic/i;
+ const evidence=[];for(let i=0;i<lines.length;i++){if(diagnostic.test(lines[i])||/Not tainted|Tainted:|Call Trace|Allocated by|Freed by/i.test(lines[i]) || matched.some(s=>s.patterns.some(p=>lines[i].toLowerCase().includes(p.toLowerCase())))){evidence.push({line:i+1,text:lines[i]});if(evidence.length>=40)break;}}
  const category=matched[0]?.category || '待专家分析';
  const candidates=cases.filter(c=>c.category===category && new RegExp(`\\b${c.symbol}\\b`).test(log)).map(c=>({...c,matchBasis:'异常类别 + 调用符号匹配；不是根因证明',sameRevision:!!c.kernelCommit&&!!commit&&(c.kernelCommit.startsWith(commit)||commit.startsWith(c.kernelCommit))}));
- const headline=evidence.find(e=>/BUG:|WARNING:|blocked for more|INFO:|oom-kill/i.test(e.text))?.text.replace(/^\s*\[.*?\]\s*/,'') || '未识别到已支持的内核异常，需要专家补充分析';
+ const headline=evidence.find(e=>diagnostic.test(e.text))?.text.replace(/^\s*\[.*?\]\s*/,'') || '未识别到已支持的内核异常，需要专家补充分析';
  const normalized=lines.map(l=>l.replace(/^\s*\[\s*[\d.]+\]\s*/,''));
  const stableStack=frames.slice(0,8).map(f=>f.symbol).join('|');
  const stableHeadline=headline.replace(/0x[a-f0-9]+|\b\d+\b/g,'#').replace(/task\s+[^\s:]+:?/,'task ');

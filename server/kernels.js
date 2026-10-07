@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const {execFile} = require('child_process');
 const {promisify} = require('util');
 const run=promisify(execFile);
+const {resource}=require('./source-transport');
 const dir=path.join(process.env.KERNEL_INSIGHT_DATA_DIR||path.join(__dirname,'../data'),'kernels');
 fs.mkdirSync(dir,{recursive:true});
 const db=path.join(dir,'index.json');
@@ -55,14 +56,15 @@ async function download(e) {
     e.error=null;
     const cached=fs.existsSync(archive)&&e.sha256&&crypto.createHash('sha256').update(fs.readFileSync(archive)).digest('hex')===e.sha256;
     if(!cached){e.status='downloading';e.bytes=0;save();
-    const r=await fetch(e.url,{signal:AbortSignal.timeout(600000)}); if(!r.ok) throw Error(`下载 HTTP ${r.status}`);
+    const r=await resource(e.url,600000); if(!r.ok) throw Error(`下载 HTTP ${r.status}`);
     if(/text\/html/.test(r.headers.get('content-type')||'')) throw Error('源码站返回 HTML，可能需要网络重试');
     e.totalBytes=Number(r.headers.get('content-length'))||null;
     const fd=fs.openSync(temp,'w');const hash=crypto.createHash('sha256');let saved=Date.now();
     try {for await(const chunk of r.body) {e.bytes+=chunk.length;if(e.bytes>1024*1024*1024) throw Error('源码压缩包超过 1GB');fs.writeSync(fd,chunk);hash.update(chunk);if(Date.now()-saved>1000){save();saved=Date.now();}}}finally{fs.closeSync(fd);}
+    if(r.complete)await r.complete();
     e.sha256=hash.digest('hex');
     if(e.checksumUrl) {
-      const response=await fetch(e.checksumUrl,{signal:AbortSignal.timeout(45000)});if(!response.ok) throw Error('无法读取官方 SHA256 校验清单');
+      const response=await resource(e.checksumUrl,45000);if(!response.ok) throw Error('无法读取官方 SHA256 校验清单');
       const text=await response.text();const line=text.split('\n').find(l=>l.trim().endsWith(`linux-${e.version}.tar.xz`));
       if(!line || line.trim().split(/\s+/)[0]!==e.sha256) throw Error('官方 SHA256 校验失败');e.verification='official-sha256';
     } else e.verification='https-snapshot / local-sha256';

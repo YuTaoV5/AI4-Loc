@@ -1,0 +1,17 @@
+{
+  "version": "2026-10-06",
+  "tools": [
+    {"id":"ripgrep","platforms":["windows","linux"],"purpose":"Search large logs and source with bounded output","source":"https://github.com/BurntSushi/ripgrep","windowsVersion":"15.2.0","linuxVersion":"15.2.0","tested":"108MB synthetic log; exact kernel source symbol search on Windows"},
+    {"id":"llvm","platforms":["windows","linux"],"purpose":"ELF/COFF symbols, DWARF line mapping, x86/ARM64 disassembly, PDB inspection","source":"https://llvm.org/docs/CommandGuide/","windowsDistribution":"https://github.com/mstorsjo/llvm-mingw/releases/tag/20260922","linuxDistribution":"Ubuntu 24.04 llvm/clang packages","tested":"Generated x86_64 and ARM64 ELF objects; Windows generated COFF/PDB"},
+    {"id":"binutils-gdb","platforms":["linux"],"purpose":"Independent ELF verification and debugger inspection","source":"https://www.sourceware.org/gdb/","requires":"Matching vmlinux/debug info for real kernel symbols"},
+    {"id":"drgn","platforms":["linux"],"purpose":"Programmable vmcore/kernel object analysis","source":"https://github.com/osandov/drgn","requires":"Matching debug information and vmcore or permitted live kernel access; not available here"},
+    {"id":"crash","platforms":["linux"],"purpose":"Kernel vmcore analysis","source":"https://github.com/crash-utility/crash","requires":"Matching vmlinux and actual vmcore; not provided for full validation"},
+    {"id":"kernel-scripts","platforms":["linux"],"purpose":"decode_stacktrace, faddr2line, decodecode, extract-vmlinux, checkstack","source":"https://github.com/torvalds/linux/tree/v6.6/scripts","requires":"Select scripts from the exact target kernel revision; v6.6 downloads are setup fixtures"},
+    {"id":"strace","platforms":["linux"],"purpose":"Observe userspace syscalls when reproducing kernel-facing workloads","source":"https://strace.io/","requires":"ptrace permission; does not prove kernel root cause"},
+    {"id":"pyelftools","platforms":["windows","linux"],"purpose":"Scripted ELF/DWARF inspection","source":"https://github.com/eliben/pyelftools","linuxVersion":"0.33"}
+  ],
+  "furtherCandidates": [
+    {"id":"perf-ftrace-bpftrace","source":"https://www.brendangregg.com/blog/2024-03-24/linux-crisis-tools.html","status":"Conditional live diagnosis; target kernel support and tracing permissions required. No host security settings changed."},
+    {"id":"coccinelle","source":"https://coccinelle.gitlabpages.inria.fr/website/","status":"Candidate for semantic source searches; not marked validated or installed in this rollout."}
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "dataset": "linux-community-v1",
+  "startedAt": "2026-10-06T16:11:37Z",
+  "protocol": "Actual dsh/Qwen turns. Expected labels and community root causes are not supplied to the model. Category accuracy is not root-cause accuracy.",
+  "cases": [
+    {
+      "caseId": "LINUX-001",
+      "split": "train",
+      "jobId": "ba5fe824-6040-4716-997c-149d8a09f495",
+      "status": "needs_review",
+      "expectedCategory": "内存越界",
+      "modelCategory": "内存越界",
+      "seconds": 141.89,
+      "error": null,
+      "agent": {
+        "category": "内存越界",
+        "summary": "KASAN 报告 6.12.0-next-20241125 上 overlayfs 的 slab-out-of-bounds（读 8 字节 @ ffff88807df938e0，任务 syz-executor150/5827）：触发栈为 mmap(ovl_mmap→backing_file_mmap→ovl_file_accessed→ovl_inode_upper，lines 19–21)，而该对象的分配栈（lines 53–64）显示其由 nilfs2 分配（nilfs_alloc_inode/nilfs_iget/nilfs_lookup，经 ovl_lookup_layer），说明 overlayfs 按 ovl_inode 布局偏移读取了一个非 ovl_inode 的底层 inode/dentry 对象，属对象类型与大小不匹配的越界读。",
+        "hypotheses": [
+          {
+            "cause": "overlayfs 误将 overlay 栈下 nilfs2 的 inode/dentry 当作 ovl_inode/superblock 结构解释，按 ovl_inode 字段偏移(ovl_entry.h:195)读取了越界 8 字节——对象类型/大小混淆导致的 slab-out-of-bounds，而非随机野指针。",
+            "evidenceLines": [
+              4,
+              3,
+              19,
+              18,
+              53,
+              57,
+              64
+            ],
+            "confidence": "medium",
+            "verification": "在 vmlinux 上确认 addr ffff88807df938e0 的 slab 缓存与对象尺寸：slub_debug/CONFIG_SLUB_DEBUG + kslub 转储该对象大小是否为 nilfs2 inode 大小；并用 kgdb 检查 ovl_inode_upper 处读取的偏移相对 nilfs2 inode 结构的位置，确认越界偏移量（约等于 sizeof 差值）。"
+          },
+          {
+            "cause": "ovl_mmap/ovl_file_accessed 路径在文件位于 nilfs2 底层文件系统时，未校验底层 inode 类型即调用 ovl_inode_upper/ovl_i_dentry_upper，暴露 overlayfs 对非典型底层 fs 的对象布局假设缺陷。",
+            "evidenceLines": [
+              20,
+              21,
+              53,
+              58,
+              63
+            ],
+            "confidence": "low",
+            "verification": "用最小复现：nilfs2 作为 overlay lower/upper 层，对其中文件执行 mmap(2) 触发 ovl_file_accessed；开启 CONFIG_PROVE_LOCKING+KASAN 并关闭同 fs 混淆（改用 ext4 对照）以确认仅 nilfs2 组合触发。"
+          }
+        ],
+        "nextSteps": [
+          "用带 debug info 的 vmlinux 符号化 line 4 中地址并确认该 slab 对象的 cache 名/大小，验证越界偏移量",
+          "在 source-context 中补充 fs/overlayfs/ovl_entry.h:195 与 fs/overlayfs/util.c:366,386 源码，核对 ovl_inode 字段偏移与 nilfs2 inode 布局差异",
+          "运行对照 mmap 复现（nilfs2 vs ext4 底层）确认组合特异性并提交修复补丁：在 ovl_inode_upper 前校验底层 obj 类型/来源 fs 的 magic"
+        ],
+        "limitations": [
+          "vmlinux/debug info 缺失，地址符号化与偏移量未验证",
+          "source-context 目录为空，无法进行源码级字段偏移核对",
+          "Allocated by 栈仅反映 KASAN 记录路径，不能绝对证明对象类型，需配合 slab-debug 数据确认"
+        ],
+        "model": "qwen3.8:27b-kernel-8k",
+        "provider": "ollama",
+        "harness": "deepseek-harness-sdk 0.1.5rc1",
+        "finishReason": "completed",
+        "toolCalls": [
+          {
+            "name": "bash",
+            "at": 1791303120.6160402
+          },
+          {
+            "name": "bash",
+            "at": 1791303125.5183244
+          },
+          {
+            "name": "bash",
+            "at": 1791303131.418033
+          },
+          {
+            "name": "bash",
+            "at": 1791303143.314483
+          },
+          {
+            "name": "bash",
+            "at": 1791303153.9165785
+          },
+          {
+            "name": "bash",
+            "callId": "call_egtm9qqp"
+          },
+          {
+            "name": "bash",
+            "callId": "call_61a6jds0"
+          },
+          {
+            "name": "bash",
+            "callId": "call_863w5wah"
+          },
+          {
+            "name": "bash",
+            "callId": "call_5vohvoqa"
+          },
+          {
+            "name": "bash",
+            "callId": "call_3lf7y732"
+          }
+        ],
+        "elapsedSeconds": 126.509,
+        "sourceFiles": [],
+        "sourceErrors": [
+          "fs/overlayfs/util.c: HTTP 404",
+          "fs/overlayfs/ovl_entry.h: HTTP 404",
+          "mm/kasan/report.c: HTTP 404",
+          "lib/dump_stack.c: HTTP 404",
+          "fs/overlayfs/file.c: HTTP 404",
+          "fs/backing-file.c: HTTP 404"
+        ],
+        "benchmarkGroundTruthProvided": false
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-002",
+      "split": "test",
+      "jobId": "4f7d468f-5a14-4099-a2fa-66a9e0ef1ad4",
+      "status": "needs_review",
+      "expectedCategory": "内存越界",
+      "modelCategory": "内存越界",
+      "seconds": 81.0,
+      "error": null,
+      "agent": {
+        "category": "内存越界",
+        "summary": "KASAN 报告 selinux_sock 内联路径（objsec.h:207 / selinux_ip_output hooks.c:5761）在 skb 出包路径上发生 8 字节 slab 越界读（syz-executor347），疑似 skb 内嵌 skb_ext/selinux 扩展数据在小型 skb（如 TCP ACK）上分配不足或访问偏移超过分配大小，符号化基于日志内嵌符号偏移，未经 vmlinux 校验。",
+        "hypotheses": [
+          {
+            "cause": "selinux_sock 读取 skb 扩展/头部数据时按完整结构体偏移访问，但实际 slab 对象（如小型 sock 或 skb_ext 槽）分配尺寸小于读取偏移，导致 8 字节越界读",
+            "evidenceLines": [
+              2,
+              3,
+              4,
+              16
+            ],
+            "confidence": "medium",
+            "verification": "在 CONFIG_KASAN 内核上用相同 syz 场景抓 KASAN 报告的 object size/offset 或分配栈（Allocated by），比对 objsec.h:207 处访问字段与 kmalloc/sk_alloc 的实际尺寸，确认越界字节数与结构体尾部关系"
+          },
+          {
+            "cause": "skb 经 GRO/recycle 或异常路径后 selinux 所依赖的 skb_ext 槽位未随 skb 重建，指针/偏移指向已缩小或错位对象",
+            "evidenceLines": [
+              24,
+              27,
+              16
+            ],
+            "confidence": "low",
+            "verification": "对比 tcp_v4_send_ack 与正常数据 skb 两种路径，跟踪 skb_ext 分配与释放时序，确认越界读是否仅在纯 ACK 小包上复现，并用 bpftrace 打印读取点对象地址与 slab 池 size"
+          }
+        ],
+        "nextSteps": [
+          "用带 KASAN 详细报告的内核重跑触发流量并捕获 Allocated by/Free 栈以核实分配尺寸",
+          "审计 objsec.h:207 及 hooks.c:5761 附近对 skb/sk 字段的访问假设，检查是否存在类型转换或大小假设",
+          "获取匹配 6.12.0-syzkaller-05480-gfcc79e1714e8 的 vmlinux/调试符号并重新符号化调用栈以替换日志内联偏移"
+        ],
+        "limitations": [
+          "缺少 vmlinux/调试信息，符号化与偏移解读未经验证",
+          "未看到分配（Allocated by）与释放栈，越界根因仅为推断",
+          "无 source-context，未能直接核对 objsec.h:207 现场代码与对象尺寸"
+        ],
+        "model": "qwen3.8:27b-kernel-8k",
+        "provider": "ollama",
+        "harness": "deepseek-harness-sdk 0.1.5rc1",
+        "finishReason": "completed",
+        "toolCalls": [
+          {
+            "name": "bash",
+            "at": 1791303250.4215739
+          },
+          {
+            "name": "bash",
+            "at": 1791303257.319361
+          },
+          {
+            "name": "bash",
+            "callId": "call_suyyekdq"
+          },
+          {
+            "name": "bash",
+            "callId": "call_9l6x74ag"
+          }
+        ],
+        "elapsedSeconds": 68.439,
+        "sourceFiles": [],
+        "sourceErrors": [
+          "security/selinux/include/objsec.h: fetch failed",
+          "security/selinux/hooks.c: fetch failed",
+          "mm/kasan/report.c: fetch failed",
+          "lib/dump_stack.c: fetch failed",
+          "net/netfilter/core.c: fetch failed",
+          "include/linux/netfilter.h: fetch failed"
+        ],
+        "benchmarkGroundTruthProvided": false
+      },
+      "categoryCorrect": true
+    },
+    {
+      "caseId": "LINUX-003",
+      "split": "test",
+      "jobId": "2d97450e-c812-438a-a267-844f647a1f4e",
+      "status": "failed",
+      "expectedCategory": "任务挂起",
+      "modelCategory": null,
+      "seconds": 20.61,
+      "error": "dsh did not produce a valid diagnostic JSON object",
+      "agent": null,
+      "categoryCorrect": false
+    },
+    {
+      "caseId": "LINUX-004",
+      "split": "train",
+      "jobId": "0386f55b-7bca-4bf2-8c90-8f24ff860166",
+      "status": "failed",
+      "expectedCategory": "内存越界",
+      "modelCategory": null,
+      "seconds": 0.329,
+      "error": "服务重启，请重新提交",
+      "agent": null,
+      "routing": {
+        "category": "OOM",
+        "needsExpert": false,
+        "hasVersion": false,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "crash",
+          "gdb"
+        ],
+        "reason": "The crash is a KASAN slab-out-of-bounds error in the sound subsystem (sound/core/oss/linear.c), not an Out-Of-Memory (OOM) condition. The 'Freed by' trace shows a kfree in security/selinux, which is unrelated to the allocation in sound/core/oss/pcm_plugin.c, indicating a use-after-free or out-of-bounds access bug in the audio driver, not memory exhaustion.",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 6.106,
+        "probability": null
+      },
+      "routingError": null,
+      "categoryCorrect": false
+    },
+    {
+      "caseId": "LINUX-005",
+      "split": "train",
+      "jobId": "46925149-87ee-4597-b3bd-b0c519b1a9b2",
+      "status": "failed",
+      "expectedCategory": "释放后使用",
+      "modelCategory": null,
+      "seconds": 30.515,
+      "error": "dsh did not produce a valid diagnostic JSON object",
+      "agent": null,
+      "routing": {
+        "category": "RCU / 锁死",
+        "needsExpert": true,
+        "hasVersion": false,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "crash",
+          "gdb"
+        ],
+        "reason": "KASAN 报告 use-after-free，且分配/释放栈涉及 RCU 回调（rcu_core, call_rcu, delayed_put_task_struct）与 nilfs2 定时器回调，需专家结合内核版本与符号进一步分析。",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 5.287,
+        "probability": null
+      },
+      "routingError": null,
+      "categoryCorrect": false
+    },
+    {
+      "caseId": "LINUX-006",
+      "split": "test",
+      "jobId": "230e8353-98e9-4f89-959c-ce044d57bb09",
+      "status": "failed",
+      "expectedCategory": "锁依赖",
+      "modelCategory": null,
+      "seconds": 30.532,
+      "error": "dsh did not produce a valid diagnostic JSON object",
+      "agent": null,
+      "routing": {
+        "category": "RCU / 锁死",
+        "needsExpert": true,
+        "hasVersion": false,
+        "hasSymbols": true,
+        "recommendedTools": [
+          "crash",
+          "gdb"
+        ],
+        "reason": "检测到循环锁依赖，涉及 NBD 驱动、块层和 RCU 同步，需要专家分析。",
+        "model": "Qwen3.8-27B-SystemOne",
+        "engine": "sglang-jev-like",
+        "elapsedSeconds": 4.276,
+        "probability": null
+      },
+      "routingError": null,
+      "categoryCorrect": false
+    }
+  ],
+  "completedAt": "2026-10-06T16:28:35Z",
+  "completedModelCases": 2,
+  "categoryAccuracy": 0.3333333333333333,
+  "testCategoryAccuracy": 0.3333333333333333
+}

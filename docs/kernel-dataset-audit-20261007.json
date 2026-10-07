@@ -1,0 +1,189 @@
+{
+  "schema": "kernel-dataset-audit/v1",
+  "serverRoot": "/root/gpufree-data/kernel-insight-lab/datasets/stability-v1",
+  "localEvidenceOnly": true,
+  "build": {
+    "commit": "f88704ae607f90518f67aee33790ac06d6ada77d",
+    "release": "5.10.210+",
+    "buildId": "4bae92d13e7edbe54f2de539b0aef72c89615511",
+    "sourceState": "commit plus shared/source.patch; external/ki_bench.c and pressure.c added"
+  },
+  "validation": {
+    "schema": "kernel-stability-dataset/v1",
+    "complete": true,
+    "cases": 68,
+    "readyCases": 60,
+    "faultCases": 59,
+    "families": [
+      "atomic_sleep",
+      "healthy",
+      "hung_task",
+      "lock_order",
+      "memory_leak",
+      "memory_oob",
+      "memory_uaf",
+      "oom",
+      "protection",
+      "rcu_stall",
+      "refcount",
+      "usercopy",
+      "watchdog"
+    ],
+    "missingFamilies": [],
+    "checkedFiles": 423,
+    "errors": []
+  },
+  "coverage": {
+    "healthy": 1,
+    "memory_oob": 2,
+    "memory_uaf": 6,
+    "memory_leak": 4,
+    "protection": 27,
+    "hung_task": 1,
+    "watchdog": 2,
+    "refcount": 8,
+    "usercopy": 4,
+    "lock_order": 2,
+    "rcu_stall": 1,
+    "atomic_sleep": 1,
+    "oom": 1
+  },
+  "excluded": [
+    {
+      "id": "lkdtm_ARRAY_BOUNDS",
+      "reasons": [
+        "expected diagnostic absent"
+      ]
+    },
+    {
+      "id": "lkdtm_FORTIFY_OBJECT",
+      "reasons": [
+        "expected diagnostic absent",
+        "causal trace/trigger evidence absent",
+        "trigger/module failed"
+      ]
+    },
+    {
+      "id": "lkdtm_HARDLOCKUP",
+      "reasons": [
+        "expected diagnostic absent",
+        "wall-clock timeout"
+      ]
+    },
+    {
+      "id": "lkdtm_SPINLOCKUP",
+      "reasons": [
+        "expected diagnostic absent"
+      ]
+    },
+    {
+      "id": "lkdtm_STACK_LEAK",
+      "reasons": [
+        "expected diagnostic absent",
+        "causal trace/trigger evidence absent",
+        "trigger/module failed"
+      ]
+    },
+    {
+      "id": "lkdtm_USERCOPY_HEAP_WHITELIST_FROM",
+      "reasons": [
+        "expected diagnostic absent"
+      ]
+    },
+    {
+      "id": "lkdtm_USERCOPY_HEAP_WHITELIST_TO",
+      "reasons": [
+        "expected diagnostic absent"
+      ]
+    },
+    {
+      "id": "lock_recursive_spin",
+      "reasons": [
+        "expected diagnostic absent"
+      ]
+    }
+  ],
+  "sharedArtifacts": {
+    "vmlinux": {
+      "path": "shared/vmlinux",
+      "sha256": "4b1775fcead0c47b8ab9395a6573322b08c5f61fb60213c80969d3fa70f1e796",
+      "bytes": 1017015536
+    },
+    "bzImage": {
+      "path": "shared/bzImage",
+      "sha256": "46b0c4f0844a262c43eaacbd4f7b9e7e18c308e9a0a41ee9ba65da9ab6f21c9c",
+      "bytes": 23267328
+    },
+    "config": {
+      "path": "shared/kernel.config",
+      "sha256": "a3b5e56a52643107310b2798d0b26fed53e7bbc3dadf4c2da880551287f3e8bc",
+      "bytes": 128686
+    },
+    "module": {
+      "path": "shared/ki_bench.ko",
+      "sha256": "d94d5b215e8df160f17f5be1a90bd258588138acee43e81f8dccadafa3f8ff92",
+      "bytes": 255832
+    },
+    "systemMap": {
+      "path": "shared/System.map",
+      "sha256": "e8c7bd4a281315880abc58e4ff84ecb90471fc4891f2c85ea3537340cfa26e7f",
+      "bytes": 5607586
+    },
+    "sourcePatch": {
+      "path": "shared/source.patch",
+      "sha256": "73406a8bcc8fd06c4ae97da2eaa86f14fd3432897de9be76f9fabf89510e296b",
+      "bytes": 1519
+    },
+    "guestInit": {
+      "path": "shared/guest_dataset_init.sh",
+      "sha256": "3005780970d4a9a7965dca3fc1988705ea402f7e303b1d1594716c6f04df4b0d",
+      "bytes": 2488
+    },
+    "collector": {
+      "path": "shared/collect_dataset.py",
+      "sha256": "c9eeafc30bd5f7ce91033779b1261411a3af2500569f20ec6925a75f846c01f4",
+      "bytes": 14599
+    },
+    "sourceArchive": {
+      "path": "shared/source.tar.gz",
+      "sha256": "811baa920407b21de3b90f1de336bb7409d2ec543261edba0cde4a4ab1afc766",
+      "bytes": 191097714
+    },
+    "compiler": {
+      "path": "shared/compiler.txt",
+      "sha256": "8497f84b2b8334c413d9c6166bd39d009ba55d2ff60a8f23e66dfa5819c2b048",
+      "bytes": 246
+    },
+    "qemuVersion": {
+      "path": "shared/qemuVersion.txt",
+      "sha256": "8f79ffd97970d85d6833a0ccc87f5d6e7182f8f52101c741dfa2fb6374670b18",
+      "bytes": 132
+    },
+    "buildLog": {
+      "path": "shared/build.log",
+      "sha256": "7140c8843a006b31a7db82d0bc2cd4ef23eb94ca91f4f1ee7db7c88827a1c573",
+      "bytes": 139280
+    },
+    "initramfs": {
+      "path": "shared/initramfs.cpio.gz",
+      "sha256": "b3c988b21c6c34c800246cc2858fce909e860e7837b99f2f7e87660a247bb0fb",
+      "bytes": 1528388
+    },
+    "pressure": {
+      "path": "initramfs/pressure",
+      "sha256": "129f46254cc75316bc5353b4b39695818a8acfd67a30097305a31b20a1540a3f",
+      "bytes": 787216
+    },
+    "contract": {
+      "path": "shared/dataset_contract.py",
+      "sha256": "29806876bbf244fd3271950a636e90f00150446db6bdeea3fe9bcc4e8c0ed55b",
+      "bytes": 7164
+    }
+  },
+  "annotationRevision": "v2",
+  "manifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+  "localPerCaseEvidenceHashChecks": {
+    "files": 408,
+    "mismatches": []
+  }
+}

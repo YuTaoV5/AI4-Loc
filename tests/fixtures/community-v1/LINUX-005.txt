@@ -1,0 +1,185 @@
+==================================================================
+BUG: KASAN: use-after-free in __lock_acquire+0x114/0x7680 kernel/locking/lockdep.c:4919
+Read of size 8 at addr ffff0000d61a09b0 by task udevd/3842
+
+CPU: 0 PID: 3842 Comm: udevd Not tainted 6.1.75-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+Call trace:
+ dump_backtrace+0x1c8/0x1f4 arch/arm64/kernel/stacktrace.c:158
+ show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:165
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x108/0x170 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:284 [inline]
+ print_report+0x174/0x4c0 mm/kasan/report.c:395
+ kasan_report+0xd4/0x130 mm/kasan/report.c:495
+ __asan_report_load8_noabort+0x2c/0x38 mm/kasan/report_generic.c:351
+ __lock_acquire+0x114/0x7680 kernel/locking/lockdep.c:4919
+ lock_acquire+0x26c/0x7cc kernel/locking/lockdep.c:5662
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x6c/0xb4 kernel/locking/spinlock.c:162
+ try_to_wake_up+0xb4/0xe60 kernel/sched/core.c:4112
+ wake_up_process+0x18/0x24 kernel/sched/core.c:4362
+ nilfs_construction_timeout+0x40/0x50 fs/nilfs2/segment.c:2442
+ call_timer_fn+0x1c0/0xa1c kernel/time/timer.c:1474
+ expire_timers kernel/time/timer.c:1519 [inline]
+ __run_timers+0x554/0x718 kernel/time/timer.c:1790
+ run_timer_softirq+0x7c/0x114 kernel/time/timer.c:1803
+ __do_softirq+0x314/0xe38 kernel/softirq.c:571
+ ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:79
+ call_on_irq_stack+0x24/0x4c arch/arm64/kernel/entry.S:893
+ do_softirq_own_stack+0x20/0x2c arch/arm64/kernel/irq.c:84
+ invoke_softirq kernel/softirq.c:452 [inline]
+ __irq_exit_rcu+0x264/0x4d4 kernel/softirq.c:650
+ irq_exit_rcu+0x14/0x84 kernel/softirq.c:662
+ __el1_irq arch/arm64/kernel/entry-common.c:472 [inline]
+ el1_interrupt+0x38/0x68 arch/arm64/kernel/entry-common.c:486
+ el1h_64_irq_handler+0x18/0x24 arch/arm64/kernel/entry-common.c:491
+ el1h_64_irq+0x64/0x68 arch/arm64/kernel/entry.S:581
+ __memset+0x6c/0x188 arch/arm64/lib/memset.S:91
+ __kasan_init_slab_obj+0x18/0x2c mm/kasan/common.c:192
+ kasan_init_slab_obj include/linux/kasan.h:167 [inline]
+ setup_object+0x24/0x13c mm/slub.c:1774
+ allocate_slab mm/slub.c:1971 [inline]
+ new_slab+0x164/0x2f4 mm/slub.c:1992
+ ___slab_alloc+0x8bc/0xee0 mm/slub.c:3180
+ __slab_alloc mm/slub.c:3279 [inline]
+ slab_alloc_node mm/slub.c:3364 [inline]
+ __kmem_cache_alloc_node+0x2c8/0x388 mm/slub.c:3437
+ __do_kmalloc_node mm/slab_common.c:954 [inline]
+ __kmalloc+0xc4/0x1c4 mm/slab_common.c:968
+ kmalloc include/linux/slab.h:558 [inline]
+ tomoyo_realpath_from_path+0xc8/0x4cc security/tomoyo/realpath.c:251
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_check_open_permission+0x1dc/0x3f4 security/tomoyo/file.c:771
+ tomoyo_file_open+0x130/0x19c security/tomoyo/tomoyo.c:320
+ security_file_open+0x6c/0xb0 security/security.c:1663
+ do_dentry_open+0x2a0/0xfa0 fs/open.c:869
+ vfs_open+0x7c/0x90 fs/open.c:1013
+ do_open fs/namei.c:3634 [inline]
+ path_openat+0x1e14/0x2548 fs/namei.c:3791
+ do_filp_open+0x1bc/0x3cc fs/namei.c:3818
+ do_sys_openat2+0x128/0x3d8 fs/open.c:1318
+ do_sys_open fs/open.c:1334 [inline]
+ __do_sys_openat fs/open.c:1350 [inline]
+ __se_sys_openat fs/open.c:1345 [inline]
+ __arm64_sys_openat+0x1f0/0x240 fs/open.c:1345
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
+ el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x64/0x218 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x168 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:585
+
+Allocated by task 2:
+ kasan_save_stack mm/kasan/common.c:45 [inline]
+ kasan_set_track+0x4c/0x80 mm/kasan/common.c:52
+ kasan_save_alloc_info+0x24/0x30 mm/kasan/generic.c:505
+ __kasan_slab_alloc+0x74/0x8c mm/kasan/common.c:328
+ kasan_slab_alloc include/linux/kasan.h:201 [inline]
+ slab_post_alloc_hook+0x74/0x458 mm/slab.h:737
+ slab_alloc_node mm/slub.c:3398 [inline]
+ kmem_cache_alloc_node+0x258/0x3b4 mm/slub.c:3443
+ alloc_task_struct_node kernel/fork.c:171 [inline]
+ dup_task_struct+0x74/0x7dc kernel/fork.c:980
+ copy_process+0x530/0x38d0 kernel/fork.c:2098
+ kernel_clone+0x1d8/0x98c kernel/fork.c:2682
+ kernel_thread+0x128/0x1a8 kernel/fork.c:2742
+ create_kthread kernel/kthread.c:399 [inline]
+ kthreadd+0x49c/0x674 kernel/kthread.c:746
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:864
+
+Freed by task 4494:
+ kasan_save_stack mm/kasan/common.c:45 [inline]
+ kasan_set_track+0x4c/0x80 mm/kasan/common.c:52
+ kasan_save_free_info+0x38/0x5c mm/kasan/generic.c:516
+ ____kasan_slab_free+0x144/0x1c0 mm/kasan/common.c:236
+ __kasan_slab_free+0x18/0x28 mm/kasan/common.c:244
+ kasan_slab_free include/linux/kasan.h:177 [inline]
+ slab_free_hook mm/slub.c:1724 [inline]
+ slab_free_freelist_hook mm/slub.c:1750 [inline]
+ slab_free mm/slub.c:3661 [inline]
+ kmem_cache_free+0x2f0/0x588 mm/slub.c:3683
+ free_task_struct kernel/fork.c:176 [inline]
+ free_task+0xe8/0x14c kernel/fork.c:563
+ __put_task_struct+0x178/0x210 kernel/fork.c:851
+ put_task_struct include/linux/sched/task.h:145 [inline]
+ delayed_put_task_struct+0x140/0x404 kernel/exit.c:225
+ rcu_do_batch kernel/rcu/tree.c:2264 [inline]
+ rcu_core+0x878/0x1c10 kernel/rcu/tree.c:2524
+ rcu_core_si+0x10/0x1c kernel/rcu/tree.c:2541
+ __do_softirq+0x314/0xe38 kernel/softirq.c:571
+
+Last potentially related work creation:
+ kasan_save_stack+0x40/0x70 mm/kasan/common.c:45
+ __kasan_record_aux_stack+0xcc/0xe8 mm/kasan/generic.c:486
+ kasan_record_aux_stack_noalloc+0x14/0x20 mm/kasan/generic.c:496
+ call_rcu+0xfc/0xa40 kernel/rcu/tree.c:2812
+ put_task_struct_rcu_user+0x68/0xcc kernel/exit.c:231
+ finish_task_switch+0x5c4/0x624 kernel/sched/core.c:5158
+ context_switch kernel/sched/core.c:5248 [inline]
+ __schedule+0xee8/0x1c98 kernel/sched/core.c:6558
+ preempt_schedule_irq+0x8c/0x1b8 kernel/sched/core.c:6870
+ arm64_preempt_schedule_irq arch/arm64/kernel/entry-common.c:265 [inline]
+ __el1_irq arch/arm64/kernel/entry-common.c:474 [inline]
+ el1_interrupt+0x4c/0x68 arch/arm64/kernel/entry-common.c:486
+ el1h_64_irq_handler+0x18/0x24 arch/arm64/kernel/entry-common.c:491
+ el1h_64_irq+0x64/0x68 arch/arm64/kernel/entry.S:581
+ arch_atomic64_or arch/arm64/include/asm/atomic.h:65 [inline]
+ arch_atomic_long_or include/linux/atomic/atomic-long.h:329 [inline]
+ arch_set_bit include/asm-generic/bitops/atomic.h:18 [inline]
+ set_bit include/asm-generic/bitops/instrumented-atomic.h:29 [inline]
+ set_nilfs_discontinued fs/nilfs2/the_nilfs.h:209 [inline]
+ nilfs_free_incomplete_logs fs/nilfs2/segment.c:1449 [inline]
+ trace_nilfs2_collection_stage_transition+0x0/0x41c fs/nilfs2/segment.c:1834
+ nilfs_segctor_construct+0x110/0x768 fs/nilfs2/segment.c:2414
+ nilfs_segctor_thread_construct fs/nilfs2/segment.c:2522 [inline]
+ nilfs_segctor_thread+0x3d4/0xd74 fs/nilfs2/segment.c:2605
+ kthread+0x250/0x2d8 kernel/kthread.c:376
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:864
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x40/0x70 mm/kasan/common.c:45
+ __kasan_record_aux_stack+0xcc/0xe8 mm/kasan/generic.c:486
+ kasan_record_aux_stack_noalloc+0x14/0x20 mm/kasan/generic.c:496
+ call_rcu+0xfc/0xa40 kernel/rcu/tree.c:2812
+ put_task_struct_rcu_user+0x68/0xcc kernel/exit.c:231
+ finish_task_switch+0x5c4/0x624 kernel/sched/core.c:5158
+ context_switch kernel/sched/core.c:5248 [inline]
+ __schedule+0xee8/0x1c98 kernel/sched/core.c:6558
+ schedule+0xc4/0x170 kernel/sched/core.c:6634
+ do_nanosleep+0x170/0x504 kernel/time/hrtimer.c:2044
+ hrtimer_nanosleep+0x1f0/0x384 kernel/time/hrtimer.c:2097
+ common_nsleep+0xa8/0xc0 kernel/time/posix-timers.c:1267
+ __do_sys_clock_nanosleep kernel/time/posix-timers.c:1308 [inline]
+ __se_sys_clock_nanosleep kernel/time/posix-timers.c:1285 [inline]
+ __arm64_sys_clock_nanosleep+0x350/0x38c kernel/time/posix-timers.c:1285
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
+ el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x64/0x218 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x168 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:585
+
+The buggy address belongs to the object at ffff0000d61a0000
+ which belongs to the cache task_struct of size 6848
+The buggy address is located 2480 bytes inside of
+ 6848-byte region [ffff0000d61a0000, ffff0000d61a1ac0)
+
+The buggy address belongs to the physical page:
+page:00000000a5d0dda9 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1161a0
+head:00000000a5d0dda9 order:3 compound_mapcount:0 compound_pincount:0
+flags: 0x5ffc00000010200(slab|head|node=0|zone=2|lastcpupid=0x7ff)
+raw: 05ffc00000010200 fffffc0003525200 dead000000000002 ffff0000c03dcf00
+raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff0000d61a0880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff0000d61a0900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff0000d61a0980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                     ^
+ ffff0000d61a0a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff0000d61a0a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================

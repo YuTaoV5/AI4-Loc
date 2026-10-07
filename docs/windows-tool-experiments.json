@@ -1,0 +1,73 @@
+{
+  "platform": "nt",
+  "syntheticFixtures": true,
+  "results": [
+    {
+      "name": "compile-x86_64",
+      "passed": true,
+      "seconds": 0.2171
+    },
+    {
+      "name": "ELF-symbols-x86_64",
+      "passed": true,
+      "seconds": 0.0403
+    },
+    {
+      "name": "disassembly-x86_64",
+      "passed": true,
+      "seconds": 0.0389
+    },
+    {
+      "name": "DWARF-line-x86_64",
+      "passed": true,
+      "seconds": 0.0294
+    },
+    {
+      "name": "compile-aarch64",
+      "passed": true,
+      "seconds": 0.3292
+    },
+    {
+      "name": "ELF-symbols-aarch64",
+      "passed": true,
+      "seconds": 0.0369
+    },
+    {
+      "name": "disassembly-aarch64",
+      "passed": true,
+      "seconds": 0.0366
+    },
+    {
+      "name": "DWARF-line-aarch64",
+      "passed": true,
+      "seconds": 0.0293
+    },
+    {
+      "name": "large-log-search",
+      "passed": true,
+      "seconds": 0.1032,
+      "inputBytes": 108000055
+    },
+    {
+      "name": "kernel-source-search",
+      "passed": true,
+      "seconds": 0.0332
+    },
+    {
+      "name": "compile-COFF",
+      "passed": true,
+      "seconds": 0.1134
+    },
+    {
+      "name": "link-PDB",
+      "passed": true,
+      "seconds": 0.073
+    },
+    {
+      "name": "PDB-public-symbols",
+      "passed": true,
+      "seconds": 0.0342
+    }
+  ],
+  "passed": true
+}

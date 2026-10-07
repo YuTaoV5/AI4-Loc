@@ -1,12 +1,18 @@
 const {test,before,after}=require('node:test');const assert=require('node:assert/strict');const fs=require('fs'),path=require('path'),os=require('os'),crypto=require('crypto');const {execFileSync}=require('child_process');
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'kernel-insight-test-'));process.env.KERNEL_INSIGHT_DATA_DIR=temp;
+process.env.KERNEL_BENCHMARK_DIR=path.join(__dirname,'fixtures/community-v1');
 const app=require('../server/index');const {analyze,builtins}=require('../server/analyzer');const kernels=require('../server/kernels');
-const manifest=require('../data/benchmark/manifest.json');let server,base,adminToken,testerToken,otherToken;const nativeFetch=global.fetch;
+const manifest=require('./fixtures/community-v1/manifest.json');let server,base,adminToken,testerToken,otherToken;const nativeFetch=global.fetch;
 before(async()=>{server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));base=`http://127.0.0.1:${server.address().port}`;const login=async(url,body)=>nativeFetch(base+url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());adminToken=(await login('/api/auth/login',{username:'admin',password:'admin'})).token;testerToken=(await login('/api/auth/register',{username:'test_user',password:'test-pass'})).token;otherToken=(await login('/api/auth/register',{username:'other_user',password:'test-pass'})).token;global.fetch=(url,options={})=>nativeFetch(url,String(url).startsWith(base)?{...options,headers:{Authorization:'Bearer '+testerToken,...options.headers}}:options);});
 after(()=>{global.fetch=nativeFetch;server.close();const resolved=path.resolve(temp);assert.ok(resolved.startsWith(path.resolve(os.tmpdir())+path.sep)&&path.basename(resolved).startsWith('kernel-insight-test-'));fs.rmSync(resolved,{recursive:true,force:true});});
 const req=async(u,body,headers={})=>{const r=await fetch(base+u,body===undefined?{headers}:{method:'POST',headers:{'Content-Type':'application/json',...headers},body:JSON.stringify(body)});return {status:r.status,body:await r.json()};};
 async function waitJob(id){for(let i=0;i<50;i++){const j=(await req('/api/jobs',undefined,{Authorization:'Bearer '+adminToken})).body.find(j=>j.id===id);if(!['queued','running'].includes(j.status))return j;await new Promise(r=>setTimeout(r,20));}throw Error('Job timeout');}
-const log=c=>fs.readFileSync(path.join(__dirname,'../data/benchmark',c.logPath),'utf8');
+const log=c=>fs.readFileSync(path.join(__dirname,'fixtures/community-v1',c.logPath),'utf8');
+test('low disk space refuses new analysis before creating a task and keeps reports readable',async()=>{
+ const statfs=fs.statfsSync,headers={Authorization:'Bearer '+adminToken};const before=(await req('/api/jobs',undefined,headers)).body.length;
+ fs.statfsSync=()=>({bavail:0,bsize:4096});
+ try{const result=await req('/api/benchmark/'+manifest.cases[0].id+'/analyze',{},headers);assert.equal(result.status,507);assert.equal((await req('/api/jobs',undefined,headers)).body.length,before);}finally{fs.statfsSync=statfs;}
+});
 test('account management is administrator-only and cannot remove the final administrator',async()=>{
  assert.equal((await req('/api/admin/users')).status,403);const rows=(await req('/api/admin/users',undefined,{Authorization:'Bearer '+adminToken})).body;assert.ok(rows.every(u=>!u.passwordHash&&!u.salt));const target=rows.find(u=>u.username==='other_user'),admin=rows.find(u=>u.username==='admin');
  assert.equal((await req('/api/admin/users/'+target.id+'/role',{role:'leader'})).status,403);assert.equal((await req('/api/admin/users/'+target.id+'/role',{role:'invalid'},{Authorization:'Bearer '+adminToken})).status,400);assert.equal((await req('/api/admin/users/'+admin.id+'/role',{role:'tester'},{Authorization:'Bearer '+adminToken})).status,409);
@@ -129,4 +135,19 @@ test('analysis requests coalesce, reuse results, isolate owners, and rerun chang
  const forced=await req('/api/analyze',{...body,forceRerun:true},headers);assert.notEqual(forced.body[0].id,a.body[0].id);await waitJob(forced.body[0].id);
  const changed=await req('/api/analyze',{...body,skillPreset:'custom',skillIds:['memory-oob']},headers);assert.notEqual(changed.body[0].id,forced.body[0].id);await waitJob(changed.body[0].id);const other=await req('/api/analyze',body,{Authorization:'Bearer '+otherToken});assert.notEqual(other.body[0].id,a.body[0].id);await waitJob(other.body[0].id);
  const trialA=(await req('/api/benchmark/LINUX-001/analyze',{autoSource:false},headers)).body;await waitJob(trialA.id);const trialB=(await req('/api/benchmark/LINUX-001/analyze',{autoSource:false},headers)).body;assert.equal(trialA.id,trialB.id);assert.equal(trialB.reused,true);
+});
+
+test('diagnostic materials validate file types, bind ownership and change task reuse conditions',async()=>{
+ const send=async(name,bytes,kind='symbols',headers={})=>{const fd=new FormData();fd.append(kind,new Blob([bytes]),name);return fetch(base+'/api/materials',{method:'POST',body:fd,headers});};
+ assert.equal((await send('fake.elf','not ELF')).status,400);
+ const elf=Buffer.alloc(64);Buffer.from([127,69,76,70,2,1,1]).copy(elf);elf.writeUInt16LE(2,16);elf.writeUInt16LE(62,18);
+ assert.equal((await send('wrong.vmcore',elf,'vmcore')).status,400);
+ const response=await send('vmlinux',elf);assert.equal(response.status,201);const bundle=await response.json();assert.equal(bundle.files[0].sha256,crypto.createHash('sha256').update(elf).digest('hex'));
+ assert.equal((await req('/api/materials/'+bundle.id,undefined,{Authorization:'Bearer '+otherToken})).status,403);
+ assert.equal((await req('/api/analyze',{logText:'normal material fixture',autoSource:'false',materialsId:bundle.id},{Authorization:'Bearer '+otherToken})).status,400);
+ const first=(await req('/api/analyze',{logText:'normal material fixture',autoSource:'false',materialsId:bundle.id})).body[0];
+ assert.equal((await waitJob(first.id)).materials.id,bundle.id);
+ const different=(await req('/api/analyze',{logText:'normal material fixture',autoSource:'false'})).body[0];assert.notEqual(first.id,different.id);
+ const reused=(await req('/api/analyze',{logText:'normal material fixture',autoSource:'false',materialsId:bundle.id})).body[0];assert.equal(reused.id,first.id);assert.equal(reused.reused,true);
+ assert.equal((await send('.config','CONFIG_DEBUG_INFO=y\n','kernelConfig')).status,201);
 });
