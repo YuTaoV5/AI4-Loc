@@ -1,0 +1,2355 @@
+{
+  "schema": "kernel-localization-iteration/v1",
+  "date": "2026-10-07",
+  "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+  "model": "qwen3.8:27b-kernel-8k",
+  "change": "Bounded source triage from task filename and observed stack frames before model call; source reads remain traced and source locations require read evidence. No labels or scenario IDs are used as model input.",
+  "configuration": {
+    "transport": "ollama-native",
+    "eagerBoundary": true,
+    "sourceTriage": true,
+    "maxModelCalls": 8,
+    "timeoutSeconds": 240
+  },
+  "before": {
+    "completed": 5,
+    "total": 6,
+    "codeLocationAccuracy": 0.6,
+    "codeLocationDenominator": 5,
+    "modelRequests": 21,
+    "localizationSeconds": 181.347,
+    "rootCauseAccuracy": null
+  },
+  "after": {
+    "completed": 6,
+    "total": 6,
+    "codeLocationAccuracy": 1.0,
+    "codeLocationDenominator": 5,
+    "modelRequests": 6,
+    "localizationSeconds": 95.834,
+    "rootCauseAccuracy": null
+  },
+  "improvement": {
+    "codeLocationPercentagePoints": 40,
+    "modelRequestReductionPercent": 71.42857142857143,
+    "totalAnalysisTimeReductionPercent": 47.15435049931899
+  },
+  "pairedRuns": [
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "family": "memory_uaf",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.0048,
+          "localizationSeconds": 47.27,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 27.469,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4994,
+                "outputTokens": 58,
+                "generationSeconds": 1.093144
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.239,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5332,
+                "outputTokens": 57,
+                "generationSeconds": 1.056843
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.047,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6683,
+                "outputTokens": 381,
+                "generationSeconds": 7.799508
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0048,
+          "localizationSeconds": 18.166,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 18.004,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6457,
+                "outputTokens": 550,
+                "generationSeconds": 9.609038
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "leak_kmalloc",
+      "family": "memory_leak",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 5,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 4,
+          "firstSceneSeconds": 0.004,
+          "localizationSeconds": 25.507,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 4.705,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2212,
+                "outputTokens": 58,
+                "generationSeconds": 0.909841
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 3.182,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2549,
+                "outputTokens": 111,
+                "generationSeconds": 1.937853
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.656,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4278,
+                "outputTokens": 587,
+                "generationSeconds": 10.403685
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.004,
+          "localizationSeconds": 15.49,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 14.924,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 3621,
+                "outputTokens": 577,
+                "generationSeconds": 9.686199
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "family": "lock_order",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 26.81,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 6.708,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4301,
+                "outputTokens": 58,
+                "generationSeconds": 0.909182
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.104,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4694,
+                "outputTokens": 56,
+                "generationSeconds": 0.852564
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 17.154,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6016,
+                "outputTokens": 587,
+                "generationSeconds": 9.796968
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 17.521,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 17.359,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5791,
+                "outputTokens": 569,
+                "generationSeconds": 9.807212
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "lock_sleep_atomic",
+      "family": "atomic_sleep",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.0858,
+          "localizationSeconds": 21.935,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 5.606,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2818,
+                "outputTokens": 57,
+                "generationSeconds": 0.800484
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.002,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 3276,
+                "outputTokens": 57,
+                "generationSeconds": 0.798621
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 13.341,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 3395,
+                "outputTokens": 439,
+                "generationSeconds": 8.335566999
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0046,
+          "localizationSeconds": 17.783,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 17.052,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4322,
+                "outputTokens": 601,
+                "generationSeconds": 11.412506
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "pressure_oom",
+      "family": "oom",
+      "profile": "log+source",
+      "before": {
+        "status": "failed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 8,
+          "toolCalls": 7,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 6,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 45.904,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 7.448,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5376,
+                "outputTokens": 65,
+                "generationSeconds": 0.998697
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 0.435,
+              "status": "error",
+              "error": "HTTP Error 500: Internal Server Error"
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 8.754,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 7393,
+                "outputTokens": 14,
+                "generationSeconds": 0.248341
+              }
+            },
+            {
+              "index": 4,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 1.701,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 7438,
+                "outputTokens": 14,
+                "generationSeconds": 0.338782
+              }
+            },
+            {
+              "index": 5,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.348,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 7483,
+                "outputTokens": 58,
+                "generationSeconds": 1.00355
+              }
+            },
+            {
+              "index": 6,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 6.855,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4363,
+                "outputTokens": 51,
+                "generationSeconds": 0.655118
+              }
+            },
+            {
+              "index": 7,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 1.848,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4635,
+                "outputTokens": 40,
+                "generationSeconds": 0.494554
+              }
+            },
+            {
+              "index": 8,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 15.845,
+              "status": "error",
+              "usage": {
+                "promptTokens": 8183,
+                "outputTokens": 9,
+                "generationSeconds": 5.751162
+              },
+              "error": "Unterminated string starting at: line 1 column 29 (char 28)"
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": "Unterminated string starting at: line 1 column 29 (char 28)"
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 17.156,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.592,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5524,
+                "outputTokens": 563,
+                "generationSeconds": 9.951171
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "baseline",
+      "family": "healthy",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 1,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": null,
+          "localizationSeconds": 13.921,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 13.917,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5011,
+                "outputTokens": 409,
+                "generationSeconds": 7.464892
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 1,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": null,
+          "localizationSeconds": 9.718,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 9.714,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5011,
+                "outputTokens": 409,
+                "generationSeconds": 7.969677
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    }
+  ],
+  "holdout": {
+    "schema": "kernel-localization-benchmark/v1",
+    "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+    "agentSha256": "b920fab064c020c9afb2162ebb003477c4f8d2fc17477b968541370b2b65c1cd",
+    "model": "qwen3.8:27b-kernel-8k",
+    "configuration": {
+      "transport": "ollama-native",
+      "eagerBoundary": true,
+      "sourceTriage": true,
+      "maxModelCalls": 8,
+      "timeoutSeconds": 240
+    },
+    "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+    "runs": [
+      {
+        "caseId": "lkdtm_ACCESS_NULL",
+        "family": "protection",
+        "profile": "log+source",
+        "split": "train",
+        "status": "completed",
+        "metrics": {
+          "modelRequests": 4,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.005,
+          "localizationSeconds": 28.464,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 3.834,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 1952,
+                "outputTokens": 39,
+                "generationSeconds": 0.599396
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 5.105,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5815,
+                "outputTokens": 30,
+                "generationSeconds": 0.404792
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.134,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5990,
+                "outputTokens": 59,
+                "generationSeconds": 0.896629
+              }
+            },
+            {
+              "index": 4,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.621,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5996,
+                "outputTokens": 547,
+                "generationSeconds": 9.500897
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "scores": {
+          "codeLocationHit": true,
+          "functionHit": true,
+          "rootCauseMechanismCorrect": null,
+          "introducingCommitCorrect": null,
+          "requiresHumanMechanismReview": true,
+          "identifiability": "incident log supplied"
+        },
+        "analysis": {
+          "category": "内存越界",
+          "summary": "LKDTM 故意触发空指针读取，KASAN 报告 null-ptr-deref，随后内核 panic。",
+          "hypotheses": [
+            {
+              "cause": "lkdtm_ACCESS_NULL 主动解引用 NULL 指针，属预期故障注入测试。",
+              "evidenceLines": [
+                445,
+                446,
+                447,
+                450,
+                467
+              ],
+              "confidence": "high",
+              "verification": "源码 perms.c:213-216 显示 ptr=NULL 且 tmp=*ptr，与日志 RIP 一致。"
+            }
+          ],
+          "nextSteps": [
+            "确认该 panic 是否由 LKDTM 测试用例主动触发",
+            "检查 lkdtm 调用入口 full_proxy_write 的参数来源",
+            "若为生产环境，排查为何允许 LKDTM 模块加载"
+          ],
+          "limitations": [
+            "无 artifacts，无法确认完整调用链上下文",
+            "未验证 KASAN 报告与 panic 的因果关系细节"
+          ],
+          "firstScene": {
+            "stage": "runtime",
+            "reportingComponent": "lkdtm",
+            "affectedComponent": "lkdtm",
+            "description": "LKDTM 模块执行空指针读取测试，触发 GPF 和 KASAN 报告，导致内核 panic。",
+            "evidenceRefs": [
+              "T1",
+              "T2"
+            ]
+          },
+          "localization": {
+            "status": "code_candidate",
+            "mechanism": "故意解引用 NULL 指针",
+            "candidateSymbols": [
+              "lkdtm_ACCESS_NULL",
+              "full_proxy_write"
+            ],
+            "locations": [
+              {
+                "path": "drivers/misc/lkdtm/perms.c",
+                "symbol": "lkdtm_ACCESS_NULL",
+                "startLine": 210,
+                "endLine": 219,
+                "evidenceRefs": [
+                  "T3",
+                  "T4"
+                ]
+              }
+            ],
+            "introducingCommit": null,
+            "verification": {
+              "status": "source_supported",
+              "missing": [
+                "完整调用链上下文",
+                "KASAN 报告细节"
+              ],
+              "nextCheck": "确认 LKDTM 测试用例触发条件"
+            },
+            "rootCauseVerified": false
+          }
+        },
+        "error": null
+      },
+      {
+        "caseId": "corrupt_oob_kmalloc",
+        "family": "memory_oob",
+        "profile": "log+source",
+        "split": "train",
+        "status": "completed",
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0042,
+          "localizationSeconds": 16.992,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.833,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6601,
+                "outputTokens": 551,
+                "generationSeconds": 9.114019
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "scores": {
+          "codeLocationHit": true,
+          "functionHit": true,
+          "rootCauseMechanismCorrect": null,
+          "introducingCommitCorrect": null,
+          "requiresHumanMechanismReview": true,
+          "identifiability": "incident log supplied"
+        },
+        "analysis": {
+          "category": "内存越界",
+          "summary": "ki_bench模块在64字节kmalloc对象上写入128字节，触发KASAN slab-out-of-bounds并panic。",
+          "hypotheses": [
+            {
+              "cause": "ki_oob_kmalloc中循环越界写：分配64字节却写128字节",
+              "evidenceLines": [
+                449,
+                450,
+                486,
+                495,
+                497
+              ],
+              "confidence": "high",
+              "verification": "源码第96行kmalloc(64)，第101-102行循环i<128写p[i]，与KASAN报告64字节对象右侧越界一致"
+            }
+          ],
+          "nextSteps": [
+            "确认ki_trigger_write调用路径及触发条件",
+            "检查是否存在其他越界写点",
+            "评估修复：将写入长度限制为64或扩大分配"
+          ],
+          "limitations": [
+            "未执行replay验证，仅基于源码与日志匹配"
+          ],
+          "firstScene": {
+            "stage": "runtime",
+            "reportingComponent": "KASAN",
+            "affectedComponent": "ki_bench",
+            "description": "init/1通过debugfs触发ki_bench，ki_oob_kmalloc越界写触发KASAN报告并panic",
+            "evidenceRefs": [
+              "T1"
+            ]
+          },
+          "localization": {
+            "status": "code_candidate",
+            "mechanism": "kmalloc(64)后循环写128字节，超出slab对象边界",
+            "candidateSymbols": [
+              "ki_oob_kmalloc",
+              "ki_trigger_write"
+            ],
+            "locations": [
+              {
+                "path": "external/ki_bench.c",
+                "symbol": "ki_oob_kmalloc",
+                "startLine": 94,
+                "endLine": 104,
+                "evidenceRefs": [
+                  "T2",
+                  "T3"
+                ]
+              }
+            ],
+            "introducingCommit": null,
+            "verification": {
+              "status": "source_supported",
+              "missing": [
+                "replay或独立因果验证"
+              ],
+              "nextCheck": "确认触发路径并复现越界写"
+            },
+            "rootCauseVerified": false
+          }
+        },
+        "error": null
+      },
+      {
+        "caseId": "lock_rcu_stall",
+        "family": "rcu_stall",
+        "profile": "log+source",
+        "split": "train",
+        "status": "completed",
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 4,
+          "preflightToolCalls": 4,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 18.974,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 18.813,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2994,
+                "outputTokens": 639,
+                "generationSeconds": 14.11192
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "scores": {
+          "codeLocationHit": false,
+          "functionHit": false,
+          "rootCauseMechanismCorrect": null,
+          "introducingCommitCorrect": null,
+          "requiresHumanMechanismReview": true,
+          "identifiability": "incident log supplied"
+        },
+        "analysis": {
+          "category": "待专家分析",
+          "summary": "现有证据仅为 perf 工具与内核头文件中的 dump_stack 桩实现，未包含任何故障日志、调用栈或分配/释放链，无法定位真实故障组件或因果代码。",
+          "hypotheses": [
+            {
+              "cause": "证据不足：仅见 perf 工具侧 backtrace 打印与内核 printk 头文件桩，无故障现场、无受影响子系统、无分配/同步链，无法形成可证伪假设。",
+              "evidenceLines": [],
+              "confidence": "low",
+              "verification": "需获取原始 dmesg/panic 日志、受影响模块与调用栈，再对照源码定位。"
+            }
+          ],
+          "nextSteps": [
+            "提供原始故障日志（dmesg/panic 输出）与受影响子系统名称",
+            "提供完整调用栈及分配/释放或锁等待链",
+            "确认故障发生阶段（boot/runtime/shutdown）与触发条件"
+          ],
+          "limitations": [
+            "T3 为 perf 用户态工具代码，非内核故障路径",
+            "T4 为 printk 头文件桩定义，非实际故障代码",
+            "无任何日志行号、任务名、CPU 号或访问/阻塞现场"
+          ],
+          "firstScene": {
+            "stage": "unknown",
+            "reportingComponent": "unknown",
+            "affectedComponent": "unknown",
+            "description": "无故障日志，无法确定报告组件、受影响组件或生命周期阶段。",
+            "evidenceRefs": [
+              "T3",
+              "T4"
+            ]
+          },
+          "localization": {
+            "status": "insufficient",
+            "mechanism": "现有源码片段仅为 dump_stack 桩与 printk 宏定义，未涉及任何故障因果路径。",
+            "candidateSymbols": [
+              "dump_stack"
+            ],
+            "locations": [
+              {
+                "path": "tools/perf/util/debug.c",
+                "symbol": "dump_stack",
+                "startLine": 239,
+                "endLine": 252,
+                "evidenceRefs": [
+                  "T3"
+                ]
+              },
+              {
+                "path": "include/linux/printk.h",
+                "symbol": "dump_stack",
+                "startLine": 272,
+                "endLine": 274,
+                "evidenceRefs": [
+                  "T4"
+                ]
+              }
+            ],
+            "introducingCommit": null,
+            "verification": {
+              "status": "unverified",
+              "missing": [
+                "原始故障日志",
+                "受影响子系统",
+                "完整调用栈"
+              ],
+              "nextCheck": "获取 dmesg/panic 日志后重新定位"
+            },
+            "rootCauseVerified": false
+          }
+        },
+        "error": null
+      }
+    ],
+    "aggregate": {
+      "completed": 3,
+      "total": 3,
+      "codeLocationAccuracy": 0.6666666666666666,
+      "codeLocationDenominator": 3,
+      "modelRequests": 6,
+      "localizationSeconds": 64.43,
+      "rootCauseAccuracy": null
+    }
+  },
+  "regressionQueue": [
+    {
+      "caseId": "lock_rcu_stall",
+      "reason": "Additional held-out scenario completed but causal code location was not hit",
+      "status": "open"
+    },
+    {
+      "caseId": "pressure_oom",
+      "reason": "Offline report describes approximately 8 GB allocation without clearly separating code target from actually reached RSS; mechanism wording needs independent review",
+      "status": "needs_review"
+    }
+  ],
+  "limitations": [
+    "Fixed six-case pilot, five faults and one healthy baseline; not full corpus or production generalization.",
+    "Synthetic symbols can reveal mechanisms.",
+    "Code hit requires path, symbol and overlapping labeled function range; this does not prove causal explanation correctness.",
+    "Mechanism correctness and introducing-commit accuracy remain null; no fix replay or vmcore.",
+    "Holdout ran concurrently with early acceptance checks; service contention can affect its latency.",
+    "Automatic tool calls are separately counted; a single model request does not mean zero tool work."
+  ],
+  "experiments": [
+    {
+      "name": "iteration-control-v9",
+      "resultSha256": "578d1ae5ae11d4feb7e1bb55ba703502dda707c8b634daef7cf7a3f0b9270f13",
+      "schema": "kernel-localization-benchmark/v1",
+      "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "agentSha256": "b4d5a74cccfed9ef8e43f4976867f32b6d02a28e40faa4609614e33d84d8ef84",
+      "model": "qwen3.8:27b-kernel-8k",
+      "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+      "runs": [
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 3,
+            "toolCalls": 4,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 3,
+            "firstSceneSeconds": 0.0048,
+            "localizationSeconds": 47.27,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 27.469,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4994,
+                  "outputTokens": 58,
+                  "generationSeconds": 1.093144
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 2.239,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5332,
+                  "outputTokens": 57,
+                  "generationSeconds": 1.056843
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 16.047,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 6683,
+                  "outputTokens": 381,
+                  "generationSeconds": 7.799508
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "KASAN 报告 ki_bench 模块 ki_uaf_kmalloc 对已 kfree 的 128 字节对象写入 1 字节，触发 use-after-free。",
+            "hypotheses": [
+              {
+                "cause": "ki_uaf_kmalloc 在 kfree(p) 后仍执行 p[0]='X'，对已释放对象写入",
+                "evidenceLines": [
+                  448,
+                  449,
+                  500,
+                  513
+                ],
+                "confidence": "high",
+                "verification": "源码 external/ki_bench.c:108-113 显示 kmalloc 后 kfree 再写 p[0]，与 KASAN 分配/释放/访问栈一致"
+              }
+            ],
+            "nextSteps": [
+              "确认 ki_trigger_write 调用路径与触发条件",
+              "检查是否存在其他同类 UAF 调用点",
+              "复现并验证修复后 KASAN 不再报告"
+            ],
+            "limitations": [
+              "未执行复现或独立因果验证",
+              "未检查模块其他潜在缺陷"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench",
+              "description": "init 任务写 debugfs 触发 ki_bench 的 UAF 检测",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kmalloc 分配后 kfree 释放，随后对同一指针写入，KASAN 检测到 use-after-free",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_uaf_kmalloc",
+                  "startLine": 106,
+                  "endLine": 114,
+                  "evidenceRefs": [
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "复现验证",
+                  "引入提交"
+                ],
+                "nextCheck": "确认修复后 KASAN 不再报告"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "leak_kmalloc",
+          "family": "memory_leak",
+          "profile": "log+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 3,
+            "toolCalls": 5,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 4,
+            "firstSceneSeconds": 0.004,
+            "localizationSeconds": 25.507,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 4.705,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 2212,
+                  "outputTokens": 58,
+                  "generationSeconds": 0.909841
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 3.182,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 2549,
+                  "outputTokens": 111,
+                  "generationSeconds": 1.937853
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 16.656,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4278,
+                  "outputTokens": 587,
+                  "generationSeconds": 10.403685
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "kmemleak 报告 1 个 4096 字节疑似泄漏，分配栈指向 ki_bench 模块 ki_leak_kmalloc；源码显示该函数故意分配后丢弃引用，属受控泄漏注入。",
+            "hypotheses": [
+              {
+                "cause": "ki_bench 模块 ki_leak_kmalloc 故意分配 4096 字节并丢弃唯一引用，触发 kmemleak 报告",
+                "evidenceLines": [
+                  446,
+                  453,
+                  454
+                ],
+                "confidence": "high",
+                "verification": "源码 T4 第55-62行确认分配后 leak_sink=NULL 且无 kfree，与日志分配栈一致"
+              }
+            ],
+            "nextSteps": [
+              "确认该泄漏为 ki_bench 注入的受控测试而非真实缺陷",
+              "检查 /sys/kernel/debug/kmemleak 是否仅此一条",
+              "如需修复，在 ki_leak_kmalloc 中补 kfree(p)"
+            ],
+            "limitations": [
+              "无 git 历史，无法给出引入提交",
+              "未做复现验证"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kmemleak",
+              "affectedComponent": "ki_bench (external module)",
+              "description": "运行时 kmemleak 报告 1 个 4096 字节疑似泄漏，分配栈位于 ki_bench 模块",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kmalloc(4096) 后唯一引用被置 NULL 且未释放，对象不可达",
+              "candidateSymbols": [
+                "ki_leak_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_leak_kmalloc",
+                  "startLine": 55,
+                  "endLine": 62,
+                  "evidenceRefs": [
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "复现/独立因果验证",
+                  "引入提交"
+                ],
+                "nextCheck": "在触发后检查 kmemleak 计数并确认无其他引用"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_mutex_abba",
+          "family": "lock_order",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 3,
+            "toolCalls": 4,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 3,
+            "firstSceneSeconds": 0.0041,
+            "localizationSeconds": 26.81,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 6.708,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4301,
+                  "outputTokens": 58,
+                  "generationSeconds": 0.909182
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 2.104,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4694,
+                  "outputTokens": 56,
+                  "generationSeconds": 0.852564
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 17.154,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 6016,
+                  "outputTokens": 587,
+                  "generationSeconds": 9.796968
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "RCU / 锁死",
+            "summary": "ki_bench 模块线程 ki_thr_mutex_abba 以相反顺序获取 ki_mutex_a/ki_mutex_b，触发 lockdep 循环锁依赖告警（ABBA 死锁模式）。",
+            "hypotheses": [
+              {
+                "cause": "同一函数先按 a→b 再按 b→a 顺序加锁，形成循环依赖，lockdep 报 circular locking dependency",
+                "evidenceLines": [
+                  447,
+                  451,
+                  454,
+                  488
+                ],
+                "confidence": "high",
+                "verification": "源码 external/ki_bench.c:126-134 显示两次相反顺序 mutex_lock，与日志锁链一致"
+              }
+            ],
+            "nextSteps": [
+              "统一 ki_mutex_a/ki_mutex_b 的加锁顺序，消除 ABBA",
+              "复跑 ki_bench 触发器确认 lockdep 告警消失",
+              "检查同文件 spin_abba/recursive_spin 等其它锁场景"
+            ],
+            "limitations": [
+              "仅 lockdep 告警，未观察到实际死锁挂起",
+              "未做 git blame，无法确定引入提交"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "lockdep",
+              "affectedComponent": "ki_bench (ki_thr_mutex_abba)",
+              "description": "模块加载后线程以相反顺序获取两互斥锁，lockdep 检测到循环依赖",
+              "evidenceRefs": [
+                "T1",
+                "T4"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "ABBA 锁顺序不一致导致循环锁依赖",
+              "candidateSymbols": [
+                "ki_thr_mutex_abba"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_thr_mutex_abba",
+                  "startLine": 124,
+                  "endLine": 137,
+                  "evidenceRefs": [
+                    "T4",
+                    "T1"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "引入提交",
+                  "实际死锁复现"
+                ],
+                "nextCheck": "统一加锁顺序后复跑触发器验证 lockdep 不再告警"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_sleep_atomic",
+          "family": "atomic_sleep",
+          "profile": "log+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 3,
+            "toolCalls": 4,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 3,
+            "firstSceneSeconds": 0.0858,
+            "localizationSeconds": 21.935,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 5.606,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 2818,
+                  "outputTokens": 57,
+                  "generationSeconds": 0.800484
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 2.002,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 3276,
+                  "outputTokens": 57,
+                  "generationSeconds": 0.798621
+                }
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 13.341,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 3395,
+                  "outputTokens": 439,
+                  "generationSeconds": 8.335566999
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "锁依赖",
+            "summary": "ki_bench 模块线程 ki_thr_sleep_atomic 在持有自旋锁 ki_spin_a 期间调用 msleep 触发调度，导致 scheduling while atomic，panic_on_warn 触发内核 panic。",
+            "hypotheses": [
+              {
+                "cause": "持有自旋锁 ki_spin_a 期间调用 msleep(50) 进入可睡眠调度路径，触发 scheduling while atomic 警告并因 panic_on_warn 转为 panic",
+                "evidenceLines": [
+                  446,
+                  448,
+                  469,
+                  472
+                ],
+                "confidence": "high",
+                "verification": "源码 ki_bench.c:168-171 显示 spin_lock(&ki_spin_a) 后直接 msleep(50)，与日志锁持有及 msleep 调用栈一致"
+              }
+            ],
+            "nextSteps": [
+              "确认 ki_bench 为测试/基准模块，非生产组件",
+              "检查该模块是否应被移除或禁用",
+              "如需修复，将 msleep 移出临界区或改用不可睡眠等待"
+            ],
+            "limitations": [
+              "未执行 git blame，无法确定引入提交",
+              "无独立复现或因果回放验证"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kernel/scheduler (scheduling while atomic)",
+              "affectedComponent": "ki_bench (out-of-tree module)",
+              "description": "模块线程在原子上下文持自旋锁时调用 msleep 触发调度，panic_on_warn 导致内核 panic",
+              "evidenceRefs": [
+                "T1",
+                "T4"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "spin_lock 后调用可睡眠的 msleep，进入 __schedule 触发 scheduling while atomic 警告",
+              "candidateSymbols": [
+                "ki_thr_sleep_atomic",
+                "msleep",
+                "schedule_timeout"
+              ],
+              "locations": [
+                {
+                  "path": "./external/ki_bench.c",
+                  "symbol": "ki_thr_sleep_atomic",
+                  "startLine": 166,
+                  "endLine": 173,
+                  "evidenceRefs": [
+                    "T2",
+                    "T4"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "引入提交",
+                  "独立复现验证"
+                ],
+                "nextCheck": "git log/blame ki_bench.c 166-171 确认引入提交"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "pressure_oom",
+          "family": "oom",
+          "profile": "log+source",
+          "split": "train",
+          "status": "failed",
+          "metrics": {
+            "modelRequests": 8,
+            "toolCalls": 7,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 6,
+            "firstSceneSeconds": 0.0041,
+            "localizationSeconds": 45.904,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 7.448,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5376,
+                  "outputTokens": 65,
+                  "generationSeconds": 0.998697
+                }
+              },
+              {
+                "index": 2,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 0.435,
+                "status": "error",
+                "error": "HTTP Error 500: Internal Server Error"
+              },
+              {
+                "index": 3,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 8.754,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 7393,
+                  "outputTokens": 14,
+                  "generationSeconds": 0.248341
+                }
+              },
+              {
+                "index": 4,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 1.701,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 7438,
+                  "outputTokens": 14,
+                  "generationSeconds": 0.338782
+                }
+              },
+              {
+                "index": 5,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 2.348,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 7483,
+                  "outputTokens": 58,
+                  "generationSeconds": 1.00355
+                }
+              },
+              {
+                "index": 6,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 6.855,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4363,
+                  "outputTokens": 51,
+                  "generationSeconds": 0.655118
+                }
+              },
+              {
+                "index": 7,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 1.848,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4635,
+                  "outputTokens": 40,
+                  "generationSeconds": 0.494554
+                }
+              },
+              {
+                "index": 8,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 15.845,
+                "status": "error",
+                "usage": {
+                  "promptTokens": 8183,
+                  "outputTokens": 9,
+                  "generationSeconds": 5.751162
+                },
+                "error": "Unterminated string starting at: line 1 column 29 (char 28)"
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": null,
+          "error": "Unterminated string starting at: line 1 column 29 (char 28)"
+        },
+        {
+          "caseId": "baseline",
+          "family": "healthy",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 1,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": null,
+            "localizationSeconds": 13.921,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 13.917,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5011,
+                  "outputTokens": 409,
+                  "generationSeconds": 7.464892
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "日志仅显示正常启动与关机，未见panic、oops或错误；关键诊断行被隐藏，无法定位故障。",
+            "hypotheses": [
+              {
+                "cause": "关键诊断信息被collector隐藏，实际故障不可见",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "需获取完整未隐藏日志"
+              }
+            ],
+            "nextSteps": [
+              "获取完整未过滤的dmesg日志",
+              "检查panic_on_oops触发的具体oops记录",
+              "确认ki.scn场景对应的内核模块"
+            ],
+            "limitations": [
+              "日志437-444行被隐藏，无法看到实际错误",
+              "无source工具可用，无法检查代码",
+              "无artifact文件可供分析"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kernel",
+              "affectedComponent": "unknown",
+              "description": "系统启动后约32秒出现mount栈深度警告，随后36秒关机；中间诊断被隐藏",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "未知，关键日志被隐藏",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "完整日志",
+                  "oops/panic记录",
+                  "故障模块信息"
+                ],
+                "nextCheck": "获取未隐藏日志行437-444"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        }
+      ],
+      "aggregate": {
+        "completed": 5,
+        "total": 6,
+        "codeLocationAccuracy": 0.6,
+        "codeLocationDenominator": 5,
+        "modelRequests": 21,
+        "localizationSeconds": 181.347,
+        "rootCauseAccuracy": null
+      }
+    },
+    {
+      "name": "iteration-source-v10",
+      "resultSha256": "d2ebe0a62ffc64efa0b90ebc1d75c24c9c185a7e2d201bb22600ed85dec77fce",
+      "schema": "kernel-localization-benchmark/v1",
+      "datasetManifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "agentSha256": "b920fab064c020c9afb2162ebb003477c4f8d2fc17477b968541370b2b65c1cd",
+      "model": "qwen3.8:27b-kernel-8k",
+      "configuration": {
+        "transport": "ollama-native",
+        "eagerBoundary": true,
+        "sourceTriage": true,
+        "maxModelCalls": 8,
+        "timeoutSeconds": 240
+      },
+      "protocol": "Source location match is not mechanism correctness. No introducing-commit labels exist in synthetic injection set. Failures count in denominator. No scores fabricated for missing labels.",
+      "runs": [
+        {
+          "caseId": "corrupt_uaf_kmalloc",
+          "family": "memory_uaf",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 3,
+            "preflightToolCalls": 3,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": 0.0048,
+            "localizationSeconds": 18.166,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 18.004,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 6457,
+                  "outputTokens": 550,
+                  "generationSeconds": 9.609038
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "释放后使用",
+            "summary": "ki_bench模块在ki_uaf_kmalloc中先kfree再写p[0]，触发KASAN UAF。",
+            "hypotheses": [
+              {
+                "cause": "kmalloc分配的128字节对象在kfree后仍被写入p[0]='X'，构成释放后使用。",
+                "evidenceLines": [
+                  448,
+                  462,
+                  500
+                ],
+                "confidence": "high",
+                "verification": "源码第111行kfree(p)后第113行p[0]='X'，与KASAN分配/释放/访问栈一致。"
+              }
+            ],
+            "nextSteps": [
+              "确认ki_trigger_write调用路径是否应移除该UAF演示代码",
+              "检查模块是否仅用于基准测试，避免在生产加载",
+              "复现时验证KASAN报告地址与kmalloc-128对象一致"
+            ],
+            "limitations": [
+              "未执行replay或独立因果验证，仅基于源码与日志栈匹配"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench",
+              "description": "init/1写sysfs触发ki_uaf_kmalloc，对已释放对象写入1字节。",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kfree后继续解引用写入，KASAN检测到use-after-free。",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_uaf_kmalloc",
+                  "startLine": 106,
+                  "endLine": 114,
+                  "evidenceRefs": [
+                    "T3"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "replay或独立因果验证"
+                ],
+                "nextCheck": "移除第113行写入或调整kfree顺序后复测KASAN"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "leak_kmalloc",
+          "family": "memory_leak",
+          "profile": "log+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 3,
+            "preflightToolCalls": 3,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": 0.004,
+            "localizationSeconds": 15.49,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 14.924,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 3621,
+                  "outputTokens": 577,
+                  "generationSeconds": 9.686199
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "ki_bench 模块在触发路径中分配 4096 字节后丢弃唯一引用，kmemleak 报告新泄漏；属故意泄漏演示，非内核缺陷。",
+            "hypotheses": [
+              {
+                "cause": "ki_leak_kmalloc 分配对象后仅短暂存入 leak_sink 随即置 NULL，未 kfree，导致对象不可达",
+                "evidenceLines": [
+                  446,
+                  453
+                ],
+                "confidence": "high",
+                "verification": "源码显示分配后无释放路径，且注释明确避免打印地址以维持不可达"
+              }
+            ],
+            "nextSteps": [
+              "确认该模块为测试/演示用途，非生产路径",
+              "检查 ki_trigger_write 是否还有其他泄漏分支",
+              "如需修复，在 ki_leak_kmalloc 末尾添加 kfree(p)"
+            ],
+            "limitations": [
+              "无 git 历史，无法定位引入提交",
+              "无运行时复现，仅静态源码与日志推断"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kmemleak",
+              "affectedComponent": "ki_bench",
+              "description": "模块加载后通过 debugfs 触发，分配 4096 字节对象后丢弃引用，kmemleak 在 88.9s 报告新泄漏",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "kmalloc 分配后唯一指针被置 NULL，无 kfree，对象不可达",
+              "candidateSymbols": [
+                "ki_leak_kmalloc",
+                "ki_trigger_write.cold"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_leak_kmalloc",
+                  "startLine": 55,
+                  "endLine": 62,
+                  "evidenceRefs": [
+                    "T2",
+                    "T3"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "git blame 确认引入提交",
+                  "运行时复现确认"
+                ],
+                "nextCheck": "git log -p external/ki_bench.c 查看 ki_leak_kmalloc 引入历史"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_mutex_abba",
+          "family": "lock_order",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 3,
+            "preflightToolCalls": 3,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": 0.0041,
+            "localizationSeconds": 17.521,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 17.359,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5791,
+                  "outputTokens": 569,
+                  "generationSeconds": 9.807212
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "RCU / 锁死",
+            "summary": "ki_bench 模块在 ki_thr_mutex_abba 中以相反顺序获取 ki_mutex_a/b，触发 lockdep 循环依赖告警。",
+            "hypotheses": [
+              {
+                "cause": "同一函数先以 a→b 再故意以 b→a 顺序加锁，形成 ABBA 循环依赖",
+                "evidenceLines": [
+                  447,
+                  451,
+                  454,
+                  488
+                ],
+                "confidence": "high",
+                "verification": "源码 126-134 行确认两次相反顺序 mutex_lock；日志 451/454 显示持 b 再取 a"
+              }
+            ],
+            "nextSteps": [
+              "统一 ki_mutex_a/b 加锁顺序或改用嵌套锁",
+              "复现时确认仅 lockdep 告警而非真实死锁",
+              "检查 spin_abba 与 recursive_spin 是否同样触发"
+            ],
+            "limitations": [
+              "仅 lockdep 告警，未观察到实际挂起或 panic",
+              "未验证并发竞争是否导致真实死锁"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "lockdep",
+              "affectedComponent": "ki_bench",
+              "description": "ki_thr_mutex_abba 线程以相反顺序获取两把互斥锁，lockdep 检测到循环依赖",
+              "evidenceRefs": [
+                "T1",
+                "T3"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "ABBA 锁顺序反转导致 lockdep 循环依赖告警",
+              "candidateSymbols": [
+                "ki_thr_mutex_abba"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_thr_mutex_abba",
+                  "startLine": 124,
+                  "endLine": 137,
+                  "evidenceRefs": [
+                    "T2",
+                    "T3"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "并发复现确认是否真实死锁"
+                ],
+                "nextCheck": "在双 CPU 并发运行验证是否发生实际挂起"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "lock_sleep_atomic",
+          "family": "atomic_sleep",
+          "profile": "log+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 3,
+            "preflightToolCalls": 3,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": 0.0046,
+            "localizationSeconds": 17.783,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 17.052,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 4322,
+                  "outputTokens": 601,
+                  "generationSeconds": 11.412506
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "RCU / 锁死",
+            "summary": "ki_bench 模块在持有自旋锁 ki_spin_a 期间调用 msleep，触发 scheduling while atomic 并因 panic_on_warn 导致内核 panic。",
+            "hypotheses": [
+              {
+                "cause": "在原子上下文（持有 spinlock）中执行可睡眠操作 msleep，违反内核调度约束",
+                "evidenceLines": [
+                  446,
+                  448,
+                  469,
+                  472
+                ],
+                "confidence": "high",
+                "verification": "源码 external/ki_bench.c:168-171 确认 spin_lock 后直接 msleep(50)，与日志锁持有及调用栈完全吻合"
+              }
+            ],
+            "nextSteps": [
+              "将 msleep 移至 spin_unlock 之后，或改用不可睡眠的 udelay 替代",
+              "检查 ki_bench 其他线程是否存在同类原子上下文睡眠问题",
+              "确认 panic_on_warn 配置是否为预期，避免单点警告触发整机宕机"
+            ],
+            "limitations": [
+              "未执行 git blame，无法确定引入该缺陷的具体提交",
+              "未验证修复后是否消除告警"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kernel/scheduler (BUG: scheduling while atomic)",
+              "affectedComponent": "ki_bench 模块 ki_thr_sleep_atomic",
+              "description": "模块加载后触发 sleep_atomic 场景，线程在持锁状态下调用 msleep 导致 panic",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "code_candidate",
+              "mechanism": "spin_lock 持有期间调用 msleep 进入 schedule，触发 __schedule_bug 并 panic",
+              "candidateSymbols": [
+                "ki_thr_sleep_atomic",
+                "msleep",
+                "schedule_timeout"
+              ],
+              "locations": [
+                {
+                  "path": "external/ki_bench.c",
+                  "symbol": "ki_thr_sleep_atomic",
+                  "startLine": 166,
+                  "endLine": 173,
+                  "evidenceRefs": [
+                    "T2",
+                    "T3"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "引入该代码的 git 提交",
+                  "修复验证"
+                ],
+                "nextCheck": "git log/blame external/ki_bench.c 定位引入提交，并验证移除锁内 msleep 后不再触发"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "pressure_oom",
+          "family": "oom",
+          "profile": "log+source",
+          "split": "train",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 3,
+            "preflightToolCalls": 3,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": 0.0041,
+            "localizationSeconds": 17.156,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 16.592,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5524,
+                  "outputTokens": 563,
+                  "generationSeconds": 9.951171
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": true,
+            "functionHit": true,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "OOM",
+            "summary": "用户态压力程序 pressure 在 QEMU 受限内存中分配并触碰约 8GB 匿名页，触发内核 OOM 且 panic_on_oom 导致内核 panic。",
+            "hypotheses": [
+              {
+                "cause": "pressure 进程循环 malloc 8MB 并逐页写入，耗尽系统匿名内存，触发 OOM killer 与 panic_on_oom",
+                "evidenceLines": [
+                  443,
+                  461,
+                  501,
+                  502
+                ],
+                "confidence": "high",
+                "verification": "pressure.c 第9-12行分配并触碰内存；日志显示 PID 94 rss 363334 页，free 仅 2807 页，all_unreclaimable yes"
+              }
+            ],
+            "nextSteps": [
+              "确认 QEMU 内存上限与 pressure 目标分配量是否匹配",
+              "检查 panic_on_oom 配置是否为预期行为",
+              "评估是否需限制 pressure 内存或调整 OOM 策略"
+            ],
+            "limitations": [
+              "无 swap 且内存受限，OOM 为预期资源耗尽而非内核缺陷",
+              "未验证是否存在其他内存泄漏贡献因素"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "mm/oom",
+              "affectedComponent": "pressure (PID 94)",
+              "description": "用户态压力程序耗尽匿名内存触发 OOM panic",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "用户态大量匿名页分配导致内核 OOM，非内核代码缺陷",
+              "candidateSymbols": [
+                "out_of_memory",
+                "__alloc_pages_slowpath",
+                "handle_mm_fault"
+              ],
+              "locations": [
+                {
+                  "path": "pressure.c",
+                  "symbol": "main",
+                  "startLine": 8,
+                  "endLine": 13,
+                  "evidenceRefs": [
+                    "T3"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "QEMU 内存配置",
+                  "是否存在其他内存消费者"
+                ],
+                "nextCheck": "确认系统总内存与 pressure 分配量关系"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        },
+        {
+          "caseId": "baseline",
+          "family": "healthy",
+          "profile": "log+source",
+          "split": "test",
+          "status": "completed",
+          "metrics": {
+            "modelRequests": 1,
+            "toolCalls": 1,
+            "preflightToolCalls": 1,
+            "modelToolCalls": 0,
+            "firstSceneSeconds": null,
+            "localizationSeconds": 9.718,
+            "requests": [
+              {
+                "index": 1,
+                "transport": "ollama-native",
+                "model": "qwen3.8:27b-kernel-8k",
+                "seconds": 9.714,
+                "status": "returned",
+                "usage": {
+                  "promptTokens": 5011,
+                  "outputTokens": 409,
+                  "generationSeconds": 7.969677
+                }
+              }
+            ],
+            "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+          },
+          "scores": {
+            "codeLocationHit": false,
+            "functionHit": false,
+            "rootCauseMechanismCorrect": null,
+            "introducingCommitCorrect": null,
+            "requiresHumanMechanismReview": true,
+            "identifiability": "incident log supplied"
+          },
+          "analysis": {
+            "category": "待专家分析",
+            "summary": "日志仅显示正常启动与关机，未见panic、oops或错误；关键诊断行被隐藏，无法定位故障。",
+            "hypotheses": [
+              {
+                "cause": "关键诊断信息被collector隐藏，实际故障不可见",
+                "evidenceLines": [],
+                "confidence": "low",
+                "verification": "需获取完整未隐藏日志"
+              }
+            ],
+            "nextSteps": [
+              "获取完整未过滤的dmesg日志",
+              "检查panic_on_oops触发的具体oops记录",
+              "确认ki.scn场景对应的内核模块"
+            ],
+            "limitations": [
+              "日志437-444行被隐藏，无法看到实际错误",
+              "无source工具可用，无法检查代码",
+              "无artifact文件可供分析"
+            ],
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "kernel",
+              "affectedComponent": "unknown",
+              "description": "系统启动后约32秒出现mount栈深度警告，随后36秒关机；中间诊断被隐藏",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "insufficient",
+              "mechanism": "未知，关键日志被隐藏",
+              "candidateSymbols": [],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "完整日志",
+                  "oops/panic记录",
+                  "故障模块信息"
+                ],
+                "nextCheck": "获取未隐藏日志行437-444"
+              },
+              "rootCauseVerified": false
+            }
+          },
+          "error": null
+        }
+      ],
+      "aggregate": {
+        "completed": 6,
+        "total": 6,
+        "codeLocationAccuracy": 1.0,
+        "codeLocationDenominator": 5,
+        "modelRequests": 6,
+        "localizationSeconds": 95.834,
+        "rootCauseAccuracy": null
+      }
+    }
+  ],
+  "traceArchive": {
+    "path": "/root/gpufree-data/kernel-insight-lab/iterations/20261007/benchmark-traces-v10.tgz",
+    "files": 15,
+    "sha256": "5fcdf72d14deb3128d2a73532c03154f835f41e1750f237ebd35bcbf5fa50ca3"
+  }
+}

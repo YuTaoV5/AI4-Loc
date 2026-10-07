@@ -2,6 +2,10 @@
 
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
 
+已有完整本地数据时，使用 [Windows 展示启动指南](docs/WINDOWS_SITE.md) 运行独立状态的网站。系统方案另附 [48 页网页版讲解稿](deliverables/kernel-insight-system/deck.html)，包含真实功能图、科研结果图与可播放流程。
+
+演示材料：[完整逐页演讲稿](deliverables/kernel-insight-system/逐页演讲稿.md)、[离线包与重建说明](deliverables/kernel-insight-system/README.md)。
+
 ## 快速启动
 
 需要 Node.js 22.14+ 与系统 `tar`（Windows 自带 bsdtar）。

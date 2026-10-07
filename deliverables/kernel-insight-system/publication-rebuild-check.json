@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "cleanCloneRebuild": true,
+  "frozenEvidenceOnly": true,
+  "originalDataDirectoryAvailable": false,
+  "originalSkillDirectoryAvailable": false,
+  "identicalHtml": true,
+  "speechPreserved": true,
+  "modelCalls": 0,
+  "websiteTests": 0
+}

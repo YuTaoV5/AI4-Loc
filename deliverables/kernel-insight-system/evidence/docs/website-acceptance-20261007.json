@@ -1,0 +1,2373 @@
+{
+  "schema": "kernel-website-restoration/v1",
+  "deployment": {
+    "previousRelease": "/opt/kernel-insight/releases/1ee04edd2ecb",
+    "currentRelease": "/opt/kernel-insight/releases/f4648fac616c",
+    "rollbackConfig": "/root/gpufree-data/kernel-insight-lab/backups/supervisord.pre-source-v10.conf",
+    "benchmarkPreserved": "openharmony-lkdtm-lab-v1 64 cases",
+    "engine": "closed-loop",
+    "transport": "ollama-native"
+  },
+  "validation": {
+    "node": {
+      "passed": 36,
+      "total": 36
+    },
+    "python": {
+      "passed": 29,
+      "total": 29
+    },
+    "isolatedBusiness": {
+      "checks": 15,
+      "passed": 15,
+      "failed": 0
+    },
+    "live": {
+      "checks": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "verifiedModel": {
+      "checks": 8,
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "acceptanceSha256": "02d5b05bcb7ff805bac224b57ce598726391a409184406bd00d82f9c7d145470",
+  "acceptance": {
+    "schema": "kernel-website-acceptance/v1",
+    "startedAt": "2026-10-07T09:35:26.160686+00:00",
+    "steps": [
+      {
+        "name": "node-regression",
+        "exitCode": 0,
+        "seconds": 2.732,
+        "log": "node-regression.log"
+      },
+      {
+        "name": "python-regression",
+        "exitCode": 0,
+        "seconds": 0.246,
+        "log": "python-regression.log"
+      },
+      {
+        "name": "isolated-business",
+        "exitCode": 0,
+        "seconds": 1.634,
+        "log": "isolated-business.log"
+      },
+      {
+        "name": "live-website",
+        "exitCode": 0,
+        "seconds": 10.941,
+        "log": "live-website.log"
+      },
+      {
+        "name": "verified-model",
+        "exitCode": 0,
+        "seconds": 12.805,
+        "log": "verified-model.log"
+      }
+    ],
+    "limits": [
+      "Browser layout requires separate visual inspection.",
+      "Real vmcore and introducing-commit causality are not verified."
+    ],
+    "sourceHashes": {
+      "server/index.js": "83651df77e1490efd6d63ce185157dac41e693641b7ca4f91a88b7625b85c2a4",
+      "server/analyzer.js": "a1efb99cd6a0e0efbb127c0413d7004882411f8cf31d448f2473e4627f434d1e",
+      "server/agent.js": "9841e26ea5c99a6ee14f5b26a67e3062153f9e7b36592bb5dbb158542c9142c4",
+      "scripts/localization_agent.py": "b920fab064c020c9afb2162ebb003477c4f8d2fc17477b968541370b2b65c1cd",
+      "scripts/website-selfcheck.js": "b4b4f601e967061708ba263a4501dc7d52aecd04f4c8f8c7a836ffb58b0544c3"
+    },
+    "isolated": {
+      "schema": "kernel-website-selfcheck/v1",
+      "startedAt": "2026-10-07T09:35:29.171Z",
+      "mode": "isolated-business-workflows",
+      "checks": [
+        {
+          "name": "health and model connectivity",
+          "status": "passed",
+          "seconds": 0.033,
+          "detail": {
+            "ok": true,
+            "enabled": false,
+            "engine": "deterministic-triage-v1",
+            "model": "qwen3.8:27b-kernel-8k",
+            "provider": "ollama",
+            "transport": "ollama-native",
+            "timeoutSeconds": 240,
+            "llmConnected": false
+          }
+        },
+        {
+          "name": "login, auth identity and anonymous protection",
+          "status": "passed",
+          "seconds": 0.056,
+          "detail": {
+            "role": "admin"
+          }
+        },
+        {
+          "name": "benchmark manifest and every log SHA256",
+          "status": "passed",
+          "seconds": 0.167,
+          "detail": {
+            "version": "openharmony-lkdtm-lab-v1",
+            "cases": 64,
+            "fingerprint": "8422fc0500519ba82db554022db1522230ea3b6c0eafe4ceaeab26675ac732e2"
+          }
+        },
+        {
+          "name": "HTML, JavaScript, CSS, logo and vendor assets",
+          "status": "passed",
+          "seconds": 0.024,
+          "detail": {
+            "assets": 13
+          }
+        },
+        {
+          "name": "dashboard, personal space, rankings, skills and source index",
+          "status": "passed",
+          "seconds": 0.048,
+          "detail": {
+            "routes": 8
+          }
+        },
+        {
+          "name": "Markdown and PlantUML render with external reference rejection",
+          "status": "passed",
+          "seconds": 0.471,
+          "detail": {
+            "pngBytes": 1448
+          }
+        },
+        {
+          "name": "registration, profile, roles and admin permission",
+          "status": "passed",
+          "seconds": 0.09
+        },
+        {
+          "name": "text analysis, custom combination, dedup, report and ownership",
+          "status": "passed",
+          "seconds": 0.12,
+          "detail": {
+            "jobId": "4d570d73-4a7f-450e-b271-ad80e956f58f"
+          }
+        },
+        {
+          "name": "progress and SSE",
+          "status": "passed",
+          "seconds": 0.006
+        },
+        {
+          "name": "gzip batch upload and task review loop",
+          "status": "passed",
+          "seconds": 0.074
+        },
+        {
+          "name": "config material upload, identity and cross-user rejection",
+          "status": "passed",
+          "seconds": 0.008
+        },
+        {
+          "name": "Skill submit, review gate, fixed benchmark, merge and experience",
+          "status": "passed",
+          "seconds": 0.175,
+          "detail": {
+            "frozenCases": 64,
+            "regressions": 0
+          }
+        },
+        {
+          "name": "benchmark trial excluded from dashboard business totals",
+          "status": "passed",
+          "seconds": 0.059
+        },
+        {
+          "name": "invalid inputs and exact-source gate",
+          "status": "passed",
+          "seconds": 0.005
+        },
+        {
+          "name": "logout clears session",
+          "status": "passed",
+          "seconds": 0.004
+        }
+      ],
+      "coverage": {
+        "checks": 15,
+        "passed": 15,
+        "failed": 0
+      },
+      "limitations": [
+        "API checks do not replace visual browser inspection.",
+        "No real vmcore is present; dump gates are tested, not a real crash dump root cause."
+      ],
+      "engine": {
+        "ok": true,
+        "enabled": false,
+        "engine": "deterministic-triage-v1",
+        "model": "qwen3.8:27b-kernel-8k",
+        "provider": "ollama",
+        "transport": "ollama-native",
+        "timeoutSeconds": 240,
+        "llmConnected": false
+      },
+      "dataset": {
+        "version": "openharmony-lkdtm-lab-v1",
+        "cases": 64,
+        "fingerprint": "8422fc0500519ba82db554022db1522230ea3b6c0eafe4ceaeab26675ac732e2"
+      },
+      "completedAt": "2026-10-07T09:35:30.753Z",
+      "passed": true
+    },
+    "live": {
+      "schema": "kernel-website-selfcheck/v1",
+      "startedAt": "2026-10-07T09:35:30.803Z",
+      "mode": "live-read-and-optional-benchmark",
+      "checks": [
+        {
+          "name": "health and model connectivity",
+          "status": "passed",
+          "seconds": 0.062,
+          "detail": {
+            "ok": true,
+            "enabled": true,
+            "engine": "closed-loop",
+            "model": "qwen3.8:27b-kernel-8k",
+            "provider": "ollama",
+            "transport": "ollama-native",
+            "timeoutSeconds": 240,
+            "llmConnected": true
+          }
+        },
+        {
+          "name": "login, auth identity and anonymous protection",
+          "status": "passed",
+          "seconds": 0.059,
+          "detail": {
+            "role": "admin"
+          }
+        },
+        {
+          "name": "benchmark manifest and every log SHA256",
+          "status": "passed",
+          "seconds": 0.181,
+          "detail": {
+            "version": "openharmony-lkdtm-lab-v1",
+            "cases": 64,
+            "fingerprint": "8422fc0500519ba82db554022db1522230ea3b6c0eafe4ceaeab26675ac732e2"
+          }
+        },
+        {
+          "name": "HTML, JavaScript, CSS, logo and vendor assets",
+          "status": "passed",
+          "seconds": 0.025,
+          "detail": {
+            "assets": 13
+          }
+        },
+        {
+          "name": "dashboard, personal space, rankings, skills and source index",
+          "status": "passed",
+          "seconds": 0.045,
+          "detail": {
+            "routes": 8
+          }
+        },
+        {
+          "name": "real exact-source download, official checksum, cache reuse and source reading",
+          "status": "passed",
+          "seconds": 0.012,
+          "detail": {
+            "key": "release-6.6.1",
+            "sha256": "da1ed7d47c97ed72c9354091628740aa3c40a3c9cd7382871f3cedbd60588234",
+            "verification": "official-sha256",
+            "bytes": 140010660
+          }
+        },
+        {
+          "name": "Markdown and PlantUML render with external reference rejection",
+          "status": "passed",
+          "seconds": 0.01,
+          "detail": {
+            "pngBytes": 1448
+          }
+        },
+        {
+          "name": "real model benchmark, event history, evidence, report and reuse",
+          "status": "passed",
+          "seconds": 10.418,
+          "detail": {
+            "jobId": "3bf2ff51-418f-4edb-b7d3-286943455f18",
+            "category": "释放后使用",
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "KASAN",
+              "affectedComponent": "ki_bench (out-of-tree module)",
+              "description": "init 进程触发 ki_bench 的 uaf_kmalloc 动作，KASAN 报告 use-after-free",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "kmalloc-128 对象被 kfree 后，ki_uaf_kmalloc 再次写入该地址",
+              "candidateSymbols": [
+                "ki_uaf_kmalloc",
+                "ki_trigger_write"
+              ],
+              "locations": [],
+              "introducingCommit": null,
+              "verification": {
+                "status": "unverified",
+                "missing": [
+                  "ki_bench 模块源码",
+                  "ki_uaf_kmalloc 函数实现"
+                ],
+                "nextCheck": "读取 ki_bench 源码中 ki_uaf_kmalloc 的分配、释放与写入逻辑"
+              },
+              "rootCauseVerified": false
+            },
+            "metrics": {
+              "modelRequests": 1,
+              "toolCalls": 1,
+              "preflightToolCalls": 1,
+              "modelToolCalls": 0,
+              "firstSceneSeconds": 0.005,
+              "localizationSeconds": 9.864,
+              "requests": [
+                {
+                  "index": 1,
+                  "transport": "ollama-native",
+                  "model": "qwen3.8:27b-kernel-8k",
+                  "seconds": 9.857,
+                  "status": "returned",
+                  "usage": {
+                    "promptTokens": 4652,
+                    "outputTokens": 491,
+                    "generationSeconds": 8.40374
+                  }
+                }
+              ],
+              "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+            },
+            "wallSeconds": 10.206,
+            "toolEvidenceCount": 1,
+            "evidence": {
+              "schemaVersion": 3,
+              "commands": [
+                {
+                  "id": "T1",
+                  "tool": "incident",
+                  "arguments": {},
+                  "seconds": 0.005,
+                  "result": {
+                    "available": {
+                      "log": true,
+                      "source": false,
+                      "artifacts": false
+                    },
+                    "artifactFiles": [],
+                    "totalLogLines": 600,
+                    "firstDiagnosticLine": 482,
+                    "lines": [
+                      {
+                        "line": 474,
+                        "text": "/init: line 36: can't create /proc/sys/kernel/hardlockup_panic: nonexistent directory"
+                      },
+                      {
+                        "line": 475,
+                        "text": "===== KI_SCENARIO_BEGIN corrupt_uaf_kmalloc ====="
+                      },
+                      {
+                        "line": 476,
+                        "text": "[   22.593350] ki_bench: loading out-of-tree module taints kernel."
+                      },
+                      {
+                        "line": 477,
+                        "text": "[   22.639615] ki_bench: loaded; trigger at /sys/kernel/debug/ki_bench/trigger"
+                      },
+                      {
+                        "line": 478,
+                        "text": "[   22.647734] insmod (92) used greatest stack depth: 27264 bytes left"
+                      },
+                      {
+                        "line": 479,
+                        "text": "[   22.654438] ki_bench: trigger action=uaf_kmalloc"
+                      },
+                      {
+                        "line": 480,
+                        "text": "[   22.655743] ki_bench: uaf_kmalloc: writing to freed object"
+                      },
+                      {
+                        "line": 481,
+                        "text": "[   22.656310] =================================================================="
+                      },
+                      {
+                        "line": 482,
+                        "text": "[   22.656571] BUG: KASAN: use-after-free in ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 483,
+                        "text": "[   22.656571] Write of size 1 at addr ff110000105b5700 by task init/1"
+                      },
+                      {
+                        "line": 484,
+                        "text": "[   22.656571] "
+                      },
+                      {
+                        "line": 485,
+                        "text": "[   22.656571] CPU: 1 PID: 1 Comm: init Tainted: G           O      5.10.210+ #1"
+                      },
+                      {
+                        "line": 486,
+                        "text": "[   22.656571] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014"
+                      },
+                      {
+                        "line": 487,
+                        "text": "[   22.656571] Call Trace:"
+                      },
+                      {
+                        "line": 488,
+                        "text": "[   22.656571]  dump_stack+0x9a/0xd0"
+                      },
+                      {
+                        "line": 489,
+                        "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 490,
+                        "text": "[   22.656571]  print_address_description.constprop.0+0x1e/0x2c0"
+                      },
+                      {
+                        "line": 491,
+                        "text": "[   22.656571]  ? printk+0xc5/0xfb"
+                      },
+                      {
+                        "line": 492,
+                        "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 493,
+                        "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 494,
+                        "text": "[   22.656571]  kasan_report.cold+0x37/0x7c"
+                      },
+                      {
+                        "line": 495,
+                        "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 496,
+                        "text": "[   22.656571]  ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 497,
+                        "text": "[   22.656571]  ki_trigger_write.cold+0x170/0x1e8 [ki_bench]"
+                      },
+                      {
+                        "line": 498,
+                        "text": "[   22.656571]  ? ki_spawn+0x30/0x30 [ki_bench]"
+                      },
+                      {
+                        "line": 499,
+                        "text": "[   22.656571]  full_proxy_write+0xee/0x180"
+                      },
+                      {
+                        "line": 500,
+                        "text": "[   22.656571]  vfs_write+0x1ab/0x8b0"
+                      },
+                      {
+                        "line": 501,
+                        "text": "[   22.656571]  ksys_write+0xf2/0x1d0"
+                      },
+                      {
+                        "line": 502,
+                        "text": "[   22.656571]  ? __ia32_sys_read+0xa0/0xa0"
+                      },
+                      {
+                        "line": 503,
+                        "text": "[   22.656571]  ? lockdep_hardirqs_on_prepare+0x277/0x3e0"
+                      },
+                      {
+                        "line": 504,
+                        "text": "[   22.656571]  ? syscall_enter_from_user_mode+0x1c/0x50"
+                      },
+                      {
+                        "line": 505,
+                        "text": "[   22.656571]  do_syscall_64+0x33/0x40"
+                      },
+                      {
+                        "line": 506,
+                        "text": "[   22.656571]  entry_SYSCALL_64_after_hwframe+0x62/0xc7"
+                      },
+                      {
+                        "line": 507,
+                        "text": "[   22.656571] RIP: 0033:0x464314"
+                      },
+                      {
+                        "line": 508,
+                        "text": "[   22.656571] Code: c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 80 3d 7c 1a 1a 00 00 74 13 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 55 48 89 e5 48 83 ec 20 48 89"
+                      },
+                      {
+                        "line": 509,
+                        "text": "[   22.656571] RSP: 002b:00007ffc7bb026a8 EFLAGS: 00000202 ORIG_RAX: 0000000000000001"
+                      },
+                      {
+                        "line": 510,
+                        "text": "[   22.656571] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 0000000000464314"
+                      },
+                      {
+                        "line": 511,
+                        "text": "[   22.656571] RDX: 000000000000000c RSI: 0000000002069310 RDI: 0000000000000001"
+                      },
+                      {
+                        "line": 512,
+                        "text": "[   22.656571] RBP: 00007ffc7bb026d0 R08: 0000000000000001 R09: 000000000206a99d"
+                      },
+                      {
+                        "line": 513,
+                        "text": "[   22.656571] R10: 00000000000001b6 R11: 0000000000000202 R12: 0000000002069310"
+                      },
+                      {
+                        "line": 514,
+                        "text": "[   22.656571] R13: 000000000000000c R14: 0000000000000000 R15: 000000000206a9c8"
+                      },
+                      {
+                        "line": 515,
+                        "text": "[   22.656571] "
+                      },
+                      {
+                        "line": 516,
+                        "text": "[   22.656571] Allocated by task 1:"
+                      },
+                      {
+                        "line": 517,
+                        "text": "[   22.656571]  kasan_save_stack+0x2a/0x50"
+                      },
+                      {
+                        "line": 518,
+                        "text": "[   22.656571]  __kasan_kmalloc.isra.0+0xee/0x100"
+                      },
+                      {
+                        "line": 519,
+                        "text": "[   22.656571]  ki_uaf_kmalloc+0x32/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 520,
+                        "text": "[   22.656571]  ki_trigger_write.cold+0x170/0x1e8 [ki_bench]"
+                      },
+                      {
+                        "line": 521,
+                        "text": "[   22.656571]  full_proxy_write+0xee/0x180"
+                      },
+                      {
+                        "line": 522,
+                        "text": "[   22.656571]  vfs_write+0x1ab/0x8b0"
+                      },
+                      {
+                        "line": 523,
+                        "text": "[   22.656571]  ksys_write+0xf2/0x1d0"
+                      },
+                      {
+                        "line": 524,
+                        "text": "[   22.656571]  do_syscall_64+0x33/0x40"
+                      },
+                      {
+                        "line": 525,
+                        "text": "[   22.656571]  entry_SYSCALL_64_after_hwframe+0x62/0xc7"
+                      },
+                      {
+                        "line": 526,
+                        "text": "[   22.656571] "
+                      },
+                      {
+                        "line": 527,
+                        "text": "[   22.656571] Freed by task 1:"
+                      },
+                      {
+                        "line": 528,
+                        "text": "[   22.656571]  kasan_save_stack+0x2a/0x50"
+                      },
+                      {
+                        "line": 529,
+                        "text": "[   22.656571]  kasan_set_track+0x1c/0x30"
+                      },
+                      {
+                        "line": 530,
+                        "text": "[   22.656571]  kasan_set_free_info+0x1b/0x30"
+                      },
+                      {
+                        "line": 531,
+                        "text": "[   22.656571]  __kasan_slab_free+0x112/0x150"
+                      },
+                      {
+                        "line": 532,
+                        "text": "[   22.656571]  slab_free_freelist_hook+0xad/0x190"
+                      },
+                      {
+                        "line": 533,
+                        "text": "[   22.656571]  kfree+0xd5/0x270"
+                      },
+                      {
+                        "line": 534,
+                        "text": "[   22.656571]  ki_uaf_kmalloc+0x42/0x90 [ki_bench]"
+                      },
+                      {
+                        "line": 535,
+                        "text": "[   22.656571]  ki_trigger_write.cold+0x170/0x1e8 [ki_bench]"
+                      },
+                      {
+                        "line": 536,
+                        "text": "[   22.656571]  full_proxy_write+0xee/0x180"
+                      },
+                      {
+                        "line": 537,
+                        "text": "[   22.656571]  vfs_write+0x1ab/0x8b0"
+                      },
+                      {
+                        "line": 538,
+                        "text": "[   22.656571]  ksys_write+0xf2/0x1d0"
+                      },
+                      {
+                        "line": 539,
+                        "text": "[   22.656571]  do_syscall_64+0x33/0x40"
+                      },
+                      {
+                        "line": 540,
+                        "text": "[   22.656571]  entry_SYSCALL_64_after_hwframe+0x62/0xc7"
+                      },
+                      {
+                        "line": 541,
+                        "text": "[   22.656571] "
+                      },
+                      {
+                        "line": 542,
+                        "text": "[   22.656571] The buggy address belongs to the object at ff110000105b5700"
+                      },
+                      {
+                        "line": 543,
+                        "text": "[   22.656571]  which belongs to the cache kmalloc-128 of size 128"
+                      },
+                      {
+                        "line": 544,
+                        "text": "[   22.656571] The buggy address is located 0 bytes inside of"
+                      },
+                      {
+                        "line": 545,
+                        "text": "[   22.656571]  128-byte region [ff110000105b5700, ff110000105b5780)"
+                      },
+                      {
+                        "line": 546,
+                        "text": "[   22.656571] The buggy address belongs to the page:"
+                      },
+                      {
+                        "line": 547,
+                        "text": "[   22.656571] page:000000007ecedb14 refcount:1 mapcount:0 mapping:0000000000000000 index:0xff110000105b4800 pfn:0x105b4"
+                      },
+                      {
+                        "line": 548,
+                        "text": "[   22.656571] head:000000007ecedb14 order:1 compound_mapcount:0"
+                      },
+                      {
+                        "line": 549,
+                        "text": "[   22.656571] flags: 0x100000000010200(slab|head)"
+                      },
+                      {
+                        "line": 550,
+                        "text": "[   22.656571] raw: 0100000000010200 ff11000007832988 ff11000007832988 ff1100000783d440"
+                      },
+                      {
+                        "line": 551,
+                        "text": "[   22.656571] raw: ff110000105b4800 00000000000c0006 00000001ffffffff 0000000000000000"
+                      },
+                      {
+                        "line": 552,
+                        "text": "[   22.656571] page dumped because: kasan: bad access detected"
+                      },
+                      {
+                        "line": 553,
+                        "text": "[   22.656571] "
+                      }
+                    ],
+                    "lifetimeEvidence": [],
+                    "tailEvidence": [],
+                    "note": "These are bounded tool windows, not a claim the original log is truncated. First report is an observation, not proof of causal ownership. Reuse windows before requesting more log lines."
+                  }
+                }
+              ],
+              "rootCauseVerified": false,
+              "gaps": [
+                "source 不可用，无法定位具体代码行",
+                "无 git 历史，无法追溯引入提交"
+              ]
+            },
+            "rootCauseVerified": false
+          }
+        },
+        {
+          "name": "logout clears session",
+          "status": "passed",
+          "seconds": 0.005
+        }
+      ],
+      "coverage": {
+        "checks": 9,
+        "passed": 9,
+        "failed": 0
+      },
+      "limitations": [
+        "API checks do not replace visual browser inspection.",
+        "No real vmcore is present; dump gates are tested, not a real crash dump root cause."
+      ],
+      "engine": {
+        "ok": true,
+        "enabled": true,
+        "engine": "closed-loop",
+        "model": "qwen3.8:27b-kernel-8k",
+        "provider": "ollama",
+        "transport": "ollama-native",
+        "timeoutSeconds": 240,
+        "llmConnected": true
+      },
+      "dataset": {
+        "version": "openharmony-lkdtm-lab-v1",
+        "cases": 64,
+        "fingerprint": "8422fc0500519ba82db554022db1522230ea3b6c0eafe4ceaeab26675ac732e2"
+      },
+      "sourceDownload": {
+        "key": "release-6.6.1",
+        "sha256": "da1ed7d47c97ed72c9354091628740aa3c40a3c9cd7382871f3cedbd60588234",
+        "verification": "official-sha256",
+        "bytes": 140010660
+      },
+      "modelTrial": {
+        "jobId": "3bf2ff51-418f-4edb-b7d3-286943455f18",
+        "category": "释放后使用",
+        "firstScene": {
+          "stage": "runtime",
+          "reportingComponent": "KASAN",
+          "affectedComponent": "ki_bench (out-of-tree module)",
+          "description": "init 进程触发 ki_bench 的 uaf_kmalloc 动作，KASAN 报告 use-after-free",
+          "evidenceRefs": [
+            "T1"
+          ]
+        },
+        "localization": {
+          "status": "function_candidate",
+          "mechanism": "kmalloc-128 对象被 kfree 后，ki_uaf_kmalloc 再次写入该地址",
+          "candidateSymbols": [
+            "ki_uaf_kmalloc",
+            "ki_trigger_write"
+          ],
+          "locations": [],
+          "introducingCommit": null,
+          "verification": {
+            "status": "unverified",
+            "missing": [
+              "ki_bench 模块源码",
+              "ki_uaf_kmalloc 函数实现"
+            ],
+            "nextCheck": "读取 ki_bench 源码中 ki_uaf_kmalloc 的分配、释放与写入逻辑"
+          },
+          "rootCauseVerified": false
+        },
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 1,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.005,
+          "localizationSeconds": 9.864,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 9.857,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4652,
+                "outputTokens": 491,
+                "generationSeconds": 8.40374
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "wallSeconds": 10.206,
+        "toolEvidenceCount": 1,
+        "evidence": {
+          "schemaVersion": 3,
+          "commands": [
+            {
+              "id": "T1",
+              "tool": "incident",
+              "arguments": {},
+              "seconds": 0.005,
+              "result": {
+                "available": {
+                  "log": true,
+                  "source": false,
+                  "artifacts": false
+                },
+                "artifactFiles": [],
+                "totalLogLines": 600,
+                "firstDiagnosticLine": 482,
+                "lines": [
+                  {
+                    "line": 474,
+                    "text": "/init: line 36: can't create /proc/sys/kernel/hardlockup_panic: nonexistent directory"
+                  },
+                  {
+                    "line": 475,
+                    "text": "===== KI_SCENARIO_BEGIN corrupt_uaf_kmalloc ====="
+                  },
+                  {
+                    "line": 476,
+                    "text": "[   22.593350] ki_bench: loading out-of-tree module taints kernel."
+                  },
+                  {
+                    "line": 477,
+                    "text": "[   22.639615] ki_bench: loaded; trigger at /sys/kernel/debug/ki_bench/trigger"
+                  },
+                  {
+                    "line": 478,
+                    "text": "[   22.647734] insmod (92) used greatest stack depth: 27264 bytes left"
+                  },
+                  {
+                    "line": 479,
+                    "text": "[   22.654438] ki_bench: trigger action=uaf_kmalloc"
+                  },
+                  {
+                    "line": 480,
+                    "text": "[   22.655743] ki_bench: uaf_kmalloc: writing to freed object"
+                  },
+                  {
+                    "line": 481,
+                    "text": "[   22.656310] =================================================================="
+                  },
+                  {
+                    "line": 482,
+                    "text": "[   22.656571] BUG: KASAN: use-after-free in ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 483,
+                    "text": "[   22.656571] Write of size 1 at addr ff110000105b5700 by task init/1"
+                  },
+                  {
+                    "line": 484,
+                    "text": "[   22.656571] "
+                  },
+                  {
+                    "line": 485,
+                    "text": "[   22.656571] CPU: 1 PID: 1 Comm: init Tainted: G           O      5.10.210+ #1"
+                  },
+                  {
+                    "line": 486,
+                    "text": "[   22.656571] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014"
+                  },
+                  {
+                    "line": 487,
+                    "text": "[   22.656571] Call Trace:"
+                  },
+                  {
+                    "line": 488,
+                    "text": "[   22.656571]  dump_stack+0x9a/0xd0"
+                  },
+                  {
+                    "line": 489,
+                    "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 490,
+                    "text": "[   22.656571]  print_address_description.constprop.0+0x1e/0x2c0"
+                  },
+                  {
+                    "line": 491,
+                    "text": "[   22.656571]  ? printk+0xc5/0xfb"
+                  },
+                  {
+                    "line": 492,
+                    "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 493,
+                    "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 494,
+                    "text": "[   22.656571]  kasan_report.cold+0x37/0x7c"
+                  },
+                  {
+                    "line": 495,
+                    "text": "[   22.656571]  ? ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 496,
+                    "text": "[   22.656571]  ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 497,
+                    "text": "[   22.656571]  ki_trigger_write.cold+0x170/0x1e8 [ki_bench]"
+                  },
+                  {
+                    "line": 498,
+                    "text": "[   22.656571]  ? ki_spawn+0x30/0x30 [ki_bench]"
+                  },
+                  {
+                    "line": 499,
+                    "text": "[   22.656571]  full_proxy_write+0xee/0x180"
+                  },
+                  {
+                    "line": 500,
+                    "text": "[   22.656571]  vfs_write+0x1ab/0x8b0"
+                  },
+                  {
+                    "line": 501,
+                    "text": "[   22.656571]  ksys_write+0xf2/0x1d0"
+                  },
+                  {
+                    "line": 502,
+                    "text": "[   22.656571]  ? __ia32_sys_read+0xa0/0xa0"
+                  },
+                  {
+                    "line": 503,
+                    "text": "[   22.656571]  ? lockdep_hardirqs_on_prepare+0x277/0x3e0"
+                  },
+                  {
+                    "line": 504,
+                    "text": "[   22.656571]  ? syscall_enter_from_user_mode+0x1c/0x50"
+                  },
+                  {
+                    "line": 505,
+                    "text": "[   22.656571]  do_syscall_64+0x33/0x40"
+                  },
+                  {
+                    "line": 506,
+                    "text": "[   22.656571]  entry_SYSCALL_64_after_hwframe+0x62/0xc7"
+                  },
+                  {
+                    "line": 507,
+                    "text": "[   22.656571] RIP: 0033:0x464314"
+                  },
+                  {
+                    "line": 508,
+                    "text": "[   22.656571] Code: c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 80 3d 7c 1a 1a 00 00 74 13 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 55 48 89 e5 48 83 ec 20 48 89"
+                  },
+                  {
+                    "line": 509,
+                    "text": "[   22.656571] RSP: 002b:00007ffc7bb026a8 EFLAGS: 00000202 ORIG_RAX: 0000000000000001"
+                  },
+                  {
+                    "line": 510,
+                    "text": "[   22.656571] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 0000000000464314"
+                  },
+                  {
+                    "line": 511,
+                    "text": "[   22.656571] RDX: 000000000000000c RSI: 0000000002069310 RDI: 0000000000000001"
+                  },
+                  {
+                    "line": 512,
+                    "text": "[   22.656571] RBP: 00007ffc7bb026d0 R08: 0000000000000001 R09: 000000000206a99d"
+                  },
+                  {
+                    "line": 513,
+                    "text": "[   22.656571] R10: 00000000000001b6 R11: 0000000000000202 R12: 0000000002069310"
+                  },
+                  {
+                    "line": 514,
+                    "text": "[   22.656571] R13: 000000000000000c R14: 0000000000000000 R15: 000000000206a9c8"
+                  },
+                  {
+                    "line": 515,
+                    "text": "[   22.656571] "
+                  },
+                  {
+                    "line": 516,
+                    "text": "[   22.656571] Allocated by task 1:"
+                  },
+                  {
+                    "line": 517,
+                    "text": "[   22.656571]  kasan_save_stack+0x2a/0x50"
+                  },
+                  {
+                    "line": 518,
+                    "text": "[   22.656571]  __kasan_kmalloc.isra.0+0xee/0x100"
+                  },
+                  {
+                    "line": 519,
+                    "text": "[   22.656571]  ki_uaf_kmalloc+0x32/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 520,
+                    "text": "[   22.656571]  ki_trigger_write.cold+0x170/0x1e8 [ki_bench]"
+                  },
+                  {
+                    "line": 521,
+                    "text": "[   22.656571]  full_proxy_write+0xee/0x180"
+                  },
+                  {
+                    "line": 522,
+                    "text": "[   22.656571]  vfs_write+0x1ab/0x8b0"
+                  },
+                  {
+                    "line": 523,
+                    "text": "[   22.656571]  ksys_write+0xf2/0x1d0"
+                  },
+                  {
+                    "line": 524,
+                    "text": "[   22.656571]  do_syscall_64+0x33/0x40"
+                  },
+                  {
+                    "line": 525,
+                    "text": "[   22.656571]  entry_SYSCALL_64_after_hwframe+0x62/0xc7"
+                  },
+                  {
+                    "line": 526,
+                    "text": "[   22.656571] "
+                  },
+                  {
+                    "line": 527,
+                    "text": "[   22.656571] Freed by task 1:"
+                  },
+                  {
+                    "line": 528,
+                    "text": "[   22.656571]  kasan_save_stack+0x2a/0x50"
+                  },
+                  {
+                    "line": 529,
+                    "text": "[   22.656571]  kasan_set_track+0x1c/0x30"
+                  },
+                  {
+                    "line": 530,
+                    "text": "[   22.656571]  kasan_set_free_info+0x1b/0x30"
+                  },
+                  {
+                    "line": 531,
+                    "text": "[   22.656571]  __kasan_slab_free+0x112/0x150"
+                  },
+                  {
+                    "line": 532,
+                    "text": "[   22.656571]  slab_free_freelist_hook+0xad/0x190"
+                  },
+                  {
+                    "line": 533,
+                    "text": "[   22.656571]  kfree+0xd5/0x270"
+                  },
+                  {
+                    "line": 534,
+                    "text": "[   22.656571]  ki_uaf_kmalloc+0x42/0x90 [ki_bench]"
+                  },
+                  {
+                    "line": 535,
+                    "text": "[   22.656571]  ki_trigger_write.cold+0x170/0x1e8 [ki_bench]"
+                  },
+                  {
+                    "line": 536,
+                    "text": "[   22.656571]  full_proxy_write+0xee/0x180"
+                  },
+                  {
+                    "line": 537,
+                    "text": "[   22.656571]  vfs_write+0x1ab/0x8b0"
+                  },
+                  {
+                    "line": 538,
+                    "text": "[   22.656571]  ksys_write+0xf2/0x1d0"
+                  },
+                  {
+                    "line": 539,
+                    "text": "[   22.656571]  do_syscall_64+0x33/0x40"
+                  },
+                  {
+                    "line": 540,
+                    "text": "[   22.656571]  entry_SYSCALL_64_after_hwframe+0x62/0xc7"
+                  },
+                  {
+                    "line": 541,
+                    "text": "[   22.656571] "
+                  },
+                  {
+                    "line": 542,
+                    "text": "[   22.656571] The buggy address belongs to the object at ff110000105b5700"
+                  },
+                  {
+                    "line": 543,
+                    "text": "[   22.656571]  which belongs to the cache kmalloc-128 of size 128"
+                  },
+                  {
+                    "line": 544,
+                    "text": "[   22.656571] The buggy address is located 0 bytes inside of"
+                  },
+                  {
+                    "line": 545,
+                    "text": "[   22.656571]  128-byte region [ff110000105b5700, ff110000105b5780)"
+                  },
+                  {
+                    "line": 546,
+                    "text": "[   22.656571] The buggy address belongs to the page:"
+                  },
+                  {
+                    "line": 547,
+                    "text": "[   22.656571] page:000000007ecedb14 refcount:1 mapcount:0 mapping:0000000000000000 index:0xff110000105b4800 pfn:0x105b4"
+                  },
+                  {
+                    "line": 548,
+                    "text": "[   22.656571] head:000000007ecedb14 order:1 compound_mapcount:0"
+                  },
+                  {
+                    "line": 549,
+                    "text": "[   22.656571] flags: 0x100000000010200(slab|head)"
+                  },
+                  {
+                    "line": 550,
+                    "text": "[   22.656571] raw: 0100000000010200 ff11000007832988 ff11000007832988 ff1100000783d440"
+                  },
+                  {
+                    "line": 551,
+                    "text": "[   22.656571] raw: ff110000105b4800 00000000000c0006 00000001ffffffff 0000000000000000"
+                  },
+                  {
+                    "line": 552,
+                    "text": "[   22.656571] page dumped because: kasan: bad access detected"
+                  },
+                  {
+                    "line": 553,
+                    "text": "[   22.656571] "
+                  }
+                ],
+                "lifetimeEvidence": [],
+                "tailEvidence": [],
+                "note": "These are bounded tool windows, not a claim the original log is truncated. First report is an observation, not proof of causal ownership. Reuse windows before requesting more log lines."
+              }
+            }
+          ],
+          "rootCauseVerified": false,
+          "gaps": [
+            "source 不可用，无法定位具体代码行",
+            "无 git 历史，无法追溯引入提交"
+          ]
+        },
+        "rootCauseVerified": false
+      },
+      "completedAt": "2026-10-07T09:35:41.626Z",
+      "passed": true
+    },
+    "verified-model": {
+      "schema": "kernel-website-selfcheck/v1",
+      "startedAt": "2026-10-07T09:35:41.830Z",
+      "mode": "isolated-business-workflows",
+      "checks": [
+        {
+          "name": "health and model connectivity",
+          "status": "passed",
+          "seconds": 0.038,
+          "detail": {
+            "ok": true,
+            "enabled": true,
+            "engine": "closed-loop",
+            "model": "qwen3.8:27b-kernel-8k",
+            "provider": "ollama",
+            "transport": "ollama-native",
+            "timeoutSeconds": 240,
+            "llmConnected": true
+          }
+        },
+        {
+          "name": "login, auth identity and anonymous protection",
+          "status": "passed",
+          "seconds": 0.058,
+          "detail": {
+            "role": "admin"
+          }
+        },
+        {
+          "name": "benchmark manifest and every log SHA256",
+          "status": "passed",
+          "seconds": 0.165,
+          "detail": {
+            "version": "openharmony-lkdtm-lab-v1",
+            "cases": 64,
+            "fingerprint": "8422fc0500519ba82db554022db1522230ea3b6c0eafe4ceaeab26675ac732e2"
+          }
+        },
+        {
+          "name": "HTML, JavaScript, CSS, logo and vendor assets",
+          "status": "passed",
+          "seconds": 0.027,
+          "detail": {
+            "assets": 13
+          }
+        },
+        {
+          "name": "dashboard, personal space, rankings, skills and source index",
+          "status": "passed",
+          "seconds": 0.048,
+          "detail": {
+            "routes": 8
+          }
+        },
+        {
+          "name": "Markdown and PlantUML render with external reference rejection",
+          "status": "passed",
+          "seconds": 0.468,
+          "detail": {
+            "pngBytes": 1448
+          }
+        },
+        {
+          "name": "verified dataset log through real website model and source tools",
+          "status": "passed",
+          "seconds": 11.531,
+          "detail": {
+            "jobId": "4015123b-03a6-480d-8b6d-9a79f564fd5a",
+            "category": "OOM",
+            "firstScene": {
+              "stage": "runtime",
+              "reportingComponent": "oom-killer",
+              "affectedComponent": "pressure (PID 94)",
+              "description": "pressure 进程分配并触碰大量匿名页，耗尽内存触发 OOM panic",
+              "evidenceRefs": [
+                "T1"
+              ]
+            },
+            "localization": {
+              "status": "function_candidate",
+              "mechanism": "用户态内存分配与触碰导致内核页表分配失败，触发 OOM",
+              "candidateSymbols": [
+                "handle_mm_fault",
+                "alloc_pages_vma",
+                "__alloc_pages_slowpath"
+              ],
+              "locations": [
+                {
+                  "path": "pressure.c",
+                  "symbol": "main",
+                  "startLine": 8,
+                  "endLine": 13,
+                  "evidenceRefs": [
+                    "T3"
+                  ]
+                }
+              ],
+              "introducingCommit": null,
+              "verification": {
+                "status": "source_supported",
+                "missing": [
+                  "QEMU 内存配置",
+                  "系统总内存与压力测试预期"
+                ],
+                "nextCheck": "确认 QEMU -m 参数与 pressure 分配量关系"
+              },
+              "rootCauseVerified": false
+            },
+            "metrics": {
+              "modelRequests": 1,
+              "toolCalls": 3,
+              "preflightToolCalls": 3,
+              "modelToolCalls": 0,
+              "firstSceneSeconds": 0.0046,
+              "localizationSeconds": 11.25,
+              "requests": [
+                {
+                  "index": 1,
+                  "transport": "ollama-native",
+                  "model": "qwen3.8:27b-kernel-8k",
+                  "seconds": 11.22,
+                  "status": "returned",
+                  "usage": {
+                    "promptTokens": 5516,
+                    "outputTokens": 561,
+                    "generationSeconds": 9.898661
+                  }
+                }
+              ],
+              "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+            },
+            "wallSeconds": 11.437,
+            "sourceFiles": 12,
+            "toolEvidenceCount": 3,
+            "evidence": {
+              "schemaVersion": 3,
+              "commands": [
+                {
+                  "id": "T1",
+                  "tool": "incident",
+                  "arguments": {},
+                  "seconds": 0.005,
+                  "result": {
+                    "available": {
+                      "log": true,
+                      "source": true,
+                      "artifacts": false
+                    },
+                    "artifactFiles": [],
+                    "totalLogLines": 538,
+                    "firstDiagnosticLine": 443,
+                    "lines": [
+                      {
+                        "line": 435,
+                        "text": "[   31.401495] mount (85) used greatest stack depth: 27728 bytes left"
+                      },
+                      {
+                        "line": 436,
+                        "text": "[   31.477166] mount (86) used greatest stack depth: 27416 bytes left"
+                      },
+                      {
+                        "line": 437,
+                        "text": "[collector metadata withheld]"
+                      },
+                      {
+                        "line": 438,
+                        "text": "[collector metadata withheld]"
+                      },
+                      {
+                        "line": 439,
+                        "text": "[collector metadata withheld]"
+                      },
+                      {
+                        "line": 440,
+                        "text": "[collector metadata withheld]"
+                      },
+                      {
+                        "line": 441,
+                        "text": "[collector metadata withheld]"
+                      },
+                      {
+                        "line": 442,
+                        "text": "[collector metadata withheld]"
+                      },
+                      {
+                        "line": 443,
+                        "text": "[   62.239894] pressure invoked oom-killer: gfp_mask=0x900dca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO|0x800000), order=0, oom_score_adj=0"
+                      },
+                      {
+                        "line": 444,
+                        "text": "[   62.241377] CPU: 0 PID: 94 Comm: pressure Not tainted 5.10.210+ #1"
+                      },
+                      {
+                        "line": 445,
+                        "text": "[   62.241727] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014"
+                      },
+                      {
+                        "line": 446,
+                        "text": "[   62.241834] Call Trace:"
+                      },
+                      {
+                        "line": 447,
+                        "text": "[   62.241834]  dump_stack+0x9a/0xd0"
+                      },
+                      {
+                        "line": 448,
+                        "text": "[   62.241834]  dump_header+0x102/0x994"
+                      },
+                      {
+                        "line": 449,
+                        "text": "[   62.241834]  out_of_memory.cold+0x94/0x14a"
+                      },
+                      {
+                        "line": 450,
+                        "text": "[   62.241834]  ? oom_killer_disable+0x1c0/0x1c0"
+                      },
+                      {
+                        "line": 451,
+                        "text": "[   62.241834]  __alloc_pages_slowpath.constprop.0+0x19fb/0x2090"
+                      },
+                      {
+                        "line": 452,
+                        "text": "[   62.241834]  ? warn_alloc+0x1c0/0x1c0"
+                      },
+                      {
+                        "line": 453,
+                        "text": "[   62.241834]  ? __alloc_pages_nodemask+0x432/0x5b0"
+                      },
+                      {
+                        "line": 454,
+                        "text": "[   62.241834]  ? cpu_cgroup_can_attach+0x120/0x120"
+                      },
+                      {
+                        "line": 455,
+                        "text": "[   62.241834]  __alloc_pages_nodemask+0x501/0x5b0"
+                      },
+                      {
+                        "line": 456,
+                        "text": "[   62.241834]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0"
+                      },
+                      {
+                        "line": 457,
+                        "text": "[   62.241834]  ? __alloc_pages_slowpath.constprop.0+0x2090/0x2090"
+                      },
+                      {
+                        "line": 458,
+                        "text": "[   62.241834]  ? lock_acquire+0x18d/0x460"
+                      },
+                      {
+                        "line": 459,
+                        "text": "[   62.241834]  alloc_pages_vma+0x95/0x350"
+                      },
+                      {
+                        "line": 460,
+                        "text": "[   62.241834]  ? lock_downgrade+0x6b0/0x6b0"
+                      },
+                      {
+                        "line": 461,
+                        "text": "[   62.241834]  handle_mm_fault+0xec7/0x2a20"
+                      },
+                      {
+                        "line": 462,
+                        "text": "[   62.241834]  ? find_held_lock+0x2d/0x110"
+                      },
+                      {
+                        "line": 463,
+                        "text": "[   62.241834]  ? __pmd_alloc+0x4c0/0x4c0"
+                      },
+                      {
+                        "line": 464,
+                        "text": "[   62.241834]  do_user_addr_fault+0x353/0x8f0"
+                      },
+                      {
+                        "line": 465,
+                        "text": "[   62.241834]  exc_page_fault+0x57/0xd0"
+                      },
+                      {
+                        "line": 466,
+                        "text": "[   62.241834]  ? asm_exc_page_fault+0x8/0x30"
+                      },
+                      {
+                        "line": 467,
+                        "text": "[   62.241834]  asm_exc_page_fault+0x1e/0x30"
+                      },
+                      {
+                        "line": 468,
+                        "text": "[   62.241834] RIP: 0033:0x401919"
+                      },
+                      {
+                        "line": 469,
+                        "text": "[   62.241834] Code: 8b 84 c5 f0 df ff ff 48 89 85 e8 df ff ff c7 85 e4 df ff ff 00 00 00 00 eb 1d 8b 95 e4 df ff ff 48 8b 85 e8 df ff ff 48 01 d0 <c6> 00 01 81 85 e4 df ff ff 00 10 00 00 81 bd e4 df ff ff ff ff 7f"
+                      },
+                      {
+                        "line": 470,
+                        "text": "[   62.241834] RSP: 002b:00007ffdadbf8120 EFLAGS: 00000202"
+                      },
+                      {
+                        "line": 471,
+                        "text": "[   62.241834] RAX: 00007f8dfea86010 RBX: 0000000000000001 RCX: 00007f8dfe7af010"
+                      },
+                      {
+                        "line": 472,
+                        "text": "[   62.241834] RDX: 00000000002d7000 RSI: 0000000000800000 RDI: 00007f8dfe7af010"
+                      },
+                      {
+                        "line": 473,
+                        "text": "[   62.241834] RBP: 00007ffdadbfa140 R08: 00000000ffffffff R09: 0000000000000000"
+                      },
+                      {
+                        "line": 474,
+                        "text": "[   62.241834] R10: 0000000000000022 R11: 0000000000000246 R12: 00007ffdadbfa258"
+                      },
+                      {
+                        "line": 475,
+                        "text": "[   62.241834] R13: 00007ffdadbfa268 R14: 00000000004a5f68 R15: 0000000000000001"
+                      },
+                      {
+                        "line": 476,
+                        "text": "[   62.254663] Mem-Info:"
+                      },
+                      {
+                        "line": 477,
+                        "text": "[   62.255567] active_anon:492 inactive_anon:363503 isolated_anon:0"
+                      },
+                      {
+                        "line": 478,
+                        "text": "[   62.255567]  active_file:0 inactive_file:0 isolated_file:0"
+                      },
+                      {
+                        "line": 479,
+                        "text": "[   62.255567]  unevictable:0 dirty:0 writeback:0"
+                      },
+                      {
+                        "line": 480,
+                        "text": "[   62.255567]  slab_reclaimable:4586 slab_unreclaimable:28546"
+                      },
+                      {
+                        "line": 481,
+                        "text": "[   62.255567]  mapped:567 shmem:776 pagetables:729 bounce:0"
+                      },
+                      {
+                        "line": 482,
+                        "text": "[   62.255567]  free:2807 free_pcp:205 free_cma:0"
+                      },
+                      {
+                        "line": 483,
+                        "text": "[   62.257426] Node 0 active_anon:1968kB inactive_anon:1454012kB active_file:0kB inactive_file:0kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:2268kB dirty:0kB writeback:0kB shmem:3104kB writeback_tmp:0kB kernel_stack:1952kB all_unreclaimable? yes"
+                      },
+                      {
+                        "line": 484,
+                        "text": "[   62.258839] Node 0 DMA free:6256kB min:48kB low:60kB high:72kB reserved_highatomic:0KB active_anon:0kB inactive_anon:9612kB active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB present:15992kB managed:15908kB mlocked:0kB pagetables:16kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB"
+                      },
+                      {
+                        "line": 485,
+                        "text": "[   62.260788] lowmem_reserve[]: 0 1553 1553 1553"
+                      },
+                      {
+                        "line": 486,
+                        "text": "[   62.261461] Node 0 DMA32 free:4972kB min:5016kB low:6604kB high:8192kB reserved_highatomic:0KB active_anon:1968kB inactive_anon:1443996kB active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB present:2080636kB managed:1597596kB mlocked:0kB pagetables:2900kB bounce:0kB free_pcp:820kB local_pcp:492kB free_cma:0kB"
+                      },
+                      {
+                        "line": 487,
+                        "text": "[   62.262901] lowmem_reserve[]: 0 0 0 0"
+                      },
+                      {
+                        "line": 488,
+                        "text": "[   62.263589] Node 0 DMA: 2*4kB (UM) 1*8kB (U) 2*16kB (UM) 2*32kB (UM) 2*64kB (UM) 1*128kB (U) 1*256kB (U) 1*512kB (M) 1*1024kB (U) 0*2048kB 1*4096kB (M) = 6256kB"
+                      },
+                      {
+                        "line": 489,
+                        "text": "[   62.265852] Node 0 DMA32: 1*4kB (M) 3*8kB (UME) 3*16kB (UME) 1*32kB (M) 2*64kB (UE) 1*128kB (M) 0*256kB 1*512kB (U) 2*1024kB (UM) 1*2048kB (U) 0*4096kB = 4972kB"
+                      },
+                      {
+                        "line": 490,
+                        "text": "[   62.267711] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=2048kB"
+                      },
+                      {
+                        "line": 491,
+                        "text": "[   62.268320] 776 total pagecache pages"
+                      },
+                      {
+                        "line": 492,
+                        "text": "[   62.268741] 0 pages in swap cache"
+                      },
+                      {
+                        "line": 493,
+                        "text": "[   62.268961] Swap cache stats: add 0, delete 0, find 0/0"
+                      },
+                      {
+                        "line": 494,
+                        "text": "[   62.269426] Free swap  = 0kB"
+                      },
+                      {
+                        "line": 495,
+                        "text": "[   62.269651] Total swap = 0kB"
+                      },
+                      {
+                        "line": 496,
+                        "text": "[   62.269963] 524157 pages RAM"
+                      },
+                      {
+                        "line": 497,
+                        "text": "[   62.270285] 0 pages HighMem/MovableOnly"
+                      },
+                      {
+                        "line": 498,
+                        "text": "[   62.270526] 120781 pages reserved"
+                      },
+                      {
+                        "line": 499,
+                        "text": "[   62.270853] Tasks state (memory values in pages):"
+                      },
+                      {
+                        "line": 500,
+                        "text": "[   62.271115] [  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name"
+                      },
+                      {
+                        "line": 501,
+                        "text": "[   62.272964] [     94]     0    94   364972   363334  2965504        0             0 pressure"
+                      },
+                      {
+                        "line": 502,
+                        "text": "[   62.274106] Kernel panic - not syncing: Out of memory: compulsory panic_on_oom is enabled"
+                      },
+                      {
+                        "line": 503,
+                        "text": "[   62.274630] CPU: 0 PID: 94 Comm: pressure Not tainted 5.10.210+ #1"
+                      },
+                      {
+                        "line": 504,
+                        "text": "[   62.274712] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014"
+                      },
+                      {
+                        "line": 505,
+                        "text": "[   62.274712] Call Trace:"
+                      },
+                      {
+                        "line": 506,
+                        "text": "[   62.274712]  dump_stack+0x9a/0xd0"
+                      },
+                      {
+                        "line": 507,
+                        "text": "[   62.274712]  panic+0x241/0x4df"
+                      },
+                      {
+                        "line": 508,
+                        "text": "[   62.274712]  ? __warn_printk+0x10e/0x10e"
+                      },
+                      {
+                        "line": 509,
+                        "text": "[   62.274712]  ? dump_header+0x7a4/0x994"
+                      },
+                      {
+                        "line": 510,
+                        "text": "[   62.274712]  out_of_memory.cold+0xba/0x14a"
+                      },
+                      {
+                        "line": 511,
+                        "text": "[   62.274712]  ? oom_killer_disable+0x1c0/0x1c0"
+                      },
+                      {
+                        "line": 512,
+                        "text": "[   62.274712]  __alloc_pages_slowpath.constprop.0+0x19fb/0x2090"
+                      },
+                      {
+                        "line": 513,
+                        "text": "[   62.274712]  ? warn_alloc+0x1c0/0x1c0"
+                      },
+                      {
+                        "line": 514,
+                        "text": "[   62.274712]  ? __alloc_pages_nodemask+0x432/0x5b0"
+                      }
+                    ],
+                    "lifetimeEvidence": [],
+                    "tailEvidence": [],
+                    "note": "These are bounded tool windows, not a claim the original log is truncated. First report is an observation, not proof of causal ownership. Reuse windows before requesting more log lines."
+                  }
+                },
+                {
+                  "id": "T2",
+                  "tool": "source_search",
+                  "arguments": {
+                    "text": "pressure.c"
+                  },
+                  "seconds": 0.022,
+                  "result": {
+                    "command": [
+                      "rg",
+                      "--no-config",
+                      "--no-heading",
+                      "-n",
+                      "-F",
+                      "-m",
+                      "8",
+                      "--glob",
+                      "*.c",
+                      "--glob",
+                      "*.h",
+                      "--",
+                      "pressure.c",
+                      "."
+                    ],
+                    "exitCode": 1,
+                    "output": "",
+                    "truncated": false,
+                    "fileMatches": [
+                      "./pressure.c"
+                    ]
+                  }
+                },
+                {
+                  "id": "T3",
+                  "tool": "source_read",
+                  "arguments": {
+                    "path": "pressure.c",
+                    "start": 1,
+                    "count": 80
+                  },
+                  "seconds": 0,
+                  "result": {
+                    "path": "pressure.c",
+                    "sha256": "03d8226acfd69db70db758fb64bfef0ff2ea78e30cbd3c98c055bb2af0168afe",
+                    "lines": [
+                      {
+                        "line": 1,
+                        "text": "/* SPDX-License-Identifier: GPL-2.0 */"
+                      },
+                      {
+                        "line": 2,
+                        "text": "/* Guest-only workload. Never executed on the host. Retain and fault in memory. */"
+                      },
+                      {
+                        "line": 3,
+                        "text": "#include <stdlib.h>"
+                      },
+                      {
+                        "line": 4,
+                        "text": "#include <unistd.h>"
+                      },
+                      {
+                        "line": 5,
+                        "text": "int main(void)"
+                      },
+                      {
+                        "line": 6,
+                        "text": "{"
+                      },
+                      {
+                        "line": 7,
+                        "text": "    void *blocks[1024];"
+                      },
+                      {
+                        "line": 8,
+                        "text": "    for (unsigned i=0; i<1024; ++i) {"
+                      },
+                      {
+                        "line": 9,
+                        "text": "        blocks[i]=malloc(8*1024*1024);"
+                      },
+                      {
+                        "line": 10,
+                        "text": "        if (!blocks[i]) { sleep(1); --i; continue; }"
+                      },
+                      {
+                        "line": 11,
+                        "text": "        volatile unsigned char *p=blocks[i];"
+                      },
+                      {
+                        "line": 12,
+                        "text": "        for (unsigned j=0; j<8*1024*1024; j+=4096) p[j]=1;"
+                      },
+                      {
+                        "line": 13,
+                        "text": "    }"
+                      },
+                      {
+                        "line": 14,
+                        "text": "    sleep(60);"
+                      },
+                      {
+                        "line": 15,
+                        "text": "    return 0;"
+                      },
+                      {
+                        "line": 16,
+                        "text": "}"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "rootCauseVerified": false,
+              "gaps": [
+                "无 swap 配置详情",
+                "无其他进程内存占用明细"
+              ]
+            },
+            "rootCauseVerified": false
+          }
+        },
+        {
+          "name": "logout clears session",
+          "status": "passed",
+          "seconds": 0.005
+        }
+      ],
+      "coverage": {
+        "checks": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "limitations": [
+        "API checks do not replace visual browser inspection.",
+        "No real vmcore is present; dump gates are tested, not a real crash dump root cause."
+      ],
+      "engine": {
+        "ok": true,
+        "enabled": true,
+        "engine": "closed-loop",
+        "model": "qwen3.8:27b-kernel-8k",
+        "provider": "ollama",
+        "transport": "ollama-native",
+        "timeoutSeconds": 240,
+        "llmConnected": true
+      },
+      "dataset": {
+        "version": "openharmony-lkdtm-lab-v1",
+        "cases": 64,
+        "fingerprint": "8422fc0500519ba82db554022db1522230ea3b6c0eafe4ceaeab26675ac732e2"
+      },
+      "modelTrial": {
+        "jobId": "4015123b-03a6-480d-8b6d-9a79f564fd5a",
+        "category": "OOM",
+        "firstScene": {
+          "stage": "runtime",
+          "reportingComponent": "oom-killer",
+          "affectedComponent": "pressure (PID 94)",
+          "description": "pressure 进程分配并触碰大量匿名页，耗尽内存触发 OOM panic",
+          "evidenceRefs": [
+            "T1"
+          ]
+        },
+        "localization": {
+          "status": "function_candidate",
+          "mechanism": "用户态内存分配与触碰导致内核页表分配失败，触发 OOM",
+          "candidateSymbols": [
+            "handle_mm_fault",
+            "alloc_pages_vma",
+            "__alloc_pages_slowpath"
+          ],
+          "locations": [
+            {
+              "path": "pressure.c",
+              "symbol": "main",
+              "startLine": 8,
+              "endLine": 13,
+              "evidenceRefs": [
+                "T3"
+              ]
+            }
+          ],
+          "introducingCommit": null,
+          "verification": {
+            "status": "source_supported",
+            "missing": [
+              "QEMU 内存配置",
+              "系统总内存与压力测试预期"
+            ],
+            "nextCheck": "确认 QEMU -m 参数与 pressure 分配量关系"
+          },
+          "rootCauseVerified": false
+        },
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0046,
+          "localizationSeconds": 11.25,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 11.22,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5516,
+                "outputTokens": 561,
+                "generationSeconds": 9.898661
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "wallSeconds": 11.437,
+        "sourceFiles": 12,
+        "toolEvidenceCount": 3,
+        "evidence": {
+          "schemaVersion": 3,
+          "commands": [
+            {
+              "id": "T1",
+              "tool": "incident",
+              "arguments": {},
+              "seconds": 0.005,
+              "result": {
+                "available": {
+                  "log": true,
+                  "source": true,
+                  "artifacts": false
+                },
+                "artifactFiles": [],
+                "totalLogLines": 538,
+                "firstDiagnosticLine": 443,
+                "lines": [
+                  {
+                    "line": 435,
+                    "text": "[   31.401495] mount (85) used greatest stack depth: 27728 bytes left"
+                  },
+                  {
+                    "line": 436,
+                    "text": "[   31.477166] mount (86) used greatest stack depth: 27416 bytes left"
+                  },
+                  {
+                    "line": 437,
+                    "text": "[collector metadata withheld]"
+                  },
+                  {
+                    "line": 438,
+                    "text": "[collector metadata withheld]"
+                  },
+                  {
+                    "line": 439,
+                    "text": "[collector metadata withheld]"
+                  },
+                  {
+                    "line": 440,
+                    "text": "[collector metadata withheld]"
+                  },
+                  {
+                    "line": 441,
+                    "text": "[collector metadata withheld]"
+                  },
+                  {
+                    "line": 442,
+                    "text": "[collector metadata withheld]"
+                  },
+                  {
+                    "line": 443,
+                    "text": "[   62.239894] pressure invoked oom-killer: gfp_mask=0x900dca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO|0x800000), order=0, oom_score_adj=0"
+                  },
+                  {
+                    "line": 444,
+                    "text": "[   62.241377] CPU: 0 PID: 94 Comm: pressure Not tainted 5.10.210+ #1"
+                  },
+                  {
+                    "line": 445,
+                    "text": "[   62.241727] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014"
+                  },
+                  {
+                    "line": 446,
+                    "text": "[   62.241834] Call Trace:"
+                  },
+                  {
+                    "line": 447,
+                    "text": "[   62.241834]  dump_stack+0x9a/0xd0"
+                  },
+                  {
+                    "line": 448,
+                    "text": "[   62.241834]  dump_header+0x102/0x994"
+                  },
+                  {
+                    "line": 449,
+                    "text": "[   62.241834]  out_of_memory.cold+0x94/0x14a"
+                  },
+                  {
+                    "line": 450,
+                    "text": "[   62.241834]  ? oom_killer_disable+0x1c0/0x1c0"
+                  },
+                  {
+                    "line": 451,
+                    "text": "[   62.241834]  __alloc_pages_slowpath.constprop.0+0x19fb/0x2090"
+                  },
+                  {
+                    "line": 452,
+                    "text": "[   62.241834]  ? warn_alloc+0x1c0/0x1c0"
+                  },
+                  {
+                    "line": 453,
+                    "text": "[   62.241834]  ? __alloc_pages_nodemask+0x432/0x5b0"
+                  },
+                  {
+                    "line": 454,
+                    "text": "[   62.241834]  ? cpu_cgroup_can_attach+0x120/0x120"
+                  },
+                  {
+                    "line": 455,
+                    "text": "[   62.241834]  __alloc_pages_nodemask+0x501/0x5b0"
+                  },
+                  {
+                    "line": 456,
+                    "text": "[   62.241834]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0"
+                  },
+                  {
+                    "line": 457,
+                    "text": "[   62.241834]  ? __alloc_pages_slowpath.constprop.0+0x2090/0x2090"
+                  },
+                  {
+                    "line": 458,
+                    "text": "[   62.241834]  ? lock_acquire+0x18d/0x460"
+                  },
+                  {
+                    "line": 459,
+                    "text": "[   62.241834]  alloc_pages_vma+0x95/0x350"
+                  },
+                  {
+                    "line": 460,
+                    "text": "[   62.241834]  ? lock_downgrade+0x6b0/0x6b0"
+                  },
+                  {
+                    "line": 461,
+                    "text": "[   62.241834]  handle_mm_fault+0xec7/0x2a20"
+                  },
+                  {
+                    "line": 462,
+                    "text": "[   62.241834]  ? find_held_lock+0x2d/0x110"
+                  },
+                  {
+                    "line": 463,
+                    "text": "[   62.241834]  ? __pmd_alloc+0x4c0/0x4c0"
+                  },
+                  {
+                    "line": 464,
+                    "text": "[   62.241834]  do_user_addr_fault+0x353/0x8f0"
+                  },
+                  {
+                    "line": 465,
+                    "text": "[   62.241834]  exc_page_fault+0x57/0xd0"
+                  },
+                  {
+                    "line": 466,
+                    "text": "[   62.241834]  ? asm_exc_page_fault+0x8/0x30"
+                  },
+                  {
+                    "line": 467,
+                    "text": "[   62.241834]  asm_exc_page_fault+0x1e/0x30"
+                  },
+                  {
+                    "line": 468,
+                    "text": "[   62.241834] RIP: 0033:0x401919"
+                  },
+                  {
+                    "line": 469,
+                    "text": "[   62.241834] Code: 8b 84 c5 f0 df ff ff 48 89 85 e8 df ff ff c7 85 e4 df ff ff 00 00 00 00 eb 1d 8b 95 e4 df ff ff 48 8b 85 e8 df ff ff 48 01 d0 <c6> 00 01 81 85 e4 df ff ff 00 10 00 00 81 bd e4 df ff ff ff ff 7f"
+                  },
+                  {
+                    "line": 470,
+                    "text": "[   62.241834] RSP: 002b:00007ffdadbf8120 EFLAGS: 00000202"
+                  },
+                  {
+                    "line": 471,
+                    "text": "[   62.241834] RAX: 00007f8dfea86010 RBX: 0000000000000001 RCX: 00007f8dfe7af010"
+                  },
+                  {
+                    "line": 472,
+                    "text": "[   62.241834] RDX: 00000000002d7000 RSI: 0000000000800000 RDI: 00007f8dfe7af010"
+                  },
+                  {
+                    "line": 473,
+                    "text": "[   62.241834] RBP: 00007ffdadbfa140 R08: 00000000ffffffff R09: 0000000000000000"
+                  },
+                  {
+                    "line": 474,
+                    "text": "[   62.241834] R10: 0000000000000022 R11: 0000000000000246 R12: 00007ffdadbfa258"
+                  },
+                  {
+                    "line": 475,
+                    "text": "[   62.241834] R13: 00007ffdadbfa268 R14: 00000000004a5f68 R15: 0000000000000001"
+                  },
+                  {
+                    "line": 476,
+                    "text": "[   62.254663] Mem-Info:"
+                  },
+                  {
+                    "line": 477,
+                    "text": "[   62.255567] active_anon:492 inactive_anon:363503 isolated_anon:0"
+                  },
+                  {
+                    "line": 478,
+                    "text": "[   62.255567]  active_file:0 inactive_file:0 isolated_file:0"
+                  },
+                  {
+                    "line": 479,
+                    "text": "[   62.255567]  unevictable:0 dirty:0 writeback:0"
+                  },
+                  {
+                    "line": 480,
+                    "text": "[   62.255567]  slab_reclaimable:4586 slab_unreclaimable:28546"
+                  },
+                  {
+                    "line": 481,
+                    "text": "[   62.255567]  mapped:567 shmem:776 pagetables:729 bounce:0"
+                  },
+                  {
+                    "line": 482,
+                    "text": "[   62.255567]  free:2807 free_pcp:205 free_cma:0"
+                  },
+                  {
+                    "line": 483,
+                    "text": "[   62.257426] Node 0 active_anon:1968kB inactive_anon:1454012kB active_file:0kB inactive_file:0kB unevictable:0kB isolated(anon):0kB isolated(file):0kB mapped:2268kB dirty:0kB writeback:0kB shmem:3104kB writeback_tmp:0kB kernel_stack:1952kB all_unreclaimable? yes"
+                  },
+                  {
+                    "line": 484,
+                    "text": "[   62.258839] Node 0 DMA free:6256kB min:48kB low:60kB high:72kB reserved_highatomic:0KB active_anon:0kB inactive_anon:9612kB active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB present:15992kB managed:15908kB mlocked:0kB pagetables:16kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB"
+                  },
+                  {
+                    "line": 485,
+                    "text": "[   62.260788] lowmem_reserve[]: 0 1553 1553 1553"
+                  },
+                  {
+                    "line": 486,
+                    "text": "[   62.261461] Node 0 DMA32 free:4972kB min:5016kB low:6604kB high:8192kB reserved_highatomic:0KB active_anon:1968kB inactive_anon:1443996kB active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB present:2080636kB managed:1597596kB mlocked:0kB pagetables:2900kB bounce:0kB free_pcp:820kB local_pcp:492kB free_cma:0kB"
+                  },
+                  {
+                    "line": 487,
+                    "text": "[   62.262901] lowmem_reserve[]: 0 0 0 0"
+                  },
+                  {
+                    "line": 488,
+                    "text": "[   62.263589] Node 0 DMA: 2*4kB (UM) 1*8kB (U) 2*16kB (UM) 2*32kB (UM) 2*64kB (UM) 1*128kB (U) 1*256kB (U) 1*512kB (M) 1*1024kB (U) 0*2048kB 1*4096kB (M) = 6256kB"
+                  },
+                  {
+                    "line": 489,
+                    "text": "[   62.265852] Node 0 DMA32: 1*4kB (M) 3*8kB (UME) 3*16kB (UME) 1*32kB (M) 2*64kB (UE) 1*128kB (M) 0*256kB 1*512kB (U) 2*1024kB (UM) 1*2048kB (U) 0*4096kB = 4972kB"
+                  },
+                  {
+                    "line": 490,
+                    "text": "[   62.267711] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=2048kB"
+                  },
+                  {
+                    "line": 491,
+                    "text": "[   62.268320] 776 total pagecache pages"
+                  },
+                  {
+                    "line": 492,
+                    "text": "[   62.268741] 0 pages in swap cache"
+                  },
+                  {
+                    "line": 493,
+                    "text": "[   62.268961] Swap cache stats: add 0, delete 0, find 0/0"
+                  },
+                  {
+                    "line": 494,
+                    "text": "[   62.269426] Free swap  = 0kB"
+                  },
+                  {
+                    "line": 495,
+                    "text": "[   62.269651] Total swap = 0kB"
+                  },
+                  {
+                    "line": 496,
+                    "text": "[   62.269963] 524157 pages RAM"
+                  },
+                  {
+                    "line": 497,
+                    "text": "[   62.270285] 0 pages HighMem/MovableOnly"
+                  },
+                  {
+                    "line": 498,
+                    "text": "[   62.270526] 120781 pages reserved"
+                  },
+                  {
+                    "line": 499,
+                    "text": "[   62.270853] Tasks state (memory values in pages):"
+                  },
+                  {
+                    "line": 500,
+                    "text": "[   62.271115] [  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name"
+                  },
+                  {
+                    "line": 501,
+                    "text": "[   62.272964] [     94]     0    94   364972   363334  2965504        0             0 pressure"
+                  },
+                  {
+                    "line": 502,
+                    "text": "[   62.274106] Kernel panic - not syncing: Out of memory: compulsory panic_on_oom is enabled"
+                  },
+                  {
+                    "line": 503,
+                    "text": "[   62.274630] CPU: 0 PID: 94 Comm: pressure Not tainted 5.10.210+ #1"
+                  },
+                  {
+                    "line": 504,
+                    "text": "[   62.274712] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014"
+                  },
+                  {
+                    "line": 505,
+                    "text": "[   62.274712] Call Trace:"
+                  },
+                  {
+                    "line": 506,
+                    "text": "[   62.274712]  dump_stack+0x9a/0xd0"
+                  },
+                  {
+                    "line": 507,
+                    "text": "[   62.274712]  panic+0x241/0x4df"
+                  },
+                  {
+                    "line": 508,
+                    "text": "[   62.274712]  ? __warn_printk+0x10e/0x10e"
+                  },
+                  {
+                    "line": 509,
+                    "text": "[   62.274712]  ? dump_header+0x7a4/0x994"
+                  },
+                  {
+                    "line": 510,
+                    "text": "[   62.274712]  out_of_memory.cold+0xba/0x14a"
+                  },
+                  {
+                    "line": 511,
+                    "text": "[   62.274712]  ? oom_killer_disable+0x1c0/0x1c0"
+                  },
+                  {
+                    "line": 512,
+                    "text": "[   62.274712]  __alloc_pages_slowpath.constprop.0+0x19fb/0x2090"
+                  },
+                  {
+                    "line": 513,
+                    "text": "[   62.274712]  ? warn_alloc+0x1c0/0x1c0"
+                  },
+                  {
+                    "line": 514,
+                    "text": "[   62.274712]  ? __alloc_pages_nodemask+0x432/0x5b0"
+                  }
+                ],
+                "lifetimeEvidence": [],
+                "tailEvidence": [],
+                "note": "These are bounded tool windows, not a claim the original log is truncated. First report is an observation, not proof of causal ownership. Reuse windows before requesting more log lines."
+              }
+            },
+            {
+              "id": "T2",
+              "tool": "source_search",
+              "arguments": {
+                "text": "pressure.c"
+              },
+              "seconds": 0.022,
+              "result": {
+                "command": [
+                  "rg",
+                  "--no-config",
+                  "--no-heading",
+                  "-n",
+                  "-F",
+                  "-m",
+                  "8",
+                  "--glob",
+                  "*.c",
+                  "--glob",
+                  "*.h",
+                  "--",
+                  "pressure.c",
+                  "."
+                ],
+                "exitCode": 1,
+                "output": "",
+                "truncated": false,
+                "fileMatches": [
+                  "./pressure.c"
+                ]
+              }
+            },
+            {
+              "id": "T3",
+              "tool": "source_read",
+              "arguments": {
+                "path": "pressure.c",
+                "start": 1,
+                "count": 80
+              },
+              "seconds": 0,
+              "result": {
+                "path": "pressure.c",
+                "sha256": "03d8226acfd69db70db758fb64bfef0ff2ea78e30cbd3c98c055bb2af0168afe",
+                "lines": [
+                  {
+                    "line": 1,
+                    "text": "/* SPDX-License-Identifier: GPL-2.0 */"
+                  },
+                  {
+                    "line": 2,
+                    "text": "/* Guest-only workload. Never executed on the host. Retain and fault in memory. */"
+                  },
+                  {
+                    "line": 3,
+                    "text": "#include <stdlib.h>"
+                  },
+                  {
+                    "line": 4,
+                    "text": "#include <unistd.h>"
+                  },
+                  {
+                    "line": 5,
+                    "text": "int main(void)"
+                  },
+                  {
+                    "line": 6,
+                    "text": "{"
+                  },
+                  {
+                    "line": 7,
+                    "text": "    void *blocks[1024];"
+                  },
+                  {
+                    "line": 8,
+                    "text": "    for (unsigned i=0; i<1024; ++i) {"
+                  },
+                  {
+                    "line": 9,
+                    "text": "        blocks[i]=malloc(8*1024*1024);"
+                  },
+                  {
+                    "line": 10,
+                    "text": "        if (!blocks[i]) { sleep(1); --i; continue; }"
+                  },
+                  {
+                    "line": 11,
+                    "text": "        volatile unsigned char *p=blocks[i];"
+                  },
+                  {
+                    "line": 12,
+                    "text": "        for (unsigned j=0; j<8*1024*1024; j+=4096) p[j]=1;"
+                  },
+                  {
+                    "line": 13,
+                    "text": "    }"
+                  },
+                  {
+                    "line": 14,
+                    "text": "    sleep(60);"
+                  },
+                  {
+                    "line": 15,
+                    "text": "    return 0;"
+                  },
+                  {
+                    "line": 16,
+                    "text": "}"
+                  }
+                ]
+              }
+            }
+          ],
+          "rootCauseVerified": false,
+          "gaps": [
+            "无 swap 配置详情",
+            "无其他进程内存占用明细"
+          ]
+        },
+        "rootCauseVerified": false
+      },
+      "completedAt": "2026-10-07T09:35:54.416Z",
+      "passed": true
+    },
+    "completedAt": "2026-10-07T09:35:54.522016+00:00",
+    "passed": true
+  },
+  "browserVerification": {
+    "pages": [
+      "登录",
+      "账号管理",
+      "新建分析",
+      "个人空间",
+      "效能看板",
+      "专家中心",
+      "Benchmark",
+      "Skill 合入流程",
+      "内核源码",
+      "新版定位报告"
+    ],
+    "reportJobId": "3bf2ff51-418f-4edb-b7d3-286943455f18",
+    "headline": "BUG: KASAN: use-after-free in ki_uaf_kmalloc",
+    "firstSceneAndMetricsVisible": true,
+    "screenshots": [
+      "docs/previews/website-localization-v10.jpg",
+      "docs/previews/website-agent-v10.jpg"
+    ]
+  },
+  "earlierFailuresAndRepairs": [
+    {
+      "issue": "Raw-byte log SHA differed after UTF-8 decoding in download API",
+      "repair": "Return original file bytes; verify every log with byte-level SHA256"
+    },
+    {
+      "issue": "Selfcheck Skill pattern too broad for current 64-case labels",
+      "repair": "Use isolated exact diagnostic pattern; retain fixed benchmark gate"
+    },
+    {
+      "issue": "Regression process inherited production model switch",
+      "repair": "Remove live-model environment from unit/isolated checks"
+    },
+    {
+      "issue": "Sandbox script executable bit missing after Windows package staging",
+      "repair": "Restore executable permission and rerun actual production sandbox analysis"
+    },
+    {
+      "issue": "Legacy headline treated normal debug/info initialization as first fault",
+      "repair": "Diagnostic-specific regex and regression; browser verified latest BUG headline"
+    }
+  ],
+  "scope": "Major available website workflows exercised; real vmcore, vendor-wide source download support, independent commit attribution and fix replay remain unsupported/unverified."
+}

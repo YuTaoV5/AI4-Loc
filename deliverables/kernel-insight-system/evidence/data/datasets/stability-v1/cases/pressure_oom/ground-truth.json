@@ -1,0 +1,81 @@
+{
+  "status": "evidence_verified",
+  "rootCause": "Userspace retains and touches 8 MiB allocations until guest memory is exhausted; panic_on_oom=2 converts the guest OOM into a captured panic.",
+  "rootLocation": {
+    "path": "pressure.c",
+    "symbol": "main",
+    "startLine": 5,
+    "endLine": 16
+  },
+  "diagnosticEvidence": [
+    {
+      "line": 449,
+      "text": "[   62.241834]  out_of_memory.cold+0x94/0x14a"
+    },
+    {
+      "line": 502,
+      "text": "[   62.274106] Kernel panic - not syncing: Out of memory: compulsory panic_on_oom is enabled"
+    },
+    {
+      "line": 510,
+      "text": "[   62.274712]  out_of_memory.cold+0xba/0x14a"
+    }
+  ],
+  "causalTraceSymbols": [
+    "pressure",
+    "out_of_memory"
+  ],
+  "issues": [],
+  "annotationMethod": "deterministic injector source plus expected detector and causal trace; synthetic, not independently discovered production bugs",
+  "causalCode": [
+    {
+      "line": 5,
+      "text": "int main(void)"
+    },
+    {
+      "line": 6,
+      "text": "{"
+    },
+    {
+      "line": 7,
+      "text": "    void *blocks[1024];"
+    },
+    {
+      "line": 8,
+      "text": "    for (unsigned i=0; i<1024; ++i) {"
+    },
+    {
+      "line": 9,
+      "text": "        blocks[i]=malloc(8*1024*1024);"
+    },
+    {
+      "line": 10,
+      "text": "        if (!blocks[i]) { sleep(1); --i; continue; }"
+    },
+    {
+      "line": 11,
+      "text": "        volatile unsigned char *p=blocks[i];"
+    },
+    {
+      "line": 12,
+      "text": "        for (unsigned j=0; j<8*1024*1024; j+=4096) p[j]=1;"
+    },
+    {
+      "line": 13,
+      "text": "    }"
+    },
+    {
+      "line": 14,
+      "text": "    sleep(60);"
+    },
+    {
+      "line": 15,
+      "text": "    return 0;"
+    },
+    {
+      "line": 16,
+      "text": "}"
+    }
+  ],
+  "annotationRevision": "v2: bounded BUG signature; exact causal code retained"
+}

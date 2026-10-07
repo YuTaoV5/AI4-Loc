@@ -1,0 +1,68 @@
+{
+  "schema": "kernel-project-slide-inventory/public-v1",
+  "derivedFromSha256": "561fb5deddb2e61fa2dafc74909be1c1a296bade1ddcefe5a2ad87e7efa35d1a",
+  "datasets": {
+    "stability-v1": {
+      "schema": "kernel-stability-dataset/v1",
+      "complete": true,
+      "cases": 68,
+      "readyCases": 60,
+      "faultCases": 59,
+      "families": [
+        "atomic_sleep",
+        "healthy",
+        "hung_task",
+        "lock_order",
+        "memory_leak",
+        "memory_oob",
+        "memory_uaf",
+        "oom",
+        "protection",
+        "rcu_stall",
+        "refcount",
+        "usercopy",
+        "watchdog"
+      ],
+      "missingFamilies": [],
+      "checkedFiles": 423,
+      "errors": []
+    },
+    "linux-community-v1": {
+      "cases": 6,
+      "complete": true,
+      "errors": []
+    },
+    "openharmony-lkdtm-lab-v1": {
+      "cases": 64,
+      "complete": true,
+      "errors": []
+    },
+    "openharmony-lkdtm-lab-v2": {
+      "cases": 80,
+      "complete": true,
+      "errors": []
+    }
+  },
+  "checks": {
+    "node": {
+      "passed": 36,
+      "total": 36
+    },
+    "python": {
+      "passed": 38,
+      "total": 38
+    },
+    "isolatedWebsite": {
+      "passed": 15,
+      "total": 15
+    },
+    "realModelRerun": false
+  },
+  "boundaries": [
+    "Versions overlap; do not sum cases as independent samples.",
+    "No paired vmcore, introducing-commit truth or repair replay was invented.",
+    "Linux links and historical duplicate experiment artifacts remain in Linux archives.",
+    "Private business state stays in ignored local snapshot archives."
+  ],
+  "omitted": "Private business snapshot metadata, archive hashes, local backup paths and extraction bookkeeping. No dataset counts were changed."
+}

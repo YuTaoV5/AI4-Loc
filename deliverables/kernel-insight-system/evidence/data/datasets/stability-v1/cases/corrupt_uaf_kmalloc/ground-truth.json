@@ -1,0 +1,60 @@
+{
+  "status": "evidence_verified",
+  "rootCause": "p[0] is written after kfree(p).",
+  "rootLocation": {
+    "path": "external/ki_bench.c",
+    "symbol": "ki_uaf_kmalloc",
+    "startLine": 106,
+    "endLine": 114
+  },
+  "diagnosticEvidence": [
+    {
+      "line": 448,
+      "text": "[   33.794370] BUG: KASAN: use-after-free in ki_uaf_kmalloc+0x7a/0x90 [ki_bench]"
+    }
+  ],
+  "causalTraceSymbols": [
+    "ki_uaf_kmalloc"
+  ],
+  "issues": [],
+  "annotationMethod": "deterministic injector source plus expected detector and causal trace; synthetic, not independently discovered production bugs",
+  "causalCode": [
+    {
+      "line": 106,
+      "text": "static noinline void ki_uaf_kmalloc(void)"
+    },
+    {
+      "line": 107,
+      "text": "{"
+    },
+    {
+      "line": 108,
+      "text": "\tchar *p = kmalloc(128, GFP_KERNEL);"
+    },
+    {
+      "line": 109,
+      "text": "\tif (!p)"
+    },
+    {
+      "line": 110,
+      "text": "\t\treturn;"
+    },
+    {
+      "line": 111,
+      "text": "\tkfree(p);"
+    },
+    {
+      "line": 112,
+      "text": "\tpr_info(\"uaf_kmalloc: writing to freed object\\n\");"
+    },
+    {
+      "line": 113,
+      "text": "\tp[0] = 'X';"
+    },
+    {
+      "line": 114,
+      "text": "}"
+    }
+  ],
+  "annotationRevision": "v2: bounded BUG signature; exact causal code retained"
+}

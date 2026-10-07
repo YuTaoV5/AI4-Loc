@@ -3,3 +3,6 @@ data/benchmark/*.txt -text
 *.sh text eol=lf
 
 tests/fixtures/community-v1/*.txt -text
+
+# Preserve source evidence, generated SVG spacing and Windows line endings exactly.
+/deliverables/kernel-insight-system/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

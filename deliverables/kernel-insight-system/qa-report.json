@@ -1,0 +1,500 @@
+{
+  "schema": "kernel-insight-deck-qa/v1",
+  "pages": 48,
+  "pageReports": [
+    {
+      "title": "从故障现场到有证据的定位",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 1
+    },
+    {
+      "title": "摘要：一次小样本迭代，同时改善三项指标",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 2
+    },
+    {
+      "title": "研究问题与实现形成一一对应",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 3
+    },
+    {
+      "title": "最后的 panic，可能离错误起点很远",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 4
+    },
+    {
+      "title": "输入可以缺失，输出必须分为两层",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 5
+    },
+    {
+      "title": "理论支撑转化为明确的工程约束",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 6
+    },
+    {
+      "title": "优化目标：在证据约束下减少交互成本",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 7
+    },
+    {
+      "title": "证据越强，允许的结论才越强",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 8
+    },
+    {
+      "title": "四套数据资产，各有用途且存在重叠",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 9
+    },
+    {
+      "title": "数据完整性必须由机器核验",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 10
+    },
+    {
+      "title": "覆盖 12 类故障，保护类仍占近一半",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/coverage.svg",
+          "loaded": true
+        }
+      ],
+      "page": 11
+    },
+    {
+      "title": "版本号相同，还不足以信任源码映射",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 12
+    },
+    {
+      "title": "材料缺失时，按证据降低输出粒度",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/input-contract.svg",
+          "loaded": true
+        }
+      ],
+      "page": 13
+    },
+    {
+      "title": "网站编排、工具定位与独立评测各司其职",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 14
+    },
+    {
+      "title": "全流程：从输入材料到失败回归",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 15
+    },
+    {
+      "title": "第一现场保留最早诊断，而非最后栈顶",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 16
+    },
+    {
+      "title": "八种只读工具，八种可追溯观察",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 17
+    },
+    {
+      "title": "工具观察进入下一轮，报告接受独立校验",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 18
+    },
+    {
+      "title": "真实 UAF 轨迹：工具如何支撑代码候选",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 19
+    },
+    {
+      "title": "本次优化：把重复源码检索前移",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 20
+    },
+    {
+      "title": "评分标签留在评测器，材料视图交给 Agent",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 21
+    },
+    {
+      "title": "先登记故障实例，再补齐诊断材料",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/02-workbench.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 22
+    },
+    {
+      "title": "材料配置把版本与构建身份显式化",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/03-materials.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 23
+    },
+    {
+      "title": "案例库连接原始日志、来源与复现线索",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/04-benchmark.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 24
+    },
+    {
+      "title": "日志报告保留原始行号与异常上下文",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/report-log.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 25
+    },
+    {
+      "title": "定界、代码候选与因果缺口同时呈现",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/report-agent.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 26
+    },
+    {
+      "title": "专家经验沉淀为可复用的排查步骤",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/expert-content.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 27
+    },
+    {
+      "title": "经验投稿与手动基准评测约束能力变更",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/submission.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 28
+    },
+    {
+      "title": "业务效能只统计人工确认的真实任务",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/site/dashboard.jpg",
+          "loaded": true
+        }
+      ],
+      "page": 29
+    },
+    {
+      "title": "固定六例、同模型预算，只改变源码预检",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 30
+    },
+    {
+      "title": "定位准确率、请求与时间，各有固定口径",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 31
+    },
+    {
+      "title": "固定六例中，命中提高且交互开销降低",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/result-overview.svg",
+          "loaded": true
+        }
+      ],
+      "page": 32
+    },
+    {
+      "title": "五个故障中，两项从失败或未命中转为命中",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/paired-hits.svg",
+          "loaded": true
+        }
+      ],
+      "page": 33
+    },
+    {
+      "title": "请求减少集中在重复检索与 OOM 收敛",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/requests.svg",
+          "loaded": true
+        }
+      ],
+      "page": 34
+    },
+    {
+      "title": "定位总时间减少 85.513 秒",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/latency.svg",
+          "loaded": true
+        }
+      ],
+      "page": 35
+    },
+    {
+      "title": "一次模型请求背后，仍有自动取证",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/tool-work.svg",
+          "loaded": true
+        }
+      ],
+      "page": 36
+    },
+    {
+      "title": "5/5 的区间仍宽，不能宣称稳定 100%",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [
+        {
+          "src": "media/uncertainty.svg",
+          "loaded": true
+        }
+      ],
+      "page": 37
+    },
+    {
+      "title": "额外三例：2/3 命中，RCU 仍然失败",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 38
+    },
+    {
+      "title": "UAF：释放后写入，由日志与源码共同支持",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 39
+    },
+    {
+      "title": "OOM：找到压力源，仍需区分目标与实际",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 40
+    },
+    {
+      "title": "历史缺失实验支持降级，但不是完整消融",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 41
+    },
+    {
+      "title": "部署可展示，定位效果仍由实验独立评价",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 42
+    },
+    {
+      "title": "现有证据的四类效度威胁",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 43
+    },
+    {
+      "title": "因果闭环还需补上干预与回放",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 44
+    },
+    {
+      "title": "切实价值：缩短可审核的初诊路径",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 45
+    },
+    {
+      "title": "结论按证据强度逐条落账",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 46
+    },
+    {
+      "title": "参考文献：设计依据与证据边界可查",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 47
+    },
+    {
+      "title": "复现入口：数据、图表、页面均可追溯",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 48
+    }
+  ],
+  "issues": [],
+  "failedImages": [],
+  "scriptErrors": [],
+  "externalResourceRequests": [],
+  "animationChecks": [
+    {
+      "page": 15,
+      "frames": 6,
+      "manualSteps": true,
+      "playPause": true,
+      "leaveStops": true,
+      "noAutoplay": true
+    },
+    {
+      "page": 19,
+      "frames": 5,
+      "manualSteps": true,
+      "playPause": true,
+      "leaveStops": true,
+      "noAutoplay": true
+    }
+  ],
+  "navigation": {
+    "arrows": true,
+    "homeEnd": true,
+    "directoryJump": true,
+    "numericJump": true,
+    "viewportScale": true
+  },
+  "passed": true
+}

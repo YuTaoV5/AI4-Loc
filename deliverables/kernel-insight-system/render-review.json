@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-07",
+  "pages": 48,
+  "allPngVerified": true,
+  "contactSheetVisuallyInspected": true,
+  "fullSizePagesVisuallyInspected": [
+    11,
+    15,
+    19,
+    26,
+    34,
+    37
+  ],
+  "automaticBrowserQaPassed": true,
+  "animations": [
+    {
+      "page": 15,
+      "frames": 6,
+      "manualSteps": true,
+      "playPause": true,
+      "leaveStops": true,
+      "noAutoplay": true
+    },
+    {
+      "page": 19,
+      "frames": 5,
+      "manualSteps": true,
+      "playPause": true,
+      "leaveStops": true,
+      "noAutoplay": true
+    }
+  ],
+  "deckSha256": "bc58c40f7fedc382da76d70af4402e48e4f9558fcf5e43489f3c95f6877ca240",
+  "sourceHashesVerified": true,
+  "obscureExperimentLabelsRemoved": true,
+  "newModelExperiments": false,
+  "websiteFunctionalAcceptanceExecuted": false,
+  "windowsSite": "http://127.0.0.1:8787",
+  "publicArchivedReportReplays": 6,
+  "actualFeaturePages": 8
+}

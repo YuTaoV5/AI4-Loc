@@ -34,3 +34,9 @@ data/test-tmp/
 data/ui-validation/
 data/dataset-audit/
 data/kernel-datasets/
+data/datasets/
+data/server-snapshots/
+data/local-archive/
+data/windows-local/
+data/source-repositories/
+data/experiments/

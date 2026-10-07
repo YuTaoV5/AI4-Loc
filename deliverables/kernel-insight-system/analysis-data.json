@@ -1,0 +1,754 @@
+{
+  "schema": "kernel-insight-deck-evidence/v1",
+  "date": "2026-10-07",
+  "sources": {
+    "S1": {
+      "path": "docs/SYSTEM_DESIGN.md",
+      "sha256": "7022623c5de75fe39fd7e30df5089fb3e942b4018105a0b0756e0679cc6d598b",
+      "reportEvidence": "evidence/docs/SYSTEM_DESIGN.md"
+    },
+    "S2": {
+      "path": "docs/project-data-inventory-20261007.json",
+      "sha256": "eef08371eaaf4347dbc19f1e960132875b31272c1aa74c4e3d72153786c89793",
+      "reportEvidence": "evidence/docs/project-data-inventory-20261007.json"
+    },
+    "S3": {
+      "path": "docs/agent-iteration-20261007.json",
+      "sha256": "58216fcf06f26f9da8726bff7e88931fefb02bbea4fe3efa1b56afcd2d090633",
+      "reportEvidence": "evidence/docs/agent-iteration-20261007.json"
+    },
+    "S4": {
+      "path": "docs/kernel-localization-benchmark-20261007.json",
+      "sha256": "39616647b83ee5b8c73df80c04e40d2c6449a73ce3418d018aaed4257012eacf",
+      "reportEvidence": "evidence/docs/kernel-localization-benchmark-20261007.json"
+    },
+    "S5": {
+      "path": "docs/website-acceptance-20261007.json",
+      "sha256": "416b7778a1ca4e349feeb4b14de4f5705a6cf30cfd094453cc01ee85b284c6a9",
+      "reportEvidence": "evidence/docs/website-acceptance-20261007.json"
+    },
+    "S6": {
+      "path": "data/datasets/stability-v1/manifest.json",
+      "sha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+      "reportEvidence": "evidence/data/datasets/stability-v1/manifest.json"
+    },
+    "S7": {
+      "path": "data/datasets/stability-v1/cases/corrupt_uaf_kmalloc/ground-truth.json",
+      "sha256": "661074f8086672da5c61e5cfd3dbe4e2f1d085ee0cacb003b51c0863ab9beb3a",
+      "reportEvidence": "evidence/data/datasets/stability-v1/cases/corrupt_uaf_kmalloc/ground-truth.json"
+    },
+    "S8": {
+      "path": "data/datasets/stability-v1/cases/pressure_oom/ground-truth.json",
+      "sha256": "f141ae40d83a0c639535800ef76b06cbd8b1414b9f20c005aa8385e9631d638d",
+      "reportEvidence": "evidence/data/datasets/stability-v1/cases/pressure_oom/ground-truth.json"
+    }
+  },
+  "dataset": {
+    "versions": {
+      "stability-v1": {
+        "schema": "kernel-stability-dataset/v1",
+        "complete": true,
+        "cases": 68,
+        "readyCases": 60,
+        "faultCases": 59,
+        "families": [
+          "atomic_sleep",
+          "healthy",
+          "hung_task",
+          "lock_order",
+          "memory_leak",
+          "memory_oob",
+          "memory_uaf",
+          "oom",
+          "protection",
+          "rcu_stall",
+          "refcount",
+          "usercopy",
+          "watchdog"
+        ],
+        "missingFamilies": [],
+        "checkedFiles": 423,
+        "errors": []
+      },
+      "linux-community-v1": {
+        "cases": 6,
+        "complete": true,
+        "errors": []
+      },
+      "openharmony-lkdtm-lab-v1": {
+        "cases": 64,
+        "complete": true,
+        "errors": []
+      },
+      "openharmony-lkdtm-lab-v2": {
+        "cases": 80,
+        "complete": true,
+        "errors": []
+      }
+    },
+    "readyFamilies": {
+      "healthy": 1,
+      "memory_oob": 2,
+      "memory_uaf": 6,
+      "memory_leak": 4,
+      "protection": 27,
+      "hung_task": 1,
+      "watchdog": 2,
+      "refcount": 8,
+      "usercopy": 4,
+      "lock_order": 2,
+      "rcu_stall": 1,
+      "atomic_sleep": 1,
+      "oom": 1
+    },
+    "build": {
+      "commit": "f88704ae607f90518f67aee33790ac06d6ada77d",
+      "release": "5.10.210+",
+      "buildId": "4bae92d13e7edbe54f2de539b0aef72c89615511",
+      "sourceState": "commit plus shared/source.patch; external/ki_bench.c and pressure.c added"
+    },
+    "ready": 60,
+    "excluded": 8
+  },
+  "paired": [
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "family": "memory_uaf",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.0048,
+          "localizationSeconds": 47.27,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 27.469,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4994,
+                "outputTokens": 58,
+                "generationSeconds": 1.093144
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.239,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5332,
+                "outputTokens": 57,
+                "generationSeconds": 1.056843
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.047,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6683,
+                "outputTokens": 381,
+                "generationSeconds": 7.799508
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0048,
+          "localizationSeconds": 18.166,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 18.004,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6457,
+                "outputTokens": 550,
+                "generationSeconds": 9.609038
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "leak_kmalloc",
+      "family": "memory_leak",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 5,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 4,
+          "firstSceneSeconds": 0.004,
+          "localizationSeconds": 25.507,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 4.705,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2212,
+                "outputTokens": 58,
+                "generationSeconds": 0.909841
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 3.182,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2549,
+                "outputTokens": 111,
+                "generationSeconds": 1.937853
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.656,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4278,
+                "outputTokens": 587,
+                "generationSeconds": 10.403685
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.004,
+          "localizationSeconds": 15.49,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 14.924,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 3621,
+                "outputTokens": 577,
+                "generationSeconds": 9.686199
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "family": "lock_order",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 26.81,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 6.708,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4301,
+                "outputTokens": 58,
+                "generationSeconds": 0.909182
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.104,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4694,
+                "outputTokens": 56,
+                "generationSeconds": 0.852564
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 17.154,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 6016,
+                "outputTokens": 587,
+                "generationSeconds": 9.796968
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 17.521,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 17.359,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5791,
+                "outputTokens": 569,
+                "generationSeconds": 9.807212
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "lock_sleep_atomic",
+      "family": "atomic_sleep",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 3,
+          "toolCalls": 4,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 3,
+          "firstSceneSeconds": 0.0858,
+          "localizationSeconds": 21.935,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 5.606,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 2818,
+                "outputTokens": 57,
+                "generationSeconds": 0.800484
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.002,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 3276,
+                "outputTokens": 57,
+                "generationSeconds": 0.798621
+              }
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 13.341,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 3395,
+                "outputTokens": 439,
+                "generationSeconds": 8.335566999
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0046,
+          "localizationSeconds": 17.783,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 17.052,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4322,
+                "outputTokens": 601,
+                "generationSeconds": 11.412506
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "pressure_oom",
+      "family": "oom",
+      "profile": "log+source",
+      "before": {
+        "status": "failed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 8,
+          "toolCalls": 7,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 6,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 45.904,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 7.448,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5376,
+                "outputTokens": 65,
+                "generationSeconds": 0.998697
+              }
+            },
+            {
+              "index": 2,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 0.435,
+              "status": "error",
+              "error": "HTTP Error 500: Internal Server Error"
+            },
+            {
+              "index": 3,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 8.754,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 7393,
+                "outputTokens": 14,
+                "generationSeconds": 0.248341
+              }
+            },
+            {
+              "index": 4,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 1.701,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 7438,
+                "outputTokens": 14,
+                "generationSeconds": 0.338782
+              }
+            },
+            {
+              "index": 5,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 2.348,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 7483,
+                "outputTokens": 58,
+                "generationSeconds": 1.00355
+              }
+            },
+            {
+              "index": 6,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 6.855,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4363,
+                "outputTokens": 51,
+                "generationSeconds": 0.655118
+              }
+            },
+            {
+              "index": 7,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 1.848,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 4635,
+                "outputTokens": 40,
+                "generationSeconds": 0.494554
+              }
+            },
+            {
+              "index": 8,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 15.845,
+              "status": "error",
+              "usage": {
+                "promptTokens": 8183,
+                "outputTokens": 9,
+                "generationSeconds": 5.751162
+              },
+              "error": "Unterminated string starting at: line 1 column 29 (char 28)"
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": "Unterminated string starting at: line 1 column 29 (char 28)"
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": true,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 3,
+          "preflightToolCalls": 3,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": 0.0041,
+          "localizationSeconds": 17.156,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 16.592,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5524,
+                "outputTokens": 563,
+                "generationSeconds": 9.951171
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    },
+    {
+      "caseId": "baseline",
+      "family": "healthy",
+      "profile": "log+source",
+      "before": {
+        "status": "completed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 1,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": null,
+          "localizationSeconds": 13.921,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 13.917,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5011,
+                "outputTokens": 409,
+                "generationSeconds": 7.464892
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      },
+      "after": {
+        "status": "completed",
+        "codeLocationHit": false,
+        "metrics": {
+          "modelRequests": 1,
+          "toolCalls": 1,
+          "preflightToolCalls": 1,
+          "modelToolCalls": 0,
+          "firstSceneSeconds": null,
+          "localizationSeconds": 9.718,
+          "requests": [
+            {
+              "index": 1,
+              "transport": "ollama-native",
+              "model": "qwen3.8:27b-kernel-8k",
+              "seconds": 9.714,
+              "status": "returned",
+              "usage": {
+                "promptTokens": 5011,
+                "outputTokens": 409,
+                "generationSeconds": 7.969677
+              }
+            }
+          ],
+          "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately."
+        },
+        "error": null
+      }
+    }
+  ],
+  "aggregates": {
+    "before": {
+      "modelRequests": 21,
+      "toolCalls": 25,
+      "preflightToolCalls": 6,
+      "modelToolCalls": 19,
+      "localizationSeconds": 181.347,
+      "observedPromptTokens": 100430,
+      "observedOutputTokens": 3166,
+      "requestsWithUsage": 20
+    },
+    "after": {
+      "modelRequests": 6,
+      "toolCalls": 16,
+      "preflightToolCalls": 16,
+      "modelToolCalls": 0,
+      "localizationSeconds": 95.834,
+      "observedPromptTokens": 30726,
+      "observedOutputTokens": 3269,
+      "requestsWithUsage": 6
+    }
+  },
+  "reported": {
+    "before": {
+      "completed": 5,
+      "total": 6,
+      "codeLocationAccuracy": 0.6,
+      "codeLocationDenominator": 5,
+      "modelRequests": 21,
+      "localizationSeconds": 181.347,
+      "rootCauseAccuracy": null
+    },
+    "after": {
+      "completed": 6,
+      "total": 6,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 5,
+      "modelRequests": 6,
+      "localizationSeconds": 95.834,
+      "rootCauseAccuracy": null
+    },
+    "improvement": {
+      "codeLocationPercentagePoints": 40,
+      "modelRequestReductionPercent": 71.42857142857143,
+      "totalAnalysisTimeReductionPercent": 47.15435049931899
+    }
+  },
+  "extra": [
+    {
+      "caseId": "lkdtm_ACCESS_NULL",
+      "split": "train",
+      "hit": true,
+      "requests": 4,
+      "seconds": 28.464
+    },
+    {
+      "caseId": "corrupt_oob_kmalloc",
+      "split": "train",
+      "hit": true,
+      "requests": 1,
+      "seconds": 16.992
+    },
+    {
+      "caseId": "lock_rcu_stall",
+      "split": "train",
+      "hit": false,
+      "requests": 1,
+      "seconds": 18.974
+    }
+  ],
+  "uncertainty": {
+    "method": "two-sided exact binomial Clopper-Pearson, alpha=.05",
+    "before3of5": [
+      0.14663279963467313,
+      0.9472550494736831
+    ],
+    "after5of5": [
+      0.4781762498950185,
+      1.0
+    ],
+    "extra2of3": [
+      0.09429932405024609,
+      0.9915962413403874
+    ],
+    "pairedExactMcNemarP": 0.5,
+    "assumption": "IID/exchangeability is not established; intervals illustrate small-sample uncertainty."
+  },
+  "limitations": [
+    "Fixed six-case pilot, five faults and one healthy baseline; not full corpus or production generalization.",
+    "Synthetic symbols can reveal mechanisms.",
+    "Code hit requires path, symbol and overlapping labeled function range; this does not prove causal explanation correctness.",
+    "Mechanism correctness and introducing-commit accuracy remain null; no fix replay or vmcore.",
+    "Holdout ran concurrently with early acceptance checks; service contention can affect its latency.",
+    "Automatic tool calls are separately counted; a single model request does not mean zero tool work."
+  ],
+  "newModelExperimentsExecuted": false
+}

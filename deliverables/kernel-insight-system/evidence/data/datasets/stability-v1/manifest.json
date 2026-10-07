@@ -1,0 +1,2862 @@
+{
+  "schema": "kernel-stability-dataset/v1",
+  "build": {
+    "commit": "f88704ae607f90518f67aee33790ac06d6ada77d",
+    "release": "5.10.210+",
+    "buildId": "4bae92d13e7edbe54f2de539b0aef72c89615511",
+    "sourceState": "commit plus shared/source.patch; external/ki_bench.c and pressure.c added"
+  },
+  "shared": {
+    "vmlinux": {
+      "path": "shared/vmlinux",
+      "sha256": "4b1775fcead0c47b8ab9395a6573322b08c5f61fb60213c80969d3fa70f1e796",
+      "bytes": 1017015536
+    },
+    "bzImage": {
+      "path": "shared/bzImage",
+      "sha256": "46b0c4f0844a262c43eaacbd4f7b9e7e18c308e9a0a41ee9ba65da9ab6f21c9c",
+      "bytes": 23267328
+    },
+    "config": {
+      "path": "shared/kernel.config",
+      "sha256": "a3b5e56a52643107310b2798d0b26fed53e7bbc3dadf4c2da880551287f3e8bc",
+      "bytes": 128686
+    },
+    "module": {
+      "path": "shared/ki_bench.ko",
+      "sha256": "d94d5b215e8df160f17f5be1a90bd258588138acee43e81f8dccadafa3f8ff92",
+      "bytes": 255832
+    },
+    "systemMap": {
+      "path": "shared/System.map",
+      "sha256": "e8c7bd4a281315880abc58e4ff84ecb90471fc4891f2c85ea3537340cfa26e7f",
+      "bytes": 5607586
+    },
+    "sourcePatch": {
+      "path": "shared/source.patch",
+      "sha256": "73406a8bcc8fd06c4ae97da2eaa86f14fd3432897de9be76f9fabf89510e296b",
+      "bytes": 1519
+    },
+    "guestInit": {
+      "path": "shared/guest_dataset_init.sh",
+      "sha256": "3005780970d4a9a7965dca3fc1988705ea402f7e303b1d1594716c6f04df4b0d",
+      "bytes": 2488
+    },
+    "collector": {
+      "path": "shared/collect_dataset.py",
+      "sha256": "c9eeafc30bd5f7ce91033779b1261411a3af2500569f20ec6925a75f846c01f4",
+      "bytes": 14599
+    },
+    "sourceArchive": {
+      "path": "shared/source.tar.gz",
+      "sha256": "811baa920407b21de3b90f1de336bb7409d2ec543261edba0cde4a4ab1afc766",
+      "bytes": 191097714
+    },
+    "compiler": {
+      "path": "shared/compiler.txt",
+      "sha256": "8497f84b2b8334c413d9c6166bd39d009ba55d2ff60a8f23e66dfa5819c2b048",
+      "bytes": 246
+    },
+    "qemuVersion": {
+      "path": "shared/qemuVersion.txt",
+      "sha256": "8f79ffd97970d85d6833a0ccc87f5d6e7182f8f52101c741dfa2fb6374670b18",
+      "bytes": 132
+    },
+    "buildLog": {
+      "path": "shared/build.log",
+      "sha256": "7140c8843a006b31a7db82d0bc2cd4ef23eb94ca91f4f1ee7db7c88827a1c573",
+      "bytes": 139280
+    },
+    "initramfs": {
+      "path": "shared/initramfs.cpio.gz",
+      "sha256": "b3c988b21c6c34c800246cc2858fce909e860e7837b99f2f7e87660a247bb0fb",
+      "bytes": 1528388
+    },
+    "pressure": {
+      "path": "initramfs/pressure",
+      "sha256": "129f46254cc75316bc5353b4b39695818a8acfd67a30097305a31b20a1540a3f",
+      "bytes": 787216
+    },
+    "contract": {
+      "path": "shared/dataset_contract.py",
+      "sha256": "29806876bbf244fd3271950a636e90f00150446db6bdeea3fe9bcc4e8c0ed55b",
+      "bytes": 7164
+    }
+  },
+  "cases": [
+    {
+      "id": "baseline",
+      "family": "healthy",
+      "mechanismGroup": "baseline",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/baseline/serial.log",
+          "sha256": "9ac83c6aeca6b2d0420bbecb68bc746ef7aa85608c43e2c6a3cd4584ca5cdd09",
+          "bytes": 28903
+        },
+        "agentLog": {
+          "path": "cases/baseline/agent.log",
+          "sha256": "6910aacc6b7f181fe83151ac1ee3e554b21c1a304b3920a33b97eef736e941cd",
+          "bytes": 28891
+        },
+        "stderr": {
+          "path": "cases/baseline/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/baseline/run.json",
+          "sha256": "8874fcb32898b4239b320e084185e50abb1120ac6f0aef3a71c5439e45b60d3e",
+          "bytes": 1138
+        },
+        "groundTruth": {
+          "path": "cases/baseline/ground-truth.json",
+          "sha256": "18505926ef53577e64edc4f7a4dcbc9e59d0e278bcb2b1b2860536892adf0183",
+          "bytes": 6109
+        },
+        "causalSource": {
+          "path": "cases/baseline/causal-source.c",
+          "sha256": "3005780970d4a9a7965dca3fc1988705ea402f7e303b1d1594716c6f04df4b0d",
+          "bytes": 2488
+        }
+      }
+    },
+    {
+      "id": "corrupt_oob_kmalloc",
+      "family": "memory_oob",
+      "mechanismGroup": "memory_oob",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/corrupt_oob_kmalloc/serial.log",
+          "sha256": "9c7923a65e03da6f90c8134a8102eb2229dc84e9d5d75e7a7f2af6a4246cc6eb",
+          "bytes": 35609
+        },
+        "agentLog": {
+          "path": "cases/corrupt_oob_kmalloc/agent.log",
+          "sha256": "fd27300bd11ce0978a6a86499d88f3841bd31085416565ffc9f96f4074c1dec8",
+          "bytes": 35488
+        },
+        "stderr": {
+          "path": "cases/corrupt_oob_kmalloc/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/corrupt_oob_kmalloc/run.json",
+          "sha256": "3298dbbd5635248e3560594f9c60ec3f505aa3d689cbcf509451b111d1f0e583",
+          "bytes": 1170
+        },
+        "groundTruth": {
+          "path": "cases/corrupt_oob_kmalloc/ground-truth.json",
+          "sha256": "edfd0c452d2c4e5b43a083a1bcd4cec6ed06e042b08ee9f8782caaef61e1827f",
+          "bytes": 1493
+        },
+        "causalSource": {
+          "path": "cases/corrupt_oob_kmalloc/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "corrupt_uaf_kmalloc",
+      "family": "memory_uaf",
+      "mechanismGroup": "memory_uaf",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/corrupt_uaf_kmalloc/serial.log",
+          "sha256": "e731e97ef8db319e2b9c0fce9fa232200bac66c4dbec4e00db2dc0a39d3c52b6",
+          "bytes": 36081
+        },
+        "agentLog": {
+          "path": "cases/corrupt_uaf_kmalloc/agent.log",
+          "sha256": "f49dbeba46d6697764b55454f8e76cbca2e814064fb8ec11a8c8148826f99093",
+          "bytes": 35974
+        },
+        "stderr": {
+          "path": "cases/corrupt_uaf_kmalloc/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/corrupt_uaf_kmalloc/run.json",
+          "sha256": "5f2ad45f6e92e6ae55120f5d749437263259ee0d110c480293b277c01f625efd",
+          "bytes": 1171
+        },
+        "groundTruth": {
+          "path": "cases/corrupt_uaf_kmalloc/ground-truth.json",
+          "sha256": "661074f8086672da5c61e5cfd3dbe4e2f1d085ee0cacb003b51c0863ab9beb3a",
+          "bytes": 1320
+        },
+        "causalSource": {
+          "path": "cases/corrupt_uaf_kmalloc/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "leak_kmalloc",
+      "family": "memory_leak",
+      "mechanismGroup": "memory_leak",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/leak_kmalloc/serial.log",
+          "sha256": "e6f70f08f6768e18509e37554b574586c673842627b2421ef9a025c22de31d4a",
+          "bytes": 29921
+        },
+        "agentLog": {
+          "path": "cases/leak_kmalloc/agent.log",
+          "sha256": "2d0ce2519c3500ae6ffb4eff7cc9cdb50f9af3607956e43c72f27f96d25a9539",
+          "bytes": 29801
+        },
+        "stderr": {
+          "path": "cases/leak_kmalloc/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/leak_kmalloc/run.json",
+          "sha256": "f9559733e40ae85612ebabde27d0dd3fdbdf6d5856ce74803048f2da43e8c00f",
+          "bytes": 1158
+        },
+        "groundTruth": {
+          "path": "cases/leak_kmalloc/ground-truth.json",
+          "sha256": "7daa7d78244df3f11f829ee26ad9da9a2fa4054aa05bc74b8f2155a43539e067",
+          "bytes": 1334
+        },
+        "causalSource": {
+          "path": "cases/leak_kmalloc/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "leak_kmem_cache",
+      "family": "memory_leak",
+      "mechanismGroup": "memory_leak",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/leak_kmem_cache/serial.log",
+          "sha256": "8e89fd17b58323fa1b21e32d52e9266a130e2e59abff2e910e4059e26b9b865a",
+          "bytes": 30026
+        },
+        "agentLog": {
+          "path": "cases/leak_kmem_cache/agent.log",
+          "sha256": "1d76d913fddc00087a9e37d9284a03031db9c7cf994c12edb77ca347caaf6f8e",
+          "bytes": 29882
+        },
+        "stderr": {
+          "path": "cases/leak_kmem_cache/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/leak_kmem_cache/run.json",
+          "sha256": "9fc4797224e1e106ece97ba7d06c85f0458f62676f838aac18e06f2656df3cf3",
+          "bytes": 1168
+        },
+        "groundTruth": {
+          "path": "cases/leak_kmem_cache/ground-truth.json",
+          "sha256": "5a451162b06f08bda5e42de54618f91a8cc5b8a6e955982da553094ab9ad310d",
+          "bytes": 1356
+        },
+        "causalSource": {
+          "path": "cases/leak_kmem_cache/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "leak_ptr_overwrite",
+      "family": "memory_leak",
+      "mechanismGroup": "memory_leak",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/leak_ptr_overwrite/serial.log",
+          "sha256": "e5490bdbfbab5d6adb545862cc89873cbf5a82b9d02cd8759063e5ec7669e2fb",
+          "bytes": 30760
+        },
+        "agentLog": {
+          "path": "cases/leak_ptr_overwrite/agent.log",
+          "sha256": "f67165a22e838cefbc05605b31ecd4c32984e09cb535014da350f74462bfda7b",
+          "bytes": 30582
+        },
+        "stderr": {
+          "path": "cases/leak_ptr_overwrite/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/leak_ptr_overwrite/run.json",
+          "sha256": "974fddd81e444365b726dcc565c3c5e24c6819b05e83bff659af664a45aca767",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/leak_ptr_overwrite/ground-truth.json",
+          "sha256": "62dbe4cd3d0142e9d962666454ed8ae915fd75338b562f80e98c05a814d1b33c",
+          "bytes": 1605
+        },
+        "causalSource": {
+          "path": "cases/leak_ptr_overwrite/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "leak_vmalloc",
+      "family": "memory_leak",
+      "mechanismGroup": "memory_leak",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/leak_vmalloc/serial.log",
+          "sha256": "454fbe3a7826a9ed7f89838a008018b5c9cb8ac660fef9c9c59e8810a01a03b9",
+          "bytes": 30184
+        },
+        "agentLog": {
+          "path": "cases/leak_vmalloc/agent.log",
+          "sha256": "51c388c757bd4be394625657319767dbe47272f260419e0a40bfcddb0759333a",
+          "bytes": 30064
+        },
+        "stderr": {
+          "path": "cases/leak_vmalloc/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/leak_vmalloc/run.json",
+          "sha256": "bc6183282c3346fb413a2bd03cd54a772ad2798d5bee9521b08be2bc6c9e614a",
+          "bytes": 1158
+        },
+        "groundTruth": {
+          "path": "cases/leak_vmalloc/ground-truth.json",
+          "sha256": "23d28fcdb0e61dfa25fff332172a14c5173956d88483d76b02af1d75032f853e",
+          "bytes": 1334
+        },
+        "causalSource": {
+          "path": "cases/leak_vmalloc/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "lkdtm_ACCESS_NULL",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_ACCESS_NULL/serial.log",
+          "sha256": "1634db18ac953b516bb9b8de8bcdec53b6243468c113c3033662cf7ade7bc572",
+          "bytes": 32994
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_ACCESS_NULL/agent.log",
+          "sha256": "3d7f07f2e64cda36b1aa0f827281016a7e0dafc73af6e54e9c161d6b046bca1e",
+          "bytes": 32922
+        },
+        "stderr": {
+          "path": "cases/lkdtm_ACCESS_NULL/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_ACCESS_NULL/run.json",
+          "sha256": "0c2b8d0e368ea8acf76d100d24fb46af30879fc1da83aa8e416a9e18f2fa84bd",
+          "bytes": 1156
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_ACCESS_NULL/ground-truth.json",
+          "sha256": "f78fda6989ecb60cbe6f07c761adbd579c54ae3dc9aec8f2857f1ca72aa5c0c3",
+          "bytes": 2053
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_ACCESS_NULL/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_ACCESS_USERSPACE",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_ACCESS_USERSPACE/serial.log",
+          "sha256": "35206a5f7fdcde284d793dee60c2dd6490bc7549281f645b7d92ee475f4b186d",
+          "bytes": 33258
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_ACCESS_USERSPACE/agent.log",
+          "sha256": "b507f0339ea190479cd39f5efeccbd0b023d2ba90cacd30b7adcd2228861fe2a",
+          "bytes": 33166
+        },
+        "stderr": {
+          "path": "cases/lkdtm_ACCESS_USERSPACE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_ACCESS_USERSPACE/run.json",
+          "sha256": "db7bc571b59198e73be7bf76fc00f0be1745d4b2e578811225fdccc702a36cf8",
+          "bytes": 1166
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_ACCESS_USERSPACE/ground-truth.json",
+          "sha256": "a3356184cd29867972dc9de6e8a1950d02dc5e35f1dfbcea601a31a99e6c01ae",
+          "bytes": 3386
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_ACCESS_USERSPACE/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_ARRAY_BOUNDS",
+      "family": "memory_oob",
+      "mechanismGroup": "lkdtm-memory_oob",
+      "split": "train",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_ARRAY_BOUNDS/serial.log",
+          "sha256": "dfee6785d236cc1f79f4d55bebd06027f7b021f7ad211ad61058f5794284584c",
+          "bytes": 29195
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_ARRAY_BOUNDS/agent.log",
+          "sha256": "7f40be26f0af65d4726de63b8c9fa4aa8388b9e002f02fa14fe8a0e897bb997c",
+          "bytes": 29101
+        },
+        "stderr": {
+          "path": "cases/lkdtm_ARRAY_BOUNDS/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_ARRAY_BOUNDS/run.json",
+          "sha256": "0f30a8f433e99cbb0581d6663c6c4da4a6d70cee79b73d51352ea340d6fed01a",
+          "bytes": 1158
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_ARRAY_BOUNDS/ground-truth.json",
+          "sha256": "412d6393dfdb80c623b0cdb93432a795e5c4e01e09849b0b5991d6a09c1a7b90",
+          "bytes": 3339
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_ARRAY_BOUNDS/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_BUG",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_BUG/serial.log",
+          "sha256": "6ab1d54743a7fd71d363b794e622fac52c834dbcfb6bb24671c50fa3734bddcb",
+          "bytes": 33089
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_BUG/agent.log",
+          "sha256": "24a79bd3c132eb982bd47212e23c5f9357d12b489d964f4b6676c71a096e3b27",
+          "bytes": 33049
+        },
+        "stderr": {
+          "path": "cases/lkdtm_BUG/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_BUG/run.json",
+          "sha256": "1992c62fba20ea1946020fc9dc344ae1cf5f93ac872d3ac2d50eedca9765b51b",
+          "bytes": 1140
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_BUG/ground-truth.json",
+          "sha256": "616eeb4fc47d166e214357bbf4f79eacd9c01ef20d78aa82a9a73409c9718c87",
+          "bytes": 1058
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_BUG/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_CORRUPT_LIST_ADD",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_CORRUPT_LIST_ADD/serial.log",
+          "sha256": "56696433c69f4342b1d5a06b0c65760f9baf49386b2599ed50d55750175510d9",
+          "bytes": 35209
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_CORRUPT_LIST_ADD/agent.log",
+          "sha256": "0ee7339e576188afdaed2484a0ec2926709603143eaed11d2cd70d4292667e75",
+          "bytes": 35117
+        },
+        "stderr": {
+          "path": "cases/lkdtm_CORRUPT_LIST_ADD/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_CORRUPT_LIST_ADD/run.json",
+          "sha256": "c737f959c35db74244bcc137adb761cefd250abb17afec10967bbe480a6f171c",
+          "bytes": 1166
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_CORRUPT_LIST_ADD/ground-truth.json",
+          "sha256": "b0fcb44a6b82e33afe14c14f8a1e027e91702b6595756b38f0e7d22ed6fe1722",
+          "bytes": 3835
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_CORRUPT_LIST_ADD/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_CORRUPT_LIST_DEL",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_CORRUPT_LIST_DEL/serial.log",
+          "sha256": "235fa413c2808ef8d6e02beb63c62bd3e054441ea8b919c296966091b794be88",
+          "bytes": 34905
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_CORRUPT_LIST_DEL/agent.log",
+          "sha256": "8d98d3030463389a70ec6b84dfcda168973a57756a2e8a49e8624f181f1cb174",
+          "bytes": 34813
+        },
+        "stderr": {
+          "path": "cases/lkdtm_CORRUPT_LIST_DEL/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_CORRUPT_LIST_DEL/run.json",
+          "sha256": "f52e1f629201fe01f67aeaeeeb9764dd2c0dd0209b7485a6d4747befc82e1f41",
+          "bytes": 1166
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_CORRUPT_LIST_DEL/ground-truth.json",
+          "sha256": "e7d074d343c86e5a99f0b5f045b5a19d28e8fcb177dbbeec1a4515dffe1ee9c5",
+          "bytes": 2824
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_CORRUPT_LIST_DEL/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_CORRUPT_STACK",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_CORRUPT_STACK/serial.log",
+          "sha256": "20fd12e141c87e8c9ad78f9d512fb7c894ba47741b8560fdcc9ecf2adf408afa",
+          "bytes": 34835
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_CORRUPT_STACK/agent.log",
+          "sha256": "cf02202a9b917e2b519b50231f56c01b7aa7982a6b5c6cfa2274b00901d8809c",
+          "bytes": 34755
+        },
+        "stderr": {
+          "path": "cases/lkdtm_CORRUPT_STACK/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_CORRUPT_STACK/run.json",
+          "sha256": "3ad920bb8b32d54f6f1179074b93a9f367736bf363a6f18e2a1e074657ba453a",
+          "bytes": 1159
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_CORRUPT_STACK/ground-truth.json",
+          "sha256": "291da6b9bf963bfd89ed51413a29240b1e82afb6adf50a4237e503f20c436a5e",
+          "bytes": 1652
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_CORRUPT_STACK/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_CORRUPT_STACK_STRONG",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_CORRUPT_STACK_STRONG/serial.log",
+          "sha256": "da5777e203105b2c88fc4219df821253eba7614ba83198274fa946d06e27fe74",
+          "bytes": 34879
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_CORRUPT_STACK_STRONG/agent.log",
+          "sha256": "50a19822e2ea73ba1c9f1dad69b1c2f8d865b95a54a56445c76c3cbd40b7cf58",
+          "bytes": 34771
+        },
+        "stderr": {
+          "path": "cases/lkdtm_CORRUPT_STACK_STRONG/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_CORRUPT_STACK_STRONG/run.json",
+          "sha256": "1783048ccdbe5bb7baee7f521109f987ab7e149efd5733cfce4593c250498a5f",
+          "bytes": 1174
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_CORRUPT_STACK_STRONG/ground-truth.json",
+          "sha256": "e23776fbf3b8f3dc8c0d2ed94e24986614aa802d193f66f973d1041f691003d5",
+          "bytes": 1766
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_CORRUPT_STACK_STRONG/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXCEPTION",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXCEPTION/serial.log",
+          "sha256": "902540c24755c15caf81c3ec762a9e95391da751ac66c12e992e9ce0921a46e8",
+          "bytes": 32901
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXCEPTION/agent.log",
+          "sha256": "8cbfca431d709e19a59526d7532d9e9dc9a3c07c64b29b3c56b14984c9309783",
+          "bytes": 32837
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXCEPTION/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXCEPTION/run.json",
+          "sha256": "f697149d65cbd86cabb30138082b86e29c3ac03f270bea055a2ae092c9cf00a0",
+          "bytes": 1152
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXCEPTION/ground-truth.json",
+          "sha256": "095460c8bb2724b0c438589be36deaa05258447b65d386c0f34f1416a7bfe2db",
+          "bytes": 1255
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXCEPTION/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_DATA",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_DATA/serial.log",
+          "sha256": "b77601682fa010925090a48b5cb395bc63d63d154561801c7e0e798117400df6",
+          "bytes": 32388
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_DATA/agent.log",
+          "sha256": "5cb9cc387335384af7e20b250b2c018c8737c679a398caae07b4d0450c9d23b5",
+          "bytes": 32324
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_DATA/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_DATA/run.json",
+          "sha256": "f7807fa705aee35cff42b57da623ba7daf8040ebdca2c02628c9eb962c7c83e1",
+          "bytes": 1152
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_DATA/ground-truth.json",
+          "sha256": "befa7b8a14f07c0896494e2624a5acb5b3959bcca2afe1a9407df48daf2cf316",
+          "bytes": 1249
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_DATA/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_KMALLOC",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_KMALLOC/serial.log",
+          "sha256": "e2048fa0e81aa6eff415cc02d0e4cfe6397e06cb3a2b1a0b94752b17a20181e7",
+          "bytes": 32635
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_KMALLOC/agent.log",
+          "sha256": "66f2ffb47081762f47c7949fd96a37fc12f0b74a72cec2ba465225a83a8813e9",
+          "bytes": 32559
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_KMALLOC/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_KMALLOC/run.json",
+          "sha256": "39c69616a87e4ae0d8ebc9ae3882e09b38d916fd883cf1e5f52adc193da63702",
+          "bytes": 1158
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_KMALLOC/ground-truth.json",
+          "sha256": "3c895f9afc19792dcae17b3eab3b67be717f7cc873fa2ad1d5cbe14a6a56ffa6",
+          "bytes": 1437
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_KMALLOC/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_NULL",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_NULL/serial.log",
+          "sha256": "fcf601f5783f020622149c7731bdd834ca2f0a0cd419fc2945b709bd99f772f2",
+          "bytes": 32928
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_NULL/agent.log",
+          "sha256": "fe322b44522f204bc40f6929aece6bfacf3d27560fcbc1c8ca1c2b82f39ff659",
+          "bytes": 32864
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_NULL/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_NULL/run.json",
+          "sha256": "f592ef11e87957a569a444dbf8bf7caca0ff8f4881e59ead355bff0ffee8ef9e",
+          "bytes": 1152
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_NULL/ground-truth.json",
+          "sha256": "23984c4982197fac704c813c411aac7f841eaf5bc623a5ba8a550e38f07da1f5",
+          "bytes": 1245
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_NULL/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_RODATA",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_RODATA/serial.log",
+          "sha256": "5ecab426edcb50924c5faff8db30480b3c833c0d85b2416f5f6264b2a50ee1bb",
+          "bytes": 32568
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_RODATA/agent.log",
+          "sha256": "6676231d88000f08d234dd62e3bcfdb9f50d67d6926851876fbaa21c94b0142c",
+          "bytes": 32496
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_RODATA/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_RODATA/run.json",
+          "sha256": "0db6fd9465b39bbe7fa18c755910e1794a2fc952dccb1b06e79fad6d7d856b3e",
+          "bytes": 1155
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_RODATA/ground-truth.json",
+          "sha256": "872a62a2766cf3e2909aa9965fd5994125b62fe130949651c4789d3daf6983d4",
+          "bytes": 1271
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_RODATA/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_STACK",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_STACK/serial.log",
+          "sha256": "065c946840699404b4ab4c524f56fbfb61094595981d7fb710e9584adfae338a",
+          "bytes": 32667
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_STACK/agent.log",
+          "sha256": "baf5a3b3c0d919c72bbb11d106bba33c23268a7bd4cae40659bf4939c8e000b9",
+          "bytes": 32599
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_STACK/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_STACK/run.json",
+          "sha256": "2aa15de275b208c5350097ecbb613cc7f9406526b1076913c4c9d9fd95f449fa",
+          "bytes": 1154
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_STACK/ground-truth.json",
+          "sha256": "a83aaf36cfb326914c75bcf088e7af0dc6303e1e4fbe4425ba05691f00d2c142",
+          "bytes": 1330
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_STACK/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_USERSPACE",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_USERSPACE/serial.log",
+          "sha256": "d73ca8cd3e776b570385616ae0a53c441ce97799801963b462d93f28fc939e90",
+          "bytes": 32328
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_USERSPACE/agent.log",
+          "sha256": "88956009a3d552e4174453f27074ee99712d7f8e790a09383227f96c9fcd31ab",
+          "bytes": 32244
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_USERSPACE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_USERSPACE/run.json",
+          "sha256": "f7eebb2f8a1b1e5cd86a25abca3d7b6a6795c1c65023e168befa004eaf6e43de",
+          "bytes": 1162
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_USERSPACE/ground-truth.json",
+          "sha256": "426eff28142d649d8df198df5975270927ae1ece824e308c851a630f8a01e744",
+          "bytes": 2044
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_USERSPACE/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXEC_VMALLOC",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXEC_VMALLOC/serial.log",
+          "sha256": "b08605d5b44022b1c7920242ab764dff20ae4afc589f11faaeee7f95a1ad4ff8",
+          "bytes": 32327
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXEC_VMALLOC/agent.log",
+          "sha256": "b6b33e07899655c25e5a936b1b1ac68af50dfca20e2c95551586f14e06c8f430",
+          "bytes": 32251
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXEC_VMALLOC/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXEC_VMALLOC/run.json",
+          "sha256": "e3cb9d789ea31e0e8f9eae7fa8a0d2388f9f8d9570f1bf7a84ece3f9eaa59dc0",
+          "bytes": 1158
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXEC_VMALLOC/ground-truth.json",
+          "sha256": "bf0e3268d2a06e2af37d3e59c0fdc273ef897a298a139c02abcc062a4d25f17a",
+          "bytes": 1425
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXEC_VMALLOC/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_EXHAUST_STACK",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_EXHAUST_STACK/serial.log",
+          "sha256": "98fb34d5c2dadeceeb3d364947c0ba917b075e5b8a331ca828a64b78b287c2eb",
+          "bytes": 34192
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_EXHAUST_STACK/agent.log",
+          "sha256": "ae52568df0e4ac4d5eb60876079aae12a7a8db177221d6d0d3d2fa737cd13061",
+          "bytes": 34112
+        },
+        "stderr": {
+          "path": "cases/lkdtm_EXHAUST_STACK/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_EXHAUST_STACK/run.json",
+          "sha256": "3096710e9761677fe63560e844c664829a946a4c54c87e1c59abe15f00987084",
+          "bytes": 1160
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_EXHAUST_STACK/ground-truth.json",
+          "sha256": "a891ffa2e3db36915d2359e114b41de228d38134084b6b7c4d0bd888dd5fc8e5",
+          "bytes": 1619
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_EXHAUST_STACK/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_FORTIFY_OBJECT",
+      "family": "unsupported",
+      "mechanismGroup": "unsupported",
+      "split": "train",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent",
+        "causal trace/trigger evidence absent",
+        "trigger/module failed"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_FORTIFY_OBJECT/serial.log",
+          "sha256": "6b6f43e730c9e6e0b17e49b63208c9fd21492f0ffc1688ea4556ba1f0e853b48",
+          "bytes": 28915
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_FORTIFY_OBJECT/agent.log",
+          "sha256": "481d2153fe98cb0af15869a5d77fb055740d243bbb422e3e45ce7193fd2b9bd2",
+          "bytes": 28854
+        },
+        "stderr": {
+          "path": "cases/lkdtm_FORTIFY_OBJECT/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_FORTIFY_OBJECT/run.json",
+          "sha256": "6aa7527d7b68dbf8dfd9305aad10bd009ee15ffc1c5288ddae5bb8a7e9e6982a",
+          "bytes": 1161
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_FORTIFY_OBJECT/ground-truth.json",
+          "sha256": "29d66b17c23c56553fc246a3f53a38dcb20b4f630a564a9482610480b4f79204",
+          "bytes": 7149
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_FORTIFY_OBJECT/causal-source.c",
+          "sha256": "8a43b874fbd07401f16ea0d422a8fff160449fd4d7b10abd9cb17da4c5dcbaa1",
+          "bytes": 12717
+        }
+      }
+    },
+    {
+      "id": "lkdtm_HARDLOCKUP",
+      "family": "watchdog",
+      "mechanismGroup": "lkdtm-watchdog",
+      "split": "train",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent",
+        "wall-clock timeout"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_HARDLOCKUP/serial.log",
+          "sha256": "58cbe91bed5a389a9be320e456b149a124b04a6917332b0dc51506ad719dcfb5",
+          "bytes": 35507
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_HARDLOCKUP/agent.log",
+          "sha256": "db1305eaccf540774c443d79f52dcc83005329f9cd87f486156a818ffa7ad827",
+          "bytes": 35439
+        },
+        "stderr": {
+          "path": "cases/lkdtm_HARDLOCKUP/qemu.stderr",
+          "sha256": "473f1d89f01b63b15d6002d95280a9aa90b23741c3812d89fd283e5e2d3483f5",
+          "bytes": 70
+        },
+        "run": {
+          "path": "cases/lkdtm_HARDLOCKUP/run.json",
+          "sha256": "0acd15ade4bd3f7c105ae613875bd123f4b34653399bbec2d396121700b41905",
+          "bytes": 1156
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_HARDLOCKUP/ground-truth.json",
+          "sha256": "7886e35976a5b23b4bd012c8a18a82304024ef1b1224effe60b6d08aba8fdb47",
+          "bytes": 1174
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_HARDLOCKUP/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_HUNG_TASK",
+      "family": "hung_task",
+      "mechanismGroup": "lkdtm-hung_task",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_HUNG_TASK/serial.log",
+          "sha256": "2a2f5d21952407e282446e6e72200ab65a78c543fbbcf9a4b891a800ad795749",
+          "bytes": 31507
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_HUNG_TASK/agent.log",
+          "sha256": "3ee6b2623660dd4bd8e6a15dea6d26a03b544a423d6931e193ddb6952e9aeb99",
+          "bytes": 31443
+        },
+        "stderr": {
+          "path": "cases/lkdtm_HUNG_TASK/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_HUNG_TASK/run.json",
+          "sha256": "0ae44b77bbc648e20c0b1b95d080e47cd87b9bba78a9a57e03bdea579e27246e",
+          "bytes": 1152
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_HUNG_TASK/ground-truth.json",
+          "sha256": "b5c55d2e0f5232dadb1170c12bbfb25cbc06aabf94cd7cbdd23d5755cb940342",
+          "bytes": 1308
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_HUNG_TASK/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_LOOP",
+      "family": "watchdog",
+      "mechanismGroup": "lkdtm-watchdog",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_LOOP/serial.log",
+          "sha256": "4bdb76a0e190fbdffb395a6761d77f334b2b30218097c8fed064fef07be05f63",
+          "bytes": 39100
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_LOOP/agent.log",
+          "sha256": "6815300c5550995b902fa9028e7b17cfe96c9172dc512415ec671b2a4b771be6",
+          "bytes": 39056
+        },
+        "stderr": {
+          "path": "cases/lkdtm_LOOP/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_LOOP/run.json",
+          "sha256": "04635f2313b09cf1da3a97dec20c640b433d5917e4fcd79ae64bebd9165c5466",
+          "bytes": 1141
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_LOOP/ground-truth.json",
+          "sha256": "4856566ad027391c5abc7b34f21d09746adf4d7617d65335a941367c42782d4b",
+          "bytes": 1134
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_LOOP/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_OVERWRITE_ALLOCATION",
+      "family": "memory_oob",
+      "mechanismGroup": "lkdtm-memory_oob",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_OVERWRITE_ALLOCATION/serial.log",
+          "sha256": "7d99f92bce8d8d5db7b03d813530b42a17ead9dd8d94321af7e3a702b37e7def",
+          "bytes": 35142
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_OVERWRITE_ALLOCATION/agent.log",
+          "sha256": "3ef40ccf82ab8a7ff0974882248c59fb4fa911ff1aa1ea910e36faec1e907567",
+          "bytes": 35034
+        },
+        "stderr": {
+          "path": "cases/lkdtm_OVERWRITE_ALLOCATION/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_OVERWRITE_ALLOCATION/run.json",
+          "sha256": "c236454884304e5c8b2700dd5773c7f209bd37dabe77cf10dd32852df36e8598",
+          "bytes": 1174
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_OVERWRITE_ALLOCATION/ground-truth.json",
+          "sha256": "0401f8d22c1da748ac9446b58418e214f2608a96d339f72dc2ae8247c886b135",
+          "bytes": 1569
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_OVERWRITE_ALLOCATION/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_PANIC",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_PANIC/serial.log",
+          "sha256": "02d0f49990589ad2f07451eac00090aacf7af808ae3e29b47d143c4b2293548b",
+          "bytes": 30494
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_PANIC/agent.log",
+          "sha256": "386ab900d47a1923755862d4aa41e916884679bd5691c4cca67791fe368b31d1",
+          "bytes": 30446
+        },
+        "stderr": {
+          "path": "cases/lkdtm_PANIC/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_PANIC/run.json",
+          "sha256": "dc08e735977395ea2ad3280743dee8180e447c2d87a14bed9db0f058538f547a",
+          "bytes": 1144
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_PANIC/ground-truth.json",
+          "sha256": "1e455d7db9eb7eec618e20717afcc9525bed53346214dced277cd2c0deb74983",
+          "bytes": 1073
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_PANIC/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_READ_AFTER_FREE",
+      "family": "memory_uaf",
+      "mechanismGroup": "lkdtm-memory_uaf",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_READ_AFTER_FREE/serial.log",
+          "sha256": "c819a3313eb046fbd8d6f1fb6b444cf9e260d45ce0826f96d73050e7b4a2e802",
+          "bytes": 35963
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_READ_AFTER_FREE/agent.log",
+          "sha256": "41bf02bf9798f929c470acfb8b65fe9b095c5f22ff75f4fb2f214b5ab98948fe",
+          "bytes": 35875
+        },
+        "stderr": {
+          "path": "cases/lkdtm_READ_AFTER_FREE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_READ_AFTER_FREE/run.json",
+          "sha256": "c38ef195a4b24d2df9b0315729514004a699e0785f8f9dd090bd4e1f117e91ed",
+          "bytes": 1164
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_READ_AFTER_FREE/ground-truth.json",
+          "sha256": "a54c0f193dd44e23b626f9f25ba1813bdcab6e0c07ab994b476a29dbfb04eef8",
+          "bytes": 3885
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_READ_AFTER_FREE/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_READ_BUDDY_AFTER_FREE",
+      "family": "memory_uaf",
+      "mechanismGroup": "lkdtm-memory_uaf",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_READ_BUDDY_AFTER_FREE/serial.log",
+          "sha256": "47200f3649020edd83b4921ff6c1dc1ed85854394624be1b4454692d8500105c",
+          "bytes": 34376
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_READ_BUDDY_AFTER_FREE/agent.log",
+          "sha256": "eca447c239614f762b5f69ddc07e1636b4d9ff08735e1a7a0e4f9d546392635b",
+          "bytes": 34264
+        },
+        "stderr": {
+          "path": "cases/lkdtm_READ_BUDDY_AFTER_FREE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_READ_BUDDY_AFTER_FREE/run.json",
+          "sha256": "1747bf98d62bc267b0476574913f05687ea1ba9ae62f90339c224d06e886b95c",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_READ_BUDDY_AFTER_FREE/ground-truth.json",
+          "sha256": "0f261ef7f415dc714e78d22643267e654efd598a91b45190cffe59c72eba2704",
+          "bytes": 3358
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_READ_BUDDY_AFTER_FREE/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW/serial.log",
+          "sha256": "a45ca723bbed74c6a95746d91ca4a32f9cb79b5b8f5eb0f20940faec78d54378",
+          "bytes": 35557
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW/agent.log",
+          "sha256": "79d199fd44b8e4aa171e0d5d871f0f4654c18824aca292bd9f5a8c458941ee4f",
+          "bytes": 35409
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW/run.json",
+          "sha256": "3b71f264164a0b0dbcc01805c2225a9628cff9d4d0c1869a15542b3ee046e45a",
+          "bytes": 1193
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW/ground-truth.json",
+          "sha256": "770041a6ccb885cb54497ecb261a8e74775833b45e5c606bc03dc872492de395",
+          "bytes": 1687
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_ADD_OVERFLOW",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_OVERFLOW/serial.log",
+          "sha256": "ade5e6fca385b36d3e99cd89230a4b445284553769661661663de182b987ddb2",
+          "bytes": 35136
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_OVERFLOW/agent.log",
+          "sha256": "1e8cd8ca8e8081b583617a29aa1f32ba284851d94a38b4ac84eb46b6f8b9930b",
+          "bytes": 35024
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_OVERFLOW/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_OVERFLOW/run.json",
+          "sha256": "620189e7ab525a9419e92ed8632e09d14ac79e3bbe742b05712f9eac29532731",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_OVERFLOW/ground-truth.json",
+          "sha256": "af013f49fa17f83a4a6aa1f33ac86bfa94690ce406c5a46e7ace3e0a332dfdd2",
+          "bytes": 2034
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_ADD_OVERFLOW/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_DEC_NEGATIVE",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_NEGATIVE/serial.log",
+          "sha256": "da5e30f304696387e44b1b9a2ce697a87f5ec29678ac56e955541aa5b15edd8c",
+          "bytes": 35038
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_NEGATIVE/agent.log",
+          "sha256": "5de8566af00d1d34d64992d68f339c444f78bab7fc43f5f900c8e33ce09c87a4",
+          "bytes": 34926
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_NEGATIVE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_NEGATIVE/run.json",
+          "sha256": "722c9d1b3cfaf3348a7fdf1d05f4ea0f9258a2e9f7288f369c627ea68408ec03",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_NEGATIVE/ground-truth.json",
+          "sha256": "dc1bc0631806ecbb321219364a0a34292f2dac3cf68664db1572937527e58ca2",
+          "bytes": 1520
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_NEGATIVE/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_DEC_SATURATED",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_SATURATED/serial.log",
+          "sha256": "f709045930e920caa782a9e778cf02265d721b56d95f480727fcfcb0d5219b81",
+          "bytes": 35032
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_SATURATED/agent.log",
+          "sha256": "4f593c15beca1302dde86c22f0d3c163b43ba67e2cce191b1003e53302e7d134",
+          "bytes": 34916
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_SATURATED/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_SATURATED/run.json",
+          "sha256": "61c7d63f76b5312766fd710b361c6ce6bd6a7260d32ee2f119d7dd1d672c44e6",
+          "bytes": 1178
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_SATURATED/ground-truth.json",
+          "sha256": "e854a9dbe7a030e21a5d45ebd60d3c227027f6eec44abcd5bbcf0ffe57fbdbd5",
+          "bytes": 1543
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_SATURATED/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_DEC_ZERO",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_ZERO/serial.log",
+          "sha256": "687cfd34c4f5b882e3f82665ed55f94617736e13dced58ac4d0e609a1b4a0890",
+          "bytes": 35016
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_ZERO/agent.log",
+          "sha256": "24718d5916b9c7486acc3693ffe9d9b4fda8265d0faa956a2296757d60f5ff4b",
+          "bytes": 34920
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_ZERO/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_ZERO/run.json",
+          "sha256": "7ac6a33422e47f73bb92ac84e8994433750b63d8715e7b7756765e74a12d9379",
+          "bytes": 1168
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_ZERO/ground-truth.json",
+          "sha256": "eb57f8272a8c8f2bd6c16758cbd5cfe24bbd09986585066c3cddcac6a4bca7e8",
+          "bytes": 1715
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_DEC_ZERO/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW/serial.log",
+          "sha256": "d86a8d1e0618eb098800addc220dd95edf01979abf61969e35326087e0f9cf9e",
+          "bytes": 35466
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW/agent.log",
+          "sha256": "41def8b8c2e7822d0494de9ed92a166f914fc59806b48c556dfb0a2265d89144",
+          "bytes": 35318
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW/run.json",
+          "sha256": "7fac338b7b99725b3f6ba55c28019eb328626a7031a3949f255f5f93fb023152",
+          "bytes": 1194
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW/ground-truth.json",
+          "sha256": "d2839e0a932c7ed68dc7f3b04ffd3b77e5aa9431fcc3d83360fce074ef0aaae3",
+          "bytes": 1684
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_INC_OVERFLOW",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_INC_OVERFLOW/serial.log",
+          "sha256": "aba3507e9ab16b9a22736469b5963f0e307e0545a729b7c0bcd11588b4baa485",
+          "bytes": 35083
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_INC_OVERFLOW/agent.log",
+          "sha256": "f8aba01f0720227f6ebb24f199ad8fe0de0b3c154fae816b6796e66a5486b139",
+          "bytes": 34971
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_INC_OVERFLOW/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_INC_OVERFLOW/run.json",
+          "sha256": "48bc4c141145eb3b34a5327549e324d7e1d312b33f8fa85d76ef6e952853b1d1",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_INC_OVERFLOW/ground-truth.json",
+          "sha256": "d069b3d658ba126fecbf1e2b1bfb4e3c6561145e5331495b9665b495f832c4c4",
+          "bytes": 1888
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_INC_OVERFLOW/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_REFCOUNT_INC_SATURATED",
+      "family": "refcount",
+      "mechanismGroup": "lkdtm-refcount",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_REFCOUNT_INC_SATURATED/serial.log",
+          "sha256": "8d665874b4d980a6022d6e38cc578d53ac688c7a5dd5ead662e261fc973f2153",
+          "bytes": 35033
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_REFCOUNT_INC_SATURATED/agent.log",
+          "sha256": "8066de198b6d5a4b0d96f8bf9c6e57dd2358ca9cd7fdb6bd62f33679cd727b90",
+          "bytes": 34917
+        },
+        "stderr": {
+          "path": "cases/lkdtm_REFCOUNT_INC_SATURATED/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_REFCOUNT_INC_SATURATED/run.json",
+          "sha256": "4fd178d96b6fdb0975477048ec26cd30337b957c0896074da2e8d769e4f69280",
+          "bytes": 1177
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_REFCOUNT_INC_SATURATED/ground-truth.json",
+          "sha256": "b40bfe931aa8179d2b1aa24c6f35ee724f9228be89793bf20a9b27bd1b05d4cf",
+          "bytes": 1537
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_REFCOUNT_INC_SATURATED/causal-source.c",
+          "sha256": "58a54f460379eb05d3ccbbe4dd294c735956d2a111a345ee31be70a3a1f1ca2e",
+          "bytes": 10351
+        }
+      }
+    },
+    {
+      "id": "lkdtm_SLAB_FREE_CROSS",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_SLAB_FREE_CROSS/serial.log",
+          "sha256": "b1dee6d51c5b0c75dd5467fb05433115360b16634b649b31ed56bf8285016850",
+          "bytes": 34590
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_SLAB_FREE_CROSS/agent.log",
+          "sha256": "a604f272e861d29098c4110c6fe2d3a7e86afebc509d477ded22a0ba2e735b93",
+          "bytes": 34502
+        },
+        "stderr": {
+          "path": "cases/lkdtm_SLAB_FREE_CROSS/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_SLAB_FREE_CROSS/run.json",
+          "sha256": "1ccd6ee73de5c533235170ea070e8a7fa895895095cf42761d9fc6f0646cce80",
+          "bytes": 1164
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_SLAB_FREE_CROSS/ground-truth.json",
+          "sha256": "3311c12efd4e2d20371739552a64437104fcbc28ab4716de9a287c2d2b44d140",
+          "bytes": 2076
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_SLAB_FREE_CROSS/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_SLAB_FREE_DOUBLE",
+      "family": "memory_uaf",
+      "mechanismGroup": "lkdtm-memory_uaf",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_SLAB_FREE_DOUBLE/serial.log",
+          "sha256": "2aaa4ccfb55047ed92addaedb836984fa44f39e6263eeaf282a51e22a613ddf5",
+          "bytes": 35663
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_SLAB_FREE_DOUBLE/agent.log",
+          "sha256": "966d012536baf355cb02ffd65e8d304f4f9b210a6cec6fa1e3ce56b42525c4c1",
+          "bytes": 35571
+        },
+        "stderr": {
+          "path": "cases/lkdtm_SLAB_FREE_DOUBLE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_SLAB_FREE_DOUBLE/run.json",
+          "sha256": "30fa8f69b5dac09eccd38f9386561dd9fe8a5bd7d2bc6a30810a1f11b34f3ba1",
+          "bytes": 1166
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_SLAB_FREE_DOUBLE/ground-truth.json",
+          "sha256": "8011269704bf18f82b9f637bbb56e016dd74a9826185ed4bcaf4f2ad76b0ef42",
+          "bytes": 2077
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_SLAB_FREE_DOUBLE/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_SLAB_FREE_PAGE",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_SLAB_FREE_PAGE/serial.log",
+          "sha256": "5eac4c51f9324364432fb1be83496833d178a55a0b3ba8f9ddc0c715bf11c9c0",
+          "bytes": 33170
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_SLAB_FREE_PAGE/agent.log",
+          "sha256": "3ce7d09d54e8aa7bd7673b5e74b15d7fd79f86702e6cccfa9bee6675d04ea942",
+          "bytes": 33086
+        },
+        "stderr": {
+          "path": "cases/lkdtm_SLAB_FREE_PAGE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_SLAB_FREE_PAGE/run.json",
+          "sha256": "4dc61384d222c306d53bcab5e04a73bf75d48427e86ffafa50a65a7883ca535f",
+          "bytes": 1162
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_SLAB_FREE_PAGE/ground-truth.json",
+          "sha256": "14d8c153eecff1fe62f4f4c60bd82e844c8af46641a1c282511b68cc4212c9aa",
+          "bytes": 1573
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_SLAB_FREE_PAGE/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_SOFTLOCKUP",
+      "family": "watchdog",
+      "mechanismGroup": "lkdtm-watchdog",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_SOFTLOCKUP/serial.log",
+          "sha256": "1f0653e9f7ab68ecda4ec75e847d5c006d51e9c731cc77f827fec67c82fdb19b",
+          "bytes": 39039
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_SOFTLOCKUP/agent.log",
+          "sha256": "f0d3bb75c19d09cf2da3128aa39c2155449885f93e48d80fbecac4bd9a6b6c07",
+          "bytes": 38971
+        },
+        "stderr": {
+          "path": "cases/lkdtm_SOFTLOCKUP/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_SOFTLOCKUP/run.json",
+          "sha256": "9bf8bb43aa2fd88aa25566691cf65bdc742265f9b14075fa2dac2a7e0c325695",
+          "bytes": 1154
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_SOFTLOCKUP/ground-truth.json",
+          "sha256": "aae9abf039df1bc59fff196538a1ac66cacc381945d48602cf2287d54ef6ae15",
+          "bytes": 1243
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_SOFTLOCKUP/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_SPINLOCKUP",
+      "family": "watchdog",
+      "mechanismGroup": "lkdtm-watchdog",
+      "split": "train",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_SPINLOCKUP/serial.log",
+          "sha256": "4ef990aead0b26a14def4f116db367b5e3f6b60773343d2048b604f1035b736b",
+          "bytes": 33329
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_SPINLOCKUP/agent.log",
+          "sha256": "4943d81250233456d9c4907fdac3cfcda3afa3ea4d9cedd29a02f9e435b2eb6a",
+          "bytes": 33261
+        },
+        "stderr": {
+          "path": "cases/lkdtm_SPINLOCKUP/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_SPINLOCKUP/run.json",
+          "sha256": "e0919448436b844a657627e48eef22ec388665995ebc50a0ba5a2f5444ccaa92",
+          "bytes": 1154
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_SPINLOCKUP/ground-truth.json",
+          "sha256": "4d2377ce62914602fc11cc328ad8275b353a6e617ce607653e4763304745895d",
+          "bytes": 1300
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_SPINLOCKUP/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_STACK_GUARD_PAGE_LEADING",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_LEADING/serial.log",
+          "sha256": "e52b1acb79bb50c8e8ba834851addbed4b78fdb5f3138c1d63ceecf17f6df830",
+          "bytes": 35382
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_LEADING/agent.log",
+          "sha256": "4b482c16bda1811e57ad86266e94210eaa338cef12309fb6dedbf38165e557ba",
+          "bytes": 35258
+        },
+        "stderr": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_LEADING/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_LEADING/run.json",
+          "sha256": "7e20abac8e4eeddfaf20eef6cdb5f9159c7449537d4a3656dc1e0eb0f897659d",
+          "bytes": 1182
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_LEADING/ground-truth.json",
+          "sha256": "e215d02d8c93c769e93ca86a811491599123ac615b9b8685f1966d82492e0f40",
+          "bytes": 1958
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_LEADING/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_STACK_GUARD_PAGE_TRAILING",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_TRAILING/serial.log",
+          "sha256": "f7ae73ab5bbdd5c69f8c097ef39d703e09ddf007f02571c12cb48feb304d4ace",
+          "bytes": 35541
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_TRAILING/agent.log",
+          "sha256": "b8686675221e29ad6d29c65c01a850b8afd2adabb4d1af626628fbec1dd455c6",
+          "bytes": 35413
+        },
+        "stderr": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_TRAILING/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_TRAILING/run.json",
+          "sha256": "c0283c464553e3812838efbaf42eba4997a0add1b7560694290b94b6c7a71428",
+          "bytes": 1184
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_TRAILING/ground-truth.json",
+          "sha256": "d9ad09943aada723f516b77b8781482763d80b64dcb2653bf71e59bd3979c73e",
+          "bytes": 1972
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_STACK_GUARD_PAGE_TRAILING/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_STACK_LEAK",
+      "family": "unsupported",
+      "mechanismGroup": "unsupported",
+      "split": "train",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent",
+        "causal trace/trigger evidence absent",
+        "trigger/module failed"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_STACK_LEAK/serial.log",
+          "sha256": "c0771438436d9f2dbb1adeebb8a18b6d0a6eecbe039c4d10db6a2f9e87efd092",
+          "bytes": 28979
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_STACK_LEAK/agent.log",
+          "sha256": "81039e77ae07ed53998543e06c819c5c8d90cc0156eaf77afd75558a48454845",
+          "bytes": 28934
+        },
+        "stderr": {
+          "path": "cases/lkdtm_STACK_LEAK/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_STACK_LEAK/run.json",
+          "sha256": "da80769e5a74d31ea3ba3e239bbe1ee8075afdc4bed36bc9dfda2cacc62330b2",
+          "bytes": 1153
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_STACK_LEAK/ground-truth.json",
+          "sha256": "29d66b17c23c56553fc246a3f53a38dcb20b4f630a564a9482610480b4f79204",
+          "bytes": 7149
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_STACK_LEAK/causal-source.c",
+          "sha256": "8a43b874fbd07401f16ea0d422a8fff160449fd4d7b10abd9cb17da4c5dcbaa1",
+          "bytes": 12717
+        }
+      }
+    },
+    {
+      "id": "lkdtm_UNSET_SMEP",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_UNSET_SMEP/serial.log",
+          "sha256": "f2802722abae74bdce86ed2f422cb7d041afe3c999a2da2af8713a6c1211a23c",
+          "bytes": 34548
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_UNSET_SMEP/agent.log",
+          "sha256": "7aeffe7f2ed617f9fc7797a9e947e01be5e6954cb1e77095a6d4746345f3c967",
+          "bytes": 34480
+        },
+        "stderr": {
+          "path": "cases/lkdtm_UNSET_SMEP/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_UNSET_SMEP/run.json",
+          "sha256": "bdd65c36b5314f52f16feb43738e169e68703deb3d673e6a627a4d141bb7658f",
+          "bytes": 1154
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_UNSET_SMEP/ground-truth.json",
+          "sha256": "3ebc35589a83e0b4514bb2de43e91a7d6b505a87b0b24fe159adc8e0348a8e5a",
+          "bytes": 5998
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_UNSET_SMEP/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "family": "usercopy",
+      "mechanismGroup": "lkdtm-usercopy",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_FROM/serial.log",
+          "sha256": "cf805530d93296933859be7f6f3d80a2370dd8a19be7fd99d40ba00c6fc5ed22",
+          "bytes": 33495
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_FROM/agent.log",
+          "sha256": "72cf6894473c0b235fb402598eefded118f695efb0b2f05f8743abc6e31d12a6",
+          "bytes": 33375
+        },
+        "stderr": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_FROM/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_FROM/run.json",
+          "sha256": "c19afd7aec839ddfe778c9e761b30a1de5258f766ac60f565f42b99ed3921837",
+          "bytes": 1180
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_FROM/ground-truth.json",
+          "sha256": "8e0eeefa4f858ea4bb9cbc5893042407a5d9ed901f6aed478ae79016cf3a7295",
+          "bytes": 1881
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_FROM/causal-source.c",
+          "sha256": "afb4ab6ec64974ecb524861ab925519dcecd0d07fa59cfe12f0e38ef1e8a0bb0",
+          "bytes": 9408
+        }
+      }
+    },
+    {
+      "id": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "family": "usercopy",
+      "mechanismGroup": "lkdtm-usercopy",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_TO/serial.log",
+          "sha256": "0416769dc03a481201374c911d7ad569576a50add3b7e379743041d076959ebc",
+          "bytes": 33557
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_TO/agent.log",
+          "sha256": "428bf738a0013e935ecd39c1191963c83bc379eda10c33eec616a968c559982d",
+          "bytes": 33445
+        },
+        "stderr": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_TO/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_TO/run.json",
+          "sha256": "691e8ddcc45f3463053e3a55a73bc88d9a9ff09690c11ecd4fa87937a9c43905",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_TO/ground-truth.json",
+          "sha256": "915ecdc6ae1080ad102c6ad9b44742a50eaaed554970dec61afa40d3c317032f",
+          "bytes": 1873
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_SIZE_TO/causal-source.c",
+          "sha256": "afb4ab6ec64974ecb524861ab925519dcecd0d07fa59cfe12f0e38ef1e8a0bb0",
+          "bytes": 9408
+        }
+      }
+    },
+    {
+      "id": "lkdtm_USERCOPY_HEAP_WHITELIST_FROM",
+      "family": "usercopy",
+      "mechanismGroup": "lkdtm-usercopy",
+      "split": "test",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_FROM/serial.log",
+          "sha256": "e88291e9281e607469054678e28d24f6d80dd6e60d95ae8b17f759d403e5723f",
+          "bytes": 34887
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_FROM/agent.log",
+          "sha256": "472a03f4b6da1d02c6dbf68c76218f8337752199779e92451e2e9935459f818e",
+          "bytes": 34747
+        },
+        "stderr": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_FROM/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_FROM/run.json",
+          "sha256": "029d210ea9bc3064329cfdef7175d51dbf216128ae21231acd29e71a3db022ca",
+          "bytes": 1190
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_FROM/ground-truth.json",
+          "sha256": "808433ba16376a5211030aa03758bcc4e99ff137e1907c06c70400ecd360b047",
+          "bytes": 1114
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_FROM/causal-source.c",
+          "sha256": "afb4ab6ec64974ecb524861ab925519dcecd0d07fa59cfe12f0e38ef1e8a0bb0",
+          "bytes": 9408
+        }
+      }
+    },
+    {
+      "id": "lkdtm_USERCOPY_HEAP_WHITELIST_TO",
+      "family": "usercopy",
+      "mechanismGroup": "lkdtm-usercopy",
+      "split": "test",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_TO/serial.log",
+          "sha256": "972594e53e12dbc281141c1646a8195e907f32974817853173ce1bdf1c7ba559",
+          "bytes": 34970
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_TO/agent.log",
+          "sha256": "94be2a182d2fd2020ada105be3c4f3864cca0ec346064aabf95d8d599903ab4d",
+          "bytes": 34838
+        },
+        "stderr": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_TO/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_TO/run.json",
+          "sha256": "b9195df2783e0621779b357fa9049f6423248c6b606082f9841a35e32cb47127",
+          "bytes": 1185
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_TO/ground-truth.json",
+          "sha256": "6a3be64c468724cd8295535ffa576b3f8e5e4122e8fb397be951c37edb1a9279",
+          "bytes": 1105
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_USERCOPY_HEAP_WHITELIST_TO/causal-source.c",
+          "sha256": "afb4ab6ec64974ecb524861ab925519dcecd0d07fa59cfe12f0e38ef1e8a0bb0",
+          "bytes": 9408
+        }
+      }
+    },
+    {
+      "id": "lkdtm_USERCOPY_KERNEL",
+      "family": "usercopy",
+      "mechanismGroup": "lkdtm-usercopy",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_USERCOPY_KERNEL/serial.log",
+          "sha256": "366053be7561b6e5cfd2092aaae75a6117b94f93ef57df9af8f7d92cac710b8f",
+          "bytes": 33613
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_USERCOPY_KERNEL/agent.log",
+          "sha256": "7a2c9466a1e232744abe8498674f545bb56a72e4baa9b8270bfc09594251201d",
+          "bytes": 33525
+        },
+        "stderr": {
+          "path": "cases/lkdtm_USERCOPY_KERNEL/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_USERCOPY_KERNEL/run.json",
+          "sha256": "0e17638a8f149325f0fbdc7d6e1754cdcefc556a1339861a84a13f3198403417",
+          "bytes": 1164
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_USERCOPY_KERNEL/ground-truth.json",
+          "sha256": "1538c91be88bc2725d2530ce1cfd699497d28ea3e12d00f5fa59d3d04e83df94",
+          "bytes": 4132
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_USERCOPY_KERNEL/causal-source.c",
+          "sha256": "afb4ab6ec64974ecb524861ab925519dcecd0d07fa59cfe12f0e38ef1e8a0bb0",
+          "bytes": 9408
+        }
+      }
+    },
+    {
+      "id": "lkdtm_USERCOPY_STACK_BEYOND",
+      "family": "usercopy",
+      "mechanismGroup": "lkdtm-usercopy",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_USERCOPY_STACK_BEYOND/serial.log",
+          "sha256": "1d6bb15a707ddd5dbb7e72ca4e65d6fda7b7e2bdbd4c639f352ee454d2a27518",
+          "bytes": 33791
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_USERCOPY_STACK_BEYOND/agent.log",
+          "sha256": "571d33d95a384f430fd3c6621723dfbcf40c6ec23b2b2c2238011d099867c929",
+          "bytes": 33679
+        },
+        "stderr": {
+          "path": "cases/lkdtm_USERCOPY_STACK_BEYOND/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_USERCOPY_STACK_BEYOND/run.json",
+          "sha256": "9cbd2100ea5ca2c8b050f9025c72b999a939a334427a0dd597e9855b5c47c7d6",
+          "bytes": 1176
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_USERCOPY_STACK_BEYOND/ground-truth.json",
+          "sha256": "3e926258d29536c87bc27895efb7925795066b6a9ce4902aa8265deb165a0067",
+          "bytes": 1953
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_USERCOPY_STACK_BEYOND/causal-source.c",
+          "sha256": "afb4ab6ec64974ecb524861ab925519dcecd0d07fa59cfe12f0e38ef1e8a0bb0",
+          "bytes": 9408
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WARNING",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WARNING/serial.log",
+          "sha256": "60db9334de208a2493b8f1fc742ec415f8d2c108685b8d1bf106ff6d05bb7bd9",
+          "bytes": 34454
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WARNING/agent.log",
+          "sha256": "6a748630136020d7da3163646e12c14182ddb8b940dc153113957a8dffb791af",
+          "bytes": 34398
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WARNING/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WARNING/run.json",
+          "sha256": "a54f2ecaa4c340ce539d2b870fd1dbb16b31149e79947fc18243ad42214bede8",
+          "bytes": 1148
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WARNING/ground-truth.json",
+          "sha256": "e6ae646ea810953ea45a23284a98bf3e52f3bd40b7c5b2567a2fa0ad5fde7cca",
+          "bytes": 1247
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WARNING/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WARNING_MESSAGE",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WARNING_MESSAGE/serial.log",
+          "sha256": "836c07f9cebd657ca441eb0ca0552576af0913e37bbff4c95a1cd8bd6439b4cf",
+          "bytes": 34545
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WARNING_MESSAGE/agent.log",
+          "sha256": "ee79b5e80f355fa81ec36144fc989f4e15f1582b5bf8c86aa0f89cca25b40901",
+          "bytes": 34457
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WARNING_MESSAGE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WARNING_MESSAGE/run.json",
+          "sha256": "0e939655badfbcf928f771ec3d110cad734412a1e2ac2a393a05ef765bb35031",
+          "bytes": 1164
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WARNING_MESSAGE/ground-truth.json",
+          "sha256": "e7ec9f5d680bd03b3a16f37d44bb6cabbacf50779d156bd6341c8dc675e58461",
+          "bytes": 1330
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WARNING_MESSAGE/causal-source.c",
+          "sha256": "c8501c897033bb90ec9e30fc4634726e4dc912acd358b796fac32fa73a4c8f25",
+          "bytes": 12089
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WRITE_AFTER_FREE",
+      "family": "memory_uaf",
+      "mechanismGroup": "lkdtm-memory_uaf",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WRITE_AFTER_FREE/serial.log",
+          "sha256": "29d788add00213cf489de1b52e77ed8bbed9f59bb877079e645619533c040455",
+          "bytes": 35904
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WRITE_AFTER_FREE/agent.log",
+          "sha256": "2581fbe5a0bf1d663a3c6485ef8f2ad82f0f2a16d0515769c451d87a03c74d38",
+          "bytes": 35812
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WRITE_AFTER_FREE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WRITE_AFTER_FREE/run.json",
+          "sha256": "7c828d184a7c63f6ab97854192ea0c1efba1b338b1fb2dc43c0c3e7b1b42901b",
+          "bytes": 1166
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WRITE_AFTER_FREE/ground-truth.json",
+          "sha256": "99e223a29bced8b7b44c0b94d790a9313b03ae758cd8b146ba961dcc8b4572fe",
+          "bytes": 2809
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WRITE_AFTER_FREE/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WRITE_BUDDY_AFTER_FREE",
+      "family": "memory_uaf",
+      "mechanismGroup": "lkdtm-memory_uaf",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WRITE_BUDDY_AFTER_FREE/serial.log",
+          "sha256": "14c114743a539a5ad0e94d471f9c8f27cc15dc1655f80dfaeabb64b867902d7d",
+          "bytes": 34662
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WRITE_BUDDY_AFTER_FREE/agent.log",
+          "sha256": "3f0a9ec9c038fb34768acd2839e5bdffdc6049224733c525149507700dd21429",
+          "bytes": 34546
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WRITE_BUDDY_AFTER_FREE/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WRITE_BUDDY_AFTER_FREE/run.json",
+          "sha256": "1c877cce3e14f1e12773be9eb0a04afc480953cdcda3304040e3d9216ab0d67f",
+          "bytes": 1178
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WRITE_BUDDY_AFTER_FREE/ground-truth.json",
+          "sha256": "9d28124327d3d732b8db7845914377ffbd641e1f9ee4e3be0c3ee35f3dcbe296",
+          "bytes": 2344
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WRITE_BUDDY_AFTER_FREE/causal-source.c",
+          "sha256": "9520d3cc49f74e0becd9095fce1e15264829a15a12bf07d8434382d734c75cb3",
+          "bytes": 5076
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WRITE_KERN",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WRITE_KERN/serial.log",
+          "sha256": "fcddb40262934d0a1c86e30559a857d3fc4fc9c1e4389deedc407b205e21f267",
+          "bytes": 34610
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WRITE_KERN/agent.log",
+          "sha256": "f7df7360a582d2b897c5fcfa09e1a0296fdf32a64d35b82985908bf7fbe72bf9",
+          "bytes": 34542
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WRITE_KERN/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WRITE_KERN/run.json",
+          "sha256": "a4fa0e48cd7e37f5888f7c5378913d7dbf8c138dfade9fda29171e6810e3d826",
+          "bytes": 1154
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WRITE_KERN/ground-truth.json",
+          "sha256": "3f8334f20772aeba1b6bd9c46d9f9d88c461da4c638cd4ea19537c93d835f233",
+          "bytes": 2168
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WRITE_KERN/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WRITE_RO",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WRITE_RO/serial.log",
+          "sha256": "0eb9c28ab36b0089d784d29e5fdf6503488a3f5f4fef4667551bd3bd161c4c6c",
+          "bytes": 33161
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WRITE_RO/agent.log",
+          "sha256": "3966ff9c2c6ed38d629abd3f6b53cffd2f8b14affa143b6b2fb91b1c64261caa",
+          "bytes": 33101
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WRITE_RO/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WRITE_RO/run.json",
+          "sha256": "4d0f6ba5ee43684309d0be1b042807afa0e310199f8d698b82d7f1ab627dd298",
+          "bytes": 1150
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WRITE_RO/ground-truth.json",
+          "sha256": "c687bac853e2e8a172d2921f49f1e765577f77776f5ddd4b5409bd2c8b8bb512",
+          "bytes": 1685
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WRITE_RO/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lkdtm_WRITE_RO_AFTER_INIT",
+      "family": "protection",
+      "mechanismGroup": "lkdtm-protection",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lkdtm_WRITE_RO_AFTER_INIT/serial.log",
+          "sha256": "10a316710baae64b99bedb2e3684d9de92e445c58abbec7f51dfdc9edb9ab100",
+          "bytes": 33421
+        },
+        "agentLog": {
+          "path": "cases/lkdtm_WRITE_RO_AFTER_INIT/agent.log",
+          "sha256": "2358e343299e450237ef785e63a9dcdb022874ceeee4e7cc020924c27137925b",
+          "bytes": 33317
+        },
+        "stderr": {
+          "path": "cases/lkdtm_WRITE_RO_AFTER_INIT/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lkdtm_WRITE_RO_AFTER_INIT/run.json",
+          "sha256": "b9a0ce420f57d2dcb3791651177a8605c910919245fadf29d223c5c0fe6c56e2",
+          "bytes": 1172
+        },
+        "groundTruth": {
+          "path": "cases/lkdtm_WRITE_RO_AFTER_INIT/ground-truth.json",
+          "sha256": "e6d9597822a40368f5f542d9216cb715fd0804e7b56db561ef3621d477316495",
+          "bytes": 2345
+        },
+        "causalSource": {
+          "path": "cases/lkdtm_WRITE_RO_AFTER_INIT/causal-source.c",
+          "sha256": "6f852584ebcf8f295a5b1739f15a274d13dbeb6aeec05eb54084df4010c85cb7",
+          "bytes": 5483
+        }
+      }
+    },
+    {
+      "id": "lock_mutex_abba",
+      "family": "lock_order",
+      "mechanismGroup": "lock_order",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lock_mutex_abba/serial.log",
+          "sha256": "ca652ccbfa291e38c1e908569e43d5714f8e4e90953f9f9b1d6e511e7f48a67f",
+          "bytes": 33056
+        },
+        "agentLog": {
+          "path": "cases/lock_mutex_abba/agent.log",
+          "sha256": "7bb7ccf3bfce17e43d1e23bcbfff1cf1dee3038d12c8c411cb553d55b104f829",
+          "bytes": 32953
+        },
+        "stderr": {
+          "path": "cases/lock_mutex_abba/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lock_mutex_abba/run.json",
+          "sha256": "9991ec5a6aac758f91f99cf62c5e9819fd906af2e32b918910c2aedf4b89f573",
+          "bytes": 1161
+        },
+        "groundTruth": {
+          "path": "cases/lock_mutex_abba/ground-truth.json",
+          "sha256": "b59d33d4d6101a0f685ee156b7a8c54f5e579e6bf0e0e854dcd660998d4a74e2",
+          "bytes": 1838
+        },
+        "causalSource": {
+          "path": "cases/lock_mutex_abba/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "lock_rcu_stall",
+      "family": "rcu_stall",
+      "mechanismGroup": "rcu_stall",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lock_rcu_stall/serial.log",
+          "sha256": "68f4fad3d952b64f34f5f4181c2aae6040a36229a725c4289440dcfed8fa738b",
+          "bytes": 36394
+        },
+        "agentLog": {
+          "path": "cases/lock_rcu_stall/agent.log",
+          "sha256": "4d804ee94f9c858b9da63441324f36f16b3d5e86450ec8432faf9a4e01e44f74",
+          "bytes": 36271
+        },
+        "stderr": {
+          "path": "cases/lock_rcu_stall/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lock_rcu_stall/run.json",
+          "sha256": "1f2f14551f8d5d846baf29a2b1b13c116e49c7953e55aba54233b25e97d5d308",
+          "bytes": 1159
+        },
+        "groundTruth": {
+          "path": "cases/lock_rcu_stall/ground-truth.json",
+          "sha256": "c67982195c60c0490dd192f792e899cefa7728a3342f5600ebe0ed628df0a06c",
+          "bytes": 1563
+        },
+        "causalSource": {
+          "path": "cases/lock_rcu_stall/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "lock_recursive_spin",
+      "family": "lock_order",
+      "mechanismGroup": "lock_order",
+      "split": "test",
+      "status": "excluded",
+      "exclusionReasons": [
+        "expected diagnostic absent"
+      ],
+      "files": {
+        "rawLog": {
+          "path": "cases/lock_recursive_spin/serial.log",
+          "sha256": "8c717038ae2b77f0e6abff3ea9c411dc82efb0f8010529dc0b374317602cc2a4",
+          "bytes": 39459
+        },
+        "agentLog": {
+          "path": "cases/lock_recursive_spin/agent.log",
+          "sha256": "767f2a950fb707f1396f27317ca2c185a13d178560764a9920ed5b1abfedfc46",
+          "bytes": 39352
+        },
+        "stderr": {
+          "path": "cases/lock_recursive_spin/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lock_recursive_spin/run.json",
+          "sha256": "2698edf4529628c38885626bc4f285c1e88544a2640014306242846de4ff64f5",
+          "bytes": 1174
+        },
+        "groundTruth": {
+          "path": "cases/lock_recursive_spin/ground-truth.json",
+          "sha256": "21ecf6ffb2e027a9fcbe840db5a2e08cae20bb5877dc125045b88383047b645b",
+          "bytes": 1367
+        },
+        "causalSource": {
+          "path": "cases/lock_recursive_spin/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "lock_sleep_atomic",
+      "family": "atomic_sleep",
+      "mechanismGroup": "atomic_sleep",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lock_sleep_atomic/serial.log",
+          "sha256": "611367dc43cbacb1d44dbaf32011ff0de4abc0bd8582a8bd812cb06029e9abed",
+          "bytes": 30657
+        },
+        "agentLog": {
+          "path": "cases/lock_sleep_atomic/agent.log",
+          "sha256": "e877f5b1024d0b0dc4ed46de4580768fc5bce55d999f1cfdd5555700e81c3391",
+          "bytes": 30529
+        },
+        "stderr": {
+          "path": "cases/lock_sleep_atomic/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lock_sleep_atomic/run.json",
+          "sha256": "f43890fa3034c88022e72753018002546c560348d4007890b16ff130453fa878",
+          "bytes": 1168
+        },
+        "groundTruth": {
+          "path": "cases/lock_sleep_atomic/ground-truth.json",
+          "sha256": "2d7f387c53aa5eb9b4a79f04858037d65c4f6a97bfa97a61626957e19b17e97e",
+          "bytes": 1511
+        },
+        "causalSource": {
+          "path": "cases/lock_sleep_atomic/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "lock_spin_abba",
+      "family": "lock_order",
+      "mechanismGroup": "lock_order",
+      "split": "test",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/lock_spin_abba/serial.log",
+          "sha256": "8efba2adfcefcdec25cc92c36f381f3f8a673bd448fd7066d548dd547e1acbc4",
+          "bytes": 34520
+        },
+        "agentLog": {
+          "path": "cases/lock_spin_abba/agent.log",
+          "sha256": "a4564c4051567a15288e9caf8ad8116822b6f07828b00fa7e286d2e4e05bc526",
+          "bytes": 34425
+        },
+        "stderr": {
+          "path": "cases/lock_spin_abba/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/lock_spin_abba/run.json",
+          "sha256": "5c89219ef3b925727d26374690181b27bba4c54d92fcc6853056f9dfdd2ee9ec",
+          "bytes": 1159
+        },
+        "groundTruth": {
+          "path": "cases/lock_spin_abba/ground-truth.json",
+          "sha256": "d21f201a4bb15cfdc57f7698dddc3916767eb6c1e0dc66842bc34703f094ebfb",
+          "bytes": 1982
+        },
+        "causalSource": {
+          "path": "cases/lock_spin_abba/causal-source.c",
+          "sha256": "bc6c31b2136f9224b4d6f57d8483d66af2c0ca9b31f2fcf677ef011481ff304d",
+          "bytes": 7576
+        }
+      }
+    },
+    {
+      "id": "pressure_oom",
+      "family": "oom",
+      "mechanismGroup": "userspace-pressure",
+      "split": "train",
+      "status": "ready",
+      "exclusionReasons": [],
+      "files": {
+        "rawLog": {
+          "path": "cases/pressure_oom/serial.log",
+          "sha256": "7f3d6dd3ae9124671581d366d15f50b08479c6e35a0227bcc2ffa6b23a84508c",
+          "bytes": 35392
+        },
+        "agentLog": {
+          "path": "cases/pressure_oom/agent.log",
+          "sha256": "5a19794c23c6fd6e0e64fa3443a31d9913eb9ce1c00a6c2187cef56e526048dd",
+          "bytes": 35364
+        },
+        "stderr": {
+          "path": "cases/pressure_oom/qemu.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "run": {
+          "path": "cases/pressure_oom/run.json",
+          "sha256": "f0086e2a6b7b6f3822234b88302e514b6fe30bb90642ccf8edc7fb8067ee7425",
+          "bytes": 1146
+        },
+        "groundTruth": {
+          "path": "cases/pressure_oom/ground-truth.json",
+          "sha256": "f141ae40d83a0c639535800ef76b06cbd8b1414b9f20c005aa8385e9631d638d",
+          "bytes": 1874
+        },
+        "causalSource": {
+          "path": "cases/pressure_oom/causal-source.c",
+          "sha256": "03d8226acfd69db70db758fb64bfef0ff2ea78e30cbd3c98c055bb2af0168afe",
+          "bytes": 474
+        }
+      }
+    }
+  ],
+  "inputProfiles": {
+    "log+artifacts+source": [
+      "log",
+      "artifacts",
+      "source"
+    ],
+    "log+artifacts": [
+      "log",
+      "artifacts"
+    ],
+    "log+source": [
+      "log",
+      "source"
+    ],
+    "artifacts+source": [
+      "artifacts",
+      "source"
+    ],
+    "log": [
+      "log"
+    ],
+    "artifacts": [
+      "artifacts"
+    ],
+    "source": [
+      "source"
+    ]
+  },
+  "optionalArtifacts": {
+    "vmcore": "not collected; vmlinux and matching module/debug symbols are present"
+  },
+  "scope": "synthetic injected x86_64 OpenHarmony 5.10 kernel stability cases; not production bug distribution",
+  "annotationRevision": "v2"
+}
