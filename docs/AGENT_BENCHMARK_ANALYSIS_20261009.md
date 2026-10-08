@@ -159,6 +159,6 @@ python scripts/summarize-agent-benchmark.py --figures
 
 完整模型运行需要按平台文档恢复受控数据集与匹配源码/编译产物，配置 Linux/WSL2、bubblewrap、模型服务和精确硬件/模型身份。数据与旧补充包不随本次 GitHub 提交公开；补充包绑定旧 Git 基线，合并恢复步骤见本地数据指南，不能无检查覆盖最新仓库。
 
-原始证据保存在 Git 忽略目录 `data/local-archive/agent-benchmark-20261009/`；归档 `retained-evidence.tgz` 为 653550 字节，SHA256 `0eaea754e219652e25a85b589f6e90f44dd5f88aa63436bee6601833cd071c700`。模型请求、工具轨迹、私有 Prompt 与完整业务状态不上传。归档中的早期测试计数为当时快照，最终本地回归为 Node 42/42、Python 53/53；完整原始证据不被后续汇总改写。
+原始证据保存在 Git 忽略目录 `data/local-archive/agent-benchmark-20261009/`；归档 `retained-evidence.tgz` 为 653550 字节，SHA256 `0eaea754e219652e25a85b589f6e90f44dd5f8aa63436bee6601833cd071c700`。模型请求、工具轨迹、私有 Prompt 与完整业务状态不上传。归档中的早期测试计数为当时快照，最终本地回归为 Node 42/42、Python 53/53；完整原始证据不被后续汇总改写。
 
 本次 GitHub 发布包含平台功能、Decision/沙箱与跨平台依赖代码、回归测试、部署指南和脱敏结果。不涉及额外演示稿改动，也不向生产社区公开验收账号和成绩。

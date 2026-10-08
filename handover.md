@@ -18,7 +18,7 @@
 - 单例 UUID /work、bwrap 无标签/父评测目录/业务数据/proc，只读源码与产物，固定只读工具。共享模型槽、单用户1活跃任务、全站10活跃上限、8 API/240秒单例；进程组超时/取消可终止。自定义组合不执行用户代码；模型访问网络仍开放，依赖固定接口与工具能力限制，不能宣称有网络防火墙。
 - 私有验收实例 data/benchmark-acceptance-20261009，实际9/9完成：总分51.6763，阶段7/9，类型8/9，代码4/9（含健康；故障3/8），34 API、255636Token、累计定位248.653s。9/9隔离检查通过、49次源码读、25条生成消息确实含所选Prompt。未证明比旧版提分，USERCOPY和HUNG_TASK仍有缺口。Node42/42、Python53/53通过。
 - 自动审批拒绝验收账号向生产公共榜单发布成绩，改为专用私有实例，不向生产植入测试用户/分数；私有结果从榜单排除验证通过。生产榜单目前无用户有效成绩，不能填假前十。另拒绝默认admin凭据登录生产Web；已保留登录页让用户自行登录，不绕过。
-- 完整私有证据服务器 /opt/kernel-insight/experiments/agent-benchmark-20261009/ 与 data/benchmark-acceptance-20261009/agent-benchmarks/add670f7-1695-4564-8337-7109e5cae0d2/。本地 retained-evidence.tgz 为653550B、SHA256 0eaea754e219652e25a85b589f6e90f44dd5f88aa63436bee6601833cd071c700，排除账号/口令与可重复取得源码。原始请求、usage、工具轨迹、隔离审计和模型结果保留；私有目录忽略Git。
+- 完整私有证据服务器 /opt/kernel-insight/experiments/agent-benchmark-20261009/ 与 data/benchmark-acceptance-20261009/agent-benchmarks/add670f7-1695-4564-8337-7109e5cae0d2/。本地 retained-evidence.tgz 为653550B、SHA256 0eaea754e219652e25a85b589f6e90f44dd5f8aa63436bee6601833cd071c700，排除账号/口令与可重复取得源码。原始请求、usage、工具轨迹、隔离审计和模型结果保留；私有目录忽略Git。
 - Windows原生8788 Demo已启动并验证保存/选择Prompt与展板；不能执行Linux沙箱。生产SSH本机转发localhost:8790 -> 服务器8787（本地独立forward进程依赖当前SSH会话）；用户自行登录后可完整评测。GitHub尚未更新，旧补充ZIP不含本轮内容；保留此前所有未提交修改。
 
 

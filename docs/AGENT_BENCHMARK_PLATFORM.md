@@ -97,6 +97,6 @@ API：GET /api/agent-presets；GET/POST /api/me/agent-profiles；PUT/DELETE /api
 
 这是平台闭环的功能与计量验收，没有证明 Agent 相比此前准确率提升。组合指导文本和评分口径均有变化，不能直接当作以前 4/8 的同条件回归对照。USERCOPY 仍经常落在检测器，HUNG_TASK 在本次连阶段/类型也未命中；健康样本类型与拒答正确，但阶段误报。后续应在开发集改善责任组件证据覆盖，并用新冻结隐藏集检验泛化。根因机制/引入提交准确率仍为 null。
 
-机器可读摘要：docs/agent-benchmark-platform-results-20261009.json；详细分析：[评测报告](AGENT_BENCHMARK_ANALYSIS_20261009.md)。功能代码、公开协议和脱敏分析纳入 GitHub 发布。私有完整证据：data/local-archive/agent-benchmark-20261009/retained-evidence.tgz，653550 字节，SHA256 0eaea754e219652e25a85b589f6e90f44dd5f88aa63436bee6601833cd071c700。原始完整运行保留服务器 data/benchmark-acceptance-20261009/agent-benchmarks/add670f7-1695-4564-8337-7109e5cae0d2/，不上传 GitHub。
+机器可读摘要：docs/agent-benchmark-platform-results-20261009.json；详细分析：[评测报告](AGENT_BENCHMARK_ANALYSIS_20261009.md)。功能代码、公开协议和脱敏分析纳入 GitHub 发布。私有完整证据：data/local-archive/agent-benchmark-20261009/retained-evidence.tgz，653550 字节，SHA256 0eaea754e219652e25a85b589f6e90f44dd5f8aa63436bee6601833cd071c700。原始完整运行保留服务器 data/benchmark-acceptance-20261009/agent-benchmarks/add670f7-1695-4564-8337-7109e5cae0d2/，不上传 GitHub。
 
 自动审批拒绝了以验收账号公开发布社区成绩，已改为独立实例私有验收；另拒绝使用代码默认凭据登录生产 Web 管理员，生产页面停留登录页交由用户自行登录。没有通过其他账号或接口绕过这两项拒绝。
