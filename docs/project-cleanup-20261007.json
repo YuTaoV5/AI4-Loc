@@ -1,0 +1,38 @@
+[
+  {
+    "destination": "data/source-repositories/openharmony-kernel-6.6",
+    "source": "kernel_linux_6.6",
+    "action": "preserved-move",
+    "reason": "Keep kernel Git history; remove empty checkout from project root"
+  },
+  {
+    "destination": "X:\\Items\\1_AI4-Loc\\data\\local-archive\\operations\\remote-admin.py",
+    "source": "scripts/remote-admin.py",
+    "action": "preserved-move",
+    "reason": "Historical operator helper, not application dependency"
+  },
+  {
+    "destination": "X:\\Items\\1_AI4-Loc\\data\\local-archive\\operations\\remote-ops",
+    "source": "data/remote-ops",
+    "action": "preserved-move",
+    "reason": "Historical operator helper, not application dependency"
+  },
+  {
+    "reason": "Failed clone with no HEAD/refs, reproducible synthetic stress log, or six-byte scratch file",
+    "path": "tools/-lip-",
+    "action": "removed",
+    "bytes": 381937492.0
+  },
+  {
+    "reason": "Failed clone with no HEAD/refs, reproducible synthetic stress log, or six-byte scratch file",
+    "path": "data/tool-evidence/large.log",
+    "action": "removed",
+    "bytes": 108000055
+  },
+  {
+    "reason": "Failed clone with no HEAD/refs, reproducible synthetic stress log, or six-byte scratch file",
+    "path": "deliverables/jev-huawei-soc/test.txt",
+    "action": "removed",
+    "bytes": 6
+  }
+]

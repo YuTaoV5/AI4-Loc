@@ -1,0 +1,42 @@
+{
+  "schema": "benchmark-leakage-audit/v1",
+  "manifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+  "integrity": {
+    "schema": "kernel-stability-dataset/v1",
+    "complete": true,
+    "cases": 68,
+    "readyCases": 60,
+    "faultCases": 59,
+    "families": [
+      "atomic_sleep",
+      "healthy",
+      "hung_task",
+      "lock_order",
+      "memory_leak",
+      "memory_oob",
+      "memory_uaf",
+      "oom",
+      "protection",
+      "rcu_stall",
+      "refcount",
+      "usercopy",
+      "watchdog"
+    ],
+    "missingFamilies": [],
+    "checkedFiles": 423,
+    "errors": []
+  },
+  "readyLogs": 60,
+  "directMetadataClean": true,
+  "sourceForbiddenMetadataFiles": [],
+  "historicalTraceAudit": {
+    "traceCount": 63,
+    "collectorReads": []
+  },
+  "limitations": [
+    "This is a synthetic injection benchmark: descriptive function names and intentional fault code are valid supplied inputs but enable shortcuts.",
+    "Existing test split has been inspected during prior development; it is not an untouched blind holdout.",
+    "Historical in-process evaluation lacked OS isolation. No blanket zero-leakage guarantee is made for historical runs.",
+    "No audit can establish absence of model pretraining contamination without model training provenance."
+  ]
+}

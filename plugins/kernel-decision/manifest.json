@@ -1,0 +1,21 @@
+{
+  "name": "kernel-decision",
+  "version": "1.1.0",
+  "dshEntry": "index.mjs",
+  "api": [
+    "/v1/decisions",
+    "/v1/systemone"
+  ],
+  "promptFormatVersion": 1,
+  "capabilities": [
+    "choice",
+    "score",
+    "yes_no"
+  ],
+  "scope": "read-only evidence routing and source-candidate ranking",
+  "probabilitiesCalibrated": false,
+  "tools": [
+    "kernel_decide",
+    "kernel_boundary"
+  ]
+}

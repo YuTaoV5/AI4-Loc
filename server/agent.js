@@ -17,6 +17,12 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
   const sources=await require('./agent-source').prepare(log,job.agentSourceSpec,dir);
   fs.copyFileSync(path.join(__dirname,'../tools/kernel-debug/diagnostic-methods.md'),path.join(dir,'diagnostic-methods.md'));
   const request={workspace:dir,engine:configuration().engine,eagerBoundary:configuration().engine==='closed-loop',sourceTriage:configuration().engine==='closed-loop',transport:configuration().transport,model:configuration().model,baseUrl:process.env.KERNEL_AGENT_BASE_URL||(configuration().transport==='ollama-native'?'http://127.0.0.1:11434':'http://127.0.0.1:11434/v1'),timeout:configuration().timeoutSeconds,sourceRoot:job.agentSourceRoot||null};
+  if(process.env.KERNEL_BOUNDARY_ROUTER==='decision'&&process.env.KERNEL_DECISION_BASE_URL)request.boundaryRouter={baseUrl:process.env.KERNEL_DECISION_BASE_URL,timeout:15,api:process.env.KERNEL_DECISION_API||'decisions'};
+  else if(process.env.KERNEL_DECISION_BASE_URL)request.decisionPlugin={baseUrl:process.env.KERNEL_DECISION_BASE_URL,policy:'adaptive'};
+  if(job.agentProfile){
+   request.userPrompt=job.agentProfile.prompt;
+   if(job.agentProfile.agentId==='chat-investigator'){delete request.boundaryRouter;delete request.decisionPlugin;request.fastFinal=false;}
+  }else request.userPrompt=skills.map(s=>`Skill ${s.name}: ${s.guidance||''}`).join('\n\n').slice(0,30000);
   fs.writeFileSync(path.join(dir,'request.json'),JSON.stringify(request));
   const python=process.env.KERNEL_AGENT_PYTHON||'python3',runner=path.join(__dirname,'../scripts/agent-runner.py');
   let command=python,args=[runner,path.join(dir,'request.json')];
@@ -33,4 +39,12 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
   return {...normalized,firstScene:result.analysis.firstScene,localization:result.analysis.localization,metrics:result.metrics,model:request.model,provider:configuration().provider,harness:result.harness,finishReason:result.finishReason,attempts:result.attempts,firstFinishReason:result.firstFinishReason,toolCalls:result.toolCalls||[],elapsedSeconds:result.elapsedSeconds,evidence:result.evidence,sourceFiles:sources.files,sourceErrors:sources.errors,benchmarkGroundTruthProvided:false};
  }finally{release();}
 }
-module.exports={enabled,configuration,identity,execute};
+const decisionIdentity=()=>{
+ const hash=crypto.createHash('sha256').update(identity()).update(process.env.KERNEL_DECISION_BASE_URL||'disabled').update(process.env.KERNEL_BOUNDARY_ROUTER||'adaptive').update(process.env.KERNEL_DECISION_API||'decisions').update(process.env.KERNEL_DECISION_MODEL||'default');
+ for(const name of ['../scripts/boundary_router.py','../scripts/decision_plugin.py','../plugins/kernel-decision/manifest.json','../plugins/kernel-decision/index.mjs']){
+  const file=path.join(__dirname,name);if(fs.existsSync(file))hash.update(fs.readFileSync(file));
+ }
+ return hash.digest('hex');
+};
+async function withSlot(work){await acquire();try{return await work();}finally{release();}}
+module.exports={enabled,configuration,identity:decisionIdentity,execute,withSlot};

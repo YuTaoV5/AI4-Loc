@@ -2,6 +2,8 @@
 
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
 
+最新交付：个人 Agent/Skill Prompt 组合、新建分析选择、一键固定套件跑分、同 cohort 前十用户榜及个人结果联动。详见 [平台设计与评分标准](docs/AGENT_BENCHMARK_PLATFORM.md)、[详细实测分析报告](docs/AGENT_BENCHMARK_ANALYSIS_20261009.md) 和 [逐例数据与图表](docs/results/agent-benchmark-20261009/)。本轮九例全部完成；故障代码定位 3/8，不能据此宣称准确率提升。公开仓库保留脱敏摘要，私有 Prompt、账号、业务日志及完整运行轨迹留在 Git 忽略目录。
+
 已有完整本地数据时，使用 [Windows 展示启动指南](docs/WINDOWS_SITE.md) 运行独立状态的网站。系统方案另附 [48 页网页版讲解稿](deliverables/kernel-insight-system/deck.html)，包含真实功能图、科研结果图与可播放流程。
 
 演示材料：[完整逐页演讲稿](deliverables/kernel-insight-system/逐页演讲稿.md)、[离线包与重建说明](deliverables/kernel-insight-system/README.md)。
@@ -25,11 +27,11 @@ npm test
 npm run collect:benchmark
 ```
 
-当前 28 项自动验收测试全部通过，覆盖账号权限、任务归属、真实进度、分析去重、Benchmark 门禁、源码校验与安全解压、Markdown、PlantUML、模型报告校验和磁盘不足拒收保护。
+2026-10-09 本地回归 Node 42/42、Python 53/53 通过，覆盖账号权限、任务归属、个人组合、评分与榜单、源码校验、报告校验及部署检查。Python 使用 `python -m unittest discover -s tests -p '*_test.py'`；本地回归不代替真实模型评测。
 
 ## 远端模型与定位工具
 
-远端已部署真实 **dsh harness + Qwen** 执行链及 **SGLang 结构化多问题分诊**；本地默认模式保留规则检索。模型调用使用独立任务目录和只读系统沙箱，个人空间可查看工具调用状态，报告含假设、原始行号和验证步骤。默认答案不传给模型，失败不伪装成成功。
+当前远端使用 **closed-loop 工具循环 + Ollama Chat**，可选 **SGLang Decision 快速定界**；旧 dsh 执行链保留兼容。Windows 原生 Demo 使用规则检索；完整定位与独立沙箱跑分需 Linux/WSL2，见 [跨平台部署](docs/CROSS_PLATFORM_DEPLOYMENT.md)。模型调用使用独立任务目录和只读系统沙箱，个人空间可查看工具调用状态，报告含假设、原始行号和验证步骤。默认答案不传给模型，失败不伪装成成功。
 
 - [Windows / Linux 工具手册](docs/KERNEL_TOOLKIT.md)：ripgrep、LLVM ELF / DWARF / PDB 与反汇编，Linux GDB、crash、drgn 等；13 / 14 项实际工具实验。
 - [远端部署与恢复](docs/REMOTE_AGENT_DEPLOYMENT.md)：SSH 隧道、模型别名、SGLang 显存、只读沙箱、磁盘迁移与运行边界。
@@ -108,3 +110,19 @@ Kernel 定位 Agent 的证据流程、工具使用边界与后续接口见 [设�
 定位闭环本轮验证：Python 27/27、Node 31/31；真实模型各版本成绩、历史超时及 OOM 定位缺口见 [定位评测报告](docs/kernel-localization-benchmark-20261007.json)。新引擎仍为可选实验路径，未切换线上。
 
 服务器网站已恢复并接入新版定位 Agent；当前完整验收为 Node 36/36、Python 29/29、业务与模型自检 32/32。重复执行入口及配对迭代成绩见 [网站自检手册](docs/WEBSITE_SELFCHECK.md)、[验收记录](docs/website-acceptance-20261007.json) 和 [定位迭代数据](docs/agent-iteration-20261007.json)。
+
+## 完整系统与本地数据
+
+- [完整系统方案](docs/SYSTEM_DESIGN.md)：架构、业务链路、数据合同、Agent 工具循环、评测、部署与闭环边界。
+- [本地数据与恢复指南](docs/LOCAL_DATA_GUIDE.md)：完整归档、四个数据集版本、校验方式与整理记录。
+
+大型数据、源码和产物位于 `data/datasets/`、`data/experiments/` 与 `data/server-snapshots/`，只在本地保存，不进入 Git。最新网站 Benchmark 已扩增为 `openharmony-lkdtm-lab-v2`（80 例）；仓库公开夹具 `data/benchmark/` 仍为 6 例社区集。历史章节中的线上数据数量以此及最新 handover 为准。
+# 跨平台完整部署
+
+Windows 原生启动默认为 Demo；完整 Linux 工具链与隔离实验通过 WSL2 运行。Linux 新机入口、模型依赖、数据选择、常驻服务与 16.82 GB 文件审计见 [跨平台部署说明](docs/CROSS_PLATFORM_DEPLOYMENT.md)。代码包不包含私有业务数据或外部模型权重，不能把 Demo 当作完整模型部署。
+
+### Decision / Chat 分层定位（2026-10-09）
+
+- [Jev-like 模型的 SGLang 部署与配置](docs/SGLANG_JEV_LIKE_DEPLOYMENT.md)
+- [Benchmark 标签泄露审计及隔离边界](docs/BENCHMARK_LABEL_LEAKAGE_AUDIT.md)
+- [Decision + Chat 分流 Agent 与实测结果](docs/DECISION_CHAT_HYBRID_AGENT.md)

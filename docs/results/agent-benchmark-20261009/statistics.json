@@ -1,0 +1,61 @@
+{
+  "schema": "public-agent-benchmark-analysis/v1",
+  "source": "docs/agent-benchmark-platform-results-20261009.json",
+  "sourceSha256": "ad8141086e15775b71053b4b689a2d71a8474d6064d3533f4e2f76942498a53d",
+  "sourceHashEncoding": "UTF-8 bytes with CRLF normalized to LF for cross-platform Git checkouts",
+  "n": 9,
+  "percentileDefinition": "nearest rank: sorted[ceil(p*n)-1]; n=9 p95 is maximum",
+  "distributions": {
+    "boundarySeconds": {
+      "sum": 9.6335,
+      "mean": 1.0703888888888888,
+      "median": 1.1161,
+      "p95": 1.2453,
+      "min": 0.7833,
+      "max": 1.2453
+    },
+    "rootLocationSeconds": {
+      "sum": 248.653,
+      "mean": 27.62811111111111,
+      "median": 29.418,
+      "p95": 30.711,
+      "min": 13.666,
+      "max": 30.711
+    },
+    "reportOutputSeconds": {
+      "sum": 155.2847,
+      "mean": 17.253855555555557,
+      "median": 17.3854,
+      "p95": 19.9927,
+      "min": 12.5417,
+      "max": 19.9927
+    },
+    "totalTokens": {
+      "sum": 255636,
+      "mean": 28404,
+      "median": 28097,
+      "p95": 33537,
+      "min": 17561,
+      "max": 33537
+    },
+    "modelRequests": {
+      "sum": 34,
+      "mean": 3.7777777777777777,
+      "median": 4,
+      "p95": 4,
+      "min": 2,
+      "max": 4
+    }
+  },
+  "efficiencyContributions": {
+    "boundarySeconds": 1.1223659227875382,
+    "rootLocationSeconds": 1.3464709912039834,
+    "reportOutputSeconds": 0.3479550648218909,
+    "totalTokens": 0.41510234975242993,
+    "modelRequests": 0.6666666666666666
+  },
+  "inputTokens": 251359,
+  "outputTokens": 4277,
+  "generationModelRequests": 25,
+  "decisionModelRequests": 9
+}

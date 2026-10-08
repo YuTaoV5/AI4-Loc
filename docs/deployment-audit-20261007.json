@@ -1,0 +1,374 @@
+{
+  "capturedAt": "2026-10-07T14:18:21.984019+00:00",
+  "local": {
+    "logicalBytes": 16822021165,
+    "groups": {
+      "data/experiments": {
+        "bytes": 5051753946,
+        "files": 8630
+      },
+      "data/server-snapshots": {
+        "bytes": 4696006337,
+        "files": 6
+      },
+      "data/source-repositories": {
+        "bytes": 2774965678,
+        "files": 27
+      },
+      "data/kernels": {
+        "bytes": 1493993962,
+        "files": 81744
+      },
+      "data/datasets": {
+        "bytes": 1253342907,
+        "files": 726
+      },
+      "data/toolchains": {
+        "bytes": 954823814,
+        "files": 9088
+      },
+      "data/diagram-runtime": {
+        "bytes": 223370180,
+        "files": 325
+      },
+      "node_modules": {
+        "bytes": 189501928,
+        "files": 12348
+      },
+      "data/local-archive": {
+        "bytes": 114046044,
+        "files": 424
+      },
+      ".git": {
+        "bytes": 27536769,
+        "files": 711
+      },
+      "deliverables": {
+        "bytes": 24891273,
+        "files": 183
+      },
+      "data/dataset-audit": {
+        "bytes": 8065220,
+        "files": 518
+      },
+      "data/deployment": {
+        "bytes": 2766931,
+        "files": 3
+      },
+      "data/test-tmp": {
+        "bytes": 2253358,
+        "files": 468
+      },
+      "docs": {
+        "bytes": 1612765,
+        "files": 53
+      },
+      "tools": {
+        "bytes": 707263,
+        "files": 58
+      },
+      "data/windows-local": {
+        "bytes": 508472,
+        "files": 16
+      },
+      "scripts": {
+        "bytes": 454144,
+        "files": 44
+      },
+      "data/tool-evidence": {
+        "bytes": 394819,
+        "files": 21
+      },
+      "public": {
+        "bytes": 240353,
+        "files": 12
+      },
+      "tests": {
+        "bytes": 239251,
+        "files": 28
+      },
+      "logo.png": {
+        "bytes": 98367,
+        "files": 1
+      },
+      "package-lock.json": {
+        "bytes": 88806,
+        "files": 1
+      },
+      "server": {
+        "bytes": 81167,
+        "files": 14
+      },
+      "data/benchmark": {
+        "bytes": 59448,
+        "files": 7
+      },
+      "data/skill-pulls": {
+        "bytes": 59077,
+        "files": 1
+      },
+      "data/state.json": {
+        "bytes": 55328,
+        "files": 1
+      },
+      "data/reports": {
+        "bytes": 31240,
+        "files": 12
+      },
+      "handover.md": {
+        "bytes": 20254,
+        "files": 1
+      },
+      "report-temple.md": {
+        "bytes": 14590,
+        "files": 1
+      },
+      "data/ui-validation": {
+        "bytes": 12791,
+        "files": 8
+      },
+      "data/diagram-cache": {
+        "bytes": 10762,
+        "files": 2
+      },
+      "README.md": {
+        "bytes": 10346,
+        "files": 1
+      },
+      "data/accounts.json": {
+        "bytes": 812,
+        "files": 1
+      },
+      "data/README.md": {
+        "bytes": 800,
+        "files": 1
+      },
+      ".gitignore": {
+        "bytes": 717,
+        "files": 1
+      },
+      "package.json": {
+        "bytes": 635,
+        "files": 1
+      },
+      ".gitattributes": {
+        "bytes": 345,
+        "files": 1
+      },
+      "AGENTS.md": {
+        "bytes": 202,
+        "files": 1
+      },
+      "data/admin-key.txt": {
+        "bytes": 64,
+        "files": 1
+      }
+    },
+    "largestFiles": [
+      {
+        "path": "data/server-snapshots/20261007-full/lab.tar.gz",
+        "bytes": 3721238020
+      },
+      {
+        "path": "data/source-repositories/openharmony-kernel-6.6/.git/objects/pack/pack-678c090ed2dd2b98a4377ca05790a8bead1a3bf3.pack",
+        "bytes": 2443741844
+      },
+      {
+        "path": "data/experiments/kernel-lab/bootstages/cfg/vmlinux.o",
+        "bytes": 1108210680
+      },
+      {
+        "path": "data/experiments/kernel-lab/benchmark/localization-ablations-v6/workspaces/corrupt_uaf_kmalloc__artifacts/vmlinux",
+        "bytes": 1017015536
+      },
+      {
+        "path": "data/datasets/stability-v1/shared/vmlinux",
+        "bytes": 1017015536
+      },
+      {
+        "path": "data/experiments/kernel-lab/bootstages/cfg/vmlinux",
+        "bytes": 1012494208
+      },
+      {
+        "path": "data/server-snapshots/20261007-full/service.tar.gz",
+        "bytes": 973132060
+      },
+      {
+        "path": "data/source-repositories/openharmony-kernel-6.6/.git/objects/pack/pack-678c090ed2dd2b98a4377ca05790a8bead1a3bf3.idx",
+        "bytes": 291752608
+      },
+      {
+        "path": "data/datasets/stability-v1/shared/source.tar.gz",
+        "bytes": 191097714
+      },
+      {
+        "path": "data/toolchains/downloads/llvm-mingw-20260922-ucrt-x86_64.zip",
+        "bytes": 190725905
+      },
+      {
+        "path": "data/kernels/release-6.6/source.tar.xz",
+        "bytes": 140064536
+      },
+      {
+        "path": "data/experiments/kernel-lab/bootstages/cfg/.tmp_vmlinux.kallsyms2",
+        "bytes": 139232224
+      },
+      {
+        "path": "data/experiments/kernel-lab/bootstages/cfg/.tmp_vmlinux.kallsyms1",
+        "bytes": 137135048
+      },
+      {
+        "path": "data/diagram-runtime/zulu21.52.203-ca-jre21.0.12.1-win_x64/lib/modules",
+        "bytes": 99710597
+      },
+      {
+        "path": "data/local-archive/slide-python/playwright/driver/node.exe",
+        "bytes": 93580104
+      },
+      {
+        "path": "data/experiments/kernel-lab/bootstages/cfg/arch/x86/boot/compressed/vmlinux.bin",
+        "bytes": 78662288
+      },
+      {
+        "path": "data/toolchains/windows/llvm-mingw-20260922-ucrt-x86_64/bin/libLLVM-23.dll",
+        "bytes": 77655040
+      },
+      {
+        "path": "data/toolchains/windows/llvm-mingw-20260922-ucrt-x86_64/bin/libclang-cpp.dll",
+        "bytes": 49637376
+      },
+      {
+        "path": "data/diagram-runtime/jre.zip",
+        "bytes": 49264410
+      },
+      {
+        "path": "data/source-repositories/openharmony-kernel-6.6/.git/objects/pack/pack-678c090ed2dd2b98a4377ca05790a8bead1a3bf3.rev",
+        "bytes": 39435100
+      }
+    ],
+    "note": "Logical file bytes; reparse points excluded. Not physical NTFS allocation."
+  },
+  "archivedReleaseComparison": {
+    "files": 165,
+    "identical": 78,
+    "changed": [
+      "README.md",
+      "data/benchmark/manifest.json",
+      "handover.md",
+      "scripts/agent-sandbox.sh",
+      "scripts/package-deployment.py",
+      "tools/kernel-lab/prepare.sh"
+    ],
+    "relocatedIdentical": [
+      "data/benchmark/OHOS-001.txt",
+      "data/benchmark/OHOS-002.txt",
+      "data/benchmark/OHOS-003.txt",
+      "data/benchmark/OHOS-004.txt",
+      "data/benchmark/OHOS-005.txt",
+      "data/benchmark/OHOS-006.txt",
+      "data/benchmark/OHOS-007.txt",
+      "data/benchmark/OHOS-008.txt",
+      "data/benchmark/OHOS-009.txt",
+      "data/benchmark/OHOS-010.txt",
+      "data/benchmark/OHOS-011.txt",
+      "data/benchmark/OHOS-012.txt",
+      "data/benchmark/OHOS-013.txt",
+      "data/benchmark/OHOS-014.txt",
+      "data/benchmark/OHOS-015.txt",
+      "data/benchmark/OHOS-016.txt",
+      "data/benchmark/OHOS-017.txt",
+      "data/benchmark/OHOS-018.txt",
+      "data/benchmark/OHOS-019.txt",
+      "data/benchmark/OHOS-020.txt",
+      "data/benchmark/OHOS-021.txt",
+      "data/benchmark/OHOS-022.txt",
+      "data/benchmark/OHOS-023.txt",
+      "data/benchmark/OHOS-024.txt",
+      "data/benchmark/OHOS-025.txt",
+      "data/benchmark/OHOS-026.txt",
+      "data/benchmark/OHOS-027.txt",
+      "data/benchmark/OHOS-028.txt",
+      "data/benchmark/OHOS-029.txt",
+      "data/benchmark/OHOS-030.txt",
+      "data/benchmark/OHOS-031.txt",
+      "data/benchmark/OHOS-032.txt",
+      "data/benchmark/OHOS-033.txt",
+      "data/benchmark/OHOS-034.txt",
+      "data/benchmark/OHOS-035.txt",
+      "data/benchmark/OHOS-036.txt",
+      "data/benchmark/OHOS-037.txt",
+      "data/benchmark/OHOS-038.txt",
+      "data/benchmark/OHOS-039.txt",
+      "data/benchmark/OHOS-040.txt",
+      "data/benchmark/OHOS-041.txt",
+      "data/benchmark/OHOS-042.txt",
+      "data/benchmark/OHOS-043.txt",
+      "data/benchmark/OHOS-044.txt",
+      "data/benchmark/OHOS-045.txt",
+      "data/benchmark/OHOS-046.txt",
+      "data/benchmark/OHOS-047.txt",
+      "data/benchmark/OHOS-048.txt",
+      "data/benchmark/OHOS-049.txt",
+      "data/benchmark/OHOS-050.txt",
+      "data/benchmark/OHOS-051.txt",
+      "data/benchmark/OHOS-052.txt",
+      "data/benchmark/OHOS-053.txt",
+      "data/benchmark/OHOS-054.txt",
+      "data/benchmark/OHOS-055.txt",
+      "data/benchmark/OHOS-056.txt",
+      "data/benchmark/OHOS-057.txt",
+      "data/benchmark/OHOS-058.txt",
+      "data/benchmark/OHOS-059.txt",
+      "data/benchmark/OHOS-060.txt",
+      "data/benchmark/OHOS-061.txt",
+      "data/benchmark/OHOS-062.txt",
+      "data/benchmark/OHOS-063.txt",
+      "data/benchmark/OHOS-064.txt",
+      "data/benchmark/OHOS-065.txt",
+      "data/benchmark/OHOS-066.txt",
+      "data/benchmark/OHOS-067.txt",
+      "data/benchmark/OHOS-068.txt",
+      "data/benchmark/OHOS-069.txt",
+      "data/benchmark/OHOS-070.txt",
+      "data/benchmark/OHOS-071.txt",
+      "data/benchmark/OHOS-072.txt",
+      "data/benchmark/OHOS-073.txt",
+      "data/benchmark/OHOS-074.txt",
+      "data/benchmark/OHOS-075.txt",
+      "data/benchmark/OHOS-076.txt",
+      "data/benchmark/OHOS-077.txt",
+      "data/benchmark/OHOS-078.txt",
+      "data/benchmark/OHOS-079.txt",
+      "data/benchmark/OHOS-080.txt",
+      "data/benchmark/README.md"
+    ],
+    "missing": []
+  },
+  "remote": {
+    "release": "/opt/kernel-insight/releases/f4648fac616c",
+    "toolsOnLoginPath": {
+      "node": null,
+      "python3": "/usr/bin/python3",
+      "bwrap": "/usr/bin/bwrap",
+      "rg": "/usr/bin/rg",
+      "git": "/usr/bin/git",
+      "gdb": "/usr/bin/gdb",
+      "crash": "/usr/bin/crash",
+      "qemu-system-x86_64": "/usr/bin/qemu-system-x86_64",
+      "llvm-symbolizer": "/usr/bin/llvm-symbolizer",
+      "java": "/usr/bin/java",
+      "dot": "/usr/bin/dot"
+    },
+    "supervisor": "unix:///opt/kernel-insight/supervisor.sock refused connection",
+    "publicRuntimeComparison": {
+      "files": 51,
+      "identical": 49,
+      "changed": [
+        "scripts/package-deployment.py",
+        "scripts/agent-sandbox.sh"
+      ],
+      "relocatedIdentical": [],
+      "missing": []
+    }
+  }
+}

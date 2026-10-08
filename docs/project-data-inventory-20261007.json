@@ -1,0 +1,161 @@
+{
+  "schema": "kernel-project-local-inventory/v1",
+  "root": "X:\\Items\\1_AI4-Loc",
+  "snapshot": "20261007-full",
+  "capturedAt": "2026-10-07T11:01:34.228447+00:00",
+  "verifiedAt": "2026-10-07T11:26:56.259299+00:00",
+  "complete": true,
+  "archiveBytes": 4695988355,
+  "archives": [
+    {
+      "name": "lab.tar.gz",
+      "sha256": "e793a847c1311dddc98bd0814788ecb9477a5fff9e1cb7fa6b304461eacb737a",
+      "bytes": 3721238020,
+      "files": 161248,
+      "logicalBytes": 11434683888
+    },
+    {
+      "name": "service.tar.gz",
+      "sha256": "05978ec056e5656a178c473e239b4566908ebddd63f18cfd6e061876bd5728e8",
+      "bytes": 973132060,
+      "files": 134328,
+      "logicalBytes": 3037716015
+    },
+    {
+      "name": "release.tar.gz",
+      "sha256": "19f94578100ea36e5692a2c614f97277941408d9577ca643729f480ade72557c",
+      "bytes": 1618275,
+      "files": 165,
+      "logicalBytes": 4074045
+    }
+  ],
+  "datasets": {
+    "stability-v1": {
+      "schema": "kernel-stability-dataset/v1",
+      "complete": true,
+      "cases": 68,
+      "readyCases": 60,
+      "faultCases": 59,
+      "families": [
+        "atomic_sleep",
+        "healthy",
+        "hung_task",
+        "lock_order",
+        "memory_leak",
+        "memory_oob",
+        "memory_uaf",
+        "oom",
+        "protection",
+        "rcu_stall",
+        "refcount",
+        "usercopy",
+        "watchdog"
+      ],
+      "missingFamilies": [],
+      "checkedFiles": 423,
+      "errors": []
+    },
+    "linux-community-v1": {
+      "cases": 6,
+      "complete": true,
+      "errors": []
+    },
+    "openharmony-lkdtm-lab-v1": {
+      "cases": 64,
+      "complete": true,
+      "errors": []
+    },
+    "openharmony-lkdtm-lab-v2": {
+      "cases": 80,
+      "complete": true,
+      "errors": []
+    }
+  },
+  "privateStateVerified": {
+    "data/accounts.json": true,
+    "data/state.json": true
+  },
+  "extractions": {
+    "stability-v1": {
+      "files": 565,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": [
+        "shared/source-tree"
+      ]
+    },
+    "openharmony-lkdtm-lab-v1": {
+      "files": 66,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    },
+    "linux-community-v1": {
+      "files": 13,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    },
+    "openharmony-lkdtm-lab-v2": {
+      "files": 82,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    },
+    "experiments/bootstages": {
+      "files": 8203,
+      "archiveOnlyLinkCount": 2,
+      "archiveOnlyTrees": []
+    },
+    "experiments/benchmark": {
+      "files": 316,
+      "archiveOnlyLinkCount": 132,
+      "archiveOnlyTrees": []
+    },
+    "experiments/iterations": {
+      "files": 66,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    },
+    "experiments/evidence": {
+      "files": 9,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    },
+    "experiments/scenarios": {
+      "files": 15,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    },
+    "experiments/dataset-audit": {
+      "files": 21,
+      "archiveOnlyLinkCount": 0,
+      "archiveOnlyTrees": []
+    }
+  },
+  "exclusions": [
+    "External Ollama/SGLang model weights and platform services",
+    "npm-cache, node_modules, diagram-cache, JVM cache, pid/socket files",
+    "Old release copies and incoming deployment packages",
+    "Earlier project-export archives, Python bytecode"
+  ],
+  "checks": {
+    "node": {
+      "passed": 36,
+      "total": 36
+    },
+    "python": {
+      "passed": 38,
+      "total": 38
+    },
+    "isolatedWebsite": {
+      "passed": 15,
+      "total": 15
+    },
+    "realModelRerun": false
+  },
+  "boundaries": [
+    "Versions overlap; do not sum cases as independent samples.",
+    "No paired vmcore, introducing-commit truth or repair replay was invented.",
+    "Linux links and historical duplicate experiment artifacts remain in Linux archives.",
+    "Private business state stays in ignored local snapshot archives."
+  ],
+  "remoteTemporaryExportRemoved": true,
+  "originalServerDataPreserved": true
+}

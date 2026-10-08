@@ -1,0 +1,15 @@
+[Unit]
+Description=AI4Loc website and closed-loop localization agent
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/ai4loc
+EnvironmentFile=%h/.config/ai4loc.env
+ExecStart=/bin/bash %h/ai4loc/scripts/start-linux-site.sh
+Restart=on-failure
+RestartSec=10
+UMask=0077
+
+[Install]
+WantedBy=default.target

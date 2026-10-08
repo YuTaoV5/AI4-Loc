@@ -1,11 +1,11 @@
 #!/bin/bash
 set -euo pipefail
-LAB=/root/gpufree-data/kernel-insight-lab
+LAB=${KERNEL_LAB_DIR:-/root/gpufree-data/kernel-insight-lab}
 COMMIT=f88704ae607f90518f67aee33790ac06d6ada77d
 mkdir -p "$LAB/evidence" "$LAB/build" "$LAB/source"
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq
-apt-get install -y --no-install-recommends qemu-system-x86 busybox-static bison flex libelf-dev libssl-dev bc cpio build-essential
+for tool in qemu-system-x86_64 busybox bison flex bc cpio gcc make git; do
+ command -v "$tool" >/dev/null || { echo "Missing $tool; administrator must run scripts/install-linux-deps.sh" >&2; exit 1; }
+done
 if [ ! -e "$LAB/source/.git" ]; then
  git -C "$LAB/source" init
  git -C "$LAB/source" remote add origin https://gitee.com/openharmony/kernel_linux_5.10.git

@@ -40,3 +40,8 @@ data/local-archive/
 data/windows-local/
 data/source-repositories/
 data/experiments/
+data/linux-runtime/
+data/linux-local/
+data/agent-benchmarks/
+data/evaluation-datasets/
+data/benchmark-acceptance*/

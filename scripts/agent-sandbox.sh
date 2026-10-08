@@ -1,12 +1,16 @@
 #!/bin/bash
 set -euo pipefail
 workspace=$(realpath -- "$1")
-[[ "$workspace" =~ ^/opt/kernel-insight/data/agent-runs/[a-f0-9-]{36}$ ]] || { echo 'Invalid agent workspace' >&2; exit 1; }
-runtime=/opt/kernel-insight/runtime
+data=$(realpath -- "${KERNEL_INSIGHT_DATA_DIR:-/opt/kernel-insight/data}")
+[[ "$(dirname -- "$workspace")" == "$data/agent-runs" && "$(basename -- "$workspace")" =~ ^[a-f0-9-]{36}$ ]] || { echo 'Invalid agent workspace' >&2; exit 1; }
+runtime=$(realpath -- "${KERNEL_AGENT_RUNTIME:-/opt/kernel-insight/runtime}")
 runner=$(realpath -- "$3")
-[[ "$runner" == /opt/kernel-insight/releases/*/scripts/agent-runner.py || "$runner" == /opt/kernel-insight/app/scripts/agent-runner.py ]] || { echo 'Invalid runner' >&2; exit 1; }
+expected_runner=$(realpath -- "$(dirname -- "$0")/agent-runner.py")
+[[ "$runner" == "$expected_runner" ]] || { echo 'Invalid runner' >&2; exit 1; }
 [[ "$2" == "$runtime/venv/bin/python" && "$4" == "$workspace/request.json" ]] || exit 1
 readonly_mounts=(--ro-bind "$workspace/input.log" "$workspace/input.log")
+plugins="$(dirname "$(dirname "$runner")")/plugins"
+if [[ -d "$plugins" ]]; then readonly_mounts+=(--ro-bind "$plugins" "$plugins"); fi
 if [[ -d "$workspace/artifacts" ]]; then readonly_mounts+=(--ro-bind "$workspace/artifacts" "$workspace/artifacts" --ro-bind "$workspace/artifacts.json" "$workspace/artifacts.json"); fi
 exec bwrap --unshare-user --unshare-pid --die-with-parent --new-session \
   --ro-bind /usr /usr --ro-bind /bin /bin --ro-bind /lib /lib --ro-bind /lib64 /lib64 \

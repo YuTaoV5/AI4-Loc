@@ -4,6 +4,25 @@ sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'scripts'))
 from localization_agent import Inspector,validate_report,run,unpack_source,source_triage
 
 class LocalizationTests(unittest.TestCase):
+    def test_saved_prompt_and_complete_native_usage_reach_real_request(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp);(root/'input.log').write_text('BUG: test\n')
+            report={'summary':'unknown','category':'待专家分析','hypotheses':[],'nextSteps':[],'limitations':[],'firstScene':{'evidenceRefs':['T1']},'localization':{'status':'insufficient','locations':[],'introducingCommit':None}}
+            def respond(request,**kwargs):
+                wire=json.loads(request.data)
+                self.assertTrue(any('Inspect pointer ownership' in m.get('content','') for m in wire['messages']))
+                self.assertIn('panicType',wire['format']['properties']['firstScene']['properties'])
+                return io.BytesIO(json.dumps({'message':{'content':json.dumps(report)},'prompt_eval_count':123,'eval_count':45}).encode())
+            with patch('urllib.request.urlopen',side_effect=respond):
+                result=run({'workspace':tmp,'baseUrl':'http://fixture','transport':'ollama-native','model':'fixture','timeout':10,'maxModelCalls':5,'eagerBoundary':True,'userPrompt':'Inspect pointer ownership'})
+            metrics=result['metrics'];self.assertEqual(metrics['totalTokens'],168);self.assertTrue(metrics['tokensComplete']);self.assertIsNotNone(metrics['boundarySeconds']);self.assertGreaterEqual(metrics['rootLocationSeconds'],metrics['reportOutputSeconds'])
+    def test_missing_usage_is_not_fabricated_as_zero_tokens(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp);(root/'input.log').write_text('BUG: test\n')
+            report={'summary':'unknown','category':'待专家分析','hypotheses':[],'nextSteps':[],'limitations':[],'firstScene':{'evidenceRefs':['T1']},'localization':{'status':'insufficient','locations':[],'introducingCommit':None}}
+            with patch('urllib.request.urlopen',return_value=io.BytesIO(json.dumps({'choices':[{'message':{'content':json.dumps(report)}}]}).encode())):
+                result=run({'workspace':tmp,'baseUrl':'http://fixture/v1','model':'fixture','timeout':10,'maxModelCalls':5,'eagerBoundary':True})
+            self.assertIsNone(result['metrics']['totalTokens']);self.assertFalse(result['metrics']['tokensComplete'])
     def test_oom_task_filename_leads_to_actual_source_without_label(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=pathlib.Path(tmp);(root/'source').mkdir();(root/'source/worker.c').write_text('int main(void) { return 0; }\n')

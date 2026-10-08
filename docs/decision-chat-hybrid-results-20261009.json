@@ -1,0 +1,181 @@
+{
+  "date": "2026-10-09",
+  "uniqueTestCases": 9,
+  "notBlindHoldout": true,
+  "boundary": {
+    "repeats": 3,
+    "seed": 20261008,
+    "aggregate": {
+      "decision": {
+        "total": 27,
+        "errors": 0,
+        "accuracy": 1.0,
+        "meanSeconds": 1.2303629629629629,
+        "medianSeconds": 1.0623,
+        "p95Seconds": 3.0795,
+        "totalSeconds": 33.2198
+      },
+      "chat": {
+        "total": 27,
+        "errors": 0,
+        "accuracy": 1.0,
+        "meanSeconds": 2.024096296296296,
+        "medianSeconds": 2.1081,
+        "p95Seconds": 2.3113,
+        "totalSeconds": 54.6506
+      }
+    },
+    "scope": "family classification only; stage and reporter lack independent adjudicated labels"
+  },
+  "endToEnd": {
+    "control": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.5,
+      "codeLocationDenominator": 8,
+      "modelRequests": 25,
+      "localizationSeconds": 252.946,
+      "rootCauseAccuracy": null
+    },
+    "hybrid": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.5,
+      "codeLocationDenominator": 8,
+      "modelRequests": 34,
+      "localizationSeconds": 275.61899999999997,
+      "rootCauseAccuracy": null
+    },
+    "cases": [
+      {
+        "caseId": "baseline",
+        "controlHit": false,
+        "hybridHit": false,
+        "controlRequests": 1,
+        "hybridRequests": 2,
+        "controlSeconds": 12.5,
+        "hybridSeconds": 14.673,
+        "boundarySeconds": 0.3103
+      },
+      {
+        "caseId": "corrupt_uaf_kmalloc",
+        "controlHit": true,
+        "hybridHit": true,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 24.489,
+        "hybridSeconds": 27.16,
+        "boundarySeconds": 1.0429
+      },
+      {
+        "caseId": "lkdtm_HUNG_TASK",
+        "controlHit": true,
+        "hybridHit": true,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 28.149,
+        "hybridSeconds": 29.819,
+        "boundarySeconds": 1.2761
+      },
+      {
+        "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+        "controlHit": false,
+        "hybridHit": false,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 24.579,
+        "hybridSeconds": 32.483,
+        "boundarySeconds": 3.0801
+      },
+      {
+        "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+        "controlHit": false,
+        "hybridHit": false,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 26.303,
+        "hybridSeconds": 30.088,
+        "boundarySeconds": 1.2111
+      },
+      {
+        "caseId": "lkdtm_USERCOPY_KERNEL",
+        "controlHit": false,
+        "hybridHit": false,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 28.667,
+        "hybridSeconds": 32.283,
+        "boundarySeconds": 1.2275
+      },
+      {
+        "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+        "controlHit": false,
+        "hybridHit": false,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 30.28,
+        "hybridSeconds": 30.025,
+        "boundarySeconds": 3.1172
+      },
+      {
+        "caseId": "lock_mutex_abba",
+        "controlHit": true,
+        "hybridHit": true,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 38.663,
+        "hybridSeconds": 42.328,
+        "boundarySeconds": 0.9002
+      },
+      {
+        "caseId": "lock_spin_abba",
+        "controlHit": true,
+        "hybridHit": true,
+        "controlRequests": 3,
+        "hybridRequests": 4,
+        "controlSeconds": 39.316,
+        "hybridSeconds": 36.76,
+        "boundarySeconds": 1.5138
+      }
+    ]
+  },
+  "manifestSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+  "evaluatedAgentSha256": "82db330c4acd2a6a3614cd250ec5196b6046a721d95ede4eac94d08ca84937ea",
+  "rootCauseAccuracy": null,
+  "tests": {
+    "pythonPassed": 51,
+    "nodePassed": 36
+  },
+  "deployment": {
+    "previousRelease": "/opt/kernel-insight/releases/0d865b1d38ef",
+    "preparedRelease": "/opt/kernel-insight/releases/5c6791a8f60c",
+    "deltaSha256": "5c6791a8f60c66c8db0a66521a04f51602c830a09b89204a91f1456243be9472",
+    "status": "activated",
+    "activatedAt": "2026-10-08T16:24:45Z",
+    "boundaryRouter": "decision",
+    "decisionApi": "decisions",
+    "health": {
+      "ok": true,
+      "enabled": true,
+      "engine": "closed-loop",
+      "model": "qwen3.8:27b-kernel-8k",
+      "provider": "ollama",
+      "transport": "ollama-native",
+      "timeoutSeconds": 240,
+      "llmConnected": true
+    },
+    "nativeBoundaryTool": "completed",
+    "documentationBundleSha256": "5b1d631b72e31349398da79478b59779558fe855a2a34b2cb510e3d55cbc4d3b",
+    "releaseAgentSha256": "e241267411c507b48e126b73ff29a41abd562d5989764efc06b76eee6c42ee66",
+    "evaluatedAgentSha256": "82db330c4acd2a6a3614cd250ec5196b6046a721d95ede4eac94d08ca84937ea",
+    "codeDifference": "Request payload audit added; System One noul normalization fixed. Evaluation used decisions API.",
+    "isolatedWorkers": 18,
+    "allCanariesHidden": true
+  },
+  "archive": {
+    "bytes": 3589542,
+    "sha256": "697b19daac1c41cf5538c4f01a457b9ec5f6c102d765f5f7aebd50e5dd28f8ad",
+    "fileCount": 548,
+    "scope": "Audit archive excludes regenerable full source, SDK caches, files >10MB and private supervisor configuration; complete server directory retained."
+  }
+}

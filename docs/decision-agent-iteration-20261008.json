@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-08",
+  "scope": "Fixed log+source cases; previously existing test split; not unseen evaluation",
+  "rootCauseAccuracy": null,
+  "variants": {
+    "baseline": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.875,
+      "codeLocationDenominator": 8,
+      "modelRequests": 12,
+      "localizationSeconds": 169.234,
+      "rootCauseAccuracy": null
+    },
+    "candidate": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 8,
+      "modelRequests": 24,
+      "localizationSeconds": 226.881,
+      "rootCauseAccuracy": null
+    },
+    "adaptive": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 8,
+      "modelRequests": 14,
+      "localizationSeconds": 165.325,
+      "rootCauseAccuracy": null
+    },
+    "rule-ablation": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 8,
+      "modelRequests": 12,
+      "localizationSeconds": 117.366,
+      "rootCauseAccuracy": null
+    },
+    "baseline-warm": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.875,
+      "codeLocationDenominator": 8,
+      "modelRequests": 12,
+      "localizationSeconds": 107.367,
+      "rootCauseAccuracy": null
+    },
+    "test-baseline": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.5,
+      "codeLocationDenominator": 8,
+      "modelRequests": 22,
+      "localizationSeconds": 198.465,
+      "rootCauseAccuracy": null
+    },
+    "test-adaptive": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.5,
+      "codeLocationDenominator": 8,
+      "modelRequests": 25,
+      "localizationSeconds": 243.124,
+      "rootCauseAccuracy": null
+    }
+  },
+  "evidenceArchiveSha256": "9046db45383d5909c36f69e27eb97d04193f62f1a044ffdf80e6f313c26b4412",
+  "deployment": {
+    "previousRelease": "/opt/kernel-insight/releases/f4648fac616c",
+    "preparedRelease": "/opt/kernel-insight/releases/0d865b1d38ef",
+    "deltaSha256": "0d865b1d38effbd6bf067eb30f04375172ab2123748709084949098afc83c538",
+    "status": "activated",
+    "activatedAt": "2026-10-08T15:41:20Z"
+  },
+  "health": {
+    "ok": true,
+    "enabled": true,
+    "engine": "closed-loop",
+    "model": "qwen3.8:27b-kernel-8k",
+    "provider": "ollama",
+    "transport": "ollama-native",
+    "timeoutSeconds": 240,
+    "llmConnected": true
+  }
+}

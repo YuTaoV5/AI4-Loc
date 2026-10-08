@@ -151,3 +151,20 @@ test('diagnostic materials validate file types, bind ownership and change task r
  const reused=(await req('/api/analyze',{logText:'normal material fixture',autoSource:'false',materialsId:bundle.id})).body[0];assert.equal(reused.id,first.id);assert.equal(reused.reused,true);
  assert.equal((await send('.config','CONFIG_DEBUG_INFO=y\n','kernelConfig')).status,201);
 });
+
+test('personal Agent/Skill profiles are owned, canonical, versioned, and used by analysis',async()=>{
+ const body={name:'我的源码调查组合',agentId:'chat-investigator',skillIds:['memory-oob'],extraPrompt:'Inspect ownership, preserve evidence.',isDefault:true};
+ const preview=await req('/api/agent-profiles/preview',{...body,prompt:'forged'});assert.equal(preview.status,200);assert.match(preview.body.prompt,/Inspect ownership/);assert.doesNotMatch(preview.body.prompt,/forged/);
+ assert.equal((await req('/api/me/agent-profiles',{...body,agentId:'arbitrary-shell'})).status,400);
+ assert.equal((await req('/api/me/agent-profiles',{...body,skillIds:['missing']})).status,400);
+ const created=await req('/api/me/agent-profiles',body);assert.equal(created.status,201);const p=created.body;
+ assert.equal(p.prompt,preview.body.prompt);assert.equal((await req('/api/me/agent-profiles',undefined,{Authorization:'Bearer '+otherToken})).body.length,0);
+ assert.equal((await req('/api/analyze',{logText:log(manifest.cases[1]),autoSource:'false',agentProfileId:p.id},{Authorization:'Bearer '+otherToken})).status,400);
+ const analyzed=await req('/api/analyze',{logText:log(manifest.cases[1]),autoSource:'false',agentProfileId:p.id});assert.equal(analyzed.status,202);const j=await waitJob(analyzed.body[0].id);assert.equal(j.agentProfile.hash,p.hash);assert.deepEqual(j.skillSelection.ids,['memory-oob']);
+ const updated=await fetch(base+'/api/me/agent-profiles/'+p.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body,extraPrompt:'Changed'})}).then(r=>r.json());assert.equal(updated.revision,2);assert.notEqual(updated.hash,p.hash);assert.equal((await req('/api/jobs')).body.find(x=>x.id===j.id).agentProfile.hash,p.hash);
+ const another=await req('/api/me/agent-profiles',{...body,name:'另一个常用组合'});assert.equal((await req('/api/me/agent-profiles')).body.filter(x=>x.isDefault).length,1);
+ assert.equal((await req('/api/benchmark/runs',{agentProfileId:another.body.id,publish:true,score:100})).status,409);
+ assert.equal((await req('/api/benchmark/leaderboard')).body.rows.length,0);assert.equal((await req('/api/me')).body.agentProfiles.length,2);
+ const removed=await fetch(base+'/api/me/agent-profiles/'+p.id,{method:'DELETE',headers:{Authorization:'Bearer '+otherToken}});assert.equal(removed.status,404);
+ assert.equal((await req('/api/benchmark/runs/not-found')).status,404);
+});

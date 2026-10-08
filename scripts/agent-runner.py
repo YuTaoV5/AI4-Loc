@@ -23,6 +23,12 @@ def main():
     from kernel_triage import collect
     evidence=collect(workspace,lambda phase,message:emit({'type':'progress','phase':phase,'message':message,'kind':'evidence'}))
     home=workspace/'dsh-home'
+    patches=()
+    if request.get('decisionPlugin') or request.get('boundaryRouter'):
+        plugin=pathlib.Path(__file__).resolve().parent.parent/'plugins/kernel-decision/index.mjs'
+        patch_file=workspace/'decision-plugin.patch.json'
+        patch_file.write_text(json.dumps([{'insert':[{'id':'kernel-decision','name':str(plugin),'config':{'python':sys.executable,'bridge':str(pathlib.Path(__file__).with_name('decision_plugin.py')),'workspace':str(workspace),'baseUrl':(request.get('boundaryRouter') or request['decisionPlugin'])['baseUrl'],'mode':'boundary' if request.get('boundaryRouter') else 'rank'}}]}]),encoding='utf-8')
+        patches=(str(patch_file),)
     os.environ['DEEPSEEK_BASE_URL']=request['baseUrl']
     os.environ['DEEPSEEK_API_KEY']=os.environ.get('KERNEL_AGENT_API_KEY','ollama-local')
     os.environ['DSH_HOME']=str(home)
@@ -32,6 +38,7 @@ def main():
 {"category":"one of 内存越界,释放后使用,任务挂起,锁依赖,RCU / 锁死,OOM,待专家分析", "summary":"Chinese summary separating fact from inference", "hypotheses":[{"cause":"specific mechanism, not just exception class", "evidenceLines":[1], "confidence":"high|medium|low", "verification":"concrete falsifiable check with required material"}], "nextSteps":["highest-value check first"], "limitations":["missing material and unverified assumptions"]}
 For memory: allocation/free/access lifetime and object bounds. Leak: lost owning reference versus OOM (OOM alone does not prove a leak). Watchdog: stuck CPU/context/IRQ/preemption versus slow workload. Locks: wait-for chain and lock order; lockdep is a warning, not proof of actual deadlock. Hung tasks: waiter and owner/completion producer. RCU: stalled CPU/task and quiescent-state obstruction. OOM: allocator/cgroup/pressure evidence; do not equate allocation failure with corruption.
 Observed families (routing hints only, not ground truth): '''+families
+    if patches:prompt+='\nCall kernel_boundary (if registered) or kernel_decide exactly once before the final report. Its scores are ranking hints; verify source evidence and do not equate probabilities with root-cause correctness.'
     from deepseek_harness import DeepSeekHarness
     tools=[]
     last_progress=[0]
@@ -54,7 +61,7 @@ Observed families (routing hints only, not ground truth): '''+families
     start=time.monotonic()
     emit({'type':'progress','message':'dsh harness 已启动，准备调用 '+request['model'],'kind':'model'})
     with DeepSeekHarness(provider='deepseek-official',model=request['model'],max_tokens=4096,
-                         cwd=str(workspace),dsh_home=str(home),profile='sdk-minimal',
+                         cwd=str(workspace),dsh_home=str(home),profile='sdk-minimal',patches=patches,
                          base_url=request['baseUrl'],api_key=os.environ['DEEPSEEK_API_KEY'],
                          initialize_timeout_seconds=60,request_timeout_seconds=request['timeout']) as harness:
         result=harness.run(prompt,session_id='kernel-'+workspace.name,on_notification=notification)
