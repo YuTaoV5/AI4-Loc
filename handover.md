@@ -1,5 +1,12 @@
 # AI 接手手册 · Kernel Insight
 
+## 插件、Agent、文档与报告完整发布补充（2026-10-09）
+
+- dsh 原生插件 `plugins/kernel-decision/`、共享 Decision 后端、legacy SDK runner、closed-loop Agent、Linux/Windows 部署入口及所有 docs 报告已在此前 GitHub 提交 `d3317aa` / `4c96375` 中。此次重新核对跟踪文件，未遗漏这些功能代码。
+- 新增统一入口 `docs/README.md`，区分当前方案、部署、历史实验与数据盘点；包含全部顶层 Markdown/JSON 文档链接及最新逐例 CSV/图表。
+- 本轮补交此前未跟踪的 `tools/jev-demos/`、`deliverables/jev-huawei-soc/` 必要源文件/讲稿/来源/完整预览，以及其重建依赖 `tools/kelip-slide/`（保留 MIT 许可证）与项目 `AGENTS.md`。不改演示内容、不新增模型评测；Jev 资料的外部声明以其记录日期为准。
+- `.render*` 和单页调试图片属于可再生成临时文件，排除发布。私有模型轨迹、账号和原始业务数据仍不上传；本轮不改生产部署。
+
 ## GitHub 功能与评测分析交付（2026-10-09）
 
 - 本轮提交范围：一键 Benchmark、前十用户榜、个人 Agent/Skill Prompt 与分析联动，以及此前尚未提交的 Decision/Chat、标签审计、独立沙箱、Windows/Linux 部署依赖代码和测试。README 已更新当前 closed-loop 运行链路与 42/53 回归计数。

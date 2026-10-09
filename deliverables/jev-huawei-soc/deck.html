@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Jev × 手机 SoC 软件工程</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --bg:#F5F5F7; --ink:#1D1D1F; --muted:#6E6E73; --faint:#A1A1A6; --line:#D2D2D7; --card:#FFFFFF;
+  --accent:#0071E3;
+  --font:"PingFang SC","SF Pro Display","SF Pro SC","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+  --mono:"SF Mono","Menlo","JetBrains Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(1);transform-origin:center;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:92px 128px 96px;display:none;flex-direction:column}
+.slide.active{display:flex}
+/* 页眉三件套：小标 / 大标题 / 可选副标 */
+.kicker{font-size:22px;font-weight:500;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.kicker b{color:var(--ink);font-weight:600;margin-right:14px}
+h1{font-size:68px;font-weight:600;letter-spacing:-.012em;line-height:1.15;margin-top:20px}
+h1 .thin{font-weight:400;color:var(--muted)}
+h1 .acc{color:var(--accent)}
+.sub{font-size:30px;color:var(--muted);margin-top:14px;font-weight:400;line-height:1.4}
+/* 图 / 视频 */
+.fig{flex:1;min-height:0;position:relative;margin-top:44px}
+.fig img,.fig video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.fig.card{background:var(--card);border-radius:26px;box-shadow:0 14px 48px rgba(0,0,0,.06)}
+.fig.card img,.fig.card video{padding:30px}
+.fig.plain img,.fig.plain video{border-radius:22px}
+.fig.video{background:#000;border-radius:26px;overflow:hidden}
+.fig.video video{background:#000}
+.fig2{flex:1;min-height:0;display:flex;gap:30px;margin-top:44px}
+.fig2 .fig{margin:0}
+/* 图 / 视频网格；.ph 是裁切填满的单元（object-fit:cover） */
+.grid2{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px;margin-top:44px}
+.grid4{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:1fr 1fr;gap:24px;margin-top:44px}
+.ph{position:relative;border-radius:22px;overflow:hidden;background:#000}
+.ph img,.ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.fit img,.ph.fit video{object-fit:contain}
+.ph.white{background:#fff;box-shadow:0 14px 48px rgba(0,0,0,.06)}
+.ph .cap{position:absolute;left:0;right:0;bottom:0;padding:26px 24px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-size:28px;font-weight:600;line-height:1.3}
+.ph .tag{position:absolute;left:18px;bottom:16px;background:rgba(29,29,31,.82);color:#fff;font-size:20px;padding:8px 14px;border-radius:10px;font-weight:500}
+/* 满屏播片页 */
+.slide.film{padding:0;background:#000}
+.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.film .ov{position:absolute;left:50%;top:40px;transform:translateX(-50%);color:#fff;font-size:22px;letter-spacing:.14em;opacity:.8;z-index:2;white-space:nowrap}
+/* 自绘图：白卡里的 svg。.pad 版留边并居中，图顶不到卡边 */
+.diagbox{flex:1;min-height:0;position:relative;background:var(--card);border-radius:26px;box-shadow:0 14px 48px rgba(0,0,0,.06);margin-top:44px}
+.diagbox svg{position:absolute;inset:0;width:100%;height:100%}
+.diagbox.pad svg{inset:0;margin:auto;width:calc(100% - 88px);height:calc(100% - 68px)}
+.sv text{font-family:"PingFang SC","Helvetica Neue",sans-serif}
+.sv .mono{font-family:"SF Mono","Menlo",monospace}
+/* 表 */
+.tblwrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;background:var(--card);border-radius:26px;box-shadow:0 14px 48px rgba(0,0,0,.06);padding:40px 56px;margin-top:44px}
+.fig2 .tblwrap{margin-top:0}
+.tblwrap .tt{font-size:24px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:26px;text-align:center}
+.tbl{width:100%;border-collapse:collapse;font-size:32px;text-align:center}
+.tbl th{font-size:24px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:0 0 18px;border-bottom:2px solid var(--line)}
+.tbl td{padding:22px 0;border-bottom:1px solid var(--line);font-family:var(--mono)}
+.tbl td:first-child{font-family:var(--mono);color:var(--muted)}
+.tbl tr.hi td{color:var(--accent);font-weight:600}
+.tbl tr.bad td{color:#D0342C}
+.tbl.small{font-size:28px}
+.tbl.small td{padding:18px 0}
+.tbl.left{text-align:left}
+.tbl.left th{text-align:left;padding-left:16px}
+.tbl.left td{font-family:var(--font);font-size:27px;padding:16px 16px;line-height:1.35}
+.tbl.left td:first-child{color:var(--ink);font-family:var(--font);font-weight:500}
+.tbl.left td.ok{color:var(--accent);font-weight:600;font-family:var(--font)}
+.tbl.left td.no{color:#D0342C;font-weight:600;font-family:var(--font)}
+.tbl.left td:nth-child(2){white-space:nowrap;color:var(--muted)}
+.tbl.left.compact td{font-size:25px;padding:13px 14px}
+.tbl.left.wrap td:nth-child(2){white-space:normal;color:var(--ink)}
+.tbl.left tr.hi td{color:var(--accent);font-weight:600}
+.tbl.num td{font-family:var(--mono);font-size:27px;padding:16px 10px}
+.tbl.num td:first-child{font-family:var(--font);text-align:left;color:var(--ink);font-weight:500;padding-left:16px}
+.tbl.num th:first-child{text-align:left;padding-left:16px}
+.tbl.num td.acc{color:var(--accent);font-weight:600}
+.tbl.num td.dim{color:var(--faint)}
+.tbl.num.two td{padding:14px 10px;line-height:1.25}
+.tbl.num.two td b{font-size:30px;font-weight:600}
+.tbl.num.two td small{font-size:21px;color:var(--muted)}
+.tbl.num.two td.acc small{color:var(--accent)}
+.tbl.num.compact td{font-size:24px;padding:11px 8px;white-space:nowrap}
+.tbl.num.compact th{padding-bottom:12px}
+/* 数字卡（2×3 / 2×2 网格） */
+.stats{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:44px;align-content:stretch}
+.stats.two{grid-template-columns:repeat(2,1fr)}
+.stat{background:var(--card);border-radius:26px;box-shadow:0 14px 48px rgba(0,0,0,.06);padding:36px 40px;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.stat .n{font-size:82px;font-weight:600;letter-spacing:-.02em;line-height:1;color:var(--accent);white-space:nowrap}
+.stat .n small{font-size:38px;color:var(--ink);margin-left:8px;font-weight:500}
+.stat .l{font-size:25px;color:var(--muted);margin-top:16px;line-height:1.35}
+.stat .l b{color:var(--ink);font-weight:600}
+.stat.dim .n{color:var(--ink)}
+.stat.text .n{font-size:44px;color:var(--ink);white-space:normal;line-height:1.2}
+.stat.text .n .acc{color:var(--accent)}
+/* 并排大卡 / 四步条 */
+.cards{flex:1;min-height:0;display:flex;gap:32px;justify-content:center;align-items:center;margin-top:44px}
+.card{flex:1;min-height:320px;display:flex;flex-direction:column;justify-content:center;background:var(--card);border-radius:30px;padding:54px 36px;box-shadow:0 14px 48px rgba(0,0,0,.06);text-align:center}
+.card .big{font-size:64px;font-weight:600;letter-spacing:-.02em;line-height:1.05}
+.card .big.mono{font-family:var(--mono);font-size:40px;letter-spacing:0}
+.card .h{font-size:26px;color:var(--muted);margin-top:22px;line-height:1.45}
+.steps{flex:1;min-height:0;display:flex;align-items:stretch;gap:24px;margin-top:44px}
+.step{flex:1;background:var(--card);border-radius:30px;padding:48px 30px;box-shadow:0 14px 48px rgba(0,0,0,.06);text-align:center;display:flex;flex-direction:column;justify-content:center}
+.step .n{font-family:var(--mono);font-size:22px;color:var(--accent);letter-spacing:.1em}
+.step .t{font-size:42px;font-weight:600;margin-top:16px;line-height:1.25;letter-spacing:-.01em}
+.step .s{font-size:26px;color:var(--muted);margin-top:14px;line-height:1.4}
+.step.dim{background:transparent;box-shadow:none;border:2px solid var(--line)}
+/* 时间线 */
+.timeline{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 10px}
+.tl-row{position:relative;display:flex;justify-content:space-between;padding-top:56px}
+.tl-row:before{content:"";position:absolute;left:7%;right:7%;top:0;height:2px;background:var(--line)}
+.tl{flex:1;text-align:center;position:relative}
+.tl .dot{position:absolute;left:50%;top:-66px;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:var(--line)}
+.tl.key .dot{background:var(--accent);box-shadow:0 0 0 10px rgba(0,113,227,.15)}
+.tl .d{font-family:var(--mono);font-size:20px;color:var(--muted);letter-spacing:.06em}
+.tl .n{font-size:38px;font-weight:600;margin-top:10px;letter-spacing:-.01em;line-height:1.15}
+.tl.key .n{color:var(--accent)}
+.tl.dim .n{color:var(--faint)}
+.tl .w{font-size:22px;color:var(--muted);margin-top:12px;line-height:1.4;padding:0 12px}
+/* 两列清单 */
+.two{display:flex;gap:80px;flex:1;margin-top:48px;align-items:flex-start}
+.two .col{flex:1}
+.h2{font-size:22px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;font-weight:500}
+.li{font-size:28px;line-height:1.45;padding:18px 0;border-top:1px solid var(--line)}
+.li:last-child{border-bottom:1px solid var(--line)}
+.li b{font-weight:600}
+/* 一句一行的大字页 */
+.bigline{flex:1;display:flex;flex-direction:column;justify-content:center;gap:30px}
+.bigline .row{font-size:54px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.bigline .row .thin{font-weight:400;color:var(--muted)}
+.bigline .row .acc{color:var(--accent)}
+.bigline .row.small{font-size:36px;font-weight:400;color:var(--muted)}
+/* 原话卡 */
+.quotes{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:22px;margin-top:30px}
+.quote{background:var(--card);border-radius:22px;box-shadow:0 14px 48px rgba(0,0,0,.06);padding:26px 40px}
+.quote .q{font-size:34px;font-weight:600;line-height:1.35;letter-spacing:-.01em}
+.quote .q .acc{color:var(--accent)}
+.quote .src{font-size:20px;color:var(--muted);margin-top:10px}
+/* 代码卡 */
+.code2{flex:1;min-height:0;display:flex;gap:26px;margin-top:44px}
+.code{flex:1;min-height:0;background:var(--card);border-radius:26px;box-shadow:0 14px 48px rgba(0,0,0,.06);padding:24px 32px;display:flex;flex-direction:column;overflow:hidden}
+.code .tt{font-size:20px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:12px}
+.code pre{font-family:var(--mono);font-size:17px;line-height:1.36;white-space:pre;color:var(--ink);margin:0}
+.code .k{color:var(--muted)} .code .n{color:var(--accent);font-weight:600} .code .c{color:var(--faint)}
+/* 动画页（J / K 手动推进） */
+.row{flex:1;min-height:0;display:flex;gap:30px;margin-top:44px}
+.row.anim .diagbox{flex:1.75;margin-top:0}
+.stepcol{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:0}
+.step-item{display:flex;gap:16px;align-items:flex-start;padding:14px 18px;border-radius:18px;opacity:.38;transition:opacity .4s,background .4s}
+.step-item.cur{opacity:1;background:var(--card);box-shadow:0 14px 48px rgba(0,0,0,.06)}
+.step-item .sn{flex:none;width:36px;height:36px;border-radius:50%;background:var(--line);color:#fff;font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.step-item.cur .sn{background:var(--accent)}
+.step-item .st{font-size:22px;line-height:1.4;color:var(--muted)}
+.step-item .st b{display:block;color:var(--ink);font-weight:600;font-size:25px;margin-bottom:2px}
+.step-item.cur .st{color:var(--ink)}
+svg[data-anim] [data-a]{opacity:.08;transition:opacity .5s}
+svg[data-anim] [data-a].on{opacity:1}
+/* 封面 / 过渡 / 收尾 */
+.cover{padding:0}
+.cover .t{position:absolute;left:128px;top:150px}
+.cover .kicker{font-size:24px}
+.cover h1{font-size:230px;letter-spacing:-.035em;line-height:.95;margin-top:26px}
+.cover .p{font-size:42px;color:var(--muted);margin-top:26px;font-weight:400;max-width:1560px;line-height:1.35}
+.cover .p b{color:var(--ink);font-weight:600}
+.cover .brand{position:absolute;right:128px;top:158px;font-size:26px;letter-spacing:.14em;color:var(--muted)}
+.cover .photos{position:absolute;left:0;right:0;bottom:0;height:330px;display:flex;gap:6px;background:#000}
+.cover .photos img{flex:1;min-width:0;height:100%;object-fit:cover;display:block}
+.divider{justify-content:center}
+.divider .num{font-family:var(--mono);font-size:26px;letter-spacing:.2em;color:var(--faint)}
+.divider .word{font-size:160px;font-weight:600;letter-spacing:-.03em;line-height:1.05;margin-top:18px}
+.divider .word .thin{font-weight:400;color:var(--muted)}
+.end{justify-content:center}
+.end h1{text-align:center;font-size:96px}
+.end .big{font-size:42px;text-align:center;color:var(--muted);margin-top:30px;line-height:1.5}
+.end .big b{color:var(--ink);font-weight:600}
+/* 导航（左上角热区）——所有期通用，不要改 */
+#nav-hot{position:fixed;left:0;top:0;width:220px;height:110px;z-index:20}
+#nav-btn{position:fixed;left:14px;top:14px;height:44px;padding:0 14px 0 10px;border-radius:10px;background:rgba(29,29,31,.82);color:#fff;font-size:18px;font-family:var(--mono);display:flex;align-items:center;gap:10px;cursor:pointer;opacity:.22;transition:opacity .25s;z-index:21;user-select:none}
+#nav-btn span.pg{font-size:18px;letter-spacing:.06em}
+#nav-btn .b{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.14)}
+#nav-btn .b:hover{background:rgba(255,255,255,.3)}
+#nav-hot:hover ~ #nav-btn,#nav-btn:hover,#nav-btn.open{opacity:1}
+#nav-panel{position:fixed;left:14px;top:66px;width:440px;max-height:calc(100vh - 90px);overflow:auto;background:#fff;color:#1D1D1F;border:1px solid #D2D2D7;border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.18);padding:8px;display:none;z-index:22;font-family:var(--font);font-size:14px}
+#nav-panel.open{display:block}
+#nav-panel .sec-title{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#6E6E73;padding:10px 10px 4px;text-transform:uppercase}
+#nav-panel .it{display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:8px;cursor:pointer;line-height:1.35}
+#nav-panel .it:hover{background:#F5F5F7}
+#nav-panel .it.cur{background:#E8F0FE;color:#0071E3}
+#nav-panel .it .k{font-family:var(--mono);font-size:12px;color:#6E6E73;min-width:24px;text-align:right}
+#nav-panel .it.cur .k{color:#0071E3}
+#hud{position:fixed;left:18px;bottom:14px;font-family:var(--mono);font-size:13px;color:#8e8e93;opacity:0;transition:opacity .6s;pointer-events:none;z-index:9}
+#hud.show{opacity:1}
+
+.cover .photos{height:310px;background:#fff;border-top:1px solid var(--line);gap:0;padding:24px 100px;align-items:center;justify-content:space-between}
+.cover-icon{height:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted);font-size:22px;letter-spacing:.04em}
+.cover-icon .pxico{width:108px;height:108px}
+.pxico{width:32px;height:32px;vertical-align:middle;shape-rendering:crispEdges;image-rendering:pixelated}
+.note{margin-top:22px;font-size:22px;color:var(--muted);text-align:center;line-height:1.4}
+.note b{color:var(--ink);font-weight:600}
+.flow{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:22px;margin-top:42px}
+.node{min-width:0;flex:1;background:#fff;padding:46px 30px;border-radius:26px;box-shadow:0 14px 48px rgba(0,0,0,.06);text-align:center}
+.node b{display:block;font-size:34px;line-height:1.25}
+.node span{display:block;font-size:23px;color:var(--muted);margin-top:14px;line-height:1.4}
+.node.accent{background:#E8F0FE;outline:2px solid var(--accent)}
+.node.accent b{color:var(--accent)}
+.flow-arrow{font-size:48px;color:var(--faint);flex:none}
+.rows{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;margin-top:36px}
+.rowline{display:grid;grid-template-columns:270px 1fr 420px;align-items:center;gap:24px;padding:25px 16px;border-top:1px solid var(--line);font-size:26px;line-height:1.35}
+.rowline:last-child{border-bottom:1px solid var(--line)}
+.rowline b{font-size:27px}
+.rowline span{color:var(--ink)}
+.rowline small{font-size:20px;color:var(--muted);text-align:right}
+.tbl.left.compact td{font-size:22px;padding:12px 14px}
+.tbl.left.compact td:nth-child(2),.tbl.left.compact td:nth-child(3){white-space:normal;color:var(--ink)}
+.tbl.left.compact th{font-size:20px}
+.tbl.num.compact td{font-size:24px}
+.stat .n{font-size:68px}
+.stat.text .n{font-size:42px}
+.tblwrap .note{font-size:21px;margin-top:24px}
+.code pre{font-size:19px;line-height:1.42;white-space:pre-wrap}
+.source-columns{gap:54px;margin-top:25px}
+.source-columns .li{font-size:20px;padding:9px 0;line-height:1.32}
+.source-columns .li small{font-size:15px;color:var(--muted);overflow-wrap:anywhere}
+.source-columns .h2{margin-bottom:6px}
+.bigline .row{font-size:43px}
+.bigline .row.small{font-size:29px}
+
+</style>
+</head>
+<body>
+<div id="stage">
+<!-- 箭头 marker 必须定义在这里（全局），放进某一页的 svg 里会因为那页 display:none 而在别的页失效 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8E8E93"/></marker>
+  <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0071E3"/></marker>
+</defs></svg>
+
+<!-- Generated slides -->
+<section class="slide cover" data-sec="封面" data-title="Jev × 手机 SoC 软件工程">
+ <div class="t"><div class="kicker">技术专题 · 研发工具链中的结构化决策</div><h1>Jev</h1>
+ <div class="p">把 <b>概率判断</b> 接进手机 SoC 软件流程<br>看清它能做什么，也守住它不该做的事</div></div>
+ <div class="brand">华为手机 SoC 软件工程视角 · 2026-09</div>
+ <div class="photos">
+   <div class="cover-icon"><svg class="pxico" viewBox="0 0 8 8" aria-label="SoC" shape-rendering="crispEdges"><rect x="2" y="0" width="1" height="1" fill="#0071E3"/><rect x="3" y="0" width="1" height="1" fill="#0071E3"/><rect x="4" y="0" width="1" height="1" fill="#0071E3"/><rect x="5" y="0" width="1" height="1" fill="#0071E3"/><rect x="1" y="1" width="1" height="1" fill="#0071E3"/><rect x="2" y="1" width="1" height="1" fill="#0071E3"/><rect x="3" y="1" width="1" height="1" fill="#0071E3"/><rect x="4" y="1" width="1" height="1" fill="#0071E3"/><rect x="5" y="1" width="1" height="1" fill="#0071E3"/><rect x="6" y="1" width="1" height="1" fill="#0071E3"/><rect x="0" y="2" width="1" height="1" fill="#0071E3"/><rect x="1" y="2" width="1" height="1" fill="#0071E3"/><rect x="3" y="2" width="1" height="1" fill="#0071E3"/><rect x="4" y="2" width="1" height="1" fill="#0071E3"/><rect x="6" y="2" width="1" height="1" fill="#0071E3"/><rect x="7" y="2" width="1" height="1" fill="#0071E3"/><rect x="0" y="3" width="1" height="1" fill="#0071E3"/><rect x="1" y="3" width="1" height="1" fill="#0071E3"/><rect x="2" y="3" width="1" height="1" fill="#0071E3"/><rect x="3" y="3" width="1" height="1" fill="#0071E3"/><rect x="4" y="3" width="1" height="1" fill="#0071E3"/><rect x="5" y="3" width="1" height="1" fill="#0071E3"/><rect x="6" y="3" width="1" height="1" fill="#0071E3"/><rect x="7" y="3" width="1" height="1" fill="#0071E3"/><rect x="0" y="4" width="1" height="1" fill="#0071E3"/><rect x="1" y="4" width="1" height="1" fill="#0071E3"/><rect x="2" y="4" width="1" height="1" fill="#0071E3"/><rect x="3" y="4" width="1" height="1" fill="#0071E3"/><rect x="4" y="4" width="1" height="1" fill="#0071E3"/><rect x="5" y="4" width="1" height="1" fill="#0071E3"/><rect x="6" y="4" width="1" height="1" fill="#0071E3"/><rect x="7" y="4" width="1" height="1" fill="#0071E3"/><rect x="0" y="5" width="1" height="1" fill="#0071E3"/><rect x="1" y="5" width="1" height="1" fill="#0071E3"/><rect x="3" y="5" width="1" height="1" fill="#0071E3"/><rect x="4" y="5" width="1" height="1" fill="#0071E3"/><rect x="6" y="5" width="1" height="1" fill="#0071E3"/><rect x="7" y="5" width="1" height="1" fill="#0071E3"/><rect x="1" y="6" width="1" height="1" fill="#0071E3"/><rect x="2" y="6" width="1" height="1" fill="#0071E3"/><rect x="3" y="6" width="1" height="1" fill="#0071E3"/><rect x="4" y="6" width="1" height="1" fill="#0071E3"/><rect x="5" y="6" width="1" height="1" fill="#0071E3"/><rect x="6" y="6" width="1" height="1" fill="#0071E3"/><rect x="2" y="7" width="1" height="1" fill="#0071E3"/><rect x="3" y="7" width="1" height="1" fill="#0071E3"/><rect x="4" y="7" width="1" height="1" fill="#0071E3"/><rect x="5" y="7" width="1" height="1" fill="#0071E3"/></svg><b>SoC 软件栈</b></div>
+   <div class="cover-icon"><svg class="pxico" viewBox="0 0 8 8" aria-label="日志" shape-rendering="crispEdges"><rect x="0" y="0" width="1" height="1" fill="#0071E3"/><rect x="1" y="0" width="1" height="1" fill="#0071E3"/><rect x="2" y="0" width="1" height="1" fill="#0071E3"/><rect x="3" y="0" width="1" height="1" fill="#0071E3"/><rect x="4" y="0" width="1" height="1" fill="#0071E3"/><rect x="5" y="0" width="1" height="1" fill="#0071E3"/><rect x="6" y="0" width="1" height="1" fill="#0071E3"/><rect x="0" y="1" width="1" height="1" fill="#0071E3"/><rect x="6" y="1" width="1" height="1" fill="#0071E3"/><rect x="0" y="2" width="1" height="1" fill="#0071E3"/><rect x="2" y="2" width="1" height="1" fill="#0071E3"/><rect x="3" y="2" width="1" height="1" fill="#0071E3"/><rect x="4" y="2" width="1" height="1" fill="#0071E3"/><rect x="6" y="2" width="1" height="1" fill="#0071E3"/><rect x="0" y="3" width="1" height="1" fill="#0071E3"/><rect x="2" y="3" width="1" height="1" fill="#0071E3"/><rect x="6" y="3" width="1" height="1" fill="#0071E3"/><rect x="0" y="4" width="1" height="1" fill="#0071E3"/><rect x="2" y="4" width="1" height="1" fill="#0071E3"/><rect x="4" y="4" width="1" height="1" fill="#0071E3"/><rect x="5" y="4" width="1" height="1" fill="#0071E3"/><rect x="6" y="4" width="1" height="1" fill="#0071E3"/><rect x="0" y="5" width="1" height="1" fill="#0071E3"/><rect x="6" y="5" width="1" height="1" fill="#0071E3"/><rect x="0" y="6" width="1" height="1" fill="#0071E3"/><rect x="1" y="6" width="1" height="1" fill="#0071E3"/><rect x="2" y="6" width="1" height="1" fill="#0071E3"/><rect x="3" y="6" width="1" height="1" fill="#0071E3"/><rect x="4" y="6" width="1" height="1" fill="#0071E3"/><rect x="5" y="6" width="1" height="1" fill="#0071E3"/><rect x="6" y="6" width="1" height="1" fill="#0071E3"/></svg><b>构建与验证</b></div>
+   <div class="cover-icon"><svg class="pxico" viewBox="0 0 8 8" aria-label="Trace" shape-rendering="crispEdges"><rect x="0" y="0" width="1" height="1" fill="#0071E3"/><rect x="7" y="0" width="1" height="1" fill="#0071E3"/><rect x="0" y="1" width="1" height="1" fill="#0071E3"/><rect x="1" y="1" width="1" height="1" fill="#0071E3"/><rect x="6" y="1" width="1" height="1" fill="#0071E3"/><rect x="7" y="1" width="1" height="1" fill="#0071E3"/><rect x="1" y="2" width="1" height="1" fill="#0071E3"/><rect x="2" y="2" width="1" height="1" fill="#0071E3"/><rect x="5" y="2" width="1" height="1" fill="#0071E3"/><rect x="6" y="2" width="1" height="1" fill="#0071E3"/><rect x="2" y="3" width="1" height="1" fill="#0071E3"/><rect x="3" y="3" width="1" height="1" fill="#0071E3"/><rect x="4" y="3" width="1" height="1" fill="#0071E3"/><rect x="5" y="3" width="1" height="1" fill="#0071E3"/><rect x="1" y="4" width="1" height="1" fill="#0071E3"/><rect x="2" y="4" width="1" height="1" fill="#0071E3"/><rect x="5" y="4" width="1" height="1" fill="#0071E3"/><rect x="6" y="4" width="1" height="1" fill="#0071E3"/><rect x="0" y="5" width="1" height="1" fill="#0071E3"/><rect x="1" y="5" width="1" height="1" fill="#0071E3"/><rect x="6" y="5" width="1" height="1" fill="#0071E3"/><rect x="7" y="5" width="1" height="1" fill="#0071E3"/><rect x="0" y="6" width="1" height="1" fill="#0071E3"/><rect x="7" y="6" width="1" height="1" fill="#0071E3"/></svg><b>Perfetto 分析</b></div>
+   <div class="cover-icon"><svg class="pxico" viewBox="0 0 8 8" aria-label="分流" shape-rendering="crispEdges"><rect x="3" y="0" width="1" height="1" fill="#0071E3"/><rect x="4" y="0" width="1" height="1" fill="#0071E3"/><rect x="3" y="1" width="1" height="1" fill="#0071E3"/><rect x="4" y="1" width="1" height="1" fill="#0071E3"/><rect x="3" y="2" width="1" height="1" fill="#0071E3"/><rect x="4" y="2" width="1" height="1" fill="#0071E3"/><rect x="0" y="3" width="1" height="1" fill="#0071E3"/><rect x="1" y="3" width="1" height="1" fill="#0071E3"/><rect x="2" y="3" width="1" height="1" fill="#0071E3"/><rect x="3" y="3" width="1" height="1" fill="#0071E3"/><rect x="4" y="3" width="1" height="1" fill="#0071E3"/><rect x="5" y="3" width="1" height="1" fill="#0071E3"/><rect x="6" y="3" width="1" height="1" fill="#0071E3"/><rect x="7" y="3" width="1" height="1" fill="#0071E3"/><rect x="0" y="4" width="1" height="1" fill="#0071E3"/><rect x="1" y="4" width="1" height="1" fill="#0071E3"/><rect x="0" y="5" width="1" height="1" fill="#0071E3"/><rect x="1" y="5" width="1" height="1" fill="#0071E3"/><rect x="6" y="6" width="1" height="1" fill="#0071E3"/><rect x="7" y="6" width="1" height="1" fill="#0071E3"/><rect x="6" y="7" width="1" height="1" fill="#0071E3"/><rect x="7" y="7" width="1" height="1" fill="#0071E3"/></svg><b>Typed decision</b></div>
+   <div class="cover-icon"><svg class="pxico" viewBox="0 0 8 8" aria-label="置信度" shape-rendering="crispEdges"><rect x="2" y="0" width="1" height="1" fill="#0071E3"/><rect x="3" y="0" width="1" height="1" fill="#0071E3"/><rect x="4" y="0" width="1" height="1" fill="#0071E3"/><rect x="5" y="0" width="1" height="1" fill="#0071E3"/><rect x="1" y="1" width="1" height="1" fill="#0071E3"/><rect x="6" y="1" width="1" height="1" fill="#0071E3"/><rect x="0" y="2" width="1" height="1" fill="#0071E3"/><rect x="3" y="2" width="1" height="1" fill="#0071E3"/><rect x="4" y="2" width="1" height="1" fill="#0071E3"/><rect x="7" y="2" width="1" height="1" fill="#0071E3"/><rect x="0" y="3" width="1" height="1" fill="#0071E3"/><rect x="2" y="3" width="1" height="1" fill="#0071E3"/><rect x="5" y="3" width="1" height="1" fill="#0071E3"/><rect x="7" y="3" width="1" height="1" fill="#0071E3"/><rect x="0" y="4" width="1" height="1" fill="#0071E3"/><rect x="2" y="4" width="1" height="1" fill="#0071E3"/><rect x="3" y="4" width="1" height="1" fill="#0071E3"/><rect x="4" y="4" width="1" height="1" fill="#0071E3"/><rect x="5" y="4" width="1" height="1" fill="#0071E3"/><rect x="7" y="4" width="1" height="1" fill="#0071E3"/><rect x="0" y="5" width="1" height="1" fill="#0071E3"/><rect x="7" y="5" width="1" height="1" fill="#0071E3"/><rect x="1" y="6" width="1" height="1" fill="#0071E3"/><rect x="6" y="6" width="1" height="1" fill="#0071E3"/><rect x="2" y="7" width="1" height="1" fill="#0071E3"/><rect x="3" y="7" width="1" height="1" fill="#0071E3"/><rect x="4" y="7" width="1" height="1" fill="#0071E3"/><rect x="5" y="7" width="1" height="1" fill="#0071E3"/></svg><b>校准与门控</b></div>
+ </div></section>
+<section class="slide " data-sec="定位" data-title="先在研发工具链试点，别进内核热路径">
+      <div class="kicker"><b>02</b>定位 · 工程判断</div>
+      <h1>先在研发工具链试点，<span class='thin'>别进内核热路径</span></h1><div class="sub">它适合做异构日志的语义分流，不是可直接烧进手机的本地模型</div><div class="flow"><div class="node accent"><b>编译 / CI</b><span>日志分类 · 失败分流</span></div><div class="flow-arrow">→</div><div class="node accent"><b>性能 / 功耗</b><span>特征归因 · 回归排序</span></div><div class="flow-arrow">→</div><div class="node"><b>代码 / 设备动作</b><span>确定性校验 · 人工签核</span></div></div><div class="note"><b>边界：</b>研发主机或 CI 服务侧的建议能力；不进入调度器、驱动、中断或启动关键路径。</div>
+    </section>
+<section class="slide " data-sec="模型接口" data-title="Jev 回答判断题，不负责写解释">
+      <div class="kicker"><b>03</b>模型接口 · TypeSafe API</div>
+      <h1>Jev 回答判断题，<span class='thin'>不负责写解释</span></h1><div class="sub">把非结构化问题转为预先定义的输出空间</div><div class="flow"><div class="node"><b>STATE</b><span>日志 + 指标 + 设备 / 构建上下文</span></div><div class="flow-arrow">→</div><div class="node accent"><b>Jev 1.13</b><span>对问题并行评估</span></div><div class="flow-arrow">→</div><div class="node"><b>ANSWERS</b><span>typed 选择、分数、是 / 否概率</span></div></div><div class="note">输入支持 string / JSON / 文本数组；输出可直接供程序读取。类型约束不代表语义结论总正确。</div>
+    </section>
+<section class="slide " data-sec="模型接口" data-title="Choice、Score、Noul 解决不同判断">
+      <div class="kicker"><b>04</b>模型接口 · 三种原语</div>
+      <h1>Choice、Score、Noul <span class='thin'>解决不同判断</span></h1><div class="sub">先定义输出空间，再把问题交给模型</div><div class="rows"><div class="rowline"><b>Choice</b><span>这个失败最像哪个子系统？</span><small>driver 0.74 · HAL 0.18 · kernel 0.08</small></div><div class="rowline"><b>Score</b><span>这次性能退化严重度在哪一档？</span><small>0–3 档的概率加权位置</small></div><div class="rowline"><b>Noul</b><span>故障是否只发生在特定 SoC revision？</span><small>P(yes) = 0.82</small></div></div><div class="note">Score 是序位分布的期望位置，不是物理量；Noul 不返回 confidence 字段。</div>
+    </section>
+<section class="slide " data-sec="方案比较" data-title="选择取决于数据、时延和部署边界">
+      <div class="kicker"><b>05</b>方案比较 · 工程基线</div>
+      <h1>选择取决于<span class='thin'>数据、时延和部署边界</span></h1><div class="sub">建议和规则、本地 encoder 以及通用 LLM 同台比较</div><div class="tblwrap"><table class="tbl left wrap compact"><thead><tr><th>方案</th><th>适合</th><th>代价 / 边界</th></tr></thead><tbody><tr><td><b>规则 / parser</b></td><td>格式明确、可验证的条件和数值计算</td><td>措辞变化会让规则变脆</td></tr><tr><td><b>本地 encoder</b></td><td>有标签、高吞吐、离线、本地数据</td><td>需标注和版本维护；新类目要更新</td></tr><tr><td><b>通用 LLM</b></td><td>解释、总结、开放式推理、代码生成</td><td>自由文本需校验；时延 / 成本较高</td></tr><tr class="hi"><td><b>Jev</b></td><td>固定问题空间、概率分流、零样本启动</td><td>托管 API、英文优先；本域表现需实测</td></tr></tbody></table></div>
+    </section>
+<section class="slide " data-sec="测量" data-title="官方倍数是特定工作流的上沿">
+      <div class="kicker"><b>06</b>测量 · 官方发布文 · 2026-09-15</div>
+      <h1>官方倍数是特定工作流的<span class='thin'>上沿</span></h1><div class="sub">不能把服务端评测数字直接当成手机端时延或 SoC 工程收益</div><div class="stats"><div class="stat"><div class="n">$0.042<small>/M</small></div><div class="l"><b>当前官方输入价格</b><br>按输入 token 计费，输出免费；限额可变</div></div><div class="stat"><div class="n">70–500<small>ms</small></div><div class="l"><b>官方发布的服务端区间</b><br>网络位置、负载和请求形状会影响实测</div></div><div class="stat text dim"><div class="n"><span class="acc">193.6× / 444.6×</span></div><div class="l"><b>最高速度 / 成本倍数</b><br>一个官方 workflow 的高端结果，非普遍基准</div></div></div><div class="note">官方说明：这些 workflow 由模型能力团队设计，并以大型 LLM 平均作参照，偏差可能存在。</div>
+    </section>
+<section class="slide " data-sec="可靠性" data-title="置信度适合分流，不等于正确率保证">
+      <div class="kicker"><b>07</b>可靠性 · TypeSafe Confidence</div>
+      <h1>置信度适合分流，<span class='thin'>不等于正确率保证</span></h1><div class="sub">校准是群体属性，不能把 0.9 解释成这一条有 90% 把握正确</div><div class="flow"><div class="node"><b>概率分布</b><span>Choice / Score 的各类概率</span></div><div class="flow-arrow">→</div><div class="node accent"><b>阈值验证</b><span>reliability · ECE · Brier</span></div><div class="flow-arrow">→</div><div class="node"><b>工程动作</b><span>低风险自动分流 / 高风险人审</span></div></div><div class="note">按误报与漏报成本分别定阈值；再看 risk–coverage，验证自动覆盖率升高时错误如何变化。</div>
+    </section>
+<section class="slide " data-sec="可靠性" data-title="已知弱点决定预处理和降级策略">
+      <div class="kicker"><b>08</b>可靠性 · 官方 Jev 1.13 Jaggedness</div>
+      <h1>已知弱点决定<span class='thin'>预处理和降级策略</span></h1><div class="sub">模型适合语义判断；把数学、计数、日期比较留给代码</div><div class="rows"><div class="rowline"><b>字面理解 / 否定</b><span>“未复现”与“已复现”容易受上下文影响</span><small>结构化字段，明确正反条件</small></div><div class="rowline"><b>数值与日期</b><span>不要让模型算 p95、频率差、时间窗</span><small>parser / SQL / 代码</small></div><div class="rowline"><b>长 state / 无关内容</b><span>噪声会降低判断质量并增加成本</span><small>先筛选、去重、聚合</small></div><div class="rowline"><b>对抗性文本</b><span>日志内容可改变模型判断</span><small>state 当不可信数据，做注入测试</small></div><div class="rowline"><b>中文 / 多跳推理</b><span>CJK 并非主要优化语言，多跳更脆弱</span><small>分语言、分难度评测；保留 unknown</small></div></div><div class="note">以上限制来自 TypeSafe 自己的 1.13 文档，版本升级后也要重新回归。</div>
+    </section>
+<section class="slide " data-sec="外部评测" data-title="有标签数据时，小型 encoder 可能更合适">
+      <div class="kicker"><b>09</b>外部评测 · GitHub · 预注册独立评测</div>
+      <h1>有标签数据时，<span class='thin'>小型 encoder 可能更合适</span></h1><div class="sub">Banking77 · paired n=208 · 单一英文意图分类任务</div><div class="tblwrap"><div class="tt">Accuracy and median call duration</div><table class="tbl num two compact"><thead><tr><th>配置</th><th>准确率</th><th>中位耗时</th></tr></thead><tbody><tr class="hi"><td>Jev 1.13</td><td class="acc">83.2%</td><td>0.44 s</td></tr><tr><td>GPT-5.6 Terra</td><td>87.5%</td><td>1.51 s</td></tr><tr><td>监督 encoder</td><td>93.3%</td><td class="acc">0.01 s</td></tr></tbody></table><div class="note">encoder 约用 10,000 条标签训练。零样本启动的便利性与任务准确率是两条不同轴。</div></div>
+    </section>
+<section class="slide " data-sec="外部评测" data-title="二次复核可能把正确答案改错">
+      <div class="kicker"><b>10</b>外部评测 · GitHub · jev-classification-benchmark</div>
+      <h1>二次复核可能把<span class='thin'>正确答案改错</span></h1><div class="sub">TREC 200 条试验样本：GPT-6 Astra few-shot 经 Jev review 后准确率下降</div><div class="stats two"><div class="stat"><div class="n">194 / 200</div><div class="l">复核前正确数<br>GPT-6 Astra few-shot</div></div><div class="stat dim"><div class="n">173 / 200</div><div class="l">复核后正确数<br>Jev 纠正 3 个，同时改错 24 个正确答案</div></div></div><div class="note">单次探索性测试，不能概括 Jev 的整体表现；但足以说明二次模型复核也要冻结数据、测误改率。</div>
+    </section>
+<section class="slide " data-sec="参考案例" data-title="Jev 适合插在召回与规则之间">
+      <div class="kicker"><b>11</b>参考案例 · skJack/-lip- · 第 30 期 Jev</div>
+      <h1>Jev 适合插在<span class='thin'>召回与规则之间</span></h1><div class="sub">PaperDance：先用全文与向量检索召回论文，再用 Jev 判断相关性并重排</div><div class="flow"><div class="node"><b>25 万篇</b><span>全文 + 向量候选召回</span></div><div class="flow-arrow">→</div><div class="node accent"><b>Jev</b><span>选择 / 概率判断</span></div><div class="flow-arrow">→</div><div class="node"><b>代码策略</b><span>阈值过滤、重排、人审</span></div></div><div class="note">作者报告：54 篇标注子集英文查询 AUC 0.995，纯中文查询 0.924；个别关键论文概率仅 0.14–0.25。小样本自测，不可外推为 SoC 故障准确率。</div>
+    </section>
+<section class="slide " data-sec="SoC 应用" data-title="把判断点放在研发工具链">
+      <div class="kicker"><b>12</b>SoC 应用 · 手机 SoC 软件生命周期</div>
+      <h1>把判断点放在<span class='thin'>研发工具链</span></h1><div class="sub">以通用 Android / Linux 工程名词举例，华为私有栈映射到对应模块</div><div class="flow"><div class="node"><b>Bring-up</b><span>启动 · probe · 电源时序</span></div><div class="flow-arrow">→</div><div class="node accent"><b>CI / VTS</b><span>失败分流 · 回归归因</span></div><div class="flow-arrow">→</div><div class="node accent"><b>性能 / 功耗</b><span>trace 特征 · 异常排序</span></div><div class="flow-arrow">→</div><div class="node"><b>发布门禁</b><span>确定性条件 · 责任人签核</span></div></div><div class="note">AOSP VTS 覆盖 Kernel 与 HAL 测试；这里借它说明研发链路，不假定华为内部使用相同接口。</div>
+    </section>
+<section class="slide " data-sec="SoC 用例" data-title="失败日志可自动分流，不自动改代码">
+      <div class="kicker"><b>13</b>SoC 用例 · 用例一 · CI / VTS</div>
+      <h1>失败日志可自动分流，<span class='thin'>不自动改代码</span></h1><div class="sub">适合样本量大、owner 难找、历史失败重复出现的模块</div><div class="rows"><div class="rowline"><b>输入</b><span>test timeout · board R2 · kernel build 8421</span><small>保留原始 log 与测试 ID</small></div><div class="rowline"><b>计算</b><span>重试率、版本差异、首次失败时间</span><small>代码做精确比较</small></div><div class="rowline"><b>Jev</b><span>Choice：clock / power / driver / HAL / unknown</span><small>给概率，不写根因长文</small></div><div class="rowline"><b>动作</b><span>建议 owner、附证据片段、相似问题链接</span><small>人审后回填标签</small></div></div><div class="note">不允许模型结论直接改代码、刷机、重启设备或关闭 release blocker。</div>
+    </section>
+<section class="slide " data-sec="SoC 用例" data-title="数值归因留给 PerfettoSQL 和代码">
+      <div class="kicker"><b>14</b>SoC 用例 · 用例二 · trace 分析</div>
+      <h1>数值归因留给<span class='thin'>PerfettoSQL 和代码</span></h1><div class="sub">Jev 负责“更像哪类回归”；指标与差值由确定性脚本计算</div><div class="flow"><div class="node"><b>Perfetto</b><span>sched / freq / GPU / power / logs</span></div><div class="flow-arrow">→</div><div class="node accent"><b>SQL / parser</b><span>wake-to-run p95 · jank · 频点驻留</span></div><div class="flow-arrow">→</div><div class="node"><b>Jev</b><span>scheduler / GPU / thermal / I/O</span></div></div><div class="note">功耗 rail 数据依设备支持而异。先规范 trace 配置与窗口，再让模型读小而相关的特征摘要。</div>
+    </section>
+<section class="slide " data-sec="SoC 用例" data-title="Bring-up 归因要保留版本上下文">
+      <div class="kicker"><b>15</b>SoC 用例 · 用例三 · 跨版本兼容性</div>
+      <h1>Bring-up 归因要保留<span class='thin'>版本上下文</span></h1><div class="sub">相同错误行不代表相同根因；设备与软件配置必须跟随样本</div><div class="rows"><div class="rowline"><b>硬件维度</b><span>SoC revision · board · PMIC · memory SKU</span><small>决定问题是否局限某一物料组合</small></div><div class="rowline"><b>软件维度</b><span>kernel branch / config · firmware · HAL version</span><small>由脚本精确定位首次变化版本</small></div><div class="rowline"><b>环境维度</b><span>cold / warm boot · 温度档 · lab station · test ID</span><small>分清偶发和稳定复现</small></div><div class="rowline"><b>Jev 判断</b><span>相似故障族 · 疑似共同依赖 · 建议 owner</span><small>不把相关性当成已验证 root cause</small></div></div><div class="note">版本比较、回归区间和频率由代码计算；模型只辅助解释语义相似度。</div>
+    </section>
+<section class="slide " data-sec="集成设计" data-title="把工程证据装进 state，把策略留在代码">
+      <div class="kicker"><b>16</b>集成设计 · 示意 JSON · 非真实调用</div>
+      <h1>把工程证据装进 state，<span class='thin'>把策略留在代码</span></h1><div class="sub">问题要直白，标签描述要能区分具体边界</div><div class="code2"><div class="code"><div class="tt">request state</div><pre>{
+  "model": "jev-1.13.0",
+  "state": {
+    "failure": "probe defer -EPROBE_DEFER",
+    "subsystem": "camera power sequence",
+    "board_rev": "R2",
+    "kernel": "6.x / build 8421",
+    "repeat_rate": "3 of 5 cold boots",
+    "boot_ms_delta": 186
+  },
+  "questions": {
+    "owner": { "type": "choice", ... },
+    "severity": { "type": "score", ... },
+    "cold_boot_only": { "type": "noul", ... }
+  }
+}</pre></div><div class="code"><div class="tt">deterministic policy</div><pre>if api_timeout:
+    fall_back_to_existing_queue()
+elif owner.confidence &lt; τ:
+    route_to_human_triage()
+elif severity.score &gt;= gate:
+    suggest_component_owner()
+else:
+    attach_suggestion_only()
+
+# exact math stays in code
+# never release from model score alone</pre></div></div>
+    </section>
+<section class="slide " data-sec="集成设计" data-title="本地抽取与策略，托管服务只做语义判断">
+      <div class="kicker"><b>17</b>集成设计 · 目标架构</div>
+      <h1>本地抽取与策略，<span class='thin'>托管服务只做语义判断</span></h1><div class="sub">把 Jev 当可替换依赖；服务异常不阻断 build、test 或刷机</div><div class="flow"><div class="node"><b>设备 / 测试场</b><span>logcat · tombstone · Perfetto</span></div><div class="flow-arrow">→</div><div class="node accent"><b>研发主机</b><span>脱敏 · SQL · 去重 · 压缩 state</span></div><div class="flow-arrow">→</div><div class="node"><b>Jev API</b><span>固定版本 · typed answer</span></div><div class="flow-arrow">→</div><div class="node"><b>研发闭环</b><span>建议 owner · 人工确认 · 标签回流</span></div></div><div class="note">原始数据留本地，外发字段最少化；不允许调用外部服务时，替换成本地 encoder 或规则。</div>
+    </section>
+<section class="slide " data-sec="部署边界" data-title="托管服务与手机端实时控制不是一回事">
+      <div class="kicker"><b>18</b>部署边界 · 官方 Models 文档</div>
+      <h1>托管服务与<span class='thin'>手机端实时控制</span>不是一回事</h1><div class="sub">Jev 当前以 API 方式提供；未公开可下载权重，输入仅文本</div><div class="two"><div class="col"><div class="h2">研发云 / 实验室主机 · 可试</div><div class="li"><b>CI、夜间回归、性能报告</b><br>建议式分流，可设置超时与回退</div><div class="li"><b>网络服务 · 官方 70–500ms</b><br>实测要加地域、排队、TLS 与限流</div></div><div class="col"><div class="h2">手机运行时 / 内核热路径 · 当前不适合</div><div class="li"><b>调度、IRQ、DVFS、启动决策</b><br>需要硬实时、本地和确定性路径</div><div class="li"><b>离线 / 隐私约束</b><br>用规则或小型本地模型承接</div></div></div><div class="note">typed 输出不等于实时、安全或离线可用。</div>
+    </section>
+<section class="slide " data-sec="部署边界" data-title="隐私、对抗输入和韧性仍由系统负责">
+      <div class="kicker"><b>19</b>部署边界 · 运行护栏</div>
+      <h1>隐私、对抗输入和韧性仍由系统负责</h1><div class="sub">TypeSafe 明确 state 可能含有影响答案的误导文本</div><div class="rows"><div class="rowline"><b>隐私</b><span>脱敏序列号、路径、客户内容；按数据级别审批外发</span><small>不允许外发就切本地方案</small></div><div class="rowline"><b>可复现</b><span>pin jev-1.13.0；记录输入 schema、模型版本和概率</span><small>升级模型重跑评测</small></div><div class="rowline"><b>安全</b><span>日志全都视作不可信数据；覆盖注入和错误根因样本</span><small>unknown / 人工复核</small></div><div class="rowline"><b>韧性</b><span>超时、429、断网、响应异常都走原流程</span><small>不阻塞 CI / 刷机</small></div></div><div class="note">官方称客户请求不用于训练；数据保留、零留存与企业条款仍需按合同核验。</div>
+    </section>
+<section class="slide " data-sec="试点方案" data-title="先离线回放，再影子运行">
+      <div class="kicker"><b>20</b>试点方案 · 最小验证路线</div>
+      <h1>先离线回放，<span class='thin'>再影子运行</span></h1><div class="sub">首个试点选“CI 失败 owner 建议”或“性能回归排序”，不碰发布自动放行</div><div class="rows"><div class="rowline"><b>01 · 盘点</b><span>整理近两个发布周期样本，工程师双标代表数据</span><small>先确认标签一致性</small></div><div class="rowline"><b>02 · 回放</b><span>同一冻结集比较规则、encoder、Jev、通用 LLM</span><small>按版本 / 子系统切片</small></div><div class="rowline"><b>03 · 影子</b><span>只生成建议，不修改 CI 状态或工单 owner</span><small>记录采纳 / 误导 / 不确定</small></div><div class="rowline"><b>04 · 限定上线</b><span>仅低风险自动分流；门禁仍走现有策略</span><small>保留回滚与审计</small></div></div><div class="note">先固定语言、日志抽取 schema、阈值和版本，再讨论扩大覆盖。</div>
+    </section>
+<section class="slide " data-sec="试点方案" data-title="用风险覆盖率决定自动化边界">
+      <div class="kicker"><b>21</b>试点方案 · 上线验收</div>
+      <h1>用风险覆盖率决定<span class='thin'>自动化边界</span></h1><div class="sub">准确率之外，还要衡量严重少数类和错误自动化的代价</div><div class="rows"><div class="rowline"><b>Macro F1 / per-class recall</b><span>owner 错分会把问题送错团队</span><small>subsystem · rare faults</small></div><div class="rowline"><b>ECE / Brier / reliability bins</b><span>概率与命中率是否匹配</span><small>版本 · 语言 · 问题类型</small></div><div class="rowline"><b>Risk–coverage</b><span>自动处理覆盖增加时错误如何变化</span><small>按错误成本分层</small></div><div class="rowline"><b>p50 / p95 / cost / retry</b><span>在真实地域、负载、限流下测服务链路</span><small>输入长度 · 网络地域</small></div></div><div class="note">测试集按设备 revision、kernel branch、release 阶段、English / 中文拆分，并和现有基线同场比较。</div>
+    </section>
+<section class="slide " data-sec="结论" data-title="从低风险研发流程开始验证">
+      <div class="kicker"><b>22</b>结论 · 给 SoC 软件团队的建议</div>
+      <h1>从低风险研发流程开始验证</h1><div class="sub">Jev 可以减少“判断步骤”的成本，但不能替代确定性工程机制</div><div class="bigline"><div class="row"><span class="acc">先试</span> CI / VTS 失败分流与性能回归排序</div><div class="row">Jev 判断语义，代码计算数值并执行策略</div><div class="row">低置信、未知故障、中文弱项、服务超时回到原流程</div><div class="row small">只有本域评测优于规则、encoder 与现有流程，才逐步扩大范围</div></div>
+    </section>
+<section class="slide " data-sec="资料" data-title="来源与结论口径">
+      <div class="kicker"><b>23</b>资料 · 资料截止 2026-09-26</div>
+      <h1>来源与<span class='thin'>结论口径</span></h1><div class="sub">官方说法、独立评测、案例作者自测和工程推演不可混为一谈</div><div class="two source-columns"><div class="col"><div class="h2">官方 · 模型与边界</div><div class="li"><b>TypeSafe 发布文</b><br><small>typesafe.ai/blog/introducing-system-one-models-and-jev</small></div><div class="li"><b>Models / Confidence / Jaggedness</b><br><small>docs.typesafe.ai/models · /confidence · /model-jaggedness/jev-1.13</small></div><div class="li"><b>API / Quickstart / System One</b><br><small>docs.typesafe.ai/api · /introduction/quickstart · /concepts/system-one</small></div></div><div class="col"><div class="h2">案例 · 独立测量 · SoC 工具</div><div class="li"><b>skJack/-lip- · 第 30 期 Jev</b><br><small>github.com/skJack/-lip-/tree/main/08-第30期-Jev-不生成文本的决策模型</small></div><div class="li"><b>独立评测</b><br><small>github.com/ickma2311/jev-baselines-eval · github.com/statsguysam/jev-classification-benchmark</small></div><div class="li"><b>Android / Perfetto</b><br><small>source.android.com/docs/core/tests/vts · perfetto.dev/docs/getting-started/system-tracing</small></div></div></div><div class="note">Android / Perfetto 是公开通用工程参考，不代表华为内部工具接口。</div>
+    </section>
+</div>
+<div id="nav-hot"></div>
+<div id="nav-btn"><div class="b" id="nb-prev">‹</div><span class="pg" id="nb-pg">1 / 1</span><div class="b" id="nb-next">›</div><div class="b" id="nb-list">☰</div></div>
+<div id="nav-panel"></div>
+<div id="hud"></div>
+<script>
+(function(){
+  const stage=document.getElementById('stage');
+  const slides=[...document.querySelectorAll('.slide')];
+  const hud=document.getElementById('hud');
+  let cur=-1, showCounter=false;
+  function fit(){ const s=Math.min(innerWidth/1920, innerHeight/1080); stage.style.transform=`translate(-50%,-50%) scale(${s})`; if(cur>=0) fitFigs(slides[cur]); }
+  // 让白色图卡贴合图片 / 视频比例：宽图不留大片空白，剩余空间上下均分
+  function fitFigs(sl){
+    sl.querySelectorAll(':scope > .fig.card, :scope > .fig.plain').forEach(f=>{
+      const img=f.querySelector('img,video'); if(!img) return;
+      const nw=img.naturalWidth||img.videoWidth, nh=img.naturalHeight||img.videoHeight; if(!nw||!nh) return;
+      f.style.flex=''; f.style.width=''; f.style.height=''; f.style.margin='';
+      const W=f.clientWidth, H=f.clientHeight; if(!W||!H) return;
+      const pad=f.classList.contains('card')?60:0, ar=nw/nh;
+      let w=W, h=(W-pad)/ar+pad; if(h>H){ h=H; w=(H-pad)*ar+pad; }
+      f.style.flex='0 0 auto'; f.style.width=Math.round(w)+'px'; f.style.height=Math.round(h)+'px'; f.style.margin='auto';
+    });
+    sl.querySelectorAll(':scope > .fig2').forEach(row=>{
+      const cards=[...row.querySelectorAll(':scope > .fig.card')]; if(!cards.length) return;
+      cards.forEach(f=>{ f.style.flex=''; f.style.width=''; f.style.height=''; f.style.alignSelf=''; });
+      row.style.justifyContent='';
+      const H=row.clientHeight; if(!H) return;
+      const sizes=cards.map(f=>{ const img=f.querySelector('img'); if(!img||!img.naturalWidth) return null;
+        const W=f.clientWidth, pad=60, ar=img.naturalWidth/img.naturalHeight; let w=W, h=(W-pad)/ar+pad; if(h>H){ h=H; w=(H-pad)*ar+pad; } return [w,h]; });
+      if(sizes.some(x=>!x)) return;
+      cards.forEach((f,i)=>{ f.style.flex='0 0 auto'; f.style.width=Math.round(sizes[i][0])+'px'; f.style.height=Math.round(sizes[i][1])+'px'; f.style.alignSelf='center'; });
+      row.style.justifyContent='center';
+    });
+  }
+  document.querySelectorAll('.slide > .fig img, .slide > .fig2 > .fig img').forEach(img=>img.addEventListener('load',()=>{ const sl=img.closest('.slide'); if(sl.classList.contains('active')) fitFigs(sl); }));
+  document.querySelectorAll('.slide > .fig video').forEach(v=>v.addEventListener('loadedmetadata',()=>{ const sl=v.closest('.slide'); if(sl.classList.contains('active')) fitFigs(sl); }));
+  function show(n){
+    n=Math.max(0,Math.min(slides.length-1,n)); if(n===cur) return;
+    slides.forEach((s,k)=>{ const on=k===n; s.classList.toggle('active',on); s.querySelectorAll('video').forEach(v=>{ if(on){ try{v.currentTime=0;}catch(e){} v.play().catch(()=>{}); } else { v.pause(); } }); });
+    const nx=slides[n+1]; if(nx) nx.querySelectorAll('video').forEach(v=>{ if(v.preload!=='auto'){ v.preload='auto'; v.load(); } });
+    cur=n; history.replaceState(null,'','#'+(n+1)); updateHud(); fitFigs(slides[n]); startAnim(slides[n]);
+  }
+  // ---- 分步动画：PH 的每一项是那一步要点亮的 data-a 名字。没有动画页就把这段连同 startAnim 调用一起删掉 ----
+  const PH=[ ['s1'], ['s1','s2'] ];
+  let anim=null;
+  function startAnim(sl){
+    anim=null; const svg=sl.querySelector('svg[data-anim]'); if(!svg) return;
+    const steps=[...sl.querySelectorAll('.step-item')];
+    const fixed=(location.search.match(/[?&]anim=(\d)/)||[])[1];
+    let k=fixed!==undefined?parseInt(fixed,10):0;
+    function apply(){ const on=new Set(PH[k]); svg.querySelectorAll('[data-a]').forEach(el=>el.classList.toggle('on',on.has(el.dataset.a))); steps.forEach((st,i)=>st.classList.toggle('cur',i===k)); }
+    apply();
+    anim={ next(){ k=(k+1)%PH.length; apply(); }, prev(){ k=(k-1+PH.length)%PH.length; apply(); } };
+  }
+  const navBtn=document.getElementById('nav-btn'), panel=document.getElementById('nav-panel'), pg=document.getElementById('nb-pg');
+  (function buildNav(){
+    let html='', lastSec=null;
+    slides.forEach((sl,k)=>{
+      const sec=sl.dataset.sec||''; const h=sl.querySelector('h1');
+      let title=sl.dataset.title||(h?h.textContent.trim():''); if(!title) title=sec;
+      if(sec!==lastSec){ html+=`<div class="sec-title">${sec||'—'}</div>`; lastSec=sec; }
+      html+=`<div class="it" data-k="${k}"><span class="k">${k+1}</span><span>${title}</span></div>`;
+    });
+    panel.innerHTML=html;
+  })();
+  function toggleNav(force){ const on=(force===undefined)?!panel.classList.contains('open'):force; panel.classList.toggle('open',on); navBtn.classList.toggle('open',on); }
+  document.getElementById('nb-list').addEventListener('click',e=>{ e.stopPropagation(); toggleNav(); });
+  document.getElementById('nb-prev').addEventListener('click',e=>{ e.stopPropagation(); prev(); });
+  document.getElementById('nb-next').addEventListener('click',e=>{ e.stopPropagation(); next(); });
+  navBtn.addEventListener('click',e=>{ e.stopPropagation(); });
+  panel.addEventListener('click',e=>{ e.stopPropagation(); const it=e.target.closest('.it'); if(!it) return; show(parseInt(it.dataset.k,10)); toggleNav(false); });
+  function updateHud(){ pg.textContent=`${cur+1} / ${slides.length}`; hud.textContent = showCounter ? `${cur+1} / ${slides.length}` : '← → 翻页 · F 全屏 · C 页码 · 左上角选页'; panel.querySelectorAll('.it').forEach((el,k)=>el.classList.toggle('cur',k===cur)); }
+  function next(){ show(cur+1); } function prev(){ show(cur-1); }
+  let buf='', bt=null;
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){ e.preventDefault(); next(); }
+    else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){ e.preventDefault(); prev(); }
+    else if(e.key==='Escape'){ toggleNav(false); }
+    else if(e.key==='j'||e.key==='J'){ if(anim) anim.next(); }
+    else if(e.key==='k'||e.key==='K'){ if(anim) anim.prev(); }
+    else if(e.key==='g'||e.key==='G'){ toggleNav(); }
+    else if(e.key==='Home'){ show(0); } else if(e.key==='End'){ show(slides.length-1); }
+    else if(e.key==='f'||e.key==='F'){ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(()=>{}); }
+    else if(e.key==='c'||e.key==='C'){ showCounter=!showCounter; hud.classList.toggle('show',showCounter); updateHud(); }
+    else if(/^[0-9]$/.test(e.key)){ buf=(buf+e.key).slice(-2); clearTimeout(bt); bt=setTimeout(()=>{ const k=parseInt(buf,10); if(k>=1&&k<=slides.length) show(k-1); buf=''; },500); }
+  });
+  addEventListener('click',e=>{ if(e.target.closest('a,#nav-panel,#nav-btn,#nav-hot')) return; if(panel.classList.contains('open')){ toggleNav(false); return; } const x=e.clientX/innerWidth; if(x<0.2) prev(); else next(); });
+  addEventListener('resize',fit); fit();
+  const h=parseInt((location.hash||'#1').slice(1),10); show(isNaN(h)?0:h-1);
+  if(/[?&]nav=1/.test(location.search)) toggleNav(true);
+  hud.classList.add('show'); setTimeout(()=>{ if(!showCounter) hud.classList.remove('show'); },4000);
+})();
+</script>
+</body>
+</html>

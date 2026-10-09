@@ -2,6 +2,8 @@
 
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
 
+[全部部署文档与报告索引](docs/README.md) · [dsh Decision 插件](plugins/kernel-decision/README.md) · [Jev API 示例](tools/jev-demos/README.md)
+
 最新交付：个人 Agent/Skill Prompt 组合、新建分析选择、一键固定套件跑分、同 cohort 前十用户榜及个人结果联动。详见 [平台设计与评分标准](docs/AGENT_BENCHMARK_PLATFORM.md)、[详细实测分析报告](docs/AGENT_BENCHMARK_ANALYSIS_20261009.md) 和 [逐例数据与图表](docs/results/agent-benchmark-20261009/)。本轮九例全部完成；故障代码定位 3/8，不能据此宣称准确率提升。公开仓库保留脱敏摘要，私有 Prompt、账号、业务日志及完整运行轨迹留在 Git 忽略目录。
 
 已有完整本地数据时，使用 [Windows 展示启动指南](docs/WINDOWS_SITE.md) 运行独立状态的网站。系统方案另附 [48 页网页版讲解稿](deliverables/kernel-insight-system/deck.html)，包含真实功能图、科研结果图与可播放流程。
