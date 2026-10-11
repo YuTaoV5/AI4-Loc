@@ -50,6 +50,12 @@ class LocalizationTests(unittest.TestCase):
             def respond(request,**kwargs):payloads.append(json.loads(request.data));return io.BytesIO(json.dumps(replies.pop(0)).encode())
             with patch('urllib.request.urlopen',side_effect=respond):result=run({'workspace':tmp,'baseUrl':'http://fixture','transport':'ollama-native','model':'fixture','timeout':10,'maxModelCalls':5})
             self.assertFalse(payloads[0]['think']);self.assertFalse(payloads[1]['think']);self.assertIn('format',payloads[1]);self.assertEqual(payloads[1]['messages'][-2]['tool_name'],'incident');self.assertEqual(result['metrics']['requests'][0]['usage']['outputTokens'],14)
+            self.assertEqual(result['metrics']['requests'][0]['selection'],{'action':'tools','tools':['incident']})
+            self.assertTrue(result['metrics']['requests'][1]['reportAccepted'])
+            self.assertEqual(result['evidence']['commands'][0]['origin'],'chat')
+            self.assertEqual(result['evidence']['commands'][0]['modelRequestIndex'],1)
+            saved=[json.loads(line) for line in (root/'api-calls.jsonl').read_text().splitlines()]
+            self.assertTrue(any(row.get('selection',{}).get('tools')==['incident'] for row in saved))
     def test_missing_source_exposes_only_available_tools_and_uses_typed_final(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=pathlib.Path(tmp);(root/'input.log').write_text('BUG: KASAN: use-after-free in f\n')

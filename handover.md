@@ -1,6 +1,13 @@
 # AI 接手手册 · Kernel Insight
 
-## 任务调用轨迹 Tab（2026-10-11）
+## 服务器部署与可解释调用步骤（2026-10-11；当前状态）
+
+- 正式 app → `/opt/kernel-insight/releases/task-trace-20261011`；旧版 `/opt/kernel-insight/releases/163bdd0af0ec` 可回滚。本轮发现网站与项目 Supervisor 已停止，完成恢复；8787 health.ok/llmConnected=true。平台 SGLang/Ollama PID 70/86 保持不变。
+- 轨迹 API v2 与中文逐步展示已部署：实际 Decision 问题/选项/概率/选择，Chat 每次请求的工具或报告选择，自动预检与模型选择的来源，以及有限关键证据。去除原始 JSON、label mass、哈希等中间显示。失败/重复工具请求不伪装执行成功；旧任务缺失的选择和顺序明确标注。
+- 本地 Node49/49、Python53/53 通过。服务器独立验收真实 UAF+匹配源码任务 `6ae833d3-9808-4e48-9d7f-f00292028107` 共14步骤：1 Decision、2 Chat、10工具执行+1重复拦截；定界0.328秒、定位24.097秒、21128Token。只验证可观测性，未重跑完整评测或证明提分。
+- 私有证据 `/opt/kernel-insight/experiments/task-trace-20261011/` 与 `data/trace-acceptance-20261011/`；配置/状态/账号备份仅存 rollback 私有目录。正式站验证健康、资源和未登录401；鉴权流程在独立实例验收，没有用默认管理员凭据登录正式站。详见 `docs/DSH_CALL_TRACE.md`。
+
+## 历史初版：任务调用轨迹 Tab（2026-10-11，已由上方新版替代）
 
 - 个人空间任务详细进展新增“API / 工具调用轨迹”，保留原阶段进展。可展示 Decision 问题/选项/概率/label mass、Chat 用量/耗时、closed-loop 工具参数/返回、dsh 通知与 SDK run 事件；运行中每3秒刷新。
 - 新 API `/api/jobs/:id/trace` 沿用本人/管理员权限，固定文件白名单、响应无缓存、结果长度限制；不展示完整 Prompt、模型内部推理或认证信息。旧任务回退报告已保留记录，缺失轨迹不补造。详见 `docs/DSH_CALL_TRACE.md`。

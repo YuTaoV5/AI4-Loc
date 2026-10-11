@@ -59,7 +59,7 @@ REPORT_SCHEMA=object_schema({
 
 class Inspector:
     def __init__(self,workspace):
-        self.root=pathlib.Path(workspace).resolve();self.records=[]
+        self.root=pathlib.Path(workspace).resolve();self.records=[];self.model_request_index=None
         self.log=(self.root/'input.log').read_text(encoding='utf-8',errors='replace').splitlines() if (self.root/'input.log').is_file() else []
         self.source=next((self.root/x for x in ['source-context','source'] if (self.root/x).is_dir()),None)
     def path(self,value):
@@ -72,11 +72,11 @@ class Inspector:
     def lines(self,lines,start,count):
         start=max(1,int(start));count=max(1,min(80,int(count)))
         return [{'line':i+1,'text':lines[i][:700]} for i in range(start-1,min(len(lines),start-1+count))]
-    def execute(self,name,args):
+    def execute(self,name,args,rejection=None):
         began=time.monotonic();started_at=trace_time();ident='T'+str(len(self.records)+1)
-        try:result=self._execute(name,args)
+        try:result={'error':rejection} if rejection else self._execute(name,args)
         except Exception as error:result={'error':str(error)[:500]}
-        row={'id':ident,'tool':name,'startedAt':started_at,'arguments':args,'seconds':round(time.monotonic()-began,3),'result':result}
+        row={'id':ident,'tool':name,'startedAt':started_at,'arguments':args,'seconds':round(time.monotonic()-began,3),'result':result,'origin':'chat' if self.model_request_index else 'preflight','modelRequestIndex':self.model_request_index}
         trace_append(self.root,'tool-trace.jsonl',row)
         self.records.append(row);return {'evidenceId':ident,**result}
     def subprocess(self,args,cwd=None):
@@ -337,15 +337,20 @@ def run(request,progress=lambda value:None):
                 for index,call in enumerate(m.get('tool_calls') or []):calls.append({'id':'native-'+str(requests)+'-'+str(index),'type':'function','function':{'name':call['function']['name'],'arguments':json.dumps(call['function']['arguments'])}})
                 reply={'choices':[{'message':{'role':'assistant','content':m.get('content') or '',**({'tool_calls':calls} if calls else {})}}]}
             message=reply['choices'][0]['message'];calls=message.get('tool_calls',[]);messages.append({k:v for k,v in message.items() if k in ['role','content','tool_calls']})
+            request_record['selection']={'action':'tools' if calls else 'report','tools':[c.get('function',{}).get('name','unknown') for c in calls]}
+            inspector.model_request_index=requests
+            # Persist the selection before executing tools, so live UI can show it.
+            trace_append(root,'api-calls.jsonl',request_record)
             if calls:
                 for position,call in enumerate(calls):
                     name=call['function']['name']
                     try:arguments=json.loads(call['function']['arguments'])
                     except (ValueError,TypeError):
-                        messages.append({'role':'tool','tool_call_id':call['id'],'content':json.dumps({'error':'Tool arguments must be valid JSON'})});continue
+                        result=inspector.execute(name,{},rejection='Tool arguments must be valid JSON')
+                        messages.append({'role':'tool','tool_call_id':call['id'],'content':json.dumps(result)});continue
                     key=json.dumps([name,arguments],sort_keys=True)
-                    if toolcalls>=24 or position>=6:result={'error':'Tool budget exhausted; deliver bounded report'}
-                    elif key in seen:result={'error':'Identical call already executed; reuse its evidence'}
+                    if toolcalls>=24 or position>=6:result=inspector.execute(name,arguments,rejection='Tool budget exhausted; deliver bounded report')
+                    elif key in seen:result=inspector.execute(name,arguments,rejection='Identical call already executed; reuse its evidence')
                     else:
                         seen.add(key);result=inspector.execute(name,arguments);toolcalls+=1;progress({'type':'progress','phase':'localization','kind':'tool','message':'定位工具：'+name})
                         if name=='incident' and result.get('firstDiagnosticLine'):
@@ -362,6 +367,9 @@ def run(request,progress=lambda value:None):
             (root/'model-final.txt').write_text(text,encoding='utf-8')
             if not match:raise ValueError('Model returned no JSON')
             report=validate_report(json.JSONDecoder().raw_decode(text[match.start():])[0],inspector)
+            request_record['reportSummary']=report.get('summary')
+            request_record['reportLocations']=report.get('localization',{}).get('locations',[])
+            request_record['reportAccepted']=True
             report_output_seconds=round(time.monotonic()-request_start,4)
             if boundary_seconds is None:boundary_seconds=round(time.monotonic()-started,4)
             break

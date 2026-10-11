@@ -1,4 +1,5 @@
 const fs=require('fs'),path=require('path');
+const {present}=require('./trace-presentation');
 const LIMIT=2*1024*1024;
 // Never return raw model messages, request headers, prompts or reasoning.
 function clean(value,workspace,depth=0){
@@ -32,12 +33,13 @@ function readTrace(data,job){
  let calls=read('api-calls.jsonl',true);
  if(!calls.length)calls=job.analysis?.agent?.metrics?.requests||[];
  const models=new Map();for(const row of calls)models.set(row.index,row);
- for(const row of models.values())entries.push({id:'api-'+row.index,kind:'api',name:row.model||'Chat API',startedAt:row.startedAt,status:row.status,seconds:row.seconds,transport:row.transport,requestSha256:row.requestSha256,usage:row.usage,error:row.error});
+ for(const row of models.values())entries.push({id:'api-'+row.index,kind:'api',name:row.model||'Chat API',startedAt:row.startedAt,status:row.status,seconds:row.seconds,usage:row.usage,error:row.error,selection:row.selection,reportAccepted:row.reportAccepted,reportSummary:row.reportSummary,reportLocations:row.reportLocations});
  let tools=read('tool-trace.jsonl',true);if(!tools.length)tools=job.analysis?.agent?.evidence?.commands||[];
- for(const row of tools)entries.push({id:'tool-'+row.id,kind:'tool',name:row.tool,startedAt:row.startedAt,status:row.result?.error?'error':'returned',seconds:row.seconds,arguments:row.arguments,result:row.result});
- for(const [i,row] of read('dsh-trace.jsonl',true).entries())entries.push({id:'dsh-'+i,kind:'dsh',name:row.name||row.type,startedAt:row.startedAt,status:row.status||row.type,arguments:row.arguments,result:row.result,error:row.error});
+ for(const row of tools)entries.push({id:'tool-'+row.id,kind:'tool',name:row.tool,startedAt:row.startedAt,status:row.result?.error?'error':'returned',error:row.result?.error,seconds:row.seconds,arguments:row.arguments,result:row.result,origin:row.origin,modelRequestIndex:row.modelRequestIndex});
+ for(const [i,row] of read('dsh-trace.jsonl',true).entries())entries.push({id:'dsh-'+i,kind:'dsh',name:row.name||row.type,eventType:row.type,startedAt:row.startedAt,status:row.status||row.type,arguments:row.arguments,result:row.result,error:row.error});
  entries.sort((a,b)=>a.startedAt&&b.startedAt?a.startedAt.localeCompare(b.startedAt):0);
- return {schema:'agent-call-trace/v1',jobId:job.id,entries:clean(entries.slice(-300),workspace),warnings,probabilitiesCalibrated:false,
-  note:'仅展示已记录调用；概率不是根因正确率。未记录的旧调用无法回填。内容有长度限制，密钥字段及模型内部推理不展示。',running:['queued','running'].includes(job.status)};
+ const readable=entries.slice(-300).map(row=>{const view=present(row);delete view.arguments;delete view.result;delete view.reportLocations;delete view.reportSummary;for(const q of view.questions||[])delete q.answer.labelMass;return view;});
+ return {schema:'agent-call-trace/v2',jobId:job.id,entries:clean(readable,workspace),warnings,probabilitiesCalibrated:false,chronologyComplete:entries.every(x=>!!x.startedAt),
+  note:'记录实际接口选择与工具发现，不包含模型内部推理。Decision 概率表示选项相对偏好，不是根因正确率。旧任务缺失的调用和选择无法回填。',running:['queued','running'].includes(job.status)};
 }
 module.exports={readTrace};
