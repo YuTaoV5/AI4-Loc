@@ -1,0 +1,117 @@
+{
+  "traceCount": 121,
+  "naturalCaseNameTextRequests": 63,
+  "naturalCaseNameTextUniqueCases": 41,
+  "noAdditionalLabelFields": true,
+  "frozenCodeHashesPassed": {
+    "boundary_router.py": true,
+    "localization_agent.py": true,
+    "boundary-worker.py": true,
+    "decision_plugin.py": true
+  },
+  "experimentCodeHashesPassed": {
+    "boundary-worker.py": true,
+    "orchestrate.py": true,
+    "serve.py": true,
+    "benchmark.py": true
+  },
+  "pplxPhase": {
+    "arm": "pplx",
+    "checkedAt": "2026-10-11T16:09:25Z",
+    "gpu": "50307 MiB, 30845 MiB",
+    "production30000Responding": false,
+    "otherExperimentalArmResponding": false
+  },
+  "genericPhase": {
+    "arm": "generic",
+    "checkedAt": "2026-10-11T16:18:08Z",
+    "gpu": "60602 MiB, 20551 MiB",
+    "production30000Responding": false,
+    "otherExperimentalArmResponding": false
+  },
+  "failedInitialAttempt": {
+    "status": "failed",
+    "error": "KeyboardInterrupt: ",
+    "restoration": {
+      "restored": true,
+      "checkedAt": "2026-10-11T16:07:50Z",
+      "events": [
+        {
+          "stoppedOwnedGroup": 3046
+        },
+        {
+          "supervisorResumed": 50
+        },
+        {
+          "sidecarStartExit": 0,
+          "stdout": "{\"status\": \"ready\", \"pid\": 3693, \"gpuWaitSeconds\": 0.025932839140295982, \"health\": {\"ready\": true, \"model\": \"perplexity-ai/pplx-decider-v1-27b\", \"revision\": \"b01a5cbaca5391f73bd55103d4f27e8982cd5e60\", \"cpuOffload\": true}}\n",
+          "stderr": ""
+        }
+      ],
+      "productionModel": {
+        "object": "list",
+        "data": [
+          {
+            "id": "Qwen3.8-27B-SystemOne",
+            "object": "model",
+            "created": 1791734860,
+            "owned_by": "sglang",
+            "root": "Qwen3.8-27B-SystemOne",
+            "parent": null,
+            "max_model_len": 8192
+          }
+        ]
+      },
+      "sidecar": {
+        "ready": true,
+        "model": "perplexity-ai/pplx-decider-v1-27b",
+        "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+        "cpuOffload": true
+      },
+      "supervisorState": "S",
+      "gpu": "70261 MiB, 10891 MiB"
+    },
+    "elapsedSeconds": 186.7014522626996
+  },
+  "initialAttemptFormalCalls": 0,
+  "archive": {
+    "bytes": 624383,
+    "sha256": "1e6e699a0bd6fac1b456e71fa51815920300e44f7623151f417a1cc1da6a83b3",
+    "files": 536,
+    "excludes": "private process environments/lease, weights, venv, temporary preparation copies"
+  },
+  "postRestoreSmoke": {
+    "excludedFromFormalCalls": true,
+    "decision": {
+      "30000": {
+        "seconds": 0.3123586904257536,
+        "family": "memory_lifetime",
+        "usage": {
+          "completion_tokens": 0,
+          "prompt_tokens": 646
+        }
+      },
+      "30002": {
+        "seconds": 7.791719539090991,
+        "family": "memory_lifetime",
+        "usage": {
+          "completion_tokens": 0,
+          "prompt_tokens": 811
+        }
+      }
+    },
+    "chat": {
+      "http": 200,
+      "content": "The user wants me to reply \"OK\" only, and they've added /",
+      "usage": {
+        "prompt_tokens": 60,
+        "total_tokens": 76,
+        "completion_tokens": 16,
+        "prompt_tokens_details": null,
+        "reasoning_tokens": 0
+      }
+    },
+    "gpu": "70517 MiB, 10635 MiB"
+  },
+  "note": "Anonymous paths do not remove natural LKDTM symbols or workload clues. Existing test cases were used in development. No root-cause truth."
+}

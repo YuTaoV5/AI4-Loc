@@ -1,0 +1,46 @@
+{
+  "status": "completed",
+  "restoration": {
+    "restored": true,
+    "checkedAt": "2026-10-11T16:21:43Z",
+    "events": [
+      {
+        "stoppedOwnedGroup": 4477
+      },
+      {
+        "stoppedOwnedGroup": 4066
+      },
+      {
+        "supervisorResumed": 50
+      },
+      {
+        "sidecarStartExit": 0,
+        "stdout": "{\"status\": \"ready\", \"pid\": 5850, \"gpuWaitSeconds\": 0.08755839988589287, \"health\": {\"ready\": true, \"model\": \"perplexity-ai/pplx-decider-v1-27b\", \"revision\": \"b01a5cbaca5391f73bd55103d4f27e8982cd5e60\", \"cpuOffload\": true}}\n",
+        "stderr": ""
+      }
+    ],
+    "productionModel": {
+      "object": "list",
+      "data": [
+        {
+          "id": "Qwen3.8-27B-SystemOne",
+          "object": "model",
+          "created": 1791735692,
+          "owned_by": "sglang",
+          "root": "Qwen3.8-27B-SystemOne",
+          "parent": null,
+          "max_model_len": 8192
+        }
+      ]
+    },
+    "sidecar": {
+      "ready": true,
+      "model": "perplexity-ai/pplx-decider-v1-27b",
+      "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+      "cpuOffload": true
+    },
+    "supervisorState": "S",
+    "gpu": "70261 MiB, 10891 MiB"
+  },
+  "elapsedSeconds": 761.236408431083
+}

@@ -1,0 +1,1079 @@
+{
+  "schema": "pplx-timeshare/v1",
+  "registeredAt": "2026-10-11T16:09:02Z",
+  "seed": 202610120,
+  "checkpointRevision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+  "datasetSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+  "taxonomy": {
+    "memory_uaf": "memory_lifetime",
+    "memory_oob": "memory_bounds",
+    "usercopy": "memory_bounds",
+    "memory_leak": "memory_leak",
+    "lock_order": "locking",
+    "atomic_sleep": "locking",
+    "hung_task": "blocked_task",
+    "watchdog": "watchdog_lockup",
+    "rcu_stall": "rcu_progress",
+    "oom": "oom",
+    "healthy": "other_or_no_fault"
+  },
+  "cases": [
+    {
+      "caseId": "baseline",
+      "family": "healthy",
+      "split": "test"
+    },
+    {
+      "caseId": "corrupt_oob_kmalloc",
+      "family": "memory_oob",
+      "split": "train"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "family": "memory_uaf",
+      "split": "test"
+    },
+    {
+      "caseId": "leak_kmalloc",
+      "family": "memory_leak",
+      "split": "train"
+    },
+    {
+      "caseId": "leak_kmem_cache",
+      "family": "memory_leak",
+      "split": "train"
+    },
+    {
+      "caseId": "leak_ptr_overwrite",
+      "family": "memory_leak",
+      "split": "train"
+    },
+    {
+      "caseId": "leak_vmalloc",
+      "family": "memory_leak",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_ACCESS_NULL",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_ACCESS_USERSPACE",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_BUG",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_LIST_ADD",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_LIST_DEL",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_STACK",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_STACK_STRONG",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXCEPTION",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_DATA",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_KMALLOC",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_NULL",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_RODATA",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_STACK",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_USERSPACE",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXEC_VMALLOC",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_EXHAUST_STACK",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "family": "hung_task",
+      "split": "test"
+    },
+    {
+      "caseId": "lkdtm_LOOP",
+      "family": "watchdog",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_OVERWRITE_ALLOCATION",
+      "family": "memory_oob",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_PANIC",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_READ_AFTER_FREE",
+      "family": "memory_uaf",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_READ_BUDDY_AFTER_FREE",
+      "family": "memory_uaf",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_ADD_OVERFLOW",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_DEC_NEGATIVE",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_DEC_SATURATED",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_DEC_ZERO",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_INC_OVERFLOW",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_INC_SATURATED",
+      "family": "refcount",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_CROSS",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_DOUBLE",
+      "family": "memory_uaf",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_PAGE",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "family": "watchdog",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_STACK_GUARD_PAGE_LEADING",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_STACK_GUARD_PAGE_TRAILING",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_UNSET_SMEP",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "family": "usercopy",
+      "split": "test"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "family": "usercopy",
+      "split": "test"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "family": "usercopy",
+      "split": "test"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "family": "usercopy",
+      "split": "test"
+    },
+    {
+      "caseId": "lkdtm_WARNING",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_WARNING_MESSAGE",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_WRITE_AFTER_FREE",
+      "family": "memory_uaf",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_WRITE_BUDDY_AFTER_FREE",
+      "family": "memory_uaf",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_WRITE_KERN",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_WRITE_RO",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lkdtm_WRITE_RO_AFTER_INIT",
+      "family": "protection",
+      "split": "train"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "family": "lock_order",
+      "split": "test"
+    },
+    {
+      "caseId": "lock_rcu_stall",
+      "family": "rcu_stall",
+      "split": "train"
+    },
+    {
+      "caseId": "lock_sleep_atomic",
+      "family": "atomic_sleep",
+      "split": "train"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "family": "lock_order",
+      "split": "test"
+    },
+    {
+      "caseId": "pressure_oom",
+      "family": "oom",
+      "split": "train"
+    }
+  ],
+  "schedule": [
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_LOOP",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WRITE_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_READ_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_OVERWRITE_ALLOCATION",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_READ_BUDDY_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "corrupt_oob_kmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_sleep_atomic",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "leak_kmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WRITE_BUDDY_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_DOUBLE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "pressure_oom",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_rcu_stall",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "leak_kmem_cache",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "leak_ptr_overwrite",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "leak_vmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "scored": true,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_STACK",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_DEC_ZERO",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXHAUST_STACK",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_LIST_DEL",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_PANIC",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_UNSET_SMEP",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_USERSPACE",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_INC_SATURATED",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_ADD_NOT_ZERO_OVERFLOW",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_LIST_ADD",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_NULL",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WRITE_RO",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_ACCESS_USERSPACE",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_DEC_NEGATIVE",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_VMALLOC",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_KMALLOC",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_STACK",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_BUG",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_PAGE",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_INC_NOT_ZERO_OVERFLOW",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_DATA",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_DEC_SATURATED",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXCEPTION",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WARNING",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_STACK_GUARD_PAGE_LEADING",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_CROSS",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WARNING_MESSAGE",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_ADD_OVERFLOW",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_EXEC_RODATA",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_CORRUPT_STACK_STRONG",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_ACCESS_NULL",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WRITE_RO_AFTER_INIT",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_WRITE_KERN",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_STACK_GUARD_PAGE_TRAILING",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lkdtm_REFCOUNT_INC_OVERFLOW",
+      "repeat": 0,
+      "scored": false,
+      "arm": "pplx"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_LOOP",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_WRITE_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_READ_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_OVERWRITE_ALLOCATION",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_READ_BUDDY_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "corrupt_oob_kmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_sleep_atomic",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "leak_kmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_WRITE_BUDDY_AFTER_FREE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_SLAB_FREE_DOUBLE",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "pressure_oom",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_rcu_stall",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "leak_kmem_cache",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "leak_ptr_overwrite",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "leak_vmalloc",
+      "repeat": 0,
+      "scored": true,
+      "arm": "generic"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "scored": true,
+      "arm": "generic"
+    }
+  ],
+  "formalCalls": 121,
+  "warmupsExcluded": 2,
+  "primary": "9 existing test cases, three dependent repeats per arm, family agreement",
+  "secondary": "16 additional mapped train cases, one repeat per arm; 35 PPLX-only unsupported cases unscored",
+  "gpuSharedBetweenArms": false,
+  "precision": "BF16",
+  "clientConcurrency": 1,
+  "questionsPerCall": 3,
+  "contextPerQuestion": 8192,
+  "runtime": "PPLX official reference Transformers SDPA versus generic SGLang 0.5.21. No CPU offload; runtime/kernel/prompt differences remain. Deployment comparison, not pure weight causal comparison.",
+  "order": "PPLX then generic; same randomized shared case/repeat order in both; temporal confounding remains.",
+  "genericRadixCache": false,
+  "timeoutSeconds": 180,
+  "retries": 0,
+  "blind": false,
+  "labelCaveat": "Injection proxy differs from first diagnosis in LOOP/SOFTLOCKUP; stage/reporter/root truth unavailable; natural log symbols retained.",
+  "code": {
+    "boundary_router.py": "82df220f843b8a65606e221f32668b96da5c1116c66f9f9f261850fdb49a845e",
+    "localization_agent.py": "a16458a99a1b159121b4aea812285ce2d01d7ebd55c78a8eea8e34a3c0f892ef",
+    "boundary-worker.py": "7779f295d75f6f5c29ef5de3a53d9c25c40908f05d65636be1525761980f7a6e",
+    "decision_plugin.py": "43abd37e5baa101e078c87c41d01110cc290a6cee19e1c237a40fd4cdf08cc69"
+  },
+  "experimentCode": {
+    "boundary-worker.py": "7779f295d75f6f5c29ef5de3a53d9c25c40908f05d65636be1525761980f7a6e",
+    "orchestrate.py": "72284bd5f927df7225d98495d0789a94358c4e20680ad4bba6b34d1df9fcaa89",
+    "serve.py": "19973933a2524dd693db0264faf6b49879c8fcca5029eee28ca44bd3092db5fc",
+    "benchmark.py": "d16bb0fe50f0316100acf3f554ae0c9e8ebc8a3ccde6bec9bbca7a0dab09a022"
+  },
+  "productionScoresWritten": false
+}

@@ -14,3 +14,5 @@ tests/fixtures/community-v1/*.txt -text
 /research/pplx-decider-20261011/** -text whitespace=cr-at-eol
 /research/pplx-decider-20261011/figures/*.svg -text whitespace=-blank-at-eol,cr-at-eol
 /deployment/pplx-decider/** -text whitespace=cr-at-eol
+/research/pplx-timeshare-20261012/** -text whitespace=cr-at-eol
+/research/pplx-timeshare-20261012/figures/*.svg -text whitespace=-blank-at-eol,cr-at-eol

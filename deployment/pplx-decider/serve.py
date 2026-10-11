@@ -4,7 +4,7 @@ CPU offload changes placement, not BF16 weights, question rendering or saved tem
 This is a weight/accuracy test runtime, not a native-SGLang speed benchmark.
 """
 import argparse,pathlib,sys,json,os,time,threading
-p=argparse.ArgumentParser();p.add_argument('--checkpoint',type=pathlib.Path,required=True);p.add_argument('--port',type=int,default=30002);p.add_argument('--gpu-weight-limit',default='10GiB');p.add_argument('--cpu-memory-limit',default='64GiB');p.add_argument('--record',type=pathlib.Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--checkpoint',type=pathlib.Path,required=True);p.add_argument('--port',type=int,default=30002);p.add_argument('--gpu-weight-limit',default='10GiB');p.add_argument('--cpu-memory-limit',default='64GiB');p.add_argument('--placement',choices=['cpu-offload','full-gpu'],default='cpu-offload');p.add_argument('--record',type=pathlib.Path,required=True);a=p.parse_args()
 verified=json.loads((a.checkpoint/'verified-checkpoint.json').read_text());assert verified['complete'] and verified['revision']=='b01a5cbaca5391f73bd55103d4f27e8982cd5e60'
 os.environ['HF_HUB_OFFLINE']='1';os.environ['TRANSFORMERS_OFFLINE']='1';sys.path.insert(0,str(a.checkpoint/'source/src'))
 import torch
@@ -29,14 +29,17 @@ async def lifespan(app):
  assert len(model.codes)==len(model.token_ids)==255
  assert [model.processor.tokenizer.encode(c,add_special_tokens=False)[0] for c in model.codes]==model.token_ids
  assert all(len(model.processor.tokenizer.encode(c,add_special_tokens=False))==1 for c in model.codes)
- model.backbone=Qwen3_5Model.from_pretrained(str(a.checkpoint),local_files_only=True,dtype=torch.bfloat16,attn_implementation='sdpa',device_map='auto',max_memory={0:a.gpu_weight_limit,'cpu':a.cpu_memory_limit},low_cpu_mem_usage=True)
+ placement={'device_map':{'':0}} if a.placement=='full-gpu' else {'device_map':'auto','max_memory':{0:a.gpu_weight_limit,'cpu':a.cpu_memory_limit}}
+ model.backbone=Qwen3_5Model.from_pretrained(str(a.checkpoint),local_files_only=True,dtype=torch.bfloat16,attn_implementation='sdpa',low_cpu_mem_usage=True,**placement)
  model.readout=torch.nn.Linear(model.backbone.config.text_config.hidden_size,MAX_OPTIONS,bias=False,dtype=torch.bfloat16,device='cuda');model.readout.load_state_dict(load_file(str(a.checkpoint/'readout.safetensors')));model.requires_grad_(False);model.eval()
- a.record.write_text(json.dumps({'model':verified['model'],'revision':verified['revision'],'runtime':'official-reference/transformers-accelerate-cpu-offload','dtype':'bfloat16','temperature':model.temperature,'gpuWeightLimit':a.gpu_weight_limit,'cpuMemoryLimit':a.cpu_memory_limit,'deviceMap':model.backbone.hf_device_map,'loadSeconds':time.monotonic()-start,'nativeSglangSpeedComparable':False,'torch':torch.__version__},indent=2));print('MODEL_READY',flush=True)
+ parameter_devices=sorted({str(v.device) for v in model.parameters()})
+ if a.placement=='full-gpu':assert parameter_devices==['cuda:0'],'Full-GPU profile cannot contain CPU or meta parameters'
+ a.record.write_text(json.dumps({'model':verified['model'],'revision':verified['revision'],'runtime':'official-reference/transformers-'+a.placement,'placement':a.placement,'dtype':'bfloat16','temperature':model.temperature,'gpuWeightLimit':a.gpu_weight_limit if a.placement=='cpu-offload' else None,'cpuMemoryLimit':a.cpu_memory_limit if a.placement=='cpu-offload' else None,'deviceMap':getattr(model.backbone,'hf_device_map',{'':str(next(model.backbone.parameters()).device)}),'parameterDevices':parameter_devices,'parameterBytes':sum(v.numel()*v.element_size() for v in model.parameters()),'loadSeconds':time.monotonic()-start,'nativeSglangSpeedComparable':False,'torch':torch.__version__},indent=2));print('MODEL_READY',flush=True)
  yield
  model=None
 app=FastAPI(lifespan=lifespan)
 @app.get('/health')
-def health():return {'ready':model is not None,'model':verified['model'],'revision':verified['revision'],'cpuOffload':True}
+def health():return {'ready':model is not None,'model':verified['model'],'revision':verified['revision'],'cpuOffload':a.placement=='cpu-offload'}
 def infer(body):
  questions=body['questions'];rows=[{'state':body['state'],'question':q} for q in questions.values()]
  with torch.inference_mode():

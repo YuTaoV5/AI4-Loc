@@ -1,5 +1,7 @@
 # PPLX-Decider v1：服务器部署、下载与验收手册
 
+2026-10-12 补充：按分时复用完成的全GPU测试单独记录于 [复测入口](../research/pplx-timeshare-20261012/README.md)。下文2026-10-11的CPU卸载部署/验收保持历史条件，不用于全GPU速度比较。
+
 记录日期：2026-10-11。此手册记录实际部署方式及复现命令；本轮验收证据见 [deployment/pplx-decider/validation](../deployment/pplx-decider/validation/)。历史 121 次分类实验保持独立，见 [实测报告](../research/pplx-decider-20261011/REPORT.md)。
 
 最终验收：服务保持运行，PID2638；真实三类型接口和项目客户端均通过，推理后停止/重启及再次推理通过。两处生命周期问题已修复并保留失败记录；部署脚本五个SHA256与提交文件一致。这里的“验证通过”限定为下述已执行项目，不包含网站切换、原生SGLang或重启宿主机恢复。
@@ -160,6 +162,24 @@ PY
 | API | GET /health、POST /v1/systemone；无 /v1/chat/completions |
 
 管理器把 stdout/stderr 追加至 `state/server.log`，写 PID/启动时间及 `state/runtime.json`，脱离 SSH 后保持运行。它不负责崩溃自动重启或容器重启后自动恢复；平台重新启动后须执行 start，或按上面的前台命令添加平台托管。不要同时运行两套管理器占用同一端口。
+
+### 完整GPU驻留（分时维护使用）
+
+更新后的 `serve.py` 支持 `--placement full-gpu`；显式把整个backbone与专用readout放在cuda:0，并逐参数断言没有CPU/meta参数。该模式忽略cpu-memory-limit/gpu-weight-limit；这两个额度仅用于默认cpu-offload模式。不能只把额度调大后仍让auto静默卸载。
+
+本轮使用实验目录的冻结入口；恢复后的常驻服务磁盘入口仍为e415d96版本。要使用以下新参数，先按本文上传步骤将仓库新版serve.py复制到目标服务目录；不要给旧版入口传入新参数。
+
+在已释放原GPU模型并确认显存足够的维护窗口，前台命令为：
+
+```bash
+"$PPLX_HOME/venv/bin/python" "$PPLX_HOME/serve.py" \
+  --checkpoint "$PPLX_MODEL" --placement full-gpu \
+  --port 30002 --record "$PPLX_HOME/state/full-gpu-runtime.json"
+```
+
+检查runtime中的placement=full-gpu、parameterDevices仅含cuda:0，及health的cpuOffload=false。本轮完整参数52173271520字节（48.59GiB）。需要额外显存放置激活等运行内存，49GiB不是启动总显存要求。当前service.py管理入口仍使用默认CPU卸载配置；完整GPU模式使用上述前台命令或本轮受保护的分时实验控制器，不给管理器传入其不支持的placement参数。
+
+本平台通用模型由Go Supervisor管理、未配置控制RPC，直接结束模型会被自动拉起。此次维护控制器保存原进程身份/配置，短暂暂停Supervisor监控，在独立恢复守护保护下分时测试，再恢复监控让原配置重新启动。SSH/Ollama等子服务继续运行，但监控暂停期间它们的自动重启暂不可用。此流程仅适用于已经核验的当前容器，不能照搬固定PID到其他机器；其他平台优先使用正常的模型服务管理接口。失败启动与恢复记录均单独保留。
 
 ## 8. 请求、验证及 Agent 接入
 

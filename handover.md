@@ -1,6 +1,16 @@
 # AI 接手手册 · Kernel Insight
 
-## PPLX 独立常驻服务与部署手册（2026-10-11；最新模型部署状态）
+## PPLX 全 GPU 分时复用复测（2026-10-12；最新状态）
+
+- 按用户要求先卸载通用模型及PPLX CPU sidecar，让真实PPLX独占同一A100；78次PPLX调用结束并释放显存后，再加载通用模型完成43次调用。正式121次、另2次预热；0接口失败。协议先冻结，SHA256 `e7f831a2caa938ed5be46006b082dcc2d420ec74103993692056f28fc1f7121ab`。旧CPU卸载结果保持独立，不作为全GPU对照。
+- PPLX BF16参数共52173271520字节（48.59GiB），逐参数设备只含cuda:0，无CPU/meta参数。研究入口 `research/pplx-timeshare-20261012/README.md`，报告 `REPORT.md` / `report.html`；121次标量/概率、协议、设备与恢复证据、4组科研图及离线复算/独立核对脚本均保留。
+- test两端均27/27、唯一案例多数均9/9；25个映射案例repeat=0均23/25。test均值：PPLX 5.672s、通用2.563s，PPLX约慢2.21倍；P95分别6.891s/3.093s。全GPU已消除CPU卸载和同时驻留影响，但PPLX为Transformers/SDPA、通用为SGLang且关闭实验radix缓存，顺序固定PPLX→通用；不能归因纯权重速度。9案例配对探索性p=0.003906，5家族敏感性p=0.0625；不宣称跨机制显著或准确率等效。
+- 121匿名隔离/实际请求审计通过，无额外标签/评分/ID字段；自然LKDTM符号仍在63请求、41唯一案例中。test已用于开发，不是盲测。LOOP/SOFTLOCKUP标签构念缺口保留；35未映射案例不评分。未测试完整根因定位或引入提交准确率。
+- 首次尝试 `pplx-timeshare-20261011` 的记录代码读取不存在的hf_device_map属性而失败，0正式调用；原服务恢复后修复，用新目录冻结重跑。当前完成状态completed，控制器与独立恢复守护已退出，Supervisor50恢复S。通用模型30000恢复；PPLX CPU sidecar30002恢复，PID5850。恢复后两个Decision端点真实合成UAF均通过，Chat HTTP200；这些验收不计入正式分母。最终GPU70517MiB、余10635MiB。网站8787此前不可用，本次未执行网站恢复。
+- 当前常驻仍为原通用模型加CPU sidecar；全GPU是已结束的维护实验。持久服务serve.py仍为e415d96版本，本轮新placement入口只在实验目录执行；仓库部署实现已新增full-gpu选项，管理器默认CPU卸载不变。部署手册已补全GPU命令及维护恢复限制，不能照搬固定PID。
+- 原始证据服务器 `/opt/kernel-insight/experiments/pplx-timeshare-20261012/retained-evidence.tgz`；本地 `data/local-archive/pplx-timeshare-20261012/retained-evidence.tgz`，624383字节，536证据文件，SHA256 `1e6e699a0bd6fac1b456e71fa551815920300e44f7623151f417a1cc1da6a83b3`。归档与逐文件哈希均核对一致，包含首次失败日志与恢复记录；不含私有进程环境、账号或权重。Git仅发布派生数据、脚本、图及文档。
+
+## PPLX 独立常驻服务与部署手册（2026-10-11；历史部署验收）
 
 - 已部署并保持运行：`/opt/kernel-insight/services/pplx-decider-v1/`，服务 PID2638，loopback `http://127.0.0.1:30002/v1/systemone`，真实 v1 checkpoint；BF16、GPU权重10GiB、CPU权重64GiB、单请求锁。与下方历史实验的临时服务已退出状态区分；本次没有变更历史协议或121次成绩。
 - 完整手册 `docs/PPLX_DECIDER_DEPLOYMENT.md`，实现 `deployment/pplx-decider/`，包括官方固定revision链接、镜像与哈希校验、环境复用、参数、Windows隧道、Agent接入、启动/停止/状态/验收脚本。新独立venv复用平台Torch/Transformers，只安装Accelerate；不依赖历史实验venv，但依赖 `/root/systemone-venv` 平台包。
@@ -9,7 +19,7 @@
 - 最终GPU占用71149MiB、余10003MiB；原30000模型HTTP200、PID65未变。网站8787此前不可用，本轮未恢复网站或切生产模型。本服务不提供Chat/图像/自动崩溃重启/容器重启自动恢复；需要平台托管时按手册前台命令配置。
 - 私有部署归档本地 `data/local-archive/pplx-deployment-20261011/deployment-validation.tgz` 与服务器服务目录同名文件一致，8449字节，SHA256 `6c94eec0d033db11034f41bcf9c6a06536ecafbbd4abf50340005530d7ea6634`。Git只发布合成验收结果、脚本与文档，不发布权重、账号或业务日志。
 
-## PPLX-Decider 专用权重实测（2026-10-11；最新实验与服务器观察）
+## PPLX-Decider 专用权重实测（2026-10-11；历史CPU卸载实验）
 
 - 入口 `research/pplx-decider-20261011/README.md`，详细报告 `REPORT.md` / `report.html`，121 次公开派生记录、概率、协议、校验摘要及四组科研图。真实模型 `perplexity-ai/pplx-decider-v1-27b`，revision `b01a5cbaca5391f73bd55103d4f27e8982cd5e60`；30 文件、11 backbone 分片按官方元数据逐一校验，专用 readout / 保存温度实际使用。镜像仅作传输来源。
 - 正式121次：9 test×3×2=54，其他16映射 train×1×2=32，35未覆盖家族×1 PPLX=35；另排除2合成预热。0失败、121匿名 worker/轨迹审计通过。两模型 test 均27/27、案例多数均9/9；25例 repeat=0 对照均23/25。未观察提分优势，无显著差异不等于非劣或等效成立。
