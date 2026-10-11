@@ -10,3 +10,6 @@ tests/fixtures/community-v1/*.txt -text
 # Research protocols fingerprint exact executed bytes, including CRLF on the server.
 /research/decision-localization-20261011/** -text whitespace=cr-at-eol
 /output/pdf/*.pdf binary
+
+/research/pplx-decider-20261011/** -text whitespace=cr-at-eol
+/research/pplx-decider-20261011/figures/*.svg -text whitespace=-blank-at-eol,cr-at-eol

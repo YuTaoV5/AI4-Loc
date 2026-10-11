@@ -4,6 +4,9 @@
 
 - [Decision 学术研究报告与复现入口](../research/decision-localization-20261011/README.md)：21 页 PDF、离线网页、8 组科研图、135 次新增随机配对消融及公开派生数据；包含家族聚类敏感性、历史完整定位反证与标签隔离边界。
 
+- [PPLX-Decider 真实专用权重实测](../research/pplx-decider-20261011/README.md)：121 次调用、固定 checkpoint 校验、配对家族结果、概率热力图与 CPU 卸载性能边界。
+- [第一诊断与注入标签的语义缺口](DATASET_DIAGNOSTIC_LABEL_GAP_20261011.md)：LOOP / SOFTLOCKUP 复核及后续标注方案。
+
 ## 插件与 Agent 代码
 
 | 内容 | 文件入口 |

@@ -1,0 +1,188 @@
+{
+  "model": "perplexity-ai/pplx-decider-v1-27b",
+  "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+  "files": [
+    {
+      "name": "LICENSE",
+      "bytes": 11544,
+      "officialDigest": "f938136e3adacfd92be087f6e113b5d6d97f678f",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "NOTICE",
+      "bytes": 566,
+      "officialDigest": "38e08aba8841556d9e0bc4a90bd68a7c103eb283",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "README.md",
+      "bytes": 2385,
+      "officialDigest": "f8bdbafa321a3001d0fa4383c64a9e61d1c568dd",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "chat_template.jinja",
+      "bytes": 8952,
+      "officialDigest": "c0c686f9c38d70d179fb7b5f5aa7530bc913dda3",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "config.json",
+      "bytes": 3757,
+      "officialDigest": "677de5385197b35cec876101d24f574114feac6b",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "decision_config.json",
+      "bytes": 6482,
+      "officialDigest": "2dbeaf38aaf89ad51bfcfca3f9f666b1b540eb25",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "inference.py",
+      "bytes": 3833,
+      "officialDigest": "df13d6195109eb6b1379371c9a634b80b85b1938",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "model-00001-of-00011.safetensors",
+      "bytes": 4997471976,
+      "officialDigest": "58569725c35cadab80cb8c979bc2f86dd060a7156c09ef69bc7cd759512da341",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00002-of-00011.safetensors",
+      "bytes": 4965144568,
+      "officialDigest": "1b2a3af03da7f7997d4e88f6d1c1c7173a8d241165c3f06b040be41827846f4c",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00003-of-00011.safetensors",
+      "bytes": 4933789248,
+      "officialDigest": "f72a874e019dfe8a0cb02e5d0105d3481743b8a163ea4a4275f1b0de26e5e6a6",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00004-of-00011.safetensors",
+      "bytes": 4965227496,
+      "officialDigest": "5912f502fbe9cf9d0e326f15ab0a50555efc411da32c8ec035b4678e84238c2e",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00005-of-00011.safetensors",
+      "bytes": 4974750552,
+      "officialDigest": "1a070c547f61d143662a3eb7a705f59fbad79141a91d0dfc93beeb0ae4e04433",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00006-of-00011.safetensors",
+      "bytes": 4924266240,
+      "officialDigest": "7d9baeef76e6bf2e898ecef17cc7998292038f494900a2504a722c4aca1df5a3",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00007-of-00011.safetensors",
+      "bytes": 4974750560,
+      "officialDigest": "087eb8ead9cdec86d9f30ee5af04aefc4ec2271c0f25ff2899fdebce5a72ba7f",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00008-of-00011.safetensors",
+      "bytes": 4902229944,
+      "officialDigest": "8c15e947d1fb961817b9fac90ff99df3a0677e4c95c6085e420fa0ce4c1f018d",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00009-of-00011.safetensors",
+      "bytes": 4996786840,
+      "officialDigest": "5e2821efd5ed9abfe4fca2c8e7bf7a278a928a754d74dc1de4164bb7b27fdad0",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00010-of-00011.safetensors",
+      "bytes": 4902229960,
+      "officialDigest": "a1a54045af3155fefcf2f36cd1a4b7dfd3c22e0f305ee8466e7a3bdd4b314649",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model-00011-of-00011.safetensors",
+      "bytes": 2634155256,
+      "officialDigest": "7c849c5bcf4d5e8d4d14c8ad13a4cc320b9090f31bb865edee6354b2d4106007",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "model.safetensors.index.json",
+      "bytes": 103954,
+      "officialDigest": "d8b3102fa62fdb8e4ed1befb8ce04864ad8cfce8",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "processor_config.json",
+      "bytes": 1218,
+      "officialDigest": "b7df4377fc4140c120d853dce13694a25b31022e",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "readout.safetensors",
+      "bytes": 2611288,
+      "officialDigest": "5b397c635e8677de8fcc971fcd33b9c6d2ecfe2b0e5690d4fc49c6cc0b78fd92",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2983,
+      "officialDigest": "0a3140e34083e9d8a7ad57f592e8f0c65ac5d7c6",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "source/LICENSE",
+      "bytes": 1069,
+      "officialDigest": "37a70ee3f8f787340b441b53859b06887971a591",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "source/src/autojev/__init__.py",
+      "bytes": 65,
+      "officialDigest": "68fbcb222fee4c2797363cddad31122a4cb0e140",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "source/src/autojev/model.py",
+      "bytes": 13443,
+      "officialDigest": "d9877e663fe731f56c14569d423fa9c8d02547ff",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "source/src/autojev/playground.html",
+      "bytes": 21509,
+      "officialDigest": "45f46df083b466b5c45b14494f1d629c98854556",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "source/src/autojev/server.py",
+      "bytes": 8505,
+      "officialDigest": "b7d5f0e461d13f71a6319ff4344e2e9a3b567edd",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "source/src/autojev/types.py",
+      "bytes": 1852,
+      "officialDigest": "b803710814ae8efb06f8a6a83a4188056b909be3",
+      "algorithm": "git-blob-sha1"
+    },
+    {
+      "name": "tokenizer.json",
+      "bytes": 19989492,
+      "officialDigest": "6f32ce20dc35f57a7f9ad1eac03525bd7d30f9df8cea6507e958279cc3657706",
+      "algorithm": "sha256"
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 1165,
+      "officialDigest": "48e883d93941a5b318ea53dcac02d96fa23b599e",
+      "algorithm": "git-blob-sha1"
+    }
+  ],
+  "complete": true,
+  "seconds": 986.9193480201066
+}

@@ -1,0 +1,84 @@
+{
+  "formalRequests": 121,
+  "counts": {
+    "tracesReturned": 121,
+    "requestsContainingCaseNameAsLogText": 63
+  },
+  "caseNameTextUniqueCases": 41,
+  "frozenSourceHashesPassed": {
+    "boundary_router.py": true,
+    "localization_agent.py": true,
+    "boundary-worker.py": true,
+    "decision_plugin.py": true
+  },
+  "labelFieldAudit": "No caseId, gold, injectionFamily, evaluator result or dataset path fields in actual model requests. Natural LKDTM stack symbols and workload clues remain; this is not a blinded or shortcut-free test.",
+  "firstDiagnosticReview": [
+    {
+      "caseId": "lkdtm_LOOP",
+      "line": 444,
+      "text": "[   45.052633] rcu: INFO: rcu_sched self-detected stall on CPU",
+      "frozenInjectionTarget": "watchdog_lockup",
+      "prediction": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "line": 443,
+      "text": "[   47.338196] rcu: INFO: rcu_sched self-detected stall on CPU",
+      "frozenInjectionTarget": "watchdog_lockup",
+      "prediction": "rcu_progress"
+    }
+  ],
+  "archive": {
+    "bytes": 626206,
+    "sha256": "0b6b2f6608eae8c819abe173c2ab1dec8319fc17abc23f33721e728131538a61"
+  },
+  "completion": {
+    "status": "completed",
+    "elapsedSeconds": 1568.7044982910156,
+    "productionModel": {
+      "object": "list",
+      "data": [
+        {
+          "id": "Qwen3.8-27B-SystemOne",
+          "object": "model",
+          "created": 1791731870,
+          "owned_by": "sglang",
+          "root": "Qwen3.8-27B-SystemOne",
+          "parent": null,
+          "max_model_len": 8192
+        }
+      ]
+    }
+  },
+  "postcheck": {
+    "checkedAt": "2026-10-11T15:18:18Z",
+    "services": {
+      "30000": {
+        "status": 200,
+        "body": {
+          "object": "list",
+          "data": [
+            {
+              "id": "Qwen3.8-27B-SystemOne",
+              "object": "model",
+              "created": 1791731898,
+              "owned_by": "sglang",
+              "root": "Qwen3.8-27B-SystemOne",
+              "parent": null,
+              "max_model_len": 8192
+            }
+          ]
+        }
+      },
+      "8787": {
+        "error": "URLError"
+      },
+      "30002": {
+        "error": "URLError"
+      }
+    },
+    "gpu": "NVIDIA A100-SXM4-80GB, 61392 MiB, 81920 MiB",
+    "productionPid65Exists": true,
+    "checkpointDisk": "Filesystem                                                         Size  Used Avail Use% Mounted on\n/dev/mapper/lvmdata-pvc--99f5e1b8--824e--4254--a1d1--f12a4fd5b63b  147G  139G  8.3G  95% /root/gpufree-data"
+  }
+}

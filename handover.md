@@ -1,5 +1,16 @@
 # AI 接手手册 · Kernel Insight
 
+## PPLX-Decider 专用权重实测（2026-10-11；最新实验与服务器观察）
+
+- 入口 `research/pplx-decider-20261011/README.md`，详细报告 `REPORT.md` / `report.html`，121 次公开派生记录、概率、协议、校验摘要及四组科研图。真实模型 `perplexity-ai/pplx-decider-v1-27b`，revision `b01a5cbaca5391f73bd55103d4f27e8982cd5e60`；30 文件、11 backbone 分片按官方元数据逐一校验，专用 readout / 保存温度实际使用。镜像仅作传输来源。
+- 正式121次：9 test×3×2=54，其他16映射 train×1×2=32，35未覆盖家族×1 PPLX=35；另排除2合成预热。0失败、121匿名 worker/轨迹审计通过。两模型 test 均27/27、案例多数均9/9；25例 repeat=0 对照均23/25。未观察提分优势，无显著差异不等于非劣或等效成立。
+- LOOP/SOFTLOCKUP 注入标签为 watchdog，但第一诊断为 RCU stall，两端均预测 RCU。保留冻结得分，不能直接称模型错误；见 `docs/DATASET_DIAGNOSTIC_LABEL_GAP_20261011.md`。阶段、reporter、根因机制与引入提交缺独立真值，未报准确率。未覆盖35例 correct=null。
+- 在原通用模型继续驻留条件下，PPLX 使用官方参考实现 BF16 CPU 卸载、GPU权重额度10GiB；不是原生 SGLang PPLX。test 平均客户端耗时19.455s，对照1.485s；该差异含 CPU 传输与运行时差异，不能判断同条件全 GPU 速度。没有切生产模型、没有重启 SGLang/Ollama。
+- 模型请求无额外标签、评分、案例 ID 或数据集路径字段；但63/121请求、41唯一案例含与案例名重合的自然日志函数名，存在捷径可能。既有 test 参与开发，本轮不宣称去线索盲测或陌生机制泛化。CPU/GPU共享、提示/读出路径不同也限制纯权重因果归因。
+- 私有证据服务器 `/opt/kernel-insight/experiments/pplx-decider-20261011/`；本地 `data/local-archive/pplx-decider-20261011/retained-evidence.tgz`，626206字节，SHA256 `0b6b2f6608eae8c819abe173c2ab1dec8319fc17abc23f33721e728131538a61`。归档及518文件哈希一致；账号/完整请求/日志不进 Git。52GB级可重复下载权重仅在服务器缓存，缓存盘余8.3GiB。
+- 最新服务观察：测试前及结束后网站8787均不响应，项目Supervisor端口亦曾不可用；上文/下文早先“网站健康”是历史状态。原模型30000仍HTTP200、PID65存活；临时30002已正常退出。当前任务未恢复网站。后续若继续线上功能，先按部署 runbook 检查恢复，不能把模型服务健康当作网站健康。
+- 下一步：纠正诊断/注入/因果标签结构；独立GPU同运行时比较专用模型速度；新机制盲测及同Chat/工具预算的完整Agent配对实验。本轮不改历史论文结论，也未证明根因定位提升。
+
 ## Decision 学术研究报告与补充实验（2026-10-11；最新研究状态）
 
 - 交付入口 `research/decision-localization-20261011/README.md`，21 页 PDF 位于 `output/pdf/AI4Loc_Decision_Academic_Report_20261011.pdf`，另有离线 HTML、Markdown、8 组 SVG/PNG、公开派生 CSV、冻结协议与复算脚本。报告包含系统理论约束、DSH/Jev-like 契约、流程图、配对统计、消融、失败机制、泄露和效度边界；不是已投稿或获奖论文。
