@@ -37,6 +37,7 @@ app.get('/api/benchmark',(_,res)=>{const b=benchmark();res.json({...b,total:b.ca
 app.get('/api/benchmark/:id/log',(req,res)=>{const c=benchmark().cases.find(c=>c.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});res.type('text/plain').sendFile(path.resolve(benchmarkDir,c.logPath));});
 app.get('/api/jobs',(req,res)=>res.json(state.jobs.filter(j=>req.user.role==='admin'||j.ownerId===req.user.id)));
 app.get('/api/jobs/:id/progress',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});res.json(taskProgress.snapshot(j));});
+app.get('/api/jobs/:id/trace',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});res.set('Cache-Control','no-store');res.json(require('./agent-trace').readTrace(data,j));});
 app.get('/api/jobs/:id/events',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});taskProgress.stream(req,res,j);});
 app.get('/api/kernels',(_,res)=>res.json(kernels.list()));
 app.get('/api/kernels/:key/source',wrap(async(req,res)=>{

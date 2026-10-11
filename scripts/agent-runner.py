@@ -1,5 +1,5 @@
 """Run a real dsh SDK turn; emit progress without streaming private reasoning."""
-import dataclasses, importlib.metadata, json, os, pathlib, re, sys, time
+import dataclasses, datetime, importlib.metadata, json, os, pathlib, re, sys, time
 
 def emit(value):
     print(json.dumps(value, ensure_ascii=False), flush=True)
@@ -42,6 +42,9 @@ Observed families (routing hints only, not ground truth): '''+families
     from deepseek_harness import DeepSeekHarness
     tools=[]
     last_progress=[0]
+    def trace(row):
+        row['startedAt']=datetime.datetime.now(datetime.timezone.utc).isoformat()
+        with (workspace/'dsh-trace.jsonl').open('a',encoding='utf-8') as output:output.write(json.dumps(row,ensure_ascii=False,default=str)+'\n')
     def notification(value):
         # Surface status/tool metadata only; model reasoning remains in isolated runtime storage.
         event=value if isinstance(value,dict) else dataclasses.asdict(value) if dataclasses.is_dataclass(value) else getattr(value,'__dict__',{})
@@ -50,6 +53,7 @@ Observed families (routing hints only, not ground truth): '''+families
                 kind=value.get('type',value.get('kind',''))
                 if kind in ['tool/call','tool/result']:
                     data=value.get('data',{});name=str(data.get('name','bash'))[:100]
+                    trace({'type':kind,'name':name,'callId':data.get('callId'),'arguments':data.get('arguments',data.get('args')) if kind=='tool/call' else None,'result':data.get('result',data.get('output')) if kind=='tool/result' else None})
                     emit({'type':'progress','message':('dsh 正在调用工具：' if kind=='tool/call' else '工具返回，Qwen 正在核对证据：')+name,'kind':'tool'})
                     return
                 if kind in ['assistant/message','assistant/stream'] and time.time()-last_progress[0]>2:
@@ -60,15 +64,19 @@ Observed families (routing hints only, not ground truth): '''+families
         scan(event)
     start=time.monotonic()
     emit({'type':'progress','message':'dsh harness 已启动，准备调用 '+request['model'],'kind':'model'})
+    trace({'type':'harness/start','name':request['model'],'status':'started'})
     with DeepSeekHarness(provider='deepseek-official',model=request['model'],max_tokens=4096,
                          cwd=str(workspace),dsh_home=str(home),profile='sdk-minimal',patches=patches,
                          base_url=request['baseUrl'],api_key=os.environ['DEEPSEEK_API_KEY'],
                          initialize_timeout_seconds=60,request_timeout_seconds=request['timeout']) as harness:
         result=harness.run(prompt,session_id='kernel-'+workspace.name,on_notification=notification)
+        trace({'type':'harness/result','name':request['model'],'status':str(result.finish_reason)})
         events=list(result.events);attempts=1;first_reason=result.finish_reason
         if parse_response(result.final_response) is None:
             emit({'type':'progress','message':'模型输出未满足报告协议，正在进行一次受限修正','kind':'validation'})
+            trace({'type':'harness/start','name':request['model'],'status':'repair-started'})
             result=harness.run('Your previous final reply was not a diagnostic JSON report. If you printed a bash command, actually invoke the bash tool rather than quoting it. Read bounded evidence from input.log, then return only the required JSON object, with at most two hypotheses. Do not read any answer files. No more than two tool calls.',session_id='kernel-'+workspace.name,on_notification=notification)
+            trace({'type':'harness/result','name':request['model'],'status':str(result.finish_reason)})
             events.extend(result.events);attempts=2
     # Retain tool-call metadata from durable events even for SDK notification variants.
     seen=set()

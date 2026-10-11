@@ -16,6 +16,8 @@
 
 ## 当前设计与部署
 
+- [任务详细进展：dsh / Decision / API 与工具轨迹](DSH_CALL_TRACE.md)
+
 - [系统方案](SYSTEM_DESIGN.md)
 - [Windows / Linux 部署](CROSS_PLATFORM_DEPLOYMENT.md)，[服务配置示例](../deployment/ai4loc.env.example)，[systemd 模板](../deployment/ai4loc.service)
 - [原服务器维护与恢复](DEPLOYMENT_RUNBOOK.md)，[远端执行链](REMOTE_AGENT_DEPLOYMENT.md)，[Windows Demo](WINDOWS_SITE.md)

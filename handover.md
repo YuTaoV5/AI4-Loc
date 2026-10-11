@@ -1,5 +1,11 @@
 # AI 接手手册 · Kernel Insight
 
+## 任务调用轨迹 Tab（2026-10-11）
+
+- 个人空间任务详细进展新增“API / 工具调用轨迹”，保留原阶段进展。可展示 Decision 问题/选项/概率/label mass、Chat 用量/耗时、closed-loop 工具参数/返回、dsh 通知与 SDK run 事件；运行中每3秒刷新。
+- 新 API `/api/jobs/:id/trace` 沿用本人/管理员权限，固定文件白名单、响应无缓存、结果长度限制；不展示完整 Prompt、模型内部推理或认证信息。旧任务回退报告已保留记录，缺失轨迹不补造。详见 `docs/DSH_CALL_TRACE.md`。
+- Node46/46、Python53/53通过；本地8788已启动并验证已有实验回放工具轨迹。未新增模型跑分、未修改远端Linux部署。私有调用文件继续位于Git忽略的任务目录。
+
 ## 插件、Agent、文档与报告完整发布补充（2026-10-09）
 
 - dsh 原生插件 `plugins/kernel-decision/`、共享 Decision 后端、legacy SDK runner、closed-loop Agent、Linux/Windows 部署入口及所有 docs 报告已在此前 GitHub 提交 `d3317aa` / `4c96375` 中。此次重新核对跟踪文件，未遗漏这些功能代码。

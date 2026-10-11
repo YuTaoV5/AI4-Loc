@@ -96,6 +96,9 @@ class LocalizationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp,patch('urllib.request.urlopen',side_effect=TimeoutError('test timeout')) as network:
             result=run({'workspace':tmp,'baseUrl':'http://127.0.0.1:1/v1','model':'fixture','timeout':10,'maxModelCalls':2})
             self.assertEqual(network.call_count,2);self.assertEqual(result['metrics']['modelRequests'],2);self.assertIsNone(result['analysis'])
+            rows=[json.loads(line) for line in (pathlib.Path(tmp)/'api-calls.jsonl').read_text().splitlines()]
+            self.assertEqual(len(rows),4);self.assertEqual([r['status'] for r in rows],['started','error','started','error'])
+            self.assertTrue(all('startedAt' in r for r in rows))
     def test_source_location_must_be_in_returned_slice(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=pathlib.Path(tmp);(root/'source').mkdir();(root/'source/a.c').write_text('int f(void) {\n return 1;\n}\n');i=Inspector(root);i.execute('source_read',{'path':'a.c','start':1,'count':3})

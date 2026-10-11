@@ -4,6 +4,8 @@ Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核�
 
 [全部部署文档与报告索引](docs/README.md) · [dsh Decision 插件](plugins/kernel-decision/README.md) · [Jev API 示例](tools/jev-demos/README.md)
 
+个人空间任务详细进展现支持 [API / 工具调用轨迹 Tab](docs/DSH_CALL_TRACE.md)，可查看已记录的 Decision 问题、选项、概率及工具参数/返回。
+
 最新交付：个人 Agent/Skill Prompt 组合、新建分析选择、一键固定套件跑分、同 cohort 前十用户榜及个人结果联动。详见 [平台设计与评分标准](docs/AGENT_BENCHMARK_PLATFORM.md)、[详细实测分析报告](docs/AGENT_BENCHMARK_ANALYSIS_20261009.md) 和 [逐例数据与图表](docs/results/agent-benchmark-20261009/)。本轮九例全部完成；故障代码定位 3/8，不能据此宣称准确率提升。公开仓库保留脱敏摘要，私有 Prompt、账号、业务日志及完整运行轨迹留在 Git 忽略目录。
 
 已有完整本地数据时，使用 [Windows 展示启动指南](docs/WINDOWS_SITE.md) 运行独立状态的网站。系统方案另附 [48 页网页版讲解稿](deliverables/kernel-insight-system/deck.html)，包含真实功能图、科研结果图与可播放流程。
@@ -29,7 +31,7 @@ npm test
 npm run collect:benchmark
 ```
 
-2026-10-09 本地回归 Node 42/42、Python 53/53 通过，覆盖账号权限、任务归属、个人组合、评分与榜单、源码校验、报告校验及部署检查。Python 使用 `python -m unittest discover -s tests -p '*_test.py'`；本地回归不代替真实模型评测。
+2026-10-11 本地回归 Node 46/46、Python 53/53 通过，覆盖账号权限、任务归属、调用轨迹、个人组合、评分与榜单、源码校验、报告校验及部署检查。Python 使用 `python -m unittest discover -s tests -p '*_test.py'`；本地回归不代替真实模型评测。
 
 ## 远端模型与定位工具
 

@@ -1,5 +1,11 @@
 """Evidence-driven localization with bounded read-only tools and real HTTP metrics."""
-import argparse,hashlib,json,os,pathlib,re,shutil,subprocess,time,urllib.request
+import argparse,datetime,hashlib,json,os,pathlib,re,shutil,subprocess,time,urllib.request
+
+def trace_append(root,name,row):
+    with (root/name).open('a',encoding='utf-8') as output:output.write(json.dumps(row,ensure_ascii=False)+'\n')
+
+def trace_time():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 def unpack_source(root):
     """Extract C source without trusting archive paths, links or device entries."""
@@ -67,10 +73,11 @@ class Inspector:
         start=max(1,int(start));count=max(1,min(80,int(count)))
         return [{'line':i+1,'text':lines[i][:700]} for i in range(start-1,min(len(lines),start-1+count))]
     def execute(self,name,args):
-        began=time.monotonic();ident='T'+str(len(self.records)+1)
+        began=time.monotonic();started_at=trace_time();ident='T'+str(len(self.records)+1)
         try:result=self._execute(name,args)
         except Exception as error:result={'error':str(error)[:500]}
-        row={'id':ident,'tool':name,'arguments':args,'seconds':round(time.monotonic()-began,3),'result':result}
+        row={'id':ident,'tool':name,'startedAt':started_at,'arguments':args,'seconds':round(time.monotonic()-began,3),'result':result}
+        trace_append(self.root,'tool-trace.jsonl',row)
         self.records.append(row);return {'evidenceId':ident,**result}
     def subprocess(self,args,cwd=None):
         exe=shutil.which(args[0])
@@ -320,7 +327,8 @@ def run(request,progress=lambda value:None):
         with (root/'model-requests.jsonl').open('a',encoding='utf-8') as audit:audit.write(json.dumps({'index':requests+1,'payload':payload},ensure_ascii=False)+'\n')
         req=urllib.request.Request(request['baseUrl'].rstrip('/')+endpoint,data=data,headers={'Content-Type':'application/json','Authorization':'Bearer '+os.environ.get('KERNEL_AGENT_API_KEY','ollama-local')})
         requests+=1;progress({'type':'progress','phase':'localization','kind':'model','message':'定位模型请求 '+str(requests)})
-        request_start=time.monotonic();request_record={'requestSha256':hashlib.sha256(data).hexdigest(),'index':requests,'transport':'ollama-native' if native else 'openai','model':request['model']};request_records.append(request_record)
+        request_start=time.monotonic();request_record={'requestSha256':hashlib.sha256(data).hexdigest(),'startedAt':trace_time(),'status':'started','index':requests,'transport':'ollama-native' if native else 'openai','model':request['model']};request_records.append(request_record)
+        trace_append(root,'api-calls.jsonl',request_record)
         try:
             with urllib.request.urlopen(req,timeout=max(1,min(180,timeout-(time.monotonic()-started)))) as response:reply=json.load(response)
             request_record.update({'seconds':round(time.monotonic()-request_start,3),'status':'returned','usage':reply.get('usage') if not native else {'promptTokens':reply.get('prompt_eval_count'),'outputTokens':reply.get('eval_count'),'generationSeconds':(reply.get('eval_duration') or 0)/1e9}})
@@ -360,6 +368,8 @@ def run(request,progress=lambda value:None):
         except Exception as exc:
             request_record.update({'seconds':round(time.monotonic()-request_start,3),'status':'error','error':str(exc)[:300]})
             error=str(exc)[:600];messages.append({'role':'user','content':'Protocol/tool failure: '+error+'. Return the required JSON using only established evidence; do not invent missing fields.'})
+        finally:
+            trace_append(root,'api-calls.jsonl',request_record)
     metrics={'modelRequests':requests,'toolCalls':toolcalls,'preflightToolCalls':preflight_count,'modelToolCalls':toolcalls-preflight_count,'firstSceneSeconds':first_scene_seconds,'boundarySeconds':boundary_seconds,'localizationSeconds':round(time.monotonic()-started,3),'requests':request_records,'counting':'Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately.'}
     if decision_client:
         metrics['generationModelRequests']=requests;metrics['decisionModelRequests']=len(decision_client.calls)

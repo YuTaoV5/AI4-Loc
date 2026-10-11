@@ -1,5 +1,5 @@
 """Typed decisions: rank read-only Inspector evidence, never certify root cause."""
-import argparse,hashlib,json,math,os,pathlib,re,time,urllib.request
+import argparse,datetime,hashlib,json,math,os,pathlib,re,time,urllib.request
 FAMILIES=['memory_lifetime','memory_bounds','memory_leak','locking','rcu_progress','oom','other_or_no_fault']
 
 class DecisionClient:
@@ -18,7 +18,8 @@ class DecisionClient:
                 converted[q['id']]=item
             body={'model':os.environ.get('KERNEL_DECISION_MODEL','jev-latest'),'state':state,'questions':converted}
         wire=json.dumps(body,ensure_ascii=False).encode();start=time.monotonic()
-        row={'endpoint':'/v1/'+self.api,'requestSha256':hashlib.sha256(wire).hexdigest(),'request':body,'status':'started'};self.calls.append(row)
+        row={'endpoint':'/v1/'+self.api,'requestSha256':hashlib.sha256(wire).hexdigest(),'request':body,'questions':questions,'startedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'started'};self.calls.append(row)
+        self.persist()
         headers={'Content-Type':'application/json'}
         if os.environ.get('KERNEL_DECISION_API_KEY'):headers['Authorization']='Bearer '+os.environ['KERNEL_DECISION_API_KEY']
         try:
@@ -51,7 +52,10 @@ class DecisionClient:
         except Exception as e:row.update({'status':'error','error':str(e)[:500]});raise
         finally:
             row['seconds']=round(time.monotonic()-start,4)
-            (self.root/'decision-trace.json').write_text(json.dumps({'schema':'kernel-decision-trace/v1','calls':self.calls,'probabilitiesCalibrated':False},ensure_ascii=False,indent=2),encoding='utf-8')
+            self.persist()
+    def persist(self):
+        target=self.root/'decision-trace.json';temp=self.root/'decision-trace.json.tmp'
+        temp.write_text(json.dumps({'schema':'kernel-decision-trace/v1','calls':self.calls,'probabilitiesCalibrated':False},ensure_ascii=False,indent=2),encoding='utf-8');temp.replace(target)
 
 def candidates(inspector,incident):
     if not inspector.source or not incident.get('firstDiagnosticLine'):return []
