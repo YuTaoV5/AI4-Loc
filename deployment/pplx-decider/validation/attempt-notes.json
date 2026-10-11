@@ -1,0 +1,16 @@
+{
+  "initialIssues": [
+    {
+      "stage": "restart preflight after first successful inference",
+      "problem": "CUDA memory was not yet reclaimed after process exit; immediate start rejected below 16000 MiB",
+      "resolution": "Bounded 60-second GPU wait, same memory threshold; final start passed. GPU wait during final recorded run was 0.045s, so this final record alone does not demonstrate a long wait path."
+    },
+    {
+      "stage": "stop after inference",
+      "problem": "During process exit cmdline became empty before proc disappeared, strict repeated command identity check reported mismatch",
+      "resolution": "Strict identity check before SIGTERM; after signal wait only on matching original process start ticks; final after-inference stop/start and inference passed."
+    }
+  ],
+  "initialFailedRecord": "lifecycle-initial-failure.json",
+  "countedInBenchmark": false
+}

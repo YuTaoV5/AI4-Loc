@@ -2,6 +2,8 @@
 
 本目录独立于此前通用模型 Decision/Chat 报告。真实 checkpoint 为 `perplexity-ai/pplx-decider-v1-27b`，固定 revision `b01a5cbaca5391f73bd55103d4f27e8982cd5e60`。结果以 [REPORT.md](REPORT.md) 与 `results/statistics.json` 为准。
 
+后续常驻服务部署与独立验收见 [部署手册](../../docs/PPLX_DECIDER_DEPLOYMENT.md)。该部署不改变本目录历史实验的冻结协议、数据和运行条件。
+
 ## 范围
 
 121 次正式调用：9 个既有 test 案例×3 次×2 模型，16 个其他可映射 train 案例×1 次×2 模型，35 个未覆盖家族×1 次 PPLX。另有两次不计分合成预热。模型只收到第一现场日志状态与三个有限选项问题；本轮不评估源码、引入提交或根因定位，不把无真值案例算入准确率。

@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-11T15:40:25Z",
+  "passed": false,
+  "steps": [
+    {
+      "action": "stop",
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/opt/kernel-insight/services/pplx-decider-v1/service.py\", line 23, in <module>\n    while owned() and time.monotonic()<deadline:time.sleep(1)\n          ^^^^^^^\n  File \"/opt/kernel-insight/services/pplx-decider-v1/service.py\", line 12, in owned\n    if str(script).encode() not in cmd or start!=record['procStartTicks']:raise RuntimeError('PID identity mismatch; refusing process operation')\n                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: PID identity mismatch; refusing process operation\n"
+    }
+  ],
+  "oldPid": 2289,
+  "error": "stop failed"
+}

@@ -42,6 +42,9 @@ data/source-repositories/
 data/experiments/
 data/linux-runtime/
 data/linux-local/
+
+deployment/pplx-decider/venv/
+deployment/pplx-decider/state/
 data/agent-benchmarks/
 data/evaluation-datasets/
 data/benchmark-acceptance*/

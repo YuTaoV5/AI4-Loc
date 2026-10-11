@@ -1,5 +1,14 @@
 # AI 接手手册 · Kernel Insight
 
+## PPLX 独立常驻服务与部署手册（2026-10-11；最新模型部署状态）
+
+- 已部署并保持运行：`/opt/kernel-insight/services/pplx-decider-v1/`，服务 PID2638，loopback `http://127.0.0.1:30002/v1/systemone`，真实 v1 checkpoint；BF16、GPU权重10GiB、CPU权重64GiB、单请求锁。与下方历史实验的临时服务已退出状态区分；本次没有变更历史协议或121次成绩。
+- 完整手册 `docs/PPLX_DECIDER_DEPLOYMENT.md`，实现 `deployment/pplx-decider/`，包括官方固定revision链接、镜像与哈希校验、环境复用、参数、Windows隧道、Agent接入、启动/停止/状态/验收脚本。新独立venv复用平台Torch/Transformers，只安装Accelerate；不依赖历史实验venv，但依赖 `/root/systemone-venv` 平台包。
+- 30权重相关文件重新校验全通过；4轮合成接口验收共8次真实推理，choice/noul/score、概率和、零输出token、负例422/Chat404、现有DecisionClient均通过；推理后停止→启动→再次真实推理通过。五个部署脚本SHA256与本地/Git文件一致。详见 `deployment/pplx-decider/validation/`。
+- 生命周期验证发现CUDA显存释放延迟与退出cmdline清空竞态，均已修复并保留失败记录。start最多等60秒显存≥16000MiB，stop发信号前校验命令/启动tick、发信号后仅等待原启动tick进程退出。最终等待0.045秒，未声称长等待/超时分支已实测。
+- 最终GPU占用71149MiB、余10003MiB；原30000模型HTTP200、PID65未变。网站8787此前不可用，本轮未恢复网站或切生产模型。本服务不提供Chat/图像/自动崩溃重启/容器重启自动恢复；需要平台托管时按手册前台命令配置。
+- 私有部署归档本地 `data/local-archive/pplx-deployment-20261011/deployment-validation.tgz` 与服务器服务目录同名文件一致，8449字节，SHA256 `6c94eec0d033db11034f41bcf9c6a06536ecafbbd4abf50340005530d7ea6634`。Git只发布合成验收结果、脚本与文档，不发布权重、账号或业务日志。
+
 ## PPLX-Decider 专用权重实测（2026-10-11；最新实验与服务器观察）
 
 - 入口 `research/pplx-decider-20261011/README.md`，详细报告 `REPORT.md` / `report.html`，121 次公开派生记录、概率、协议、校验摘要及四组科研图。真实模型 `perplexity-ai/pplx-decider-v1-27b`，revision `b01a5cbaca5391f73bd55103d4f27e8982cd5e60`；30 文件、11 backbone 分片按官方元数据逐一校验，专用 readout / 保存温度实际使用。镜像仅作传输来源。

@@ -27,6 +27,7 @@
 - [Windows / Linux 部署](CROSS_PLATFORM_DEPLOYMENT.md)，[服务配置示例](../deployment/ai4loc.env.example)，[systemd 模板](../deployment/ai4loc.service)
 - [原服务器维护与恢复](DEPLOYMENT_RUNBOOK.md)，[远端执行链](REMOTE_AGENT_DEPLOYMENT.md)，[Windows Demo](WINDOWS_SITE.md)
 - [SGLang / Jev-like 参数与接口](SGLANG_JEV_LIKE_DEPLOYMENT.md)
+- [PPLX-Decider 专用权重：下载、独立服务部署与验收](PPLX_DECIDER_DEPLOYMENT.md)
 - [Decision 插件与定位设计](DECISION_AGENT_DESIGN.md)，[Decision + Chat 分工及实测](DECISION_CHAT_HYBRID_AGENT.md)
 - [网站一键跑分、个人 Prompt、评分与隔离](AGENT_BENCHMARK_PLATFORM.md)
 - [最新详细评测分析](AGENT_BENCHMARK_ANALYSIS_20261009.md)，[逐例 CSV](results/agent-benchmark-20261009/cases.csv)，[统计 JSON](results/agent-benchmark-20261009/statistics.json)，[PNG](results/agent-benchmark-20261009/benchmark-analysis.png)，[SVG](results/agent-benchmark-20261009/benchmark-analysis.svg)

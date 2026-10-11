@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-10-11T15:43:56Z",
+  "ready": true,
+  "health": {
+    "ready": true,
+    "model": "perplexity-ai/pplx-decider-v1-27b",
+    "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+    "cpuOffload": true
+  },
+  "process": {
+    "pid": 2638,
+    "procStartTicks": "1480382687",
+    "args": [
+      "/opt/kernel-insight/services/pplx-decider-v1/venv/bin/python",
+      "/opt/kernel-insight/services/pplx-decider-v1/serve.py",
+      "--checkpoint",
+      "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B",
+      "--port",
+      "30002",
+      "--gpu-weight-limit",
+      "10GiB",
+      "--cpu-memory-limit",
+      "64GiB",
+      "--record",
+      "/opt/kernel-insight/services/pplx-decider-v1/state/runtime.json"
+    ]
+  },
+  "productionModelHttpStatus": 200,
+  "productionModel": {
+    "object": "list",
+    "data": [
+      {
+        "id": "Qwen3.8-27B-SystemOne",
+        "object": "model",
+        "created": 1791733436,
+        "owned_by": "sglang",
+        "root": "Qwen3.8-27B-SystemOne",
+        "parent": null,
+        "max_model_len": 8192
+      }
+    ]
+  },
+  "productionPid65Exists": true,
+  "gpu": "NVIDIA A100-SXM4-80GB, 71149 MiB, 10003 MiB",
+  "cgroupMemoryMax": "128849018880",
+  "packages": {
+    "torch": "2.13.0",
+    "transformers": "5.12.1",
+    "accelerate": "1.15.0",
+    "fastapi": "0.142.2",
+    "uvicorn": "0.54.0",
+    "safetensors": "0.9.0rc1",
+    "pillow": "12.3.0",
+    "huggingface-hub": "1.33.0",
+    "tokenizers": "0.22.2",
+    "pydantic": "2.14.0b2",
+    "numpy": "2.3.5"
+  },
+  "sourceSha256": {
+    "serve.py": "aeb1bac2e30498512420c611fd53bd4b879b2b8e5554ccaa5d5c08900afa75f0",
+    "service.py": "af329a2d29bd3277903e7648722df7487ff66bb24be1b51b66ee51ed46fb499e",
+    "verify-checkpoint.py": "50c62d67f95decdda8cbca9d897e36167d090c6c86243a905c31e97fdb0f0797",
+    "verify-lifecycle.py": "2fa997c30972c41765cac5b435c0a9779b926e92d674f4ce4138a44c45d6ac01",
+    "verify-service.py": "f9a99a7829c511d283852ae5c2f181b72a5adfc3fe25ec589c337cd5063d2ad7"
+  },
+  "metadataSha256": "60e298b059456fad896ca3fb3fc30936937b3be1b5009944b8563d41650ff980",
+  "autoRestart": false,
+  "productionWebsiteChanged": false
+}
