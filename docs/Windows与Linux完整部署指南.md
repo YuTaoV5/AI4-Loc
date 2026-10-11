@@ -2,7 +2,7 @@
 
 核对日期：2026-10-07。本文件区分现有实测状态、补充的部署入口和仍需部署验收的能力。不能将能打开网站等同于模型定位、符号化、内存转储分析和故障采集全部可用。
 
-2026-10-09 状态更新：原服务器现已运行 release `163bdd0af0ec`，一键 Agent 跑分与个人 Prompt 功能已部署；同代码专用私有实例完成九例真实模型验收，Node 42/42、Python 53/53 回归通过。详见 [最新平台验收](AGENT_BENCHMARK_PLATFORM.md) 和 [详细分析](AGENT_BENCHMARK_ANALYSIS_20261009.md)。下文“尚未同步远端”“Supervisor 拒绝连接”及旧测试计数描述的是 10 月 7 日核查快照，不代表当前服务器状态；全新 Linux/WSL2 安装仍未新增验收。
+2026-10-09 状态更新：原服务器现已运行 release `163bdd0af0ec`，一键 Agent 跑分与个人 Prompt 功能已部署；同代码专用私有实例完成九例真实模型验收，Node 42/42、Python 53/53 回归通过。详见 [最新平台验收](一键跑分平台与评分标准.md) 和 [详细分析](定位智能体跑分分析报告_20261009.md)。下文“尚未同步远端”“Supervisor 拒绝连接”及旧测试计数描述的是 10 月 7 日核查快照，不代表当前服务器状态；全新 Linux/WSL2 安装仍未新增验收。
 
 ## 当前结论
 
@@ -62,7 +62,7 @@ bash scripts/start-linux-site.sh
 
 脚本启动前检查工具、材料目录、图表运行时和实际模型列表，并执行 bubblewrap namespace 探测；失败直接退出，不回退到演示模式。模型列表可达仍不证明推理质量，首次部署还须单独执行业务自检和真实模型评测。工具存在也不证明特定 vmcore 与其版本兼容；仍遵守 Build ID / 架构核验。
 
-网站监听回环 8787；Linux 远程访问使用 SSH 隧道。进程常驻可使用 `deployment/ai4loc.service` 用户服务模板：默认项目 `$HOME/ai4loc`，环境文件 `$HOME/.config/ai4loc.env`，从 `deployment/ai4loc.env.example` 复制并填实际模型配置。将 unit 复制到 `~/.config/systemd/user/` 后执行 `systemctl --user daemon-reload` 和 `systemctl --user enable --now ai4loc`。项目放在其他位置时修改 unit 中两个绝对入口，需开机无登录启动时由管理员配置该用户 linger。WSL 要先启用 systemd，或使用前台启动方式。不能复用旧服务器硬编码的监督配置。已有 `/opt/kernel-insight` 升级仍参阅 DEPLOYMENT_RUNBOOK.md；原 `deploy-server.sh` 是既有服务器维护入口，不是通用安装器。
+网站监听回环 8787；Linux 远程访问使用 SSH 隧道。进程常驻可使用 `deployment/ai4loc.service` 用户服务模板：默认项目 `$HOME/ai4loc`，环境文件 `$HOME/.config/ai4loc.env`，从 `deployment/ai4loc.env.example` 复制并填实际模型配置。将 unit 复制到 `~/.config/systemd/user/` 后执行 `systemctl --user daemon-reload` 和 `systemctl --user enable --now ai4loc`。项目放在其他位置时修改 unit 中两个绝对入口，需开机无登录启动时由管理员配置该用户 linger。WSL 要先启用 systemd，或使用前台启动方式。不能复用旧服务器硬编码的监督配置。已有 `/opt/kernel-insight` 升级仍参阅 服务器部署维护与故障恢复手册.md；原 `deploy-server.sh` 是既有服务器维护入口，不是通用安装器。
 
 ## Windows 全能力：WSL2
 
@@ -89,7 +89,7 @@ export KERNEL_LAB_DIR="$HOME/ai4loc-lab"
 bash tools/kernel-lab/prepare.sh
 ```
 
-prepare 只准备 pinned 内核，完整历史补丁、外部注入模块、启动变体及构建证据需从 lab 归档按 LOCAL_DATA_GUIDE.md 恢复；仅运行 prepare 不能声称重建了所有历史场景。QEMU TCG 不依赖 KVM，但有 CPU、内存和磁盘开销。新实验保留失败与排除记录，不把修复摘要/真值提供给 Agent。完整恢复归档含私有账号与用户日志，仅在受控 Linux 暂存目录解包检查并配置权限，不能发布 GitHub。
+prepare 只准备 pinned 内核，完整历史补丁、外部注入模块、启动变体及构建证据需从 lab 归档按 本地项目数据与备份恢复指南.md 恢复；仅运行 prepare 不能声称重建了所有历史场景。QEMU TCG 不依赖 KVM，但有 CPU、内存和磁盘开销。新实验保留失败与排除记录，不把修复摘要/真值提供给 Agent。完整恢复归档含私有账号与用户日志，仅在受控 Linux 暂存目录解包检查并配置权限，不能发布 GitHub。
 
 ## 打包与验收
 

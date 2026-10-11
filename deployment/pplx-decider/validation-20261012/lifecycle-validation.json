@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-11T23:28:34Z",
+  "passed": true,
+  "steps": [
+    {
+      "action": "stop",
+      "exit": 0,
+      "stdout": "STOPPED\n",
+      "stderr": ""
+    },
+    {
+      "action": "start",
+      "exit": 0,
+      "stdout": "{\"status\": \"ready\", \"pid\": 1114, \"gpuWaitSeconds\": 4.209385177120566, \"health\": {\"ready\": true, \"model\": \"perplexity-ai/pplx-decider-v1-27b\", \"revision\": \"b01a5cbaca5391f73bd55103d4f27e8982cd5e60\", \"cpuOffload\": true}}\n",
+      "stderr": ""
+    },
+    {
+      "action": "status",
+      "exit": 0,
+      "stdout": "{\"pid\": 1114, \"healthy\": {\"ready\": true, \"model\": \"perplexity-ai/pplx-decider-v1-27b\", \"revision\": \"b01a5cbaca5391f73bd55103d4f27e8982cd5e60\", \"cpuOffload\": true}}\n",
+      "stderr": ""
+    }
+  ],
+  "oldPid": 936,
+  "newPid": 1114
+}

@@ -9,7 +9,7 @@ param(
 $ErrorActionPreference='Stop'
 if ($Mode -eq 'Full') {
   if (!$LinuxProject -or !$Model -or !$ModelBaseUrl) {
-    throw 'Full mode requires -LinuxProject (WSL ext4 path), -Model and -ModelBaseUrl. See docs/CROSS_PLATFORM_DEPLOYMENT.md.'
+    throw 'Full mode requires -LinuxProject (WSL ext4 path), -Model and -ModelBaseUrl. See docs/Windows与Linux完整部署指南.md.'
   }
   & wsl.exe --distribution $Distribution --exec env "PORT=$Port" "KERNEL_AGENT_MODEL=$Model" "KERNEL_AGENT_BASE_URL=$ModelBaseUrl" bash "$LinuxProject/scripts/start-linux-site.sh"
   if ($LASTEXITCODE -ne 0) { throw "WSL full deployment failed (exit $LASTEXITCODE); no demo fallback." }

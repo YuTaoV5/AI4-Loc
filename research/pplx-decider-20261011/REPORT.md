@@ -1,5 +1,7 @@
 # PPLX-Decider 专用权重实测报告（2026-10-11）
 
+2026-10-12更新：本页保留CPU卸载历史条件与冻结数据。最新[全GPU分时复测](../pplx-timeshare-20261012/REPORT.md)已完成，两端test均27/27，PPLX均值5.672s、通用2.563s；旧CPU速度不作公平对照。部署步骤见[中文手册](../../docs/PPLX专用模型下载部署与验收手册.md)。
+
 本报告测试真实专用权重，而非更改通用模型别名。实验、失败、概率及输入哈希全部保留。
 
 模型：`perplexity-ai/pplx-decider-v1-27b`；固定 revision：`b01a5cbaca5391f73bd55103d4f27e8982cd5e60`。30 个文件按官方元数据校验，所有 11 个权重分片 SHA256 通过；使用专用 readout 和保存的 temperature=2.207568022。

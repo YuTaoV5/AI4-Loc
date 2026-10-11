@@ -1,0 +1,94 @@
+{
+  "checkedAt": "2026-10-11T23:28:34Z",
+  "passed": true,
+  "health": {
+    "ready": true,
+    "model": "perplexity-ai/pplx-decider-v1-27b",
+    "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+    "cpuOffload": true
+  },
+  "syntheticOnly": true,
+  "request": {
+    "model": "perplexity-ai/pplx-decider-v1-27b",
+    "state": "BUG: KASAN: use-after-free in synthetic_probe. Evidence is a synthetic startup check.",
+    "questions": {
+      "family": {
+        "type": "choice",
+        "instructions": "Classify the explicit diagnostic.",
+        "criteria": {
+          "use_after_free": "Explicit KASAN use-after-free",
+          "out_of_memory": "Out-of-memory killer",
+          "unknown": "No explicit diagnostic"
+        }
+      },
+      "present": {
+        "type": "noul",
+        "instructions": "Does the supplied text explicitly report KASAN use-after-free?"
+      },
+      "severity": {
+        "type": "score",
+        "instructions": "Rate how explicitly a memory safety error is reported.",
+        "criteria": [
+          "No diagnostic",
+          "Ambiguous warning",
+          "Explicit invalid memory access"
+        ]
+      }
+    }
+  },
+  "response": {
+    "model": "perplexity-ai/pplx-decider-v1-27b",
+    "answers": {
+      "family": {
+        "type": "choice",
+        "probabilities": {
+          "use_after_free": 0.9816066406077478,
+          "out_of_memory": 0.006540540392913322,
+          "unknown": 0.011852818999338884
+        },
+        "choice": "use_after_free",
+        "confidence": 0.9724099609116216
+      },
+      "present": {
+        "type": "noul",
+        "noul": 0.9917124362034733
+      },
+      "severity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.021602261357156833,
+          "1": 0.01875085505895303,
+          "2": 0.9596468835838902
+        },
+        "legend": {
+          "0": "No diagnostic",
+          "1": "Ambiguous warning",
+          "2": "Explicit invalid memory access"
+        },
+        "score": 1.9380446222267333,
+        "confidence": 0.9070669333400999
+      }
+    },
+    "usage": {
+      "input_tokens": 348,
+      "output_tokens": 0
+    }
+  },
+  "seconds": 7.476972870528698,
+  "invalidRequestStatus": [
+    422,
+    422,
+    422
+  ],
+  "chatStatus": 404,
+  "agentClient": {
+    "seconds": 4.061891499906778,
+    "family": "memory_lifetime",
+    "stage": "unknown",
+    "reporter": "kasan",
+    "usage": {
+      "completion_tokens": 0,
+      "prompt_tokens": 838
+    }
+  }
+}

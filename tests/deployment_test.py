@@ -20,7 +20,7 @@ class DeploymentTest(unittest.TestCase):
             names=set(archive.getnames())
             for name in ['scripts/localization_agent.py','scripts/start-linux-site.sh','scripts/start-windows-site.ps1',
                          'scripts/deployment-doctor.py','tools/kernel-lab/collect_dataset.py',
-                         'tools/kernel-lab/dataset_contract.py','docs/CROSS_PLATFORM_DEPLOYMENT.md']:
+                         'tools/kernel-lab/dataset_contract.py','docs/Windows与Linux完整部署指南.md']:
                 self.assertIn(name,names)
             for name in names:
                 self.assertFalse(name.startswith(('data/server-snapshots/','data/windows-local/','data/local-archive/')))

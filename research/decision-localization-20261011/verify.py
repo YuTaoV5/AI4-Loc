@@ -24,4 +24,15 @@ assert hashlib.sha256((HERE/'run-boundary-ablation.py').read_bytes()).hexdigest(
 e=read('measured-decision-example.json')
 for answer in e['answers'].values():assert math.isclose(sum(answer['probabilities'].values()),1,abs_tol=1e-8)
 assert e['answers']['family']['choice']=='memory_lifetime'
+supplement=HERE.with_name('pplx-timeshare-20261012');x=json.loads((supplement/'results/statistics.json').read_text(encoding='utf-8'));rr=json.loads((supplement/'results/trials.json').read_text(encoding='utf-8'));runtime=json.loads((supplement/'results/pplx-runtime.json').read_text(encoding='utf-8'))
+assert len(rr)==x['formalCalls']==121 and runtime['parameterDevices']==['cuda:0']
+for arm in ['generic','pplx']:
+ test=[r for r in rr if r['arm']==arm and r['split']=='test'];assert len(test)==27
+ assert sum(r['correct'] for r in test)==x['primary'][arm]['correct']
+ assert math.isclose(sum(r['seconds'] for r in test)/27,x['primary'][arm]['meanSeconds'])
+manuscript=json.loads((HERE/'manuscript.json').read_text(encoding='utf-8'));assert len(manuscript['pages'])==25
+assert all(any(pg['title'].startswith(str(i)+'  ') for pg in manuscript['pages']) for i in range(17,23))
+for source,target in [('03-paired-latency','09-pplx-latency'),('02-confusion','10-pplx-confusion'),('04-latency-ratio','11-pplx-ratio')]:
+ for ext in ['png','svg']:assert (supplement/'figures'/(source+'.'+ext)).read_bytes()==(HERE/'figures'/(target+'.'+ext)).read_bytes()
+print('PPLX supplement verified separately: 121 calls, all-GPU, published means and 25-section manuscript.')
 print(json.dumps({'trials':135,'uniqueCases':9,'mechanismGroups':5,'scheduleVerified':True,'scipyExactTestsVerified':3,'frozenSourcesVerified':True,'measuredExampleVerified':True},indent=2))

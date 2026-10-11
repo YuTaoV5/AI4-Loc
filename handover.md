@@ -1,5 +1,12 @@
 # AI 接手手册 · Kernel Insight
 
+## 报告修订与中文文档整理（2026-10-12；最新交付状态）
+
+- 更新全GPU实测报告，并在此前学术报告加入4节PPLX研究：方法、配对耗时、标签准确性/泄露与部署验证。新版PDF `output/pdf/AI4Loc_Decision_Academic_Report_20261012.pdf` 共25页，11组科研图；旧20261011 PDF保留。网页、Markdown、结构化正文及构建脚本同步；原135次、CPU卸载121次、全GPU121次仍分开，不改冻结数据。
+- `docs/`全部27份说明文档改为中文名称，入口 `docs/文档导航.md`，旧名称对照 `docs/文档名称对照.md`。活动引用、打包脚本及对应测试同步；JSON/CSV/图片和历史演示证据不更名。PPLX指南为 `docs/PPLX专用模型下载部署与验收手册.md`，包含官方固定下载链接、30文件校验、环境安装、两种设备放置、命令参数、接口/生命周期验收与恢复。
+- 2026-10-12新版常驻部署已通过在线验收（北京时间2026-10-12 07:29:02）：五个部署脚本与仓库521b29c对应字节SHA256一致，30个权重文件重新核验通过；两轮choice/noul/score、项目DecisionClient、422/404负例和推理后停止→启动→再次推理均通过，共4次合成推理，不计入benchmark。PPLX PID1114，通用PID66启动身份未变，两个模型端点健康。当前常驻为CPU卸载并存配置；全GPU121次实验与此次部署验收分别保存。 新版部署证据 `deployment/pplx-decider/validation-20261012/`；私有归档16678字节、27文件，SHA256 `018c2ed719fd6332b3ccdcb9d7cdcfa6f6f9737a05d75aa046b543dcfc2598d6`，归档与逐文件核对通过。
+- 更正README及本手册中多抄一字符的归档SHA256，正确值从归档实际内容及audit.json读取；原归档、536文件校验和实验数据未变。历史冻结程序/协议及原始日志继续保留。
+
 ## PPLX 全 GPU 分时复用复测（2026-10-12；最新状态）
 
 - 按用户要求先卸载通用模型及PPLX CPU sidecar，让真实PPLX独占同一A100；78次PPLX调用结束并释放显存后，再加载通用模型完成43次调用。正式121次、另2次预热；0接口失败。协议先冻结，SHA256 `e7f831a2caa938ed5be46006b082dcc2d420ec74103993692056f28fc1f7121ab`。旧CPU卸载结果保持独立，不作为全GPU对照。
@@ -7,13 +14,13 @@
 - test两端均27/27、唯一案例多数均9/9；25个映射案例repeat=0均23/25。test均值：PPLX 5.672s、通用2.563s，PPLX约慢2.21倍；P95分别6.891s/3.093s。全GPU已消除CPU卸载和同时驻留影响，但PPLX为Transformers/SDPA、通用为SGLang且关闭实验radix缓存，顺序固定PPLX→通用；不能归因纯权重速度。9案例配对探索性p=0.003906，5家族敏感性p=0.0625；不宣称跨机制显著或准确率等效。
 - 121匿名隔离/实际请求审计通过，无额外标签/评分/ID字段；自然LKDTM符号仍在63请求、41唯一案例中。test已用于开发，不是盲测。LOOP/SOFTLOCKUP标签构念缺口保留；35未映射案例不评分。未测试完整根因定位或引入提交准确率。
 - 首次尝试 `pplx-timeshare-20261011` 的记录代码读取不存在的hf_device_map属性而失败，0正式调用；原服务恢复后修复，用新目录冻结重跑。当前完成状态completed，控制器与独立恢复守护已退出，Supervisor50恢复S。通用模型30000恢复；PPLX CPU sidecar30002恢复，PID5850。恢复后两个Decision端点真实合成UAF均通过，Chat HTTP200；这些验收不计入正式分母。最终GPU70517MiB、余10635MiB。网站8787此前不可用，本次未执行网站恢复。
-- 当前常驻仍为原通用模型加CPU sidecar；全GPU是已结束的维护实验。持久服务serve.py仍为e415d96版本，本轮新placement入口只在实验目录执行；仓库部署实现已新增full-gpu选项，管理器默认CPU卸载不变。部署手册已补全GPU命令及维护恢复限制，不能照搬固定PID。
-- 原始证据服务器 `/opt/kernel-insight/experiments/pplx-timeshare-20261012/retained-evidence.tgz`；本地 `data/local-archive/pplx-timeshare-20261012/retained-evidence.tgz`，624383字节，536证据文件，SHA256 `1e6e699a0bd6fac1b456e71fa551815920300e44f7623151f417a1cc1da6a83b3`。归档与逐文件哈希均核对一致，包含首次失败日志与恢复记录；不含私有进程环境、账号或权重。Git仅发布派生数据、脚本、图及文档。
+- 全GPU复测结束当时恢复原通用模型加旧版CPU sidecar；全GPU是已结束的维护实验。之后已部署新版入口，当前状态以上方新版部署验收为准；仓库部署实现已新增full-gpu选项，管理器默认CPU卸载不变。部署手册已补全GPU命令及维护恢复限制，不能照搬固定PID。
+- 原始证据服务器 `/opt/kernel-insight/experiments/pplx-timeshare-20261012/retained-evidence.tgz`；本地 `data/local-archive/pplx-timeshare-20261012/retained-evidence.tgz`，624383字节，536证据文件，SHA256 `1e6e699a0bd6fac1b456e71fa51815920300e44f7623151f417a1cc1da6a83b3`。归档与逐文件哈希均核对一致，包含首次失败日志与恢复记录；不含私有进程环境、账号或权重。Git仅发布派生数据、脚本、图及文档。
 
 ## PPLX 独立常驻服务与部署手册（2026-10-11；历史部署验收）
 
 - 已部署并保持运行：`/opt/kernel-insight/services/pplx-decider-v1/`，服务 PID2638，loopback `http://127.0.0.1:30002/v1/systemone`，真实 v1 checkpoint；BF16、GPU权重10GiB、CPU权重64GiB、单请求锁。与下方历史实验的临时服务已退出状态区分；本次没有变更历史协议或121次成绩。
-- 完整手册 `docs/PPLX_DECIDER_DEPLOYMENT.md`，实现 `deployment/pplx-decider/`，包括官方固定revision链接、镜像与哈希校验、环境复用、参数、Windows隧道、Agent接入、启动/停止/状态/验收脚本。新独立venv复用平台Torch/Transformers，只安装Accelerate；不依赖历史实验venv，但依赖 `/root/systemone-venv` 平台包。
+- 完整手册 `docs/PPLX专用模型下载部署与验收手册.md`，实现 `deployment/pplx-decider/`，包括官方固定revision链接、镜像与哈希校验、环境复用、参数、Windows隧道、Agent接入、启动/停止/状态/验收脚本。新独立venv复用平台Torch/Transformers，只安装Accelerate；不依赖历史实验venv，但依赖 `/root/systemone-venv` 平台包。
 - 30权重相关文件重新校验全通过；4轮合成接口验收共8次真实推理，choice/noul/score、概率和、零输出token、负例422/Chat404、现有DecisionClient均通过；推理后停止→启动→再次真实推理通过。五个部署脚本SHA256与本地/Git文件一致。详见 `deployment/pplx-decider/validation/`。
 - 生命周期验证发现CUDA显存释放延迟与退出cmdline清空竞态，均已修复并保留失败记录。start最多等60秒显存≥16000MiB，stop发信号前校验命令/启动tick、发信号后仅等待原启动tick进程退出。最终等待0.045秒，未声称长等待/超时分支已实测。
 - 最终GPU占用71149MiB、余10003MiB；原30000模型HTTP200、PID65未变。网站8787此前不可用，本轮未恢复网站或切生产模型。本服务不提供Chat/图像/自动崩溃重启/容器重启自动恢复；需要平台托管时按手册前台命令配置。
@@ -23,7 +30,7 @@
 
 - 入口 `research/pplx-decider-20261011/README.md`，详细报告 `REPORT.md` / `report.html`，121 次公开派生记录、概率、协议、校验摘要及四组科研图。真实模型 `perplexity-ai/pplx-decider-v1-27b`，revision `b01a5cbaca5391f73bd55103d4f27e8982cd5e60`；30 文件、11 backbone 分片按官方元数据逐一校验，专用 readout / 保存温度实际使用。镜像仅作传输来源。
 - 正式121次：9 test×3×2=54，其他16映射 train×1×2=32，35未覆盖家族×1 PPLX=35；另排除2合成预热。0失败、121匿名 worker/轨迹审计通过。两模型 test 均27/27、案例多数均9/9；25例 repeat=0 对照均23/25。未观察提分优势，无显著差异不等于非劣或等效成立。
-- LOOP/SOFTLOCKUP 注入标签为 watchdog，但第一诊断为 RCU stall，两端均预测 RCU。保留冻结得分，不能直接称模型错误；见 `docs/DATASET_DIAGNOSTIC_LABEL_GAP_20261011.md`。阶段、reporter、根因机制与引入提交缺独立真值，未报准确率。未覆盖35例 correct=null。
+- LOOP/SOFTLOCKUP 注入标签为 watchdog，但第一诊断为 RCU stall，两端均预测 RCU。保留冻结得分，不能直接称模型错误；见 `docs/首诊断与故障注入标签差异分析_20261011.md`。阶段、reporter、根因机制与引入提交缺独立真值，未报准确率。未覆盖35例 correct=null。
 - 在原通用模型继续驻留条件下，PPLX 使用官方参考实现 BF16 CPU 卸载、GPU权重额度10GiB；不是原生 SGLang PPLX。test 平均客户端耗时19.455s，对照1.485s；该差异含 CPU 传输与运行时差异，不能判断同条件全 GPU 速度。没有切生产模型、没有重启 SGLang/Ollama。
 - 模型请求无额外标签、评分、案例 ID 或数据集路径字段；但63/121请求、41唯一案例含与案例名重合的自然日志函数名，存在捷径可能。既有 test 参与开发，本轮不宣称去线索盲测或陌生机制泛化。CPU/GPU共享、提示/读出路径不同也限制纯权重因果归因。
 - 私有证据服务器 `/opt/kernel-insight/experiments/pplx-decider-20261011/`；本地 `data/local-archive/pplx-decider-20261011/retained-evidence.tgz`，626206字节，SHA256 `0b6b2f6608eae8c819abe173c2ab1dec8319fc17abc23f33721e728131538a61`。归档及518文件哈希一致；账号/完整请求/日志不进 Git。52GB级可重复下载权重仅在服务器缓存，缓存盘余8.3GiB。
@@ -45,32 +52,32 @@
 - 正式 app → `/opt/kernel-insight/releases/task-trace-20261011`；旧版 `/opt/kernel-insight/releases/163bdd0af0ec` 可回滚。本轮发现网站与项目 Supervisor 已停止，完成恢复；8787 health.ok/llmConnected=true。平台 SGLang/Ollama PID 70/86 保持不变。
 - 轨迹 API v2 与中文逐步展示已部署：实际 Decision 问题/选项/概率/选择，Chat 每次请求的工具或报告选择，自动预检与模型选择的来源，以及有限关键证据。去除原始 JSON、label mass、哈希等中间显示。失败/重复工具请求不伪装执行成功；旧任务缺失的选择和顺序明确标注。
 - 本地 Node49/49、Python53/53 通过。服务器独立验收真实 UAF+匹配源码任务 `6ae833d3-9808-4e48-9d7f-f00292028107` 共14步骤：1 Decision、2 Chat、10工具执行+1重复拦截；定界0.328秒、定位24.097秒、21128Token。只验证可观测性，未重跑完整评测或证明提分。
-- 私有证据 `/opt/kernel-insight/experiments/task-trace-20261011/` 与 `data/trace-acceptance-20261011/`；配置/状态/账号备份仅存 rollback 私有目录。正式站验证健康、资源和未登录401；鉴权流程在独立实例验收，没有用默认管理员凭据登录正式站。详见 `docs/DSH_CALL_TRACE.md`。
+- 私有证据 `/opt/kernel-insight/experiments/task-trace-20261011/` 与 `data/trace-acceptance-20261011/`；配置/状态/账号备份仅存 rollback 私有目录。正式站验证健康、资源和未登录401；鉴权流程在独立实例验收，没有用默认管理员凭据登录正式站。详见 `docs/智能体接口与工具调用轨迹说明.md`。
 
 ## 历史初版：任务调用轨迹 Tab（2026-10-11，已由上方新版替代）
 
 - 个人空间任务详细进展新增“API / 工具调用轨迹”，保留原阶段进展。可展示 Decision 问题/选项/概率/label mass、Chat 用量/耗时、closed-loop 工具参数/返回、dsh 通知与 SDK run 事件；运行中每3秒刷新。
-- 新 API `/api/jobs/:id/trace` 沿用本人/管理员权限，固定文件白名单、响应无缓存、结果长度限制；不展示完整 Prompt、模型内部推理或认证信息。旧任务回退报告已保留记录，缺失轨迹不补造。详见 `docs/DSH_CALL_TRACE.md`。
+- 新 API `/api/jobs/:id/trace` 沿用本人/管理员权限，固定文件白名单、响应无缓存、结果长度限制；不展示完整 Prompt、模型内部推理或认证信息。旧任务回退报告已保留记录，缺失轨迹不补造。详见 `docs/智能体接口与工具调用轨迹说明.md`。
 - Node46/46、Python53/53通过；本地8788已启动并验证已有实验回放工具轨迹。未新增模型跑分、未修改远端Linux部署。私有调用文件继续位于Git忽略的任务目录。
 
 ## 插件、Agent、文档与报告完整发布补充（2026-10-09）
 
 - dsh 原生插件 `plugins/kernel-decision/`、共享 Decision 后端、legacy SDK runner、closed-loop Agent、Linux/Windows 部署入口及所有 docs 报告已在此前 GitHub 提交 `d3317aa` / `4c96375` 中。此次重新核对跟踪文件，未遗漏这些功能代码。
-- 新增统一入口 `docs/README.md`，区分当前方案、部署、历史实验与数据盘点；包含全部顶层 Markdown/JSON 文档链接及最新逐例 CSV/图表。
+- 新增统一入口 `docs/文档导航.md`，区分当前方案、部署、历史实验与数据盘点；包含全部顶层 Markdown/JSON 文档链接及最新逐例 CSV/图表。
 - 本轮补交此前未跟踪的 `tools/jev-demos/`、`deliverables/jev-huawei-soc/` 必要源文件/讲稿/来源/完整预览，以及其重建依赖 `tools/kelip-slide/`（保留 MIT 许可证）与项目 `AGENTS.md`。不改演示内容、不新增模型评测；Jev 资料的外部声明以其记录日期为准。
 - `.render*` 和单页调试图片属于可再生成临时文件，排除发布。私有模型轨迹、账号和原始业务数据仍不上传；本轮不改生产部署。
 
 ## GitHub 功能与评测分析交付（2026-10-09）
 
 - 本轮提交范围：一键 Benchmark、前十用户榜、个人 Agent/Skill Prompt 与分析联动，以及此前尚未提交的 Decision/Chat、标签审计、独立沙箱、Windows/Linux 部署依赖代码和测试。README 已更新当前 closed-loop 运行链路与 42/53 回归计数。
-- 详细报告 `docs/AGENT_BENCHMARK_ANALYSIS_20261009.md` 包含实验条件、评分公式、逐例错误、时间/Token/调用分解、历史对照、泄露边界及下一轮可验证方案。`docs/results/agent-benchmark-20261009/` 提供 CSV、统计 JSON、PNG/SVG；`python scripts/summarize-agent-benchmark.py --figures` 从公开摘要重建（绘图需 matplotlib），不调用模型。
+- 详细报告 `docs/定位智能体跑分分析报告_20261009.md` 包含实验条件、评分公式、逐例错误、时间/Token/调用分解、历史对照、泄露边界及下一轮可验证方案。`docs/results/agent-benchmark-20261009/` 提供 CSV、统计 JSON、PNG/SVG；`python scripts/summarize-agent-benchmark.py --figures` 从公开摘要重建（绘图需 matplotlib），不调用模型。
 - 本轮重新运行 Node 42/42、Python 53/53 通过，并逐项重算得分与累计成本断言。实际模型成绩沿用已保留的九例网站 API 验收，未追加模型跑分或更改生产部署。
 - 结论：阶段 7/9、类型 8/9、代码含健康拒答 4/9、故障代码 3/8；34 HTTP、255636 Token、累计定位 248.653 秒。四例 USERCOPY 仍落在检测器；HUNG_TASK 错误拒答。没有同条件提分证据，机制/引入提交准确率仍为 null。
 - GitHub 仅发布功能代码、部署说明、测试和脱敏数据。账号、私人 Prompt、原始日志/请求、完整数据集与大归档继续保留在 Git 忽略目录；其他 Jev 演示稿及其示例工具不在本轮功能提交范围内。历史补充 ZIP 的 Git 基线与哈希不改写。
 
 ## 网站 Agent 跑分 / 个人 Prompt 交接（2026-10-09；最新状态）
 
-- 用户要求社区一键跑分、用户前十、阶段/故障类型/根因代码准确性和时间/Token/API 效率；个人空间搭配保存 Agent/Skill Prompt，新建分析选择，并联动社区跑分。已实现并部署，完整设计和口径见 docs/AGENT_BENCHMARK_PLATFORM.md，实测汇总 docs/agent-benchmark-platform-results-20261009.json。
+- 用户要求社区一键跑分、用户前十、阶段/故障类型/根因代码准确性和时间/Token/API 效率；个人空间搭配保存 Agent/Skill Prompt，新建分析选择，并联动社区跑分。已实现并部署，完整设计和口径见 docs/一键跑分平台与评分标准.md，实测汇总 docs/agent-benchmark-platform-results-20261009.json。
 - 生产 app -> /opt/kernel-insight/releases/163bdd0af0ec，UTC 2026-10-08 16:57:16 激活（北京时间 10 月 9 日 00:57:16）；8787 模型健康。回滚 5c6791a8f60c；仅重启 kernel-insight，ollama-compat 保持原进程，平台 SGLang/Ollama 未重启。
 - 新文件 server/agent-profiles.js、benchmark-score.js、benchmark-service.js；public/agent-lab-ui.js、agent-lab.css；scripts/run-web-benchmark.py、prepare-web-benchmark-labels.py。/api/me 返回 agentProfiles/agentBenchmarkRuns，不覆盖旧 Skill PR benchmarkRuns。普通分析实际传入组合 Prompt，冻结版本/hash 并参与去重。
 - 评分 agent-location-v1：阶段10 + 故障类型20 + 根因代码50；三项全对且实测成本完整才获效率20（定界4/定位6/报告2/Token4/API4，w*r/(r+x)）。根因位置最多2候选、每例每处40行以内。先准确分排序，再总分；每用户每 cohort 最佳公开有效成绩，最多10人。机制/引入提交无独立真值，保持null。
@@ -84,7 +91,7 @@
 
 ## Decision / Chat 分层迭代交接（2026-10-09；优先于后续历史状态）
 
-- 用户本轮要求整理 Jev-like SGLang 部署，构建快速定界与 Chat 根因分析的分层 Agent，并检查标签泄露。文档：docs/SGLANG_JEV_LIKE_DEPLOYMENT.md、docs/DECISION_CHAT_HYBRID_AGENT.md、docs/BENCHMARK_LABEL_LEAKAGE_AUDIT.md；公开汇总 docs/decision-chat-hybrid-results-20261009.json。
+- 用户本轮要求整理 Jev-like SGLang 部署，构建快速定界与 Chat 根因分析的分层 Agent，并检查标签泄露。文档：docs/SGLang决策接口部署与参数指南.md、docs/决策定界与对话根因分析方案.md、docs/评测标签泄露审计.md；公开汇总 docs/decision-chat-hybrid-results-20261009.json。
 - 通用 Qwen 使用 /v1/decisions；专用 PPLX-Decider 使用 /v1/systemone，必须匹配 decision_config/readout 与新版本 SGLang，不能承担 Chat。此次未安装专用权重、升级或重启平台 SGLang/Ollama；当前 0.5.21 不能据版本号宣称支持专用检查点。choice/noul/score 的 System One 转换已在现有通用服务实测，专用权重尚未实测。
 - 同 SGLang/Qwen、相同有限问题、9 个 ready test 各重复 3 次并随机交错：两种接口 family 判断均 27/27；Decision 平均 1.2304 秒、Chat 2.0241 秒，但 P95 为 3.0795 vs 2.3113 秒。stage/reporter 没有独立人工标签，不得宣传其准确率 100%。
 - 完整隔离定位对照均完成 9/9，控制组和分流组均命中 4/8；请求 25→34，总耗时 252.946→275.619 秒。仅提前定界，没有证明全流程提速或根因提分。USERCOPY 仍易停留在检测器。rootCauseAccuracy=null。
@@ -98,7 +105,7 @@
 
 ## Decision 插件迭代交接（2026-10-08；优先于下文旧状态）
 
-- 本轮已按用户要求在服务器构建原生 dsh `kernel_decide` 插件与闭环共享后端，对接现有 SGLang `/v1/decisions`。设计、验证范围及限制见 [Decision 系统设计](docs/DECISION_AGENT_DESIGN.md)，机器可读汇总见 [实测汇总](docs/decision-agent-iteration-20261008.json)。
+- 本轮已按用户要求在服务器构建原生 dsh `kernel_decide` 插件与闭环共享后端，对接现有 SGLang `/v1/decisions`。设计、验证范围及限制见 [Decision 系统设计](docs/决策模型插件与定位智能体设计.md)，机器可读汇总见 [实测汇总](docs/decision-agent-iteration-20261008.json)。
 - 服务器 app 已切到 `/opt/kernel-insight/releases/0d865b1d38ef`，项目 kernel-insight 与 ollama-compat 均 RUNNING，8787 health ok、closed-loop、模型连接正常；平台模型服务未重启。精确激活时间见本地/服务器 deployment.json。旧版 `f4648fac616c` 和原 Supervisor 配置留存，可回滚。
 - 回归组原版 7/8 → 按需版 8/8，但规则消融也为 8/8；全 ready test 组原版/新版均为 4/8。Decision 尚未证明额外准确率收益，且全 test 请求 22→25、耗时 198.465→243.124 秒。不要把回归成绩写成全数据集成绩或因果根因准确率。
 - 7 组共 63 次执行完整保留服务器 `/opt/kernel-insight/experiments/decision-20261008/`。本地审计归档 `data/local-archive/decision-20261008/retained-evidence.tgz`，SHA256 `9046db45383d5909c36f69e27eb97d04193f62f1a044ffdf80e6f313c26b4412`，含 63 份 localization-trace；排除再获取源码树/缓存/大文件/私有 Supervisor 配置，服务器完整原目录仍在。账号及原数据集未删除。
@@ -157,7 +164,7 @@
 
 ### 部署入口、验证与后续任务
 
-完整说明：`docs/CROSS_PLATFORM_DEPLOYMENT.md`；旧 `/opt/kernel-insight` 升级维护说明：`docs/DEPLOYMENT_RUNBOOK.md`；完整备份恢复：`docs/LOCAL_DATA_GUIDE.md`。
+完整说明：`docs/Windows与Linux完整部署指南.md`；旧 `/opt/kernel-insight` 升级维护说明：`docs/服务器部署维护与故障恢复手册.md`；完整备份恢复：`docs/本地项目数据与备份恢复指南.md`。
 
 - Windows：`scripts/start-windows-site.ps1 -Mode Demo`；Full 模式需 `-Distribution`、WSL ext4 中的 `-LinuxProject`、实际 `-Model` 和从 WSL 可达的 `-ModelBaseUrl`。不能把 WSL 的 localhost 未经验证当作 Windows 模型地址。
 - Linux 新机：管理员运行 `scripts/install-linux-deps.sh`，专用非 root 用户运行 `scripts/setup-linux-runtime.sh`，配置模型后运行 `scripts/start-linux-site.sh`。默认 closed-loop，不依赖旧 dsh；需要旧引擎时初始化加 `--with-dsh`。启动先检查模型与依赖、探测 bubblewrap；失败不回退为 Demo。
@@ -170,17 +177,17 @@
 
 > **2026-10-07 逐页演讲稿与公开复现包**：48 页口语演讲稿已补齐，约 1.08 万汉字，含图表指引、动画操作、过渡和备用问答。演示目录加入公开冻结证据、Kelip 模板与许可证、发布哈希清单及检查器。隔离复制环境中，无原始 `data/` 和工具模板目录仍可重建完全相同的 HTML；没有新增模型或网站验收。GitHub 发布范围为演示包及必要设计/启动文档，私有业务数据与大型内核材料继续留在 Git 忽略目录。
 
-> **2026-10-07 Windows 本地展示与 Slide 整改**：网站已在 `http://127.0.0.1:8787` 启动，入口 `scripts/start-windows-site.ps1`，使用 Git 忽略的独立目录 `data/windows-local/` 和现有 80 条网站案例。导入六份真实实验报告作明确标注的回放，未新增模型调用、未执行网站功能验收、未变更远端服务。讲解稿改为 48 页，实验组改称“模型按需检索 / 自动预检增强”，新增 8 页真实功能界面、科研多面板/配对结果图，以及第 15/19 页可播放流程。详见 `docs/WINDOWS_SITE.md` 与 `deliverables/kernel-insight-system/说明.md`。
+> **2026-10-07 Windows 本地展示与 Slide 整改**：网站已在 `http://127.0.0.1:8787` 启动，入口 `scripts/start-windows-site.ps1`，使用 Git 忽略的独立目录 `data/windows-local/` 和现有 80 条网站案例。导入六份真实实验报告作明确标注的回放，未新增模型调用、未执行网站功能验收、未变更远端服务。讲解稿改为 48 页，实验组改称“模型按需检索 / 自动预检增强”，新增 8 页真实功能界面、科研多面板/配对结果图，以及第 15/19 页可播放流程。详见 `docs/Windows本地网站启动指南.md` 与 `deliverables/kernel-insight-system/说明.md`。
 
-> **2026-10-07 本地完整项目归档与整理已完成**：服务器项目资产已保存至 `X:\Items\1_AI4-Loc`。`data/server-snapshots/20261007-full/` 三个 Linux 恢复包共 4,695,988,355 字节，SHA256 全部通过，包含实验源码/构建/启动阶段/评测，以及用户明确授权的账号、任务和私有业务状态；私有状态文件哈希一致。`data/datasets/` 独立保留社区 6 例、旧注入 64 例、启动扩增 v2 80 例、stability-v1 68 场景（60 ready、8 excluded）；后者 423 合同文件深验零错误。启动、旧评测与原始证据展开于 `data/experiments/kernel-lab/`；Linux 链接与重复大产物仍保留在恢复包，冻结源码使用数据集 `shared/source.tar.gz`。大型及私有数据均 Git 忽略。删除约 490 MB 失败下载与可再生文件，保留内核 Git 历史、演示稿和失败证据；未启动或重部署网站。新增完整方案 `docs/SYSTEM_DESIGN.md`、本地指南 `docs/LOCAL_DATA_GUIDE.md` 和库存 `docs/project-data-inventory-20261007.json`。本轮 Node 36/36、Python 38/38、隔离业务 15/15 通过，真实模型成绩未重跑。
+> **2026-10-07 本地完整项目归档与整理已完成**：服务器项目资产已保存至 `X:\Items\1_AI4-Loc`。`data/server-snapshots/20261007-full/` 三个 Linux 恢复包共 4,695,988,355 字节，SHA256 全部通过，包含实验源码/构建/启动阶段/评测，以及用户明确授权的账号、任务和私有业务状态；私有状态文件哈希一致。`data/datasets/` 独立保留社区 6 例、旧注入 64 例、启动扩增 v2 80 例、stability-v1 68 场景（60 ready、8 excluded）；后者 423 合同文件深验零错误。启动、旧评测与原始证据展开于 `data/experiments/kernel-lab/`；Linux 链接与重复大产物仍保留在恢复包，冻结源码使用数据集 `shared/source.tar.gz`。大型及私有数据均 Git 忽略。删除约 490 MB 失败下载与可再生文件，保留内核 Git 历史、演示稿和失败证据；未启动或重部署网站。新增完整方案 `docs/问题定位系统完整设计方案.md`、本地指南 `docs/本地项目数据与备份恢复指南.md` 和库存 `docs/project-data-inventory-20261007.json`。本轮 Node 36/36、Python 38/38、隔离业务 15/15 通过，真实模型成绩未重跑。
 
 > **2026-10-07 晚（北京时间）OpenHarmony 启动阶段（boot-stage）故障数据集扩增已完成（本块优先级最高，覆盖下文“暂停 OpenHarmony 故障采集”的旧措辞）**：按用户“不影响其他进程、针对不同启动阶段构建错误”的要求，在 `$LAB/bootstages/`（`$LAB=/root/gpufree-data/kernel-insight-lab`）用 QEMU TCG（`nice -n 19`、`taskset -c 96-111`）跑通 19 个启动场景，得 **15 条有效真实内核日志 / 9 类不同签名**（另有 `bs_init_segv` 与 `bs_init_exit_false` 签名相同，记为重复不计）。覆盖：早期内存（`alloc_low_pages` / `kasan_populate_shadow` / 实模式 trampoline，均在 console 就绪前 panic）、console 未就绪日志截断、rootfs 挂载失败（garbage/empty/noinit/`initcall_blacklist=populate_rootfs`/rdinit 缺失/root 缺失/rootfstype 未知）、init 失败（`No working init found`、`Attempted to kill init! exitcode=0x00000000`）与两类无 panic 的启动挂起（`Waiting for root device`、init 常驻）。另完成一项**配置驱动**故障：`CONFIG_BLK_DEV_INITRD=n`（需先给 OH 源码 `include/linux/initrd.h` 补上缺失的 `_LINUX_INITRD_H` include guard 才能编译，源补丁已做并保留 `.orig`），新 bzImage 23,135,744 B；即便 `-initrd` 提供镜像也被忽略，内核 `panic: VFS: Unable to mount root fs on unknown-block(0,0)`。**已将这 16 条（15 启动 + 1 配置）按应用 schema 并入线上数据集**：`openharmony-lkdtm-lab-v1`（64 例）→ **`openharmony-lkdtm-lab-v2`（80 例，新增 `OHOS-065..080`，全部 `category=待专家分析`、`split=train`）**，位于 `/opt/kernel-insight/app/data/benchmark/`；sha256+bytes 逐条校验 0 不符、80 个 ID 唯一无重复；写入前已备份 `/opt/kernel-insight/data/backups/benchmark.openharmony-lkdtm-lab-v1.20261007-185249.tgz`（并复制到 `$LAB/backups/`）。边界：新增 16 例均为本地注入的**真实内核输出**（非社区报单、无编造文本），标注方式与既有 LKDTM 集一致；这 16 例不等于“50 份真实社区样本”，不要把构造注入日志计入社区样本数。8787 应用服务按用户要求保持关闭（仅改文件，未重启）。证据：`$LAB/bootstages/notes/bs_manifest.json`、`bs_notes_README.md`、`runs/*.log`；本地脚本 `C:\Users\YuTao\AppData\Local\Temp\opencode\kernel-bench\`（`patch_build_c1.py`、`run_c1.py`、`bs_app_cases.json`、`_remote_install.py`、`verify_install.py`）。
 
-> **2026-10-07 网站恢复及 agent 迭代最新验收（覆盖以下停服记录）**：服务器当前发布 `f4648fac616c`，网站 8787、代理 11435 和项目 Supervisor 正常，健康接口 `closed-loop / ollama-native / llmConnected=true`；平台 Ollama/SGLang 未接管。网站仍用 64 例 `openharmony-lkdtm-lab-v1`，旧社区备份与新 stability-v1 均保留。新自检入口 `scripts/run-website-selfcheck.py`：服务器 Node 36/36、Python 29/29、隔离业务 15/15、线上 9/9、匹配源码真实模型 8/8 通过；Linux 6.6.1 真实下载、官方 SHA256、缓存复用与源码读取通过。修复原日志字节损失、debug 首错标题、报告证据格式兼容和 sandbox 执行权限。相同 6 例 log+source 对照：故障代码命中 3/5→5/5，模型请求 21→6，总分析 181.347→95.834 秒；额外 3 例命中 2/3，RCU stall 仍未定位。代码命中不等于独立根因证明，OOM 目标/实际分配量措辞仍需复核。详见 `docs/WEBSITE_SELFCHECK.md`、`docs/website-acceptance-20261007.json`、`docs/agent-iteration-20261007.json`。
+> **2026-10-07 网站恢复及 agent 迭代最新验收（覆盖以下停服记录）**：服务器当前发布 `f4648fac616c`，网站 8787、代理 11435 和项目 Supervisor 正常，健康接口 `closed-loop / ollama-native / llmConnected=true`；平台 Ollama/SGLang 未接管。网站仍用 64 例 `openharmony-lkdtm-lab-v1`，旧社区备份与新 stability-v1 均保留。新自检入口 `scripts/run-website-selfcheck.py`：服务器 Node 36/36、Python 29/29、隔离业务 15/15、线上 9/9、匹配源码真实模型 8/8 通过；Linux 6.6.1 真实下载、官方 SHA256、缓存复用与源码读取通过。修复原日志字节损失、debug 首错标题、报告证据格式兼容和 sandbox 执行权限。相同 6 例 log+source 对照：故障代码命中 3/5→5/5，模型请求 21→6，总分析 181.347→95.834 秒；额外 3 例命中 2/3，RCU stall 仍未定位。代码命中不等于独立根因证明，OOM 目标/实际分配量措辞仍需复核。详见 `docs/网站功能自动自检手册.md`、`docs/website-acceptance-20261007.json`、`docs/agent-iteration-20261007.json`。
 
 > **2026-10-07 约 17:00（北京时间）服务器实查补充**：SSH 已恢复。服务器发布目录仍为 `1ee04edd2ecb`，其中 `app/data/benchmark` 已是 64 例 `openharmony-lkdtm-lab-v1`（43 train / 21 test），与 `$LAB/benchmark/app-format` manifest 相同，64 日志哈希通过；不是旧的 6 例社区集。旧社区集目录 `/opt/kernel-insight/data/backups/benchmark.linux-community-v1.20261007-130120` 与 `$LAB/backups/benchmark.linux-community-v1.20261007-130120.tgz` 均保留，7 个文件一致。`$LAB=/root/gpufree-data/kernel-insight-lab`。新 `stability-v1` 是重新采集并严格校验的独立版本，68 场景中 60 有效（59 故障+健康），423 文件重新深验通过；旧版 64 中有 5 场景在新版排除，新版新增 pressure_oom，不能混算。当前网站 8787、兼容代理 11435 无监听，项目 Supervisor socket 拒绝连接；平台 Ollama 11434、SGLang 30000 模型端点正常。停服原因尚未确认，历史端口占用日志不能作为本次停服根因。本轮仅核查，未重启/替换数据。服务器发布包内 handover 仍为旧版，交接以本文件最新记录为准。v8/v9 完整评测 JSON 和 5 份调用轨迹已取回。详见 `docs/server-dataset-inventory-20261007.json`。
 
-> **2026-10-07 最新优先级覆盖下文旧的“暂停采集”说明**：用户要求先确保日志/产物/源码数据集完备，再重点提升 agent 工具调用、第一现场定界与代码/提交定位。网站功能暂缓扩充。已在服务器重新采集 68 场景，59 故障+1 健康有效、8 排除，运行 GNU Build ID、源码补丁与 423 文件完整性检查通过。目录 `/root/gpufree-data/kernel-insight-lab/datasets/stability-v1`；本地只有证据副本，大型产物仍在服务器。首错提取的 debug/BUG 误匹配已修复并纳入回归，标注版本 v2。新可选工具循环、定位评测和独立机制审核见 `docs/KERNEL_LOCALIZATION_LOOP.md`、`scripts/localization_agent.py`、`scripts/run-localization-benchmark.py`、`scripts/review-localization.py`。代表性真实模型回归已完成：首轮全材料故障代码命中 2/5，后续原生接口复跑锁依赖和原子睡眠成功，OOM 因果代码仍未命中。v9 UAF 日志+源码 3 次请求、53.539 秒，首诊断提取 0.0047 秒；不同版本成绩禁止混算。Python 27/27、Node 31/31 通过。成绩见 `docs/kernel-localization-benchmark-20261007.json`；v8/v9 原始 JSON 与轨迹现已取回（此前 SSH 拒绝连接的缺口已关闭）。新引擎未切换线上。不能用分类正确率替代根因定位准确率；未证明引入提交、未采集 vmcore、未自动验证修复。
+> **2026-10-07 最新优先级覆盖下文旧的“暂停采集”说明**：用户要求先确保日志/产物/源码数据集完备，再重点提升 agent 工具调用、第一现场定界与代码/提交定位。网站功能暂缓扩充。已在服务器重新采集 68 场景，59 故障+1 健康有效、8 排除，运行 GNU Build ID、源码补丁与 423 文件完整性检查通过。目录 `/root/gpufree-data/kernel-insight-lab/datasets/stability-v1`；本地只有证据副本，大型产物仍在服务器。首错提取的 debug/BUG 误匹配已修复并纳入回归，标注版本 v2。新可选工具循环、定位评测和独立机制审核见 `docs/内核定位闭环与数据集说明.md`、`scripts/localization_agent.py`、`scripts/run-localization-benchmark.py`、`scripts/review-localization.py`。代表性真实模型回归已完成：首轮全材料故障代码命中 2/5，后续原生接口复跑锁依赖和原子睡眠成功，OOM 因果代码仍未命中。v9 UAF 日志+源码 3 次请求、53.539 秒，首诊断提取 0.0047 秒；不同版本成绩禁止混算。Python 27/27、Node 31/31 通过。成绩见 `docs/kernel-localization-benchmark-20261007.json`；v8/v9 原始 JSON 与轨迹现已取回（此前 SSH 拒绝连接的缺口已关闭）。新引擎未切换线上。不能用分类正确率替代根因定位准确率；未证明引入提交、未采集 vmcore、未自动验证修复。
 
 历史正文初始更新时间：2026-10-06；本文件最新交接更新：2026-10-08。项目仓库：https://github.com/YuTaoV5/AI4-Loc 。本文件是后续 AI 的入口，记录用户需求、最终设计和实现边界；历史设计文档冲突时，以最新需求及本文件顶部当前交接摘要为准。
 
@@ -257,7 +264,7 @@ Node.js 22.14+：`npm ci` → `npm run setup:diagrams` → `npm start`。地址 
 领导：区分独立故障和多机器重复发生次数，同时显示复用节省的分析量。专家：类别筛选、按满意度 / 解决数排序、经验版本演进。测试人员：任务关联机器与批次，区分故障复发和重复上传，批量反馈及更大规模检索。扩充真实社区样本并引入独立根因评估之后，再讨论完整智能诊断指标。
 
 ## 2026-10-07 Agent 设计更新
-用户最新 prompt：暂时不需要做日志收集，重点根据之前收集的工具设计 kernel 稳定性问题定位 Agent。暂停 OpenHarmony 故障采集，构建曾停在缺少 ccache；不得宣称已启动该内核或已有 50 份样本。新增 kernel_triage.py 固定工具证据层、dsh 紧凑证据输入、实际阶段事件和报告证据展开。设计与实现边界见 docs/KERNEL_AGENT_DESIGN.md；缺少 vmcore/匹配符号时不得宣称根因已验证。
+用户最新 prompt：暂时不需要做日志收集，重点根据之前收集的工具设计 kernel 稳定性问题定位 Agent。暂停 OpenHarmony 故障采集，构建曾停在缺少 ccache；不得宣称已启动该内核或已有 50 份样本。新增 kernel_triage.py 固定工具证据层、dsh 紧凑证据输入、实际阶段事件和报告证据展开。设计与实现边界见 docs/内核问题定位智能体设计.md；缺少 vmcore/匹配符号时不得宣称根因已验证。
 
 ## 2026-10-07 服务器接管与材料链更新
 
@@ -267,6 +274,6 @@ Node.js 22.14+：`npm ci` → `npm run setup:diagrams` → `npm start`。地址 
 
 本轮新增：账号隔离的符号/ELF vmcore/.config 材料上传与任务绑定，SHA256 和材料指纹；多故障事件分组与可能 panic 连锁标注；Build ID/架构/版本门禁下的固定 crash sys/bt 和 drgn 任务摘要。构建不匹配或缺证据时停止查询。原日志和附件在沙箱只读挂载。没有真实配套 vmcore，因此固定查询的门禁测试不能替代真实转储验证；不支持压缩 kdump，未开放任意脚本或地址自动转换。
 
-本地验收：Node 31 / 31、Python 9 / 9 通过；浏览器完成 .config 附件选择及提交并显示任务回执。当前设计细节见 docs/KERNEL_AGENT_DESIGN.md；日志采集保持暂停。
+本地验收：Node 31 / 31、Python 9 / 9 通过；浏览器完成 .config 附件选择及提交并显示任务回执。当前设计细节见 docs/内核问题定位智能体设计.md；日志采集保持暂停。
 
 部署验收：新版实跑任务 10c154e4-cf62-49bc-8d3b-958f5aef58b7 在 54.32 秒完成，schema v2、3 个事件、类别正确、rootCauseVerified=false，保存在 data/agent-materials-release-smoke.json。服务器 Node 31 / 31、Python 证据测试通过；配置哈希冲突另加了拒绝转储查询测试。所有结果仍待人工根因验证。

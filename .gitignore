@@ -46,6 +46,7 @@ data/linux-local/
 deployment/pplx-decider/venv/
 deployment/pplx-decider/state/
 data/agent-benchmarks/
+tmp/pdfs/
 data/evaluation-datasets/
 data/benchmark-acceptance*/
 deliverables/jev-huawei-soc/.render*/

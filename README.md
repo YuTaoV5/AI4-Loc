@@ -2,13 +2,15 @@
 
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
 
-[全部部署文档与报告索引](docs/README.md) · [dsh Decision 插件](plugins/kernel-decision/README.md) · [Jev API 示例](tools/jev-demos/README.md)
+[全部部署文档与报告索引](docs/文档导航.md) · [dsh Decision 插件](plugins/kernel-decision/README.md) · [Jev API 示例](tools/jev-demos/README.md)
 
-个人空间任务详细进展现支持 [API / 工具调用轨迹 Tab](docs/DSH_CALL_TRACE.md)，可查看已记录的 Decision 问题、选项、概率及工具参数/返回。
+2026-10-12研究更新：[25页学术报告](output/pdf/AI4Loc_Decision_Academic_Report_20261012.pdf)、[PPLX全GPU实测](research/pplx-timeshare-20261012/REPORT.md)、[权重下载部署与验收手册](docs/PPLX专用模型下载部署与验收手册.md)。同一A100分时独占测试，两端test均27/27，PPLX均值5.672s、通用2.563s；运行时不同，未证明纯权重速度或完整根因定位收益。说明文档已统一中文名，见[名称对照](docs/文档名称对照.md)。
 
-最新交付：个人 Agent/Skill Prompt 组合、新建分析选择、一键固定套件跑分、同 cohort 前十用户榜及个人结果联动。详见 [平台设计与评分标准](docs/AGENT_BENCHMARK_PLATFORM.md)、[详细实测分析报告](docs/AGENT_BENCHMARK_ANALYSIS_20261009.md) 和 [逐例数据与图表](docs/results/agent-benchmark-20261009/)。本轮九例全部完成；故障代码定位 3/8，不能据此宣称准确率提升。公开仓库保留脱敏摘要，私有 Prompt、账号、业务日志及完整运行轨迹留在 Git 忽略目录。
+个人空间任务详细进展现支持 [API / 工具调用轨迹 Tab](docs/智能体接口与工具调用轨迹说明.md)，可查看已记录的 Decision 问题、选项、概率及工具参数/返回。
 
-已有完整本地数据时，使用 [Windows 展示启动指南](docs/WINDOWS_SITE.md) 运行独立状态的网站。系统方案另附 [48 页网页版讲解稿](deliverables/kernel-insight-system/deck.html)，包含真实功能图、科研结果图与可播放流程。
+最新交付：个人 Agent/Skill Prompt 组合、新建分析选择、一键固定套件跑分、同 cohort 前十用户榜及个人结果联动。详见 [平台设计与评分标准](docs/一键跑分平台与评分标准.md)、[详细实测分析报告](docs/定位智能体跑分分析报告_20261009.md) 和 [逐例数据与图表](docs/results/agent-benchmark-20261009/)。本轮九例全部完成；故障代码定位 3/8，不能据此宣称准确率提升。公开仓库保留脱敏摘要，私有 Prompt、账号、业务日志及完整运行轨迹留在 Git 忽略目录。
+
+已有完整本地数据时，使用 [Windows 展示启动指南](docs/Windows本地网站启动指南.md) 运行独立状态的网站。系统方案另附 [48 页网页版讲解稿](deliverables/kernel-insight-system/deck.html)，包含真实功能图、科研结果图与可播放流程。
 
 演示材料：[完整逐页演讲稿](deliverables/kernel-insight-system/逐页演讲稿.md)、[离线包与重建说明](deliverables/kernel-insight-system/README.md)。
 
@@ -35,10 +37,10 @@ npm run collect:benchmark
 
 ## 远端模型与定位工具
 
-当前远端使用 **closed-loop 工具循环 + Ollama Chat**，可选 **SGLang Decision 快速定界**；旧 dsh 执行链保留兼容。Windows 原生 Demo 使用规则检索；完整定位与独立沙箱跑分需 Linux/WSL2，见 [跨平台部署](docs/CROSS_PLATFORM_DEPLOYMENT.md)。模型调用使用独立任务目录和只读系统沙箱，个人空间可查看工具调用状态，报告含假设、原始行号和验证步骤。默认答案不传给模型，失败不伪装成成功。
+当前远端使用 **closed-loop 工具循环 + Ollama Chat**，可选 **SGLang Decision 快速定界**；旧 dsh 执行链保留兼容。Windows 原生 Demo 使用规则检索；完整定位与独立沙箱跑分需 Linux/WSL2，见 [跨平台部署](docs/Windows与Linux完整部署指南.md)。模型调用使用独立任务目录和只读系统沙箱，个人空间可查看工具调用状态，报告含假设、原始行号和验证步骤。默认答案不传给模型，失败不伪装成成功。
 
-- [Windows / Linux 工具手册](docs/KERNEL_TOOLKIT.md)：ripgrep、LLVM ELF / DWARF / PDB 与反汇编，Linux GDB、crash、drgn 等；13 / 14 项实际工具实验。
-- [远端部署与恢复](docs/REMOTE_AGENT_DEPLOYMENT.md)：SSH 隧道、模型别名、SGLang 显存、只读沙箱、磁盘迁移与运行边界。
+- [Windows / Linux 工具手册](docs/内核调试工具安装与使用.md)：ripgrep、LLVM ELF / DWARF / PDB 与反汇编，Linux GDB、crash、drgn 等；13 / 14 项实际工具实验。
+- [远端部署与恢复](docs/远端智能体部署与运行指南.md)：SSH 隧道、模型别名、SGLang 显存、只读沙箱、磁盘迁移与运行边界。
 - [模型 Benchmark](docs/agent-benchmark-20261007.json) 与 [首轮原始失败记录](docs/agent-benchmark-first-20261007.json)：真实模型输出与耗时；有限案例的类别得分不是根因准确率。
 
 通过 SSH 隧道访问远端：
@@ -94,39 +96,39 @@ ssh -p 30113 -L 127.0.0.1:8788:127.0.0.1:8787 root@120.209.70.195 -N
 最新设计使用浅蓝双光束背景、蓝色主操作、高对比度文字，社区摘要为半透明渐变。首页保持单屏，主要页面使用侧栏导航，辅助功能位于底部。
 
 - [handover.md](handover.md)：历次需求 Prompt、设计手册、代码地图、运行与后续注意事项。
-- [身份、首页与分析复用](docs/IDENTITY_AND_REUSE.md)
-- [专家经验及 Markdown / 图表](docs/EXPERT_EXPERIENCE.md)
-- [账号与实时进度](docs/ACCOUNTS_AND_PROGRESS.md)
-- [光束视觉设计](docs/AURORA_DESIGN.md)
+- [身份、首页与分析复用](docs/用户身份与分析复用设计.md)
+- [专家经验及 Markdown / 图表](docs/专家经验库使用与设计.md)
+- [账号与实时进度](docs/账号权限与任务进度.md)
+- [光束视觉设计](docs/网站视觉与交互设计.md)
 
 ![专家中心](docs/previews/experts-contrast.jpg)
 
-Kernel 定位 Agent 的证据流程、工具使用边界与后续接口见 [设计手册](docs/KERNEL_AGENT_DESIGN.md)。
+Kernel 定位 Agent 的证据流程、工具使用边界与后续接口见 [设计手册](docs/内核问题定位智能体设计.md)。
 
-新增离线定位闭环：服务器 `stability-v1` 数据集含 59 个有效注入故障和 1 个健康基线，保存完整运行日志、匹配编译产物、源码快照及根因代码；另外 8 个场景明确排除。与网站现有 6 例社区分类守护集分开管理。新 agent 支持第一现场定界、按需工具取证、代码位置候选、实际模型请求/耗时统计及独立机制评审，详见 [定位闭环](docs/KERNEL_LOCALIZATION_LOOP.md) 与 [数据集核验](docs/kernel-dataset-audit-20261007.json)。
+新增离线定位闭环：服务器 `stability-v1` 数据集含 59 个有效注入故障和 1 个健康基线，保存完整运行日志、匹配编译产物、源码快照及根因代码；另外 8 个场景明确排除。与网站现有 6 例社区分类守护集分开管理。新 agent 支持第一现场定界、按需工具取证、代码位置候选、实际模型请求/耗时统计及独立机制评审，详见 [定位闭环](docs/内核定位闭环与数据集说明.md) 与 [数据集核验](docs/kernel-dataset-audit-20261007.json)。
 
 ### 诊断材料与转储边界
 
 分析选项可附加 vmlinux / ELF 模块、ELF vmcore 和内核 .config，材料按账号隔离并绑定任务。文件 SHA256 与材料编号参与结果追溯和去重。符号和转储的 Build ID、架构与日志版本一致，且无已知配置哈希冲突时，才运行固定的 crash / drgn 只读查询。缺失或不匹配会显示材料缺口；当前不支持压缩 kdump、任意查询脚本或自动 KASLR 地址转换。多异常日志按标题分组，后续 panic 标注为可能连锁反应。
 
-本轮验收为 31 项 Node 测试、9 项 Python 证据测试及远端真实模型单例。没有真实配套 vmcore，不能将门禁测试解释为转储根因已验证。详见 [Agent 设计](docs/KERNEL_AGENT_DESIGN.md) 和 [接管记录](docs/SERVER_STATUS_20261007.md)。
+本轮验收为 31 项 Node 测试、9 项 Python 证据测试及远端真实模型单例。没有真实配套 vmcore，不能将门禁测试解释为转储根因已验证。详见 [Agent 设计](docs/内核问题定位智能体设计.md) 和 [接管记录](docs/服务器接管与状态记录_20261007.md)。
 
 定位闭环本轮验证：Python 27/27、Node 31/31；真实模型各版本成绩、历史超时及 OOM 定位缺口见 [定位评测报告](docs/kernel-localization-benchmark-20261007.json)。新引擎仍为可选实验路径，未切换线上。
 
-服务器网站已恢复并接入新版定位 Agent；当前完整验收为 Node 36/36、Python 29/29、业务与模型自检 32/32。重复执行入口及配对迭代成绩见 [网站自检手册](docs/WEBSITE_SELFCHECK.md)、[验收记录](docs/website-acceptance-20261007.json) 和 [定位迭代数据](docs/agent-iteration-20261007.json)。
+服务器网站已恢复并接入新版定位 Agent；当前完整验收为 Node 36/36、Python 29/29、业务与模型自检 32/32。重复执行入口及配对迭代成绩见 [网站自检手册](docs/网站功能自动自检手册.md)、[验收记录](docs/website-acceptance-20261007.json) 和 [定位迭代数据](docs/agent-iteration-20261007.json)。
 
 ## 完整系统与本地数据
 
-- [完整系统方案](docs/SYSTEM_DESIGN.md)：架构、业务链路、数据合同、Agent 工具循环、评测、部署与闭环边界。
-- [本地数据与恢复指南](docs/LOCAL_DATA_GUIDE.md)：完整归档、四个数据集版本、校验方式与整理记录。
+- [完整系统方案](docs/问题定位系统完整设计方案.md)：架构、业务链路、数据合同、Agent 工具循环、评测、部署与闭环边界。
+- [本地数据与恢复指南](docs/本地项目数据与备份恢复指南.md)：完整归档、四个数据集版本、校验方式与整理记录。
 
 大型数据、源码和产物位于 `data/datasets/`、`data/experiments/` 与 `data/server-snapshots/`，只在本地保存，不进入 Git。最新网站 Benchmark 已扩增为 `openharmony-lkdtm-lab-v2`（80 例）；仓库公开夹具 `data/benchmark/` 仍为 6 例社区集。历史章节中的线上数据数量以此及最新 handover 为准。
 # 跨平台完整部署
 
-Windows 原生启动默认为 Demo；完整 Linux 工具链与隔离实验通过 WSL2 运行。Linux 新机入口、模型依赖、数据选择、常驻服务与 16.82 GB 文件审计见 [跨平台部署说明](docs/CROSS_PLATFORM_DEPLOYMENT.md)。代码包不包含私有业务数据或外部模型权重，不能把 Demo 当作完整模型部署。
+Windows 原生启动默认为 Demo；完整 Linux 工具链与隔离实验通过 WSL2 运行。Linux 新机入口、模型依赖、数据选择、常驻服务与 16.82 GB 文件审计见 [跨平台部署说明](docs/Windows与Linux完整部署指南.md)。代码包不包含私有业务数据或外部模型权重，不能把 Demo 当作完整模型部署。
 
 ### Decision / Chat 分层定位（2026-10-09）
 
-- [Jev-like 模型的 SGLang 部署与配置](docs/SGLANG_JEV_LIKE_DEPLOYMENT.md)
-- [Benchmark 标签泄露审计及隔离边界](docs/BENCHMARK_LABEL_LEAKAGE_AUDIT.md)
-- [Decision + Chat 分流 Agent 与实测结果](docs/DECISION_CHAT_HYBRID_AGENT.md)
+- [Jev-like 模型的 SGLang 部署与配置](docs/SGLang决策接口部署与参数指南.md)
+- [Benchmark 标签泄露审计及隔离边界](docs/评测标签泄露审计.md)
+- [Decision + Chat 分流 Agent 与实测结果](docs/决策定界与对话根因分析方案.md)

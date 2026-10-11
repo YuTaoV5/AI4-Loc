@@ -1,10 +1,27 @@
 # PPLX-Decider v1：服务器部署、下载与验收手册
 
-2026-10-12 补充：按分时复用完成的全GPU测试单独记录于 [复测入口](../research/pplx-timeshare-20261012/README.md)。下文2026-10-11的CPU卸载部署/验收保持历史条件，不用于全GPU速度比较。
+文档修订：2026-10-12。本文给出固定权重下载、完整性校验、依赖、CPU卸载/完整GPU两套启动命令、参数、验收和恢复步骤。最近已通过的全GPU测试见 [复测报告](../research/pplx-timeshare-20261012/REPORT.md)。CPU卸载历史数据不用于全GPU速度比较。
+
+## 最近已验证的状态与本次修订边界
+
+2026-10-12新版常驻部署已通过在线验收（北京时间2026-10-12 07:29:02）：五个部署脚本与仓库521b29c对应字节SHA256一致，30个权重文件重新核验通过；两轮choice/noul/score、项目DecisionClient、422/404负例和推理后停止→启动→再次推理均通过，共4次合成推理，不计入benchmark。PPLX PID1114，通用PID66启动身份未变，两个模型端点健康。当前常驻为CPU卸载并存配置；全GPU121次实验与此次部署验收分别保存。
+
+| 项目 | 已有直接证据 |
+| --- | --- |
+| 新版常驻部署 | 2026-10-12 07:29:02北京时间完成，PPLX PID1114；[完整验收目录](../deployment/pplx-decider/validation-20261012/README.md) |
+| 权重与代码一致性 | 固定v1 revision，30文件重新校验通过；五个部署脚本哈希与仓库一致 |
+| API与生命周期 | 两轮三类型接口、概率/零输出、客户端及422/404通过；真实推理后停止、启动、再推理通过 |
+| 完整GPU实验 | 全参数cuda:0；先PPLX78次、释放后通用43次。正式121次0失败，test均27/27，均值5.672s/2.563s |
+| 常驻配置 | 默认CPU卸载10GiB GPU权重/64GiB CPU权重，与原通用模型并存；不是全GPU实验配置 |
+| 服务资源快照 | 通用PID66身份未变，PPLX PID1114；GPU 70401 MiB, 10751 MiB |
+
+最初SSH端口拒绝连接，服务器恢复后已完成上述新版部署与在线补验。验收使用合成日志，不写网站任务/榜单，不新增benchmark分母；网站功能和容器重启自动拉起不在本轮验收范围。后续重新验证应另存带日期结果，不能覆盖旧记录。
 
 记录日期：2026-10-11。此手册记录实际部署方式及复现命令；本轮验收证据见 [deployment/pplx-decider/validation](../deployment/pplx-decider/validation/)。历史 121 次分类实验保持独立，见 [实测报告](../research/pplx-decider-20261011/REPORT.md)。
 
 最终验收：服务保持运行，PID2638；真实三类型接口和项目客户端均通过，推理后停止/重启及再次推理通过。两处生命周期问题已修复并保留失败记录；部署脚本五个SHA256与提交文件一致。这里的“验证通过”限定为下述已执行项目，不包含网站切换、原生SGLang或重启宿主机恢复。
+
+上一段为2026-10-11原始验收状态；PID2638已在后续分时维护中退出，当次恢复PID为5850，本次新版部署PID为1114。PID仅供历史追溯，执行停止动作必须由管理器重新核验当前进程身份。
 
 ## 1. 部署对象与范围
 
@@ -36,6 +53,8 @@ https://huggingface.co/perplexity-ai/pplx-decider-v1-27b/resolve/b01a5cbaca5391f
 ```
 
 本次共下载并校验 30 个必要文件：11 个 backbone 分片，readout，config/decision_config，tokenizer/processor/chat template，safetensors index，参考推理/服务/类型源文件及许可证等。不能只下载 readout，也不能用通用 Qwen backbone 顶替专用训练后的 backbone。
+
+2026-10-12重新核对官方模型卡时已出现v1.1版本入口。本项目的已测对象仍固定为上述v1 revision，不把新版自动替换进旧协议；升级权重需要另建实验并重新校验、验收和评测。[官方模型卡](https://huggingface.co/perplexity-ai/pplx-decider-v1-27b)
 
 服务器直接连接 Hugging Face 不可用，实际以 `https://hf-mirror.com` 传输固定 revision，下载器使用 `User-Agent: Mozilla/5.0`。镜像不是身份依据：LFS 文件按独立官方元数据 SHA256 校验，其他文件按 Git blob SHA1 校验。临时签名 URL、认证令牌和 SSH 密码不进入文档或仓库。
 
@@ -69,6 +88,25 @@ cp "$AI4LOC_REPO"/deployment/pplx-decider/official-model-metadata.json "$PPLX_HO
 ```
 
 确认仓库 commit 与发布记录一致，再部署。下面的 `run-benchmark.py` 不参与服务启动；它的固定实验目录已经有历史数据，不能直接重跑覆盖。
+
+### 已有服务升级顺序
+
+上述复制命令用于首次安装。已有服务时，先确认任务队列空闲，保存当前入口并用原管理器停止本PPLX服务，再复制新文件；不要只更新磁盘代码便宣称运行进程已升级。
+
+```bash
+export PPLX_BACKUP="$PPLX_HOME/backups/$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$PPLX_BACKUP"
+cp "$PPLX_HOME"/*.py "$PPLX_BACKUP/"
+"$PPLX_HOME/venv/bin/python" "$PPLX_HOME/service.py" stop
+cp "$AI4LOC_REPO"/deployment/pplx-decider/*.py "$PPLX_HOME/"
+sha256sum "$PPLX_HOME"/*.py
+"$PPLX_HOME/venv/bin/python" "$PPLX_HOME/service.py" start
+"$PPLX_HOME/venv/bin/python" "$PPLX_HOME/verify-service.py" \
+  --agent-scripts /opt/kernel-insight/app/scripts \
+  --output "$PPLX_HOME/state/validation-$(date +%Y%m%d-%H%M%S).json"
+```
+
+将部署SHA256与同一Git提交中的文件字节核对，再按第9节验证推理后重启。失败时保留日志，用本服务管理器停止已启动的新进程，将备份的入口恢复后重新启动；不要停止通用模型来掩盖CPU卸载配置启动失败。全GPU分时维护另按第7节的资源和恢复约束执行。
 
 ## 5. 下载与完整校验
 
@@ -149,6 +187,7 @@ PY
 | --- | --- |
 | checkpoint | 完整专用模型目录，固定 revision；启动核对完整校验摘要 |
 | port / host | 30002 / 127.0.0.1；与原通用模型30000分离 |
+| placement | serve.py新增cpu-offload / full-gpu；默认cpu-offload。service.py不接受此参数，完整GPU使用下方前台入口 |
 | gpu-weight-limit | 10GiB，Accelerate 权重放置额度，**不是 GPU 总占用上限** |
 | cpu-memory-limit | 64GiB，CPU 权重放置额度，**不是 cgroup/进程总内存上限** |
 | gpu-wait-seconds | 管理器默认60秒等待显存≥16000MiB，处理退出后的CUDA释放延迟；超时拒绝启动，不降低门槛 |
@@ -167,7 +206,7 @@ PY
 
 更新后的 `serve.py` 支持 `--placement full-gpu`；显式把整个backbone与专用readout放在cuda:0，并逐参数断言没有CPU/meta参数。该模式忽略cpu-memory-limit/gpu-weight-limit；这两个额度仅用于默认cpu-offload模式。不能只把额度调大后仍让auto静默卸载。
 
-本轮使用实验目录的冻结入口；恢复后的常驻服务磁盘入口仍为e415d96版本。要使用以下新参数，先按本文上传步骤将仓库新版serve.py复制到目标服务目录；不要给旧版入口传入新参数。
+全GPU实验使用独立目录的冻结入口；本次已将同一新版serve.py部署到常驻目录，五个脚本哈希与仓库一致。常驻管理器仍选择默认CPU卸载模式；要切换完整GPU必须另开维护窗口、释放原GPU模型，并使用以下前台入口。
 
 在已释放原GPU模型并确认显存足够的维护窗口，前台命令为：
 
@@ -177,7 +216,7 @@ PY
   --port 30002 --record "$PPLX_HOME/state/full-gpu-runtime.json"
 ```
 
-检查runtime中的placement=full-gpu、parameterDevices仅含cuda:0，及health的cpuOffload=false。本轮完整参数52173271520字节（48.59GiB）。需要额外显存放置激活等运行内存，49GiB不是启动总显存要求。当前service.py管理入口仍使用默认CPU卸载配置；完整GPU模式使用上述前台命令或本轮受保护的分时实验控制器，不给管理器传入其不支持的placement参数。
+检查runtime中的placement=full-gpu、parameterDevices仅含cuda:0，及health的cpuOffload=false。CPU卸载模式可能出现meta参数占位，由Accelerate钩子从CPU调入，这不表示权重文件缺失；完整GPU模式则严格拒绝CPU/meta参数。本轮完整参数52173271520字节（48.59GiB）。需要额外显存放置激活等运行内存，49GiB不是启动总显存要求。当前service.py管理入口仍使用默认CPU卸载配置；完整GPU模式使用上述前台命令或本轮受保护的分时实验控制器，不给管理器传入其不支持的placement参数。
 
 本平台通用模型由Go Supervisor管理、未配置控制RPC，直接结束模型会被自动拉起。此次维护控制器保存原进程身份/配置，短暂暂停Supervisor监控，在独立恢复守护保护下分时测试，再恢复监控让原配置重新启动。SSH/Ollama等子服务继续运行，但监控暂停期间它们的自动重启暂不可用。此流程仅适用于已经核验的当前容器，不能照搬固定PID到其他机器；其他平台优先使用正常的模型服务管理接口。失败启动与恢复记录均单独保留。
 
@@ -255,9 +294,10 @@ stop 核对记录PID、进程启动tick及serve.py命令，只向本服务发SIG
 | stop后立即start被显存检查拒绝 | 本轮复现过CUDA显存释放延迟，已改为最多等待60秒；超时再检查其他进程，不关闭显存保护 |
 | stop时退出过程中的cmdline暂时为空 | 本轮复现并修复：发SIGTERM前严格核对命令与启动tick，发信号后仅等待同一启动tick的原进程退出；不把正常CUDA退出误判为PID被替换 |
 | health正常但网站不通 | 模型接口与网站是不同服务；网站8787需按网站部署runbook独立恢复 |
+| SSH连接被拒绝（10061） | 先核对GPU容器是否运行、平台转发端口及SSH监听；这发生在模型验收前，不能记为PPLX推理失败或远端部署成功 |
 
 ## 10. SGLang 原生路线与结论边界
 
-原生专用模型部署须使用确实包含 `decision_config.json`/专用readout支持的 SGLang 构建；当前平台0.5.21没有该支持，本次没有升级。查阅 [SGLang专用模型说明](https://docs.sglang.io/cookbook/autoregressive/Perplexity/PPLX-Decider-v1-27B) 与 [项目接口说明](SGLANG_JEV_LIKE_DEPLOYMENT.md)，固定验证过的构建commit再部署。不能用通用 `/v1/decisions` 的“无额外开关”规则替代专用权重支持确认。
+原生专用模型部署须使用确实包含 `decision_config.json`/专用readout支持的 SGLang 构建；当前平台0.5.21没有该支持，本次没有升级。查阅 [SGLang专用模型说明](https://docs.sglang.io/cookbook/autoregressive/Perplexity/PPLX-Decider-v1-27B) 与 [项目接口说明](SGLang决策接口部署与参数指南.md)，固定验证过的构建commit再部署。不能用通用 `/v1/decisions` 的“无额外开关”规则替代专用权重支持确认。
 
 专用全GPU部署约需49GiB权重空间加运行内存；本机通用模型仍驻留，未验证原生SGLang全GPU性能。历史test两端27/27，无提分证据；本轮服务验收仅证明下载身份、运行及接口兼容，不替代新机制泛化或根因定位实验。

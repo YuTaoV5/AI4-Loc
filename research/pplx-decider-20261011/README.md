@@ -2,7 +2,9 @@
 
 本目录独立于此前通用模型 Decision/Chat 报告。真实 checkpoint 为 `perplexity-ai/pplx-decider-v1-27b`，固定 revision `b01a5cbaca5391f73bd55103d4f27e8982cd5e60`。结果以 [REPORT.md](REPORT.md) 与 `results/statistics.json` 为准。
 
-后续常驻服务部署与独立验收见 [部署手册](../../docs/PPLX_DECIDER_DEPLOYMENT.md)。该部署不改变本目录历史实验的冻结协议、数据和运行条件。
+后续常驻服务部署与独立验收见 [部署手册](../../docs/PPLX专用模型下载部署与验收手册.md)。该部署不改变本目录历史实验的冻结协议、数据和运行条件。
+
+2026-10-12更新：本页保留CPU卸载历史条件与冻结数据。最新[全GPU分时复测](../pplx-timeshare-20261012/REPORT.md)已完成，两端test均27/27，PPLX均值5.672s、通用2.563s；旧CPU速度不作公平对照。部署步骤见[中文手册](../../docs/PPLX专用模型下载部署与验收手册.md)。
 
 ## 范围
 
@@ -38,6 +40,6 @@ python verify.py
 
 私有完整证据：本地 `data/local-archive/pplx-decider-20261011/retained-evidence.tgz`，含逐次输入、响应、调用轨迹、匿名隔离审计、冻结源码及执行日志。Git 只保存脱敏派生表、协议、校验摘要、分析与实验脚本。大型权重可重复下载，保留服务器缓存而不进 Git。
 
-注入家族不必等于日志第一条诊断；LOOP/SOFTLOCKUP 的第一诊断为 RCU stall，原始注入标签为 watchdog。保留冻结映射得分，另见 [数据标注缺口](../../docs/DATASET_DIAGNOSTIC_LABEL_GAP_20261011.md)。既有 test 已参与项目开发，不能称新机制盲测。无显著差异不构成等效或非劣证明。
+注入家族不必等于日志第一条诊断；LOOP/SOFTLOCKUP 的第一诊断为 RCU stall，原始注入标签为 watchdog。保留冻结映射得分，另见 [数据标注缺口](../../docs/首诊断与故障注入标签差异分析_20261011.md)。既有 test 已参与项目开发，不能称新机制盲测。无显著差异不构成等效或非劣证明。
 
 官方来源：[模型、源代码及许可证](https://huggingface.co/perplexity-ai/pplx-decider-v1-27b)、[SGLang 说明](https://docs.sglang.io/cookbook/autoregressive/Perplexity/PPLX-Decider-v1-27B)。本仓库不复制第三方权重或官方源码；请按原仓库许可证取得。

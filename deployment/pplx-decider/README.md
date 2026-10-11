@@ -1,6 +1,8 @@
 # PPLX-Decider 独立服务
 
-完整下载、环境、命令、参数、验收、Agent 接入及故障处理见 [部署手册](../../docs/PPLX_DECIDER_DEPLOYMENT.md)。
+完整下载、环境、命令、参数、验收、Agent 接入及故障处理见 [部署手册](../../docs/PPLX专用模型下载部署与验收手册.md)。
+
+2026-10-12已部署仓库521b29c对应新版入口，30文件重新校验、两轮真实接口/客户端和推理后重启均通过，详见[新版验收](validation-20261012/README.md)。当前常驻CPU卸载与通用模型并存；完整GPU分时测试独立保存，不混入部署验收分母。
 
 - `serve.py`：固定 v1 checkpoint，官方参考 BF16 推理、CPU 卸载，loopback `/v1/systemone`；支持文本 choice/noul/score，每次最多三个问题。
 - `serve.py --placement full-gpu`：分时释放GPU后使用的完整GPU模式，逐参数核验cuda:0；详细复测入口见 [全GPU研究目录](../../research/pplx-timeshare-20261012/README.md)。管理器service.py默认CPU卸载配置保持不变。

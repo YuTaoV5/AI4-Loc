@@ -97,6 +97,7 @@ audit_path=O/'evidence-audit.json'
 if audit_path.exists():
  audit=read(audit_path)
  parts+=['## 完整性、泄露复核与服务状态',f"121/121 调用成功，121/121 匿名 worker 检查通过，121/121 实际请求轨迹通过字段复核，冻结源码哈希一致。完整私有归档 {audit['archive']['bytes']} 字节，SHA256 `{audit['archive']['sha256']}`；本地归档及其中 518 个文件逐一核验一致。",'模型请求没有 caseId、gold、injectionFamily、评测结果或数据集路径字段；但保留了自然日志中的 LKDTM 函数名和工作负载线索。63/121 次请求（41 个唯一案例）包含与案例名重合的日志文本。这不属于父进程额外传入标签，但可能形成捷径；本轮不能宣称完全去线索盲测或泛化能力已被证明。匿名目录不能消除日志内容本身的线索。','测试结束临时参考服务已关闭，原通用模型接口 HTTP 200、原进程 PID 65 仍在。8787 网站端口在本次测试前及结束后均不响应；本轮没有恢复网站，不能以模型接口正常代替网站健康。服务器模型缓存盘剩余约 8.3 GiB；完整 checkpoint 缓存保留，未上传 GitHub。']
+parts.insert(1,'2026-10-12更新：本页保留CPU卸载历史条件与冻结数据。最新[全GPU分时复测](../pplx-timeshare-20261012/REPORT.md)已完成，两端test均27/27，PPLX均值5.672s、通用2.563s；旧CPU速度不作公平对照。部署步骤见[中文手册](../../docs/PPLX专用模型下载部署与验收手册.md)。')
 text='';previous=''
 for part in parts:
  text+=('' if not text else '\n' if part.startswith('|') and previous.startswith('|') else '\n\n')+part;previous=part

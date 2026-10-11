@@ -25,4 +25,4 @@ for platform,url,digest in assets:
   with tarfile.open(p) as archive:archive.extractall(target,filter='data')
  print('Verified',p.name,flush=True)
 (root/'verified-downloads.json').write_text(json.dumps(assets,indent=2))
-print('Linux: install distro llvm/clang, binutils, gdb, crash and strace; see docs/KERNEL_TOOLKIT.md.')
+print('Linux: install distro llvm/clang, binutils, gdb, crash and strace; see docs/内核调试工具安装与使用.md.')

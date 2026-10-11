@@ -117,7 +117,7 @@ README='''# AI4Loc：GitHub 补充包（含私有业务数据）
    git -C AI4Loc checkout 711319f15b49b9391205aa8e142cbe012688f541
 2. 将本 ZIP 解压到独立目录，例如 supplement；不要直接解压覆盖项目。Windows 使用支持 ZIP64 的解压工具，Linux 可用 python3 -m zipfile -e 本包.zip supplement。
 3. 执行 python supplement/merge_into_project.py AI4Loc（Windows 可使用 Python 3.10+；Linux 用 python3）。脚本核对 Git 提交和每个载荷的 SHA256，再恢复 manifest 指定路径。相同内容在包内仅保存一次，由脚本恢复所有必要路径，因此不要手动只复制 payload。
-4. 原有不同文件自动备份到项目 data/local-archive/before-supplement-*。合并后遵循 docs/CROSS_PLATFORM_DEPLOYMENT.md 安装依赖、配置真实模型并启动。
+4. 原有不同文件自动备份到项目 data/local-archive/before-supplement-*。合并后遵循 docs/Windows与Linux完整部署指南.md 安装依赖、配置真实模型并启动。
 
 ## 数据与业务状态
 data/datasets 下保存四个数据版本，data/experiments 保存实验与证据，其他审计目录保存指标和轨迹。本地网站演示数据与私有原数据分别保存，远端备份的服务数据放在 data/restored-server/data。不要直接混用两份 accounts/state：恢复旧业务可将 KERNEL_INSIGHT_DATA_DIR 指向该目录，并显式设置 KERNEL_BENCHMARK_DIR。

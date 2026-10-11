@@ -1,5 +1,5 @@
 """Create the Chinese manuscript, offline HTML and PDF from audited statistics."""
-import pathlib,json,os,sys,re,html,hashlib
+import pathlib,json,os,sys,re,html,hashlib,shutil
 ROOT=pathlib.Path(__file__).resolve().parents[2];HERE=pathlib.Path(__file__).parent;S=json.loads((HERE/'results/statistics.json').read_text(encoding='utf-8'));P=json.loads((HERE/'results/protocol.json').read_text(encoding='utf-8'));E=json.loads((HERE/'results/end-to-end-cases.json').read_text(encoding='utf-8'))
 # Optional bundled dependency fallback on the author's workstation; ordinary pip packages work elsewhere.
 bundle=pathlib.Path('C:/Users/YuTao/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/Lib/site-packages')
@@ -16,6 +16,10 @@ if pathlib.Path(font).exists():pdfmetrics.registerFont(TTFont('CJK',font,subfont
 else:pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'));pdfmetrics.registerFontFamily('STSong-Light',normal='STSong-Light',bold='STSong-Light');font='STSong-Light'
 FN='CJK' if font!='STSong-Light' else font;FB='CJKBold' if FN=='CJK' else FN
 A=S['aggregate'];C=S['contrasts'];T=S['historicalEndToEnd'];pct=lambda x:f'{100*x:.1f}%';num=lambda x:f'{x:.3f}';pages=[]
+TS=HERE.with_name('pplx-timeshare-20261012');X=json.loads((TS/'results/statistics.json').read_text(encoding='utf-8'));XA=json.loads((TS/'results/audit.json').read_text(encoding='utf-8'));XR=json.loads((TS/'results/pplx-runtime.json').read_text(encoding='utf-8'));GA=X['primary']['generic'];PX=X['primary']['pplx']
+assert X['formalCalls']==121 and XR['parameterDevices']==['cuda:0'] and XA['traceCount']==121
+for source,target in [('03-paired-latency','09-pplx-latency'),('02-confusion','10-pplx-confusion'),('04-latency-ratio','11-pplx-ratio')]:
+ for ext in ['png','svg']:shutil.copy2(TS/'figures'/(source+'.'+ext),HERE/'figures'/(target+'.'+ext))
 def page(title,*blocks):pages.append({'title':title,'blocks':list(blocks)})
 def p(x):return {'type':'p','text':x}
 def fig(n,caption):return {'type':'fig','name':n,'caption':caption}
@@ -25,11 +29,12 @@ def code(x):return {'type':'code','text':x}
 TITLE='AI4Loc-Decision：以类型化决策接口提前定界的证据驱动内核故障定位'
 SUBTITLE='系统设计、配对实验、消融分析与收益边界'
 page(TITLE,
- p(SUBTITLE),p('Typed Decisions for Early Boundary Identification in Evidence-Driven Kernel Fault Localization'),p('实证技术研究报告 · AI4Loc 项目 · 2026 年 10 月 11 日 · 代码基线 7e49c6b'),
+ p(SUBTITLE),p('Typed Decisions for Early Boundary Identification in Evidence-Driven Kernel Fault Localization'),p('实证技术研究报告 · 2026-10-12 修订 · 原主实验代码基线 7e49c6b；专用模型补充基线521b29c'),
  sub('摘要'),
  p('内核故障定位需要区分“哪个检测器首先报错”与“哪段代码导致故障”。生成式 Agent 能开展开放式源码调查，但有限分类同样依赖文本解码，且分类置信度容易被误读为因果证明。本文设计一个证据驱动的分层 Agent：由实际日志工具提取第一现场，Jev-like 类型化 Decision 接口回答故障家族、执行阶段和报告组件，Chat 在不被分类硬约束的条件下继续调用只读工具，并通过源码引用检查交付候选位置。'),
  p('基于服务器可追溯数据，本文复核 54 次历史有限分类调用、18 次隔离完整定位与 63 次历史消融运行，并新增 135 次配对随机接口消融。新增三问题 Decision 的平均客户端调用耗时为 1.145 秒，Chat 为 2.075 秒，相对降低 44.8%，配对差值 95% 案例 bootstrap 区间为 [0.626, 1.284] 秒；三个预先指定时延对比的 Holm 校正 p 值均为 0.0117。两接口故障家族均为 27/27 正确，但仅包含 9 个唯一案例、5 个机制分组，家族级敏感性检验不显著。'),
  p('完整定位对照在 8 个故障上的代码位置命中均为 4/8，混合系统请求数 25→34、累计耗时 252.946→275.619 秒。历史规则消融同样达到 8/8 回归命中，说明现有证据不能把定位改善归因于 Decision。研究支持将类型化接口用于提前返回定界和审计，而非将其宣称为已证实的端到端加速器。根因机制、引入提交与修复因果准确率仍未获得独立真值。'),
+ p(f'另以真实PPLX专用权重进行121次全GPU分时复测：同一A100依次独占运行，test两端均27/27；PPLX均值{PX["meanSeconds"]:.3f}s，通用SGLang均值{GA["meanSeconds"]:.3f}s。专用权重在本部署条件下未显示提速；运行时不同，不能作纯权重因果归因。该补充与原135次接口消融分开分析。'),
  sub('关键词与贡献'),p('关键词：内核故障定位；类型化决策；Jev-like；工具调用 Agent；源码证据；消融实验；统计效度。'),
  p('贡献一：明确拆分定界、代码位置候选与因果验证，给出有限决策和开放调查的接口契约。贡献二：提供原始请求可追溯的分层 Agent 与独立评测路径。贡献三：通过正反结果、规则消融、家族聚类敏感性和成本分析刻画真实收益边界。'))
 page('1  引言与研究问题',
@@ -57,7 +62,7 @@ page('3  系统架构与 Agent 闭环',
  code('1. 检查材料，提取第一条显式诊断和原始行号。\n2. 若配置 Decision，提交固定问题；失败则记录并回退 Chat。\n3. 从已观察符号搜索并阅读候选源码，不读取评测标签。\n4. Chat 选择只读工具或交付报告；记录实际选择与返回。\n5. 拦截重复、越权、格式错误及超预算调用。\n6. 校验报告 schema、源码范围和证据引用；失败可受限修正。\n7. 输出候选、材料缺口及下一项可证伪检查；另行完成因果验证。'),
  p('生成与 Decision 尝试共享 HTTP 预算；故障和格式修正同样计数。源代码预检与模型选择分别标注，避免把固定工具策略误称为模型自主推理。完成报告不等于完成修复验证；网站保留人工核对入口。'))
 page('4  Jev-like 接口、DSH 插件与调用契约',
- p('本文的 Jev-like 是“状态 + 有限问题 → 类型化答案及概率”的接口形态，不表示使用 Jev 原始权重。服务器实际为 SGLang 上的 Qwen3.8-27B-SystemOne 别名；历史模型目录检查未发现专用 decision_config.json。此次未更换权重或重启模型，也没有实测专用 PPLX-Decider 权重。别名中的 SystemOne 不能作为专用模型身份证明。'),
+ p('本文原135次接口主实验的Jev-like指“状态 + 有限问题 → 类型化答案及概率”，使用SGLang通用Qwen检查点，未更换权重；SystemOne别名不是专用模型身份证明。修订新增的PPLX研究使用真实专用backbone、readout与保存温度，独立协议和独立分母，见第17至20节。原接口结果不能被改写为PPLX结果。'),
  table(['层次','接口与语义'],[['Agent 内部','boundary_state 只传诊断窗口、生命周期片段和材料可用性；不传 caseId、标签、评分或注入指令。'],['通用 Decision','POST /v1/decisions；input、questions[]、temperature=1、prompt_format_version=1。'],['System One 适配','POST /v1/systemone；state、按 id 索引的 questions；yes_no 转 noul，choice/score 保留类型。'],['原生 DSH','可信配置加载 kernel-decision 插件；kernel_boundary 调用共享 Python 后端，模型不传任意 URL、命令或工作目录。'],['当前生产闭环','KERNEL_AGENT_ENGINE=closed-loop；复用相同后端，而非把整套 benchmark 冒称为原生 DSH SDK 运行。']],[.24,.76]),
  code('{"input": {"firstDiagnosticLine": 448, "lines": "实际日志窗口"},\n "questions": [{"id":"family", "type":"choice",\n   "question":"Classify the FIRST explicit diagnostic...",\n   "options":[{"name":"memory_lifetime"}, {"name":"memory_bounds"}, "其余固定选项"]}],\n "temperature":1, "prompt_format_version":1}\n// 上例是省略其他选项的说明性结构，不是可执行完整请求。'),
  p('实际问题原文固定：family 判断第一条诊断，不采用后续 panic；stage 区分启动前缀和实际运行期；reporter 区分报告者和缺陷所有者。完整 schema 和英文提示见冻结的 boundary_router.py。choice 返回显式 choice 与分布；yes_no/noul 返回二元概率；score 返回有序等级分布。验证概率集合、有限性、归一化和零生成 token 后才接受。'),
@@ -129,20 +134,41 @@ page('15  失败机制与工程含义',
  table(['可用材料','合理输出上限'],[['仅日志','第一现场、报告组件及可疑函数；不能声称有已核验源码位置。'],['源码 / 产物但无日志','静态风险和可能机制；不能绑定为本次实际事故。'],['日志 + 精确源码','带工具引用的源码候选；独立因果检查仍需补充。'],['日志 + 匹配 ELF/DWARF','可映射故障指令；必须核对运行时 Build ID。'],['无可用输入','声明证据不足，不构造诊断、提交或修复成功。']],[.31,.69]),
  p('以上是系统契约，不是本报告已完成的 7 种材料组合全因子实验。既有试验没有覆盖全部缺失模式，不能声称缺一两项时仍保持同等准确率。'))
 page('16  有效性威胁、隔离与研究伦理',
- table(['威胁','已采取措施','仍存在的限制'],[['伪重复与家族集中','重复先聚合为案例，另做 5 家族敏感性检验','同一构建和故障注入器，独立性仍有限'],['缓存、顺序与排队','新增实验随机配对块；单并发；保存顺序','没有缓存清空、缓存命中或逐次队列遥测'],['测试污染与捷径','匿名目录、脱敏日志、严格工具范围','既有 test 已参与设计；函数名语义提示强'],['标签直接暴露','独立 worker、不挂载父评测/业务/proc；退出后评分','不能据此证明预训练无污染或形式化零侧通道'],['构念效度','分开 family、代码位置、机制、提交指标','后两项无独立真值；位置重叠不是因果正确'],['外部效度','明确单 GPU、单检查点、低并发范围','没有专用 Decision 权重、自然故障盲测或多机器复现']],[.2,.4,.4]),
+ table(['威胁','已采取措施','仍存在的限制'],[['伪重复与家族集中','重复先聚合为案例，另做 5 家族敏感性检验','同一构建和故障注入器，独立性仍有限'],['缓存、顺序与排队','新增实验随机配对块；单并发；保存顺序','没有缓存清空、缓存命中或逐次队列遥测'],['测试污染与捷径','匿名目录、脱敏日志、严格工具范围','既有 test 已参与设计；函数名语义提示强'],['标签直接暴露','独立 worker、不挂载父评测/业务/proc；退出后评分','不能据此证明预训练无污染或形式化零侧通道'],['构念效度','分开 family、代码位置、机制、提交指标','后两项无独立真值；位置重叠不是因果正确'],['外部效度','明确单 GPU、单检查点、低并发范围','原主实验无专用权重；新增PPLX运行时不同；仍无自然故障盲测或多机复现']],[.2,.4,.4]),
  p('新增隔离审计的 135 个 worker 均无法看到评测数据目录、业务状态和 proc；历史最终完整对照 18 个 worker 的 canary 等检查也通过。历史早期 63 次运行来自同进程评测，其隔离强度较弱，不能继承新沙箱的安全结论。网络保留以调用本机模型；固定代码没有任意 HTTP 工具，但本研究不宣称配置了网络防火墙。'),
  p('数据完整性、运行时标签隔离、开发污染与预训练污染是四个不同问题。前两者有直接审计证据；后两者不能排除。报告不把“未发现直接标签通道”表述为“绝对没有标签泄露”。'),
- p('不向生产公共榜单写入验收分数，不把真实用户日志或账号导出为公开附件，不在生产中触发新的内核故障注入。所有补充实验仅调用既有模型、使用已有数据，不重启或重配置平台服务。高概率候选仍须人工和复现验证后才能作为修复依据。'))
-page('17  下一阶段的验证方案与结论',
- sub('17.1 尚待执行的确认性研究'),
+ p('不向生产公共榜单写入验收分数，不公开真实用户日志或账号，不触发新内核故障注入。原135次接口实验未重启平台；新增全GPU研究在用户授权维护中分时卸载/加载模型并恢复原服务，流程和失败记录见第20节。高概率候选仍需人工及复现验证。'))
+page('17  专用PPLX权重：问题与全GPU实验设计',
+ p('研究问题从“同权重Decision接口是否快于Chat”扩展为“当前可部署的专用Decision方案是否优于通用Decision方案”。二者不是同一估计目标。先前CPU卸载时PPLX均值19.455s、通用1.485s含设备放置混杂，不作为本轮速度对照。'),
+ table(['设计项','冻结与执行情况'],[['权重身份','perplexity-ai/pplx-decider-v1-27b；固定revision b01a5cbaca5391f73bd55103d4f27e8982cd5e60；30文件、11 backbone分片已按官方元数据校验。'],['设备放置',f'同一A100 80GB分时独占；PPLX全部参数cuda:0，{XR["parameterBytes"]}字节（48.59GiB），无CPU/meta参数。'],['样本与预算','9既有test×3×2=54；16其他映射train×1×2=32；35未映射×1 PPLX=35。121正式调用、2预热排除。每次3问题、BF16、8192上下文、串行、零重试。'],['顺序与缓存','共享43个案例/重复块随机排序seed=202610120，两端顺序相同；先PPLX后通用，未AB/BA交叉。通用实验端关闭radix缓存。'],['运行时差异','PPLX为官方参考Transformers/SDPA，通用为SGLang0.5.21；提示、readout与内核不同，属于部署方案比较。'],['隔离与真值','匿名bwrap固定worker；父进程评分。只评价映射family；stage/reporter/源码根因/引入提交没有独立真值。']],[.2,.8]),
+ p('协议SHA256 e7f831a2caa938ed5be46006b082dcc2d420ec74103993692056f28fc1f7121ab在正式调用前冻结。不存在把CPU旧121次、原接口135次与本轮121次拼接为独立样本的做法；重复测试也不增加唯一案例数量。'))
+page('18  专用权重：全GPU配对时延结果',
+ fig('09-pplx-latency','图9：本轮9个test案例各三次均值的配对时延。两端依次独占GPU；所有案例PPLX参考部署均更慢，不能据此证明专用权重本征更慢。'),
+ table(['test指标','通用全GPU / SGLang','PPLX全GPU / 参考实现'],[['平均秒',num(GA['meanSeconds']),num(PX['meanSeconds'])],['P95秒',num(GA['p95NearestRank']),num(PX['p95NearestRank'])],['输入token总数',GA['inputTokens'],PX['inputTokens']],['输出token / API次数','0 / 27','0 / 27']],[.34,.33,.33]),
+ p(f'PPLX/通用均值比{PX["meanSeconds"]/GA["meanSeconds"]:.3f}，本部署约慢2.21倍。以9唯一案例为配对单位，通用减PPLX均值差{X["latencyComparison"]["genericMinusPplxMeanSeconds"]:.3f}s，案例bootstrap95%区间[-3.472,-2.724]s；探索性案例符号置换p=0.003906。5注入家族等权敏感性p=0.0625，不能声称跨机制显著。'),
+ p('本分析在采集期间编写，不冒充确认性预注册。CPU放置和同时驻留混杂已消除，运行时、核函数、模板、token计数和固定阶段顺序仍不同；输入token不同也不能直接当作推理计算量之比。'))
+page('19  专用权重：准确率、标签与泄露边界',
+ fig('10-pplx-confusion','图10：25个映射案例repeat=0的注入代理混淆矩阵，每端23/25；不是25个经过因果裁决的首诊断真值。'),
+ p('test调用两端均27/27，唯一案例多数均9/9；9/9二项95%区间[66.4%,100%]，配对McNemar p=1，无不一致对，未证明非劣或等效。25例代理Brier：通用0.1580，PPLX0.1539；未建立内核领域的概率校准结论。35未覆盖案例correct=null，不能计入正确率分母。'),
+ p('两个代理不吻合为LOOP和SOFTLOCKUP：注入是watchdog，第一诊断却为RCU stall；两端预测RCU。保留冻结标签分数，不能自动归为模型错误。应分别标注注入机制、首诊断家族和因果根因，再按研究目标评分。'),
+ p(f'121请求均无额外标签/评分/案例ID字段且隔离通过；仍有{XA["naturalCaseNameTextRequests"]}请求、{XA["naturalCaseNameTextUniqueCases"]}唯一案例包含与案例名重合的自然LKDTM符号。test参与开发，匿名路径不消除内容捷径；不能称新机制盲测或绝对无污染。'))
+page('20  专用模型部署验证与工程结论',
+ fig('11-pplx-ratio','图11：9案例全GPU部署时延比热力图。数值为PPLX/通用比，颜色为log2比率；两者分别含不同运行时的成本。'),
+ p('部署文件deployment/pplx-decider/提供权重校验、loopback服务、生命周期和真实接口验收。支持choice/noul/score和项目DecisionClient；公开部署验收含422负例、Chat404及推理后停止/启动。新增placement=full-gpu严格断言参数设备；默认CPU卸载管理配置用于与原模型并存。官方链接、命令和参数见docs中的中文PPLX部署手册。[9]'),
+ p('全GPU控制器在独立恢复守护保护下暂停平台自动重启监控，停止已核验的模型进程组，依次采集后恢复。首次因新增hf_device_map记录代码失败，0正式调用，失败现场及恢复保留；修复另起新协议目录。正式0失败，原模型30000与CPU sidecar30002恢复，两个Decision端点合成UAF验证通过。'),
+ p(f'私有归档{XA["archive"]["bytes"]}字节、{XA["archive"]["files"]}证据文件；归档及逐文件哈希通过。既有CPU卸载数据、失败尝试与恢复验收独立保存；不公开原进程环境或账号。服务器恢复后已将新版入口部署到常驻目录；30文件重新校验、两轮三类型/客户端/负例及推理后重启验收通过，共4次合成推理，另存validation-20261012。PPLX PID1114、通用PID66身份未变，不加入benchmark分母。'),
+ p('工程结论：类型化接口在原同模型任务上有局部时延收益，但当前专用参考部署未更快、也未显示family提分。完整根因定位收益仍未测；下一步优先统一支持专用readout的运行时并做AB/BA交叉、新机制盲测与独立因果真值。'))
+page('21  下一阶段的验证方案与结论',
+ sub('21.1 尚待执行的确认性研究'),
  p('冻结提示、工具和评分实现后，再采集至少 12 个独立机制分组、每组约 10 个新案例作为候选规模；优先加入自然驱动/子系统故障、长多事件日志、检测器与所有者分离、真实引入提交及修复重放。按机制与提交历史隔离训练/开发/测试，避免同一故障的参数变体跨集合。此处是计划，不是新增已测 120 例。'),
  p('确认性全流程实验应在同一源码预检、同一生成预算与同一资料条件下比较：无 Decision、仅建议的 Decision、规则建议、错误建议注入、硬路由；再单独消融源码预检与 7 种非空输入组合。错误建议用于检验 Chat 能否纠偏，硬路由用于验证候选覆盖上界。不同因素分批控制，避免把更多源码读取混同为分类模型增益。'),
  p('阶段、panic 类型、报告者、责任组件和因果机制由两名独立标注者在不知道系统输出的条件下标注，报告一致性并对分歧裁决。引入提交需修复重放/回归二分证明，不能用修复提交直接充当引入提交。预先固定主要终点、非劣界限、超时与多重比较策略，保留失败在分母。'),
  p('样本量尺度：若 n 个独立案例零失败，要使失败率的单侧 95% 二项上界低于 5%，至少需 n=59；双侧 95% 区间要求至少 72 个。这里的独立指不同问题，不能用重复调用或同机制近重复凑数。正式配对非劣设计还需按不一致对率、机制聚类和期望效应做功效分析。'),
- sub('17.2 明确结论'),
+ sub('21.2 明确结论'),
  p('论点一：类型化 Decision 在当前同模型有限分类任务上降低平均客户端调用时延，新增案例级统计支持该结论；跨机制推广的证据仍不足。论点二：零解码的收益伴随多问题输入开销，问题数量与早期反馈字段应共同设计。论点三：Decision 定界与根因定位是不同目标；完整流程当前没有提速或提分证据。论点四：实际工具证据、候选覆盖、独立因果验证与严谨对照，比把高分类概率称为根因置信度更关键。'),
+ p('新增专用权重研究补充论点：CPU卸载会混淆速度比较，应验证完整设备放置；移除卸载后，当前PPLX参考部署仍未提速。该部署负结果与同模型接口收益可以同时成立，不能互相替代。统一运行时后的权重收益仍待测。'),
  p('推荐的工程角色是：Decision 提前给出有限、可审计、可质疑的定界；Chat 继续开放调查；工具保证证据来源；评测器和人工复现判断真正的定位与因果结果。本文展示的是有边界的实证优势，而不是普遍优越性的结论。'))
-page('18  参考文献与复现材料',
+page('22  参考文献与复现材料',
  p('[1] SGLang. Decision models. 官方文档，访问日期 2026-10-11。https://docs.sglang.io/docs/supported-models/decision_models'),
  p('[2] Yang, J., Jimenez, C. E., Wettig, A., et al. SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering. NeurIPS, 2024. https://arxiv.org/abs/2405.15793'),
  p('[3] Xia, C. S., Deng, Y., Dunn, S., Zhang, L. Agentless: Demystifying LLM-based Software Engineering Agents. arXiv:2407.01489, 2024. https://arxiv.org/abs/2407.01489'),
@@ -151,8 +177,9 @@ page('18  参考文献与复现材料',
  p('[6] Zheng, L., Yin, L., Xie, Z., et al. SGLang: Efficient Execution of Structured Language Model Programs. NeurIPS, 2024. https://arxiv.org/abs/2312.07104'),
  p('[7] Demšar, J. Statistical Comparisons of Classifiers over Multiple Data Sets. Journal of Machine Learning Research, 7:1–30, 2006. https://www.jmlr.org/papers/v7/demsar06a.html'),
  p('[8] SciPy. scipy.stats.permutation_test. 官方参考文档，访问日期 2026-10-11。https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html'),
+ p('[9] Perplexity AI. pplx-decider-v1-27b模型卡及固定权重revision。2026-10-12核对。https://huggingface.co/perplexity-ai/pplx-decider-v1-27b 。本研究固定v1，不自动替换为新版v1.1。'),
  sub('复现清单'),
- p('本目录保留 run-boundary-ablation.py、boundary-worker.py、analyze.py、build-report.py、协议 JSON、135 条公开派生 CSV、历史逐例表、统计结果、八组 SVG/PNG 图和可编辑正文。原始请求与私有审计包位于 data/local-archive/paper-20261011/；服务器位于 /opt/kernel-insight/experiments/paper-20261011/。'),
+ p('本目录保留 run-boundary-ablation.py、boundary-worker.py、analyze.py、build-report.py、协议 JSON、135 条公开派生 CSV、历史逐例表、统计结果、原八组及新增三组 SVG/PNG 图和可编辑正文。原始请求与私有审计包位于 data/local-archive/paper-20261011/；服务器位于 /opt/kernel-insight/experiments/paper-20261011/。'),
  p('图表仅来自测量或明确标记的架构设计，未使用生成图片模拟数据。公开派生表不含完整 Prompt、token ID、账号或业务日志。分析固定随机种子并重算区间/检验；附带的数据清单记录文件哈希。PDF 字体使用本机中文字体，不分发字体文件。'),
  code('python analyze.py --public       # 从公开派生数据重算统计与图表\npython build-report.py           # 生成 Markdown、离线 HTML 与 PDF\n# 新跑服务器实验前需检查已有数据、模型端点、沙箱与空闲状态；\n# 不要把历史结果文件与新协议混用。'),
  p('透明性：研究没有外部资助或作者利益冲突信息可供核实，因此不编造相关声明；正式投稿须由实际作者补充署名、机构、贡献、资金来源及利益冲突。此报告不冒充已投稿、已同行评审或已获奖论文。'))
@@ -187,7 +214,7 @@ for i,pg in enumerate(pages):
 (HERE/'report.md').write_text('\n'.join(md)+'\n',encoding='utf-8')
 # Offline, print-friendly HTML, no runtime CDN or external JavaScript.
 ht=['<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(TITLE)+'</title><style>body{margin:0;background:#edf0f4;color:#17212c;font:16px/1.85 "Microsoft YaHei","Noto Sans CJK SC",sans-serif}.page{max-width:900px;padding:44px 56px;margin:24px auto;background:white;box-shadow:0 2px 14px #182a4010}h1{font-size:29px;line-height:1.5}h2{font-size:23px;color:#194b79}h3{font-size:18px;margin-top:25px}p{text-align:justify;overflow-wrap:anywhere}figure{margin:25px 0}img{width:100%;height:auto}figcaption{font-size:13px;color:#52606f}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.65;margin:20px 0}th,td{border:1px solid #d7dfe6;padding:9px;text-align:left;overflow-wrap:anywhere}th{background:#edf3f8}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.8 monospace;background:#f5f7fa;padding:16px}nav{max-width:900px;margin:20px auto;padding:18px 56px;background:#172e46;color:white}nav a{color:white;margin-right:18px;font-size:13px}footer{font-size:12px;color:#6b7580;border-top:1px solid #dde4eb;margin-top:30px;padding-top:10px}@media print{body{background:white}.page{box-shadow:none;margin:0;page-break-after:always;padding:15mm;max-width:none}nav{display:none}}@media(max-width:650px){.page{padding:24px;margin:8px}nav{padding:16px}table{font-size:12px}}</style>']
-ht.append('<nav>AI4Loc 研究报告 · 2026-10-11<br>'+''.join(f'<a href="#s{i+1}">{i+1:02d} {html.escape(pg["title"].split("  ")[-1][:13])}</a>' for i,pg in enumerate(pages))+'</nav>')
+ht.append('<nav>AI4Loc 研究报告 · 2026-10-12 修订<br>'+''.join(f'<a href="#s{i+1}">{i+1:02d} {html.escape(pg["title"].split("  ")[-1][:13])}</a>' for i,pg in enumerate(pages))+'</nav>')
 for i,pg in enumerate(pages):
  ht.append(f'<section class="page" id="s{i+1}"><h{1 if i==0 else 2}>'+html.escape(pg['title'])+f'</h{1 if i==0 else 2}>')
  for b in pg['blocks']:
@@ -216,6 +243,6 @@ for i,pg in enumerate(pages):
   elif typ=='table':
    data=[[para(x,'cell') for x in b['headers']]]+[[para(str(x),'cell') for x in r] for r in b['rows']];widths=[W*x for x in b['widths']] if b['widths'] else None;t=Table(data,colWidths=widths,repeatRows=1,hAlign='LEFT');t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#eaf1f7')),('GRID',(0,0),(-1,-1),.4,colors.HexColor('#cbd7e1')),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),6),('RIGHTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),6),('BOTTOMPADDING',(0,0),(-1,-1),6)]));story.extend([t,Spacer(1,10)])
 def footer(canvas,doc):
- canvas.saveState();canvas.setFont(FN,7.4);canvas.setFillColor(colors.HexColor('#637182'));canvas.drawString(50,27,'AI4Loc-Decision | 实证技术研究报告 | 2026-10-11');canvas.drawRightString(A4[0]-50,27,str(doc.page));canvas.restoreState()
-pdf=ROOT/'output/pdf/AI4Loc_Decision_Academic_Report_20261011.pdf';pdf.parent.mkdir(exist_ok=True,parents=True);doc=SimpleDocTemplate(str(pdf),pagesize=A4,rightMargin=50,leftMargin=50,topMargin=43,bottomMargin=45,title=TITLE,author='AI4Loc Project Technical Report');doc.build(story,onFirstPage=footer,onLaterPages=footer)
+ canvas.saveState();canvas.setFont(FN,7.4);canvas.setFillColor(colors.HexColor('#637182'));canvas.drawString(50,27,'AI4Loc-Decision | 实证技术研究报告 | 2026-10-12 修订');canvas.drawRightString(A4[0]-50,27,str(doc.page));canvas.restoreState()
+pdf=ROOT/'output/pdf/AI4Loc_Decision_Academic_Report_20261012.pdf';pdf.parent.mkdir(exist_ok=True,parents=True);doc=SimpleDocTemplate(str(pdf),pagesize=A4,rightMargin=50,leftMargin=50,topMargin=43,bottomMargin=45,title=TITLE,author='AI4Loc Project Technical Report');doc.build(story,onFirstPage=footer,onLaterPages=footer)
 print(json.dumps({'pdf':str(pdf),'sections':len(pages),'html':str(HERE/'report.html'),'markdown':str(HERE/'report.md')},ensure_ascii=False))

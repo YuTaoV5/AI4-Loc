@@ -1,0 +1,128 @@
+{
+  "model": "perplexity-ai/pplx-decider-v1-27b",
+  "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+  "complete": true,
+  "files": [
+    {
+      "name": "LICENSE",
+      "verified": true
+    },
+    {
+      "name": "NOTICE",
+      "verified": true
+    },
+    {
+      "name": "README.md",
+      "verified": true
+    },
+    {
+      "name": "chat_template.jinja",
+      "verified": true
+    },
+    {
+      "name": "config.json",
+      "verified": true
+    },
+    {
+      "name": "decision_config.json",
+      "verified": true
+    },
+    {
+      "name": "inference.py",
+      "verified": true
+    },
+    {
+      "name": "model-00001-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00002-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00003-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00004-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00005-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00006-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00007-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00008-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00009-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00010-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model-00011-of-00011.safetensors",
+      "verified": true
+    },
+    {
+      "name": "model.safetensors.index.json",
+      "verified": true
+    },
+    {
+      "name": "processor_config.json",
+      "verified": true
+    },
+    {
+      "name": "readout.safetensors",
+      "verified": true
+    },
+    {
+      "name": "release-manifest.json",
+      "verified": true
+    },
+    {
+      "name": "source/LICENSE",
+      "verified": true
+    },
+    {
+      "name": "source/src/autojev/__init__.py",
+      "verified": true
+    },
+    {
+      "name": "source/src/autojev/model.py",
+      "verified": true
+    },
+    {
+      "name": "source/src/autojev/playground.html",
+      "verified": true
+    },
+    {
+      "name": "source/src/autojev/server.py",
+      "verified": true
+    },
+    {
+      "name": "source/src/autojev/types.py",
+      "verified": true
+    },
+    {
+      "name": "tokenizer.json",
+      "verified": true
+    },
+    {
+      "name": "tokenizer_config.json",
+      "verified": true
+    }
+  ],
+  "seconds": 72.08645858801901
+}

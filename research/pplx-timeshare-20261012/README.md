@@ -29,4 +29,4 @@ python verify.py
 
 服务器证据：`/opt/kernel-insight/experiments/pplx-timeshare-20261012/`；本地私有归档：`data/local-archive/pplx-timeshare-20261012/`。原进程环境/账号配置不发布，也不混入公开图表。旧CPU卸载数据保持在独立研究目录，不合并为本轮公平对照。
 
-`retain.py` 在服务器完成恢复后生成私有归档，排除进程环境/lease、权重、venv及临时制备副本。本轮624383字节、536证据文件，SHA256 `1e6e699a0bd6fac1b456e71fa551815920300e44f7623151f417a1cc1da6a83b3`；本地核对归档及每个文件哈希。公开数据离线复算与私有数据派生的7个数据文件、Markdown和HTML报告逐字节一致；四组图已目视检查。
+`retain.py` 在服务器完成恢复后生成私有归档，排除进程环境/lease、权重、venv及临时制备副本。本轮624383字节、536证据文件，SHA256 `1e6e699a0bd6fac1b456e71fa51815920300e44f7623151f417a1cc1da6a83b3`；本地核对归档及每个文件哈希。公开数据离线复算与私有数据派生的7个数据文件、Markdown和HTML报告逐字节一致；四组图已目视检查。

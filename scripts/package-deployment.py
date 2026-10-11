@@ -15,7 +15,7 @@ with tarfile.open(target,'w:gz') as archive:
             if file.is_file() and '__pycache__' not in file.parts and file.name!='remote-admin.py':
                 name=file.relative_to(root).as_posix()
                 add(archive,file,name)
-    for name in ['package.json','package-lock.json','README.md','handover.md','docs/KERNEL_AGENT_DESIGN.md','docs/REMOTE_AGENT_DEPLOYMENT.md','docs/SERVER_STATUS_20261007.md','docs/CROSS_PLATFORM_DEPLOYMENT.md','docs/DEPLOYMENT_RUNBOOK.md','docs/KERNEL_TOOLKIT.md','docs/AGENT_BENCHMARK_PLATFORM.md']:
+    for name in ['package.json','package-lock.json','README.md','handover.md','docs/内核问题定位智能体设计.md','docs/远端智能体部署与运行指南.md','docs/服务器接管与状态记录_20261007.md','docs/Windows与Linux完整部署指南.md','docs/服务器部署维护与故障恢复手册.md','docs/内核调试工具安装与使用.md','docs/一键跑分平台与评分标准.md']:
         archive.add(root/name,arcname=name)
     for file in (root/'data/toolchains/linux').glob('*'):
         if file.is_file():add(archive,file,'runtime-seed/linux/'+file.name)
