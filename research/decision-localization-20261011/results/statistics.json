@@ -1,0 +1,287 @@
+{
+  "schema": "decision-localization-paper-statistics/v1",
+  "date": "2026-10-11",
+  "nUniqueCases": 9,
+  "nMechanismGroups": 5,
+  "newAttempts": 135,
+  "warmupAttemptsExcluded": 5,
+  "bootstrapReplicates": 30000,
+  "seed": 20261011,
+  "aggregate": {
+    "D3-first": {
+      "attempts": 27,
+      "success": 27,
+      "errors": 0,
+      "meanSeconds": 1.1452867037037038,
+      "medianSeconds": 0.901078,
+      "p95NearestRank": 2.17218,
+      "meanInputTokens": 11219.666666666666,
+      "meanOutputTokens": 0.0,
+      "caseMajorityCorrect": 9,
+      "caseAccuracyExactCI95": [
+        0.6637328831200571,
+        1.0
+      ],
+      "faultDiagnosticIncludedCases": 8
+    },
+    "C3-first": {
+      "attempts": 27,
+      "success": 27,
+      "errors": 0,
+      "meanSeconds": 2.0746397037037037,
+      "medianSeconds": 2.122465,
+      "p95NearestRank": 2.317654,
+      "meanInputTokens": 4454.888888888889,
+      "meanOutputTokens": 30.88888888888889,
+      "caseMajorityCorrect": 9,
+      "caseAccuracyExactCI95": [
+        0.6637328831200571,
+        1.0
+      ],
+      "faultDiagnosticIncludedCases": 8
+    },
+    "D1-first": {
+      "attempts": 27,
+      "success": 27,
+      "errors": 0,
+      "meanSeconds": 0.4220282592592593,
+      "medianSeconds": 0.119031,
+      "p95NearestRank": 1.058545,
+      "meanInputTokens": 3765.5555555555557,
+      "meanOutputTokens": 0.0,
+      "caseMajorityCorrect": 9,
+      "caseAccuracyExactCI95": [
+        0.6637328831200571,
+        1.0
+      ],
+      "faultDiagnosticIncludedCases": 8
+    },
+    "D3-tail": {
+      "attempts": 27,
+      "success": 27,
+      "errors": 0,
+      "meanSeconds": 1.4138942962962966,
+      "medianSeconds": 1.511632,
+      "p95NearestRank": 2.183888,
+      "meanInputTokens": 11394.0,
+      "meanOutputTokens": 0.0,
+      "caseMajorityCorrect": 9,
+      "caseAccuracyExactCI95": [
+        0.6637328831200571,
+        1.0
+      ],
+      "faultDiagnosticIncludedCases": 5
+    },
+    "C3-tail": {
+      "attempts": 27,
+      "success": 27,
+      "errors": 0,
+      "meanSeconds": 1.9369808148148149,
+      "medianSeconds": 1.948892,
+      "p95NearestRank": 2.317638,
+      "meanInputTokens": 4522.888888888889,
+      "meanOutputTokens": 30.88888888888889,
+      "caseMajorityCorrect": 9,
+      "caseAccuracyExactCI95": [
+        0.6637328831200571,
+        1.0
+      ],
+      "faultDiagnosticIncludedCases": 5
+    }
+  },
+  "contrasts": {
+    "C3-first minus D3-first": {
+      "meanDifferenceSeconds": 0.929353,
+      "ci95": [
+        0.6262154074074073,
+        1.283595074074074
+      ],
+      "relativeReduction": 0.4479587459648505,
+      "relativeReductionCI95": [
+        0.3042712935686729,
+        0.6047547898754624
+      ],
+      "caseSignFlipP": 0.00390625,
+      "familySignFlipP": 0.0625,
+      "caseCount": 9,
+      "familyCount": 5,
+      "wins": 9,
+      "caseSignFlipPHolm": 0.01171875,
+      "familySignFlipPHolm": 0.1875
+    },
+    "D3-first minus D1-first": {
+      "meanDifferenceSeconds": 0.7232584444444444,
+      "ci95": [
+        0.43348159259259256,
+        0.9949349740740742
+      ],
+      "relativeReduction": 0.631508636313967,
+      "relativeReductionCI95": [
+        0.5095036895681987,
+        0.7062119622128147
+      ],
+      "caseSignFlipP": 0.0078125,
+      "familySignFlipP": 0.0625,
+      "caseCount": 9,
+      "familyCount": 5,
+      "wins": 8,
+      "caseSignFlipPHolm": 0.01171875,
+      "familySignFlipPHolm": 0.1875
+    },
+    "C3-tail minus D3-tail": {
+      "meanDifferenceSeconds": 0.5230865185185185,
+      "ci95": [
+        0.43462577777777767,
+        0.6151799259259257
+      ],
+      "relativeReduction": 0.2700525036271607,
+      "relativeReductionCI95": [
+        0.22094563294171632,
+        0.3230542630889497
+      ],
+      "caseSignFlipP": 0.00390625,
+      "familySignFlipP": 0.0625,
+      "caseCount": 9,
+      "familyCount": 5,
+      "wins": 9,
+      "caseSignFlipPHolm": 0.01171875,
+      "familySignFlipPHolm": 0.1875
+    }
+  },
+  "historicalBoundary": {
+    "aggregate": {
+      "decision": {
+        "total": 27,
+        "errors": 0,
+        "accuracy": 1.0,
+        "meanSeconds": 1.2303629629629629,
+        "medianSeconds": 1.0623,
+        "p95Seconds": 3.0795,
+        "totalSeconds": 33.2198
+      },
+      "chat": {
+        "total": 27,
+        "errors": 0,
+        "accuracy": 1.0,
+        "meanSeconds": 2.024096296296296,
+        "medianSeconds": 2.1081,
+        "p95Seconds": 2.3113,
+        "totalSeconds": 54.6506
+      }
+    },
+    "statistics": {
+      "meanDifferenceSeconds": 0.7937333333333334,
+      "ci95": [
+        0.5464520370370372,
+        1.0185851851851853
+      ],
+      "relativeReduction": 0.39214208078227863,
+      "relativeReductionCI95": [
+        0.2610265742596216,
+        0.5247728402989847
+      ],
+      "caseSignFlipP": 0.00390625,
+      "familySignFlipP": 0.0625,
+      "caseCount": 9,
+      "familyCount": 5,
+      "wins": 9
+    }
+  },
+  "historicalEndToEnd": {
+    "meanDifferenceSeconds": 2.5192222222222216,
+    "ci95": [
+      0.7423333333333315,
+      4.3149083333333325
+    ],
+    "relativeReduction": 0.08226210820008795,
+    "relativeReductionCI95": [
+      0.023678794471866053,
+      0.14228843441466843
+    ],
+    "caseSignFlipP": 0.03515625,
+    "familySignFlipP": 0.0625,
+    "caseCount": 9,
+    "familyCount": 5,
+    "wins": 7,
+    "controlSeconds": 252.946,
+    "hybridSeconds": 275.61899999999997,
+    "controlRequests": 25,
+    "hybridRequests": 34,
+    "controlHits": 4,
+    "hybridHits": 4,
+    "faultCount": 8,
+    "accuracyCI95": [
+      0.15701277048705797,
+      0.842987229512942
+    ],
+    "discordantAccuracyPairs": 0,
+    "mcnemarExactP": 1.0
+  },
+  "historicalAblations": {
+    "adaptive-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 8,
+      "modelRequests": 14,
+      "localizationSeconds": 165.325,
+      "rootCauseAccuracy": null
+    },
+    "baseline-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.875,
+      "codeLocationDenominator": 8,
+      "modelRequests": 12,
+      "localizationSeconds": 169.234,
+      "rootCauseAccuracy": null
+    },
+    "baseline-warm-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.875,
+      "codeLocationDenominator": 8,
+      "modelRequests": 12,
+      "localizationSeconds": 107.367,
+      "rootCauseAccuracy": null
+    },
+    "candidate-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 8,
+      "modelRequests": 24,
+      "localizationSeconds": 226.881,
+      "rootCauseAccuracy": null
+    },
+    "rule-ablation-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 1.0,
+      "codeLocationDenominator": 8,
+      "modelRequests": 12,
+      "localizationSeconds": 117.366,
+      "rootCauseAccuracy": null
+    },
+    "test-adaptive-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.5,
+      "codeLocationDenominator": 8,
+      "modelRequests": 25,
+      "localizationSeconds": 243.124,
+      "rootCauseAccuracy": null
+    },
+    "test-baseline-results": {
+      "completed": 9,
+      "total": 9,
+      "codeLocationAccuracy": 0.5,
+      "codeLocationDenominator": 8,
+      "modelRequests": 22,
+      "localizationSeconds": 198.465,
+      "rootCauseAccuracy": null
+    }
+  },
+  "scope": "Current and historical cohorts kept separate. No unseen holdout, no dedicated Jev/Decider checkpoint, no mechanism or introducing-commit correctness ground truth.",
+  "inputTokensRatioD3toC3": 2.5185065097022
+}

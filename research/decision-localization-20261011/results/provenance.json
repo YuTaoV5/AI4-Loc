@@ -1,0 +1,34 @@
+{
+  "schema": "ai4loc-paper-provenance/v1",
+  "codeBaseline": "7e49c6b",
+  "serverExperiment": "/opt/kernel-insight/experiments/paper-20261011",
+  "newProtocolRawSha256": "145c0f599f729f3145b92a1b803e9abbcb42d1e40e8c0c20e44fecac02f5df7f",
+  "privateArchiveSha256": "78e6c9d997bd69c750ceec8e22ac40842b4daf8d508c7a30725dae5c54cd72ad",
+  "privateArchiveBytes": 3647762,
+  "environment": {
+    "platform": "Linux-5.15.0-176-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "gpu": "NVIDIA A100-SXM4-80GB, 580.126.09, 81920 MiB, 79571 MiB, 0 %",
+    "sglang": {
+      "object": "list",
+      "data": [
+        {
+          "id": "Qwen3.8-27B-SystemOne",
+          "object": "model",
+          "created": 1791725185,
+          "owned_by": "sglang",
+          "root": "Qwen3.8-27B-SystemOne",
+          "parent": null,
+          "max_model_len": 8192
+        }
+      ]
+    }
+  },
+  "historicalSourceFiles": {
+    "boundary-results.json": "193d619e8218d83e1b36876980c3a01d07afa1399b10e70cc67c30c40f901765",
+    "control-results.json": "1573d226e72e451cd6319f58babb62152351493e867ac9a20eae513b41e4e000",
+    "hybrid-results.json": "c5efea27e74446bf68f0dbb9c74abc963f3786f989424e14b068c6f12edb6d3f"
+  },
+  "publicReproductionStatisticsByteIdentical": true,
+  "publicDataPolicy": "Derived scalar measurements, finite option distributions, protocol and synthetic case identifiers only; no original prompts, raw logs, accounts or token IDs."
+}

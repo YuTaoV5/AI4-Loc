@@ -1,0 +1,20 @@
+{
+  "decision": {
+    "total": 27,
+    "errors": 0,
+    "accuracy": 1.0,
+    "meanSeconds": 1.2303629629629629,
+    "medianSeconds": 1.0623,
+    "p95Seconds": 3.0795,
+    "totalSeconds": 33.2198
+  },
+  "chat": {
+    "total": 27,
+    "errors": 0,
+    "accuracy": 1.0,
+    "meanSeconds": 2.024096296296296,
+    "medianSeconds": 2.1081,
+    "p95Seconds": 2.3113,
+    "totalSeconds": 54.6506
+  }
+}

@@ -6,3 +6,6 @@ tests/fixtures/community-v1/*.txt -text
 
 # Preserve source evidence, generated SVG spacing and Windows line endings exactly.
 /deliverables/kernel-insight-system/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+
+# Research protocols fingerprint exact executed bytes, including CRLF on the server.
+/research/decision-localization-20261011/** -text whitespace=cr-at-eol

@@ -1,5 +1,15 @@
 # AI 接手手册 · Kernel Insight
 
+## Decision 学术研究报告与补充实验（2026-10-11；最新研究状态）
+
+- 交付入口 `research/decision-localization-20261011/README.md`，21 页 PDF 位于 `output/pdf/AI4Loc_Decision_Academic_Report_20261011.pdf`，另有离线 HTML、Markdown、8 组 SVG/PNG、公开派生 CSV、冻结协议与复算脚本。报告包含系统理论约束、DSH/Jev-like 契约、流程图、配对统计、消融、失败机制、泄露和效度边界；不是已投稿或获奖论文。
+- 新增真实服务器实验 5 配置×9 案例×3 重复=135 正式调用，另排除 5 合成预热；随机配对块 seed=20261011。D3-first 平均1.145s、C3-first2.075s，客户端调用耗时减少44.8%；两者 family27/27。均值差95%案例bootstrap区间[0.626,1.284]s；三个预指定时延对比案例Holm p=0.011719，但5机制组Holm p=0.1875。不能把重复调用当独立案例，不能宣传跨机制显著或准确率非劣已证明。
+- 问题数消融D3→D1平均耗时减少63.2%，同时丢失stage/reporter输出；D3输入token约为Chat3的2.52倍。窗口消融所有family正确，但尾窗口仍有首诊断5/8或其他分类线索，不能证明第一现场不必要。新增实测三问题概率示例保留，stage/reporter没有独立评分。
+- 历史18次完整定位保持4/8→4/8、25→34请求、252.946→275.619秒；没有整体提速或提分证据。历史63次早期消融、54次有限分类与本轮135次严格分开。当前通用Qwen的Jev-like接口，不是专用Jev/PPLX权重实验；机制/引入提交准确率没有真值。现有test参与过开发，不是新盲测。
+- 服务器 `/opt/kernel-insight/experiments/paper-20261011/` 保留协议、冻结源码、135调用及私有输入/返回/审计。初始化冻结时遇`__pycache__`的失败目录另存，发生于推理前；正式0失败、135/135隔离通过。原始归档3647762字节，SHA256 `78e6c9d997bd69c750ceec8e22ac40842b4daf8d508c7a30725dae5c54cd72ad` 与本地 `data/local-archive/paper-20261011/retained-evidence.tgz` 一致。
+- 本轮不改生产代码/模型/配置，不重启服务、不写公共榜单或故障注入。实验后8787健康、llmConnected=true。公开数据独立复算结果与私有原数据统计逐字节一致，SciPy独立精确置换核对三对比通过；PDF已渲染检查。原始日志、完整请求、token ID与账号不提交。
+- 后续优先采集新机制独立案例，做错误建议/硬路由/预检/资料缺失的同条件完整流程消融，双人盲标阶段/责任组件/因果机制，补真实引入提交与修复重放；报告提出的120例规模是计划，不是已测数据。
+
 ## 服务器部署与可解释调用步骤（2026-10-11；当前状态）
 
 - 正式 app → `/opt/kernel-insight/releases/task-trace-20261011`；旧版 `/opt/kernel-insight/releases/163bdd0af0ec` 可回滚。本轮发现网站与项目 Supervisor 已停止，完成恢复；8787 health.ok/llmConnected=true。平台 SGLang/Ollama PID 70/86 保持不变。

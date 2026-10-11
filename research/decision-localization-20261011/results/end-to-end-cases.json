@@ -1,0 +1,328 @@
+[
+  {
+    "caseId": "baseline",
+    "controlHit": null,
+    "hybridHit": null,
+    "controlSeconds": 12.5,
+    "hybridSeconds": 14.673,
+    "controlRequests": 1,
+    "hybridRequests": 2,
+    "controlLocations": [],
+    "hybridLocations": []
+  },
+  {
+    "caseId": "corrupt_uaf_kmalloc",
+    "controlHit": true,
+    "hybridHit": true,
+    "controlSeconds": 24.489,
+    "hybridSeconds": 27.16,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_uaf_kmalloc",
+        "startLine": 106,
+        "endLine": 114,
+        "evidenceRefs": [
+          "T3",
+          "T12",
+          "T13"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_uaf_kmalloc",
+        "startLine": 106,
+        "endLine": 114,
+        "evidenceRefs": [
+          "T2",
+          "T3",
+          "T12"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lkdtm_HUNG_TASK",
+    "controlHit": true,
+    "hybridHit": true,
+    "controlSeconds": 28.149,
+    "hybridSeconds": 29.819,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "drivers/misc/lkdtm/bugs.c",
+        "symbol": "lkdtm_HUNG_TASK",
+        "startLine": 174,
+        "endLine": 178,
+        "evidenceRefs": [
+          "T7",
+          "T15"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "drivers/misc/lkdtm/bugs.c",
+        "symbol": "lkdtm_HUNG_TASK",
+        "startLine": 174,
+        "endLine": 178,
+        "evidenceRefs": [
+          "T7",
+          "T15"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+    "controlHit": false,
+    "hybridHit": false,
+    "controlSeconds": 24.579,
+    "hybridSeconds": 32.483,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T14"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T13"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+    "controlHit": false,
+    "hybridHit": false,
+    "controlSeconds": 26.303,
+    "hybridSeconds": 30.088,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T14"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T13"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lkdtm_USERCOPY_KERNEL",
+    "controlHit": false,
+    "hybridHit": false,
+    "controlSeconds": 28.667,
+    "hybridSeconds": 32.283,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T13"
+        ]
+      },
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "check_kernel_text_object",
+        "startLine": 117,
+        "endLine": 145,
+        "evidenceRefs": [
+          "T4",
+          "T13"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T14"
+        ]
+      },
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "check_kernel_text_object",
+        "startLine": 117,
+        "endLine": 145,
+        "evidenceRefs": [
+          "T4",
+          "T14"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+    "controlHit": false,
+    "hybridHit": false,
+    "controlSeconds": 30.28,
+    "hybridSeconds": 30.025,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T13"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "mm/usercopy.c",
+        "symbol": "usercopy_abort",
+        "startLine": 83,
+        "endLine": 100,
+        "evidenceRefs": [
+          "T4",
+          "T14"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lock_mutex_abba",
+    "controlHit": true,
+    "hybridHit": true,
+    "controlSeconds": 38.663,
+    "hybridSeconds": 42.328,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_mutex_abba",
+        "startLine": 124,
+        "endLine": 137,
+        "evidenceRefs": [
+          "T3",
+          "T11"
+        ]
+      },
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_spin_abba",
+        "startLine": 139,
+        "endLine": 154,
+        "evidenceRefs": [
+          "T3",
+          "T11"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_mutex_abba",
+        "startLine": 124,
+        "endLine": 137,
+        "evidenceRefs": [
+          "T12",
+          "T11"
+        ]
+      },
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_spin_abba",
+        "startLine": 139,
+        "endLine": 154,
+        "evidenceRefs": [
+          "T11",
+          "T3"
+        ]
+      }
+    ]
+  },
+  {
+    "caseId": "lock_spin_abba",
+    "controlHit": true,
+    "hybridHit": true,
+    "controlSeconds": 39.316,
+    "hybridSeconds": 36.76,
+    "controlRequests": 3,
+    "hybridRequests": 4,
+    "controlLocations": [
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_spin_abba",
+        "startLine": 139,
+        "endLine": 154,
+        "evidenceRefs": [
+          "T12",
+          "T11"
+        ]
+      },
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_recursive_spin",
+        "startLine": 156,
+        "endLine": 164,
+        "evidenceRefs": [
+          "T11"
+        ]
+      }
+    ],
+    "hybridLocations": [
+      {
+        "path": "external/ki_bench.c",
+        "symbol": "ki_thr_spin_abba",
+        "startLine": 139,
+        "endLine": 154,
+        "evidenceRefs": [
+          "T12",
+          "T13"
+        ]
+      }
+    ]
+  }
+]

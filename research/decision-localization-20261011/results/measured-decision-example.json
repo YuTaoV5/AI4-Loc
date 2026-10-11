@@ -1,0 +1,62 @@
+{
+  "caseId": "corrupt_uaf_kmalloc",
+  "variant": "D3-first",
+  "repeat": 0,
+  "ordinal": 71,
+  "seconds": 1.844549,
+  "usage": {
+    "prompt_tokens": 11062,
+    "total_tokens": 11062,
+    "completion_tokens": 0,
+    "reasoning_tokens": 0
+  },
+  "answers": {
+    "family": {
+      "type": "choice",
+      "choice": "memory_lifetime",
+      "probabilities": {
+        "memory_lifetime": 0.9998832281225614,
+        "memory_bounds": 5.8287847316643606e-05,
+        "memory_leak": 7.410468189632068e-06,
+        "locking": 1.4737475755868947e-05,
+        "rcu_progress": 1.1364321035264228e-06,
+        "oom": 1.7601404742822455e-06,
+        "other_or_no_fault": 2.7533229503657546e-05,
+        "blocked_task": 2.405826782044614e-06,
+        "watchdog_lockup": 3.500457312933448e-06
+      },
+      "label_mass": 0.9998365702732315
+    },
+    "stage": {
+      "type": "choice",
+      "choice": "runtime",
+      "probabilities": {
+        "boot": 0.08424616308956633,
+        "runtime": 0.9057317047274407,
+        "shutdown": 0.0004420833962738175,
+        "build": 0.004194370481486186,
+        "unknown": 0.005385678305233062
+      },
+      "label_mass": 0.9875908184639749
+    },
+    "reporter": {
+      "type": "choice",
+      "choice": "kasan",
+      "probabilities": {
+        "usercopy": 0.00010889094609930869,
+        "kasan": 0.9998359185872602,
+        "kmemleak": 1.300516891001181e-05,
+        "lockdep": 6.9611652889036815e-06,
+        "hung_task": 2.1230354632651656e-06,
+        "rcu": 2.4057143510049354e-06,
+        "watchdog": 1.8735722204087603e-06,
+        "oom": 1.9944072470075556e-06,
+        "exception": 1.0128435731093088e-05,
+        "unknown": 1.6698967428772378e-05
+      },
+      "label_mass": 0.999838481169265
+    }
+  },
+  "inputSha256": "b3b6ef8197577593d3a37952da3c9a25451a5b5d82d28d90b6737856d75d15b3",
+  "note": "Measured finite-answer example; no raw input or token IDs. Family truth exists; stage/reporter not independently adjudicated."
+}

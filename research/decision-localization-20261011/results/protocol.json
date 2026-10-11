@@ -1,0 +1,754 @@
+{
+  "schema": "paper-boundary-ablation/v1",
+  "registeredAt": "2026-10-11T13:26:25Z",
+  "evaluatorSha256": "0d8e8f1941baf1ee9346f4de6675df529fbf598d5532126d3ba2225622192c69",
+  "seed": 20261011,
+  "repeats": 3,
+  "cases": [
+    "baseline",
+    "corrupt_uaf_kmalloc",
+    "lkdtm_HUNG_TASK",
+    "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+    "lkdtm_USERCOPY_HEAP_SIZE_TO",
+    "lkdtm_USERCOPY_KERNEL",
+    "lkdtm_USERCOPY_STACK_BEYOND",
+    "lock_mutex_abba",
+    "lock_spin_abba"
+  ],
+  "variants": [
+    {
+      "id": "D3-first",
+      "mode": "decision",
+      "window": "first",
+      "questions": 3
+    },
+    {
+      "id": "C3-first",
+      "mode": "chat",
+      "window": "first",
+      "questions": 3
+    },
+    {
+      "id": "D1-first",
+      "mode": "decision",
+      "window": "first",
+      "questions": 1
+    },
+    {
+      "id": "D3-tail",
+      "mode": "decision",
+      "window": "tail",
+      "questions": 3
+    },
+    {
+      "id": "C3-tail",
+      "mode": "chat",
+      "window": "tail",
+      "questions": 3
+    }
+  ],
+  "schedule": [
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "baseline",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 1,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "variant": "D1-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "repeat": 2,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "variant": "D3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "variant": "C3-first"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "variant": "D3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "variant": "C3-tail"
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "repeat": 0,
+      "variant": "D1-first"
+    }
+  ],
+  "datasetSha256": "10194de902204fd6621428e2631f044fc17dada0b4fcea679ba1e00d285bb63f",
+  "frozenCode": {
+    "boundary_router.py": "82df220f843b8a65606e221f32668b96da5c1116c66f9f9f261850fdb49a845e",
+    "localization_agent.py": "a16458a99a1b159121b4aea812285ce2d01d7ebd55c78a8eea8e34a3c0f892ef",
+    "boundary-worker.py": "0f68bbb6b21a0090ce27d624c319d8e23cf19402b2e28d3bd42ed700c83b2422",
+    "decision_plugin.py": "43abd37e5baa101e078c87c41d01110cc290a6cee19e1c237a40fd4cdf08cc69"
+  },
+  "primaryContrasts": [
+    "C3-first minus D3-first latency",
+    "D3-first minus D1-first latency",
+    "C3-tail minus D3-tail latency"
+  ],
+  "secondaryContrasts": [
+    "first versus tail accuracy by interface"
+  ],
+  "inferenceUnit": "unique case, averaged over 3 repeats; 9 cases, not 27 independent cases",
+  "tests": "two-sided exact sign-flip on case means; Holm correction across 3 latency contrasts; paired cluster bootstrap 95% percentile intervals, seed 20261011",
+  "accuracy": "family only; exact paired McNemar on majority outcome; no claim of equivalence or mechanism correctness",
+  "warmup": "synthetic non-benchmark incident, each variant once, excluded",
+  "p95": "nearest rank, descriptive only (27 observations/variant)",
+  "concurrency": 1,
+  "timeoutsSeconds": 60,
+  "retry": 0,
+  "productionWrites": false,
+  "labelIsolation": "worker sees anonymous log-derived state, fixed question schema and endpoints only; bwrap excludes dataset, business state and proc; evaluator scores after worker exit",
+  "cache": "existing server cache policy unchanged; block order randomized, no cache flush; not a cache-cold experiment",
+  "nonBlind": true
+}

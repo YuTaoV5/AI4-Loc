@@ -1,0 +1,65 @@
+{
+  "adaptive-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 1.0,
+    "codeLocationDenominator": 8,
+    "modelRequests": 14,
+    "localizationSeconds": 165.325,
+    "rootCauseAccuracy": null
+  },
+  "baseline-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 0.875,
+    "codeLocationDenominator": 8,
+    "modelRequests": 12,
+    "localizationSeconds": 169.234,
+    "rootCauseAccuracy": null
+  },
+  "baseline-warm-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 0.875,
+    "codeLocationDenominator": 8,
+    "modelRequests": 12,
+    "localizationSeconds": 107.367,
+    "rootCauseAccuracy": null
+  },
+  "candidate-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 1.0,
+    "codeLocationDenominator": 8,
+    "modelRequests": 24,
+    "localizationSeconds": 226.881,
+    "rootCauseAccuracy": null
+  },
+  "rule-ablation-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 1.0,
+    "codeLocationDenominator": 8,
+    "modelRequests": 12,
+    "localizationSeconds": 117.366,
+    "rootCauseAccuracy": null
+  },
+  "test-adaptive-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 0.5,
+    "codeLocationDenominator": 8,
+    "modelRequests": 25,
+    "localizationSeconds": 243.124,
+    "rootCauseAccuracy": null
+  },
+  "test-baseline-results": {
+    "completed": 9,
+    "total": 9,
+    "codeLocationAccuracy": 0.5,
+    "codeLocationDenominator": 8,
+    "modelRequests": 22,
+    "localizationSeconds": 198.465,
+    "rootCauseAccuracy": null
+  }
+}
