@@ -1,6 +1,6 @@
 {
   "schema": "kernel-insight-deck-qa/v1",
-  "pages": 48,
+  "pages": 58,
   "pageReports": [
     {
       "title": "从故障现场到有证据的定位",
@@ -465,6 +465,86 @@
       "boxTextOverflow": [],
       "images": [],
       "page": 48
+    },
+    {
+      "title": "八步约快11%，单步和显存没有优势",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 49
+    },
+    {
+      "title": "单次决策：两条时间线几乎重合",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 50
+    },
+    {
+      "title": "单任务八步：结果就绪约快11.6%",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 51
+    },
+    {
+      "title": "四任务八步：整批完成约快11.0%",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 52
+    },
+    {
+      "title": "速度改善，不代表内存下降",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 53
+    },
+    {
+      "title": "一次提交八题，反而等待更久",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 54
+    },
+    {
+      "title": "相同题干的收益，要看实际缓存命中",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 55
+    },
+    {
+      "title": "八种工作量与缓存条件，都可以回放",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 56
+    },
+    {
+      "title": "写了四并发，实际可能只有一个",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 57
+    },
+    {
+      "title": "动图、逐时间点数据与说明一起交付",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 58
     }
   ],
   "issues": [],

@@ -15,6 +15,7 @@ from matplotlib import font_manager
 from scipy.stats import beta, binomtest
 import research_figures
 import deck_revision
+import kv_slide_extension
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -341,6 +342,7 @@ add(C,'复现入口：数据、图表、页面均可追溯',two(('原始证据�
     note='先运行数据合同验证器，再按 docs/KERNEL_LOCALIZATION_LOOP.md 准备新输入视图和评测输出目录，避免覆盖冻结数据。模型运行需要原模型服务和匹配源码环境，图表重建仅需要Python/Pillow/Matplotlib/SciPy。结果文件和Agent代码哈希见analysis-data及原始实验JSON。完整讲解稿目录可复制分享；私有账号、任务数据库和完整服务器备份不包含在交付物中。')
 assert len(slides)==40
 slides, notes = deck_revision.revise(slides, notes, HERE, globals())
+slides, notes, kv_replay = kv_slide_extension.extend(slides, notes, HERE)
 
 template_path=HERE/'vendor/kelip-slide/assets/deck-template.html'
 if not template_path.is_file(): template_path=ROOT/'tools/kelip-slide/assets/deck-template.html'
@@ -379,6 +381,7 @@ template=template.replace("if(e.target.closest('a,#nav-panel,#nav-btn,#nav-hot')
 template=template.replace("addEventListener('keydown',e=>{", "addEventListener('keydown',e=>{\n    if(e.target.closest('button') && [' ','Enter'].includes(e.key)) return;")
 # Add a keyboard-only overview jump and offline provenance metadata without remote dependencies.
 template=template.replace('</head>','<meta name="description" content="48页系统设计与实证分析，含Windows真实界面、科研统计图和交互流程。">\n</head>')
+template=kv_slide_extension.inject(template,kv_replay)
 (HERE/'deck.html').write_text(template,encoding='utf-8')
 (HERE/'讲稿.md').write_text('# Kernel Insight 逐页讲稿\n\n适合约 30–40 分钟系统汇报。图表和数值仅来自既有记录；详细数据见 analysis-data.json。\n\n'+'\n'.join(notes),encoding='utf-8')
 source_doc='''# 资料来源与论断边界
@@ -421,4 +424,6 @@ source_doc+='''
 `build_deck.py` 从上述项目证据提取数据，写 `analysis-data.json` 和 CSV；统计图使用 Matplotlib 输出独立 SVG / PNG。机制图为自绘示意。新增网站图来自 Windows 本地浏览器实拍；截图与裁切来源见 `media/site/provenance.json`。当前六份定位报告为既有真实实验的明确标注回放，没有为截图新增模型调用。`讲稿.md` 给出每页分母、边界与来源。
 '''
 (HERE/'资料来源.md').write_text(source_doc,encoding='utf-8')
+with (HERE/'资料来源.md').open('a',encoding='utf-8') as f:
+    f.write('\n\n## 2026-10-16 并发与KV缓存实测补充\n\n新增49–58页只读取research/kv-concurrency-20261016冻结公开数据；本次制稿未调用模型。逐请求、调度及NVML时间、五次重复均值与单次回放严格区分。详见[数据与动图说明](实验数据与动图说明.md)及[完整实测报告](../../research/kv-concurrency-20261016/REPORT.md)。\n')
 print(json.dumps({'slides':len(slides),'figures':len(list(MEDIA.glob('*.svg'))),'ready':len(ready),'counts':counts,'output':str(HERE/'deck.html')},ensure_ascii=False))

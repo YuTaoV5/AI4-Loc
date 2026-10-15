@@ -1,0 +1,65 @@
+{
+  "schema": "ai4loc-measured-replay/v1",
+  "sources": {
+    "protocol.json": "3ec47485fc9c3ad20bb3d6b1b5dfa84ca65c54e57c52c03f45402544b73f170f",
+    "calls.jsonl": "e682b611b6d2ace114ba4a2221c89d75da7fe73642c2e5c296f38910221248c5",
+    "trials.jsonl": "baa0da6c49f9260297054948b5cc406f5f4726a88a9eb3db2a0a72f8064c4714",
+    "server-requests.jsonl": "0be7648953b8e71a4d7f5174309ea921be612219602db4d552b13b86bfbe5948",
+    "scheduler.jsonl.gz": "f94f0a2db13911648ff9d06c3ffa194d1a3b409241e2fe4495a5c98a137517e1"
+  },
+  "gif_scenes": [
+    "dchat-1x1-cold",
+    "dchat-1x8-warm",
+    "dchat-4x8-warm",
+    "seqbatch-4x8-warm",
+    "coldwarm-d4x8"
+  ],
+  "clock": "Each independent trial aligns its synchronized client start to t=0; common seconds scale within pair.",
+  "token_accounting": "Uncached=request prompt_tokens-cached_tokens; settled only at native prefill_finished_time. Not FLOPs, unique tokens, generated tokens, or continuous per-token timestamps.",
+  "memory": "Last scheduler observations; before first observation unknown; after completion hold final observed value, no new samples implied.",
+  "summary_unit": "Playback=one jointly selected actual repeat; panel mean=5-trial mean; no averaging traces.",
+  "gpu_sampling": "NVML approximately100ms; latest preceding measurement, not instantaneous allocator query.",
+  "gif_clock": "80 uniform model-time intervals over 8 seconds display +2 seconds hold. Same speed for both arms; printed t is actual model seconds.",
+  "scene_trials": {
+    "dchat-1x1-cold": [
+      19,
+      52
+    ],
+    "dchat-1x1-warm": [
+      21,
+      97
+    ],
+    "dchat-1x8-cold": [
+      82,
+      16
+    ],
+    "dchat-1x8-warm": [
+      103,
+      49
+    ],
+    "dchat-4x1-cold": [
+      26,
+      20
+    ],
+    "dchat-4x1-warm": [
+      25,
+      108
+    ],
+    "dchat-4x8-cold": [
+      85,
+      102
+    ],
+    "dchat-4x8-warm": [
+      84,
+      8
+    ],
+    "seqbatch-4x8-warm": [
+      56,
+      70
+    ],
+    "coldwarm-d4x8": [
+      85,
+      56
+    ]
+  }
+}

@@ -1,5 +1,12 @@
 # AI 接手手册 · Kernel Insight
 
+## 并发实测动图与系统Slide整合（2026-10-16；最新交付）
+
+- 原系统演示从48扩展到58页，新增49–58：方法、单步持平、单/四任务八步、无显存收益、顺序/批量、冷/预热、八条件交互、实际并发容量与证据入口。原48页及历史实验口径独立保留；逐页讲稿与目录同步。
+- 五个GIF在`deliverables/kernel-insight-system/media/kv/`；交互回放嵌入单文件deck，离线可用，P播放、J/K按结果事件、时间滑块、共同播放速度、换页停止。独立trial以任务放行对齐，同一时间尺；真实单次repeat和5次均值分开。token仅在原生prefill完成结算，新增累计未命中token/s不冒充GPU瞬时吞吐。
+- `实验数据与动图说明.md`列全部文件、字段、计时与token公式、代表重复选择、GIF缩放和效度边界。公开token/响应/KV/linear状态/NVML/概率记录及实验源码继续在`research/kv-concurrency-20261016`，校准在`...20261015`，业务原日志留私有归档。
+- 分享ZIP由`package_experiment_slides.py`生成，位于`deliverables/releases/AI4Loc_实验动图_Slide与完整公开数据_20261016.zip`；包含完整slide、GIF、58页讲稿、两轮全部公开详细数据、说明、源码和QA，保持相对路径。逐成员核对与SHA见同目录`实验动图与数据包校验_20261016.json`。不含账号、权重、可重新下载的内核源码或私有业务文本。
+
 ## Qwen3.8并发、KV缓存与首响应实测（2026-10-16；最新）
 
 - 正式入口 `research/kv-concurrency-20261016/README.md`；完整中文 `REPORT.md` / `report.html`、6组SVG/PNG图、逐HTTP/原生问题/调度边界/监控CSV、冻结协议、执行源码、离线分析与核验程序均保存。文档入口 `docs/SGLang并发决策与KV缓存实测报告_20261016.md`。

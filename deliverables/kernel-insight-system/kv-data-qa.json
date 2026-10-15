@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "source_hashes_checked": 5,
+  "scenes": [
+    {
+      "scene": "dchat-1x1-cold",
+      "repeat": 4,
+      "trials": [
+        19,
+        52
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-1x1-warm",
+      "repeat": 4,
+      "trials": [
+        21,
+        97
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-1x8-cold",
+      "repeat": 2,
+      "trials": [
+        82,
+        16
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-1x8-warm",
+      "repeat": 0,
+      "trials": [
+        103,
+        49
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-4x1-cold",
+      "repeat": 3,
+      "trials": [
+        26,
+        20
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-4x1-warm",
+      "repeat": 3,
+      "trials": [
+        25,
+        108
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-4x8-cold",
+      "repeat": 4,
+      "trials": [
+        85,
+        102
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "dchat-4x8-warm",
+      "repeat": 1,
+      "trials": [
+        84,
+        8
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "seqbatch-4x8-warm",
+      "repeat": 4,
+      "trials": [
+        56,
+        70
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    },
+    {
+      "scene": "coldwarm-d4x8",
+      "repeat": 4,
+      "trials": [
+        85,
+        56
+      ],
+      "timing_matches": true,
+      "prefill_ledger_matches": true,
+      "result_and_output_tokens_match": true
+    }
+  ],
+  "gifs_verified": 5,
+  "embedded_and_external_data_identical": true,
+  "new_model_calls": 0
+}

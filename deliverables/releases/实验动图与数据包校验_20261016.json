@@ -1,0 +1,15 @@
+{
+  "file": "AI4Loc_实验动图_Slide与完整公开数据_20261016.zip",
+  "bytes": 39003913,
+  "sha256": "9966df48c27f0d421ce13ad891e3299a457fda51b9725fea5a90c299d98b621f",
+  "files": 263,
+  "slides": 58,
+  "gifs": 5,
+  "studies": [
+    "20261015 calibration",
+    "20261016 fault-window main"
+  ],
+  "verified_each_member": true,
+  "private_inputs_included": false,
+  "model_weights_included": false
+}

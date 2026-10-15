@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-07",
-  "pages": 48,
+  "date": "2026-10-16",
+  "pages": 58,
   "allPngVerified": true,
   "contactSheetVisuallyInspected": true,
   "fullSizePagesVisuallyInspected": [
@@ -9,7 +9,9 @@
     19,
     26,
     34,
-    37
+    37,
+    52,
+    56
   ],
   "automaticBrowserQaPassed": true,
   "animations": [
@@ -30,12 +32,70 @@
       "noAutoplay": true
     }
   ],
-  "deckSha256": "bc58c40f7fedc382da76d70af4402e48e4f9558fcf5e43489f3c95f6877ca240",
+  "deckSha256": "723ce55fbb3c64f0dd2ed34a8aad74f1d21222bfe38dabdd5c9dfc20097d7e68",
   "sourceHashesVerified": true,
   "obscureExperimentLabelsRemoved": true,
   "newModelExperiments": false,
   "websiteFunctionalAcceptanceExecuted": false,
   "windowsSite": "http://127.0.0.1:8787",
   "publicArchivedReportReplays": 6,
-  "actualFeaturePages": 8
+  "actualFeaturePages": 8,
+  "measuredReplayGifs": 5,
+  "measuredReplayConditions": 8,
+  "sourceTokenLedgerVerified": true,
+  "newAnimationChecks": {
+    "passed": true,
+    "pages_rendered": 58,
+    "checks": [
+      {
+        "scene": "dchat-1x1-cold",
+        "page": 50,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "dchat-1x8-warm",
+        "page": 51,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "dchat-4x8-warm",
+        "page": 52,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "seqbatch-4x8-warm",
+        "page": 54,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "coldwarm-d4x8",
+        "page": 55,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      }
+    ],
+    "explorer_conditions": 8,
+    "speed_and_reentry_verified": true,
+    "script_errors": [],
+    "deck_sha256": "723ce55fbb3c64f0dd2ed34a8aad74f1d21222bfe38dabdd5c9dfc20097d7e68"
+  }
 }

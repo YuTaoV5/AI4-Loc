@@ -1,0 +1,72 @@
+[
+  {
+    "scene": "dchat-1x1-cold",
+    "file": "dchat-1x1-cold.gif",
+    "bytes": 2229357,
+    "sha256": "1d4f8974344fd99ba039e78f742982fd71ac9cf37b6ac33fd66bc93746f5a5ea",
+    "frames": 81,
+    "display_ms": 10000,
+    "model_seconds": 0.868867515,
+    "representative_repeat": 4,
+    "trial_ids": [
+      19,
+      52
+    ]
+  },
+  {
+    "scene": "dchat-1x8-warm",
+    "file": "dchat-1x8-warm.gif",
+    "bytes": 2372804,
+    "sha256": "31551052576b2552e14b065bd906116f235e95e86b6638e35a2490d7f1d2115e",
+    "frames": 81,
+    "display_ms": 10000,
+    "model_seconds": 1.539833506,
+    "representative_repeat": 0,
+    "trial_ids": [
+      103,
+      49
+    ]
+  },
+  {
+    "scene": "dchat-4x8-warm",
+    "file": "dchat-4x8-warm.gif",
+    "bytes": 3279610,
+    "sha256": "da113af39a7832f1f7cadf05717b29b3b05c322567e4673208232e196bf39f24",
+    "frames": 81,
+    "display_ms": 10000,
+    "model_seconds": 4.066188894,
+    "representative_repeat": 1,
+    "trial_ids": [
+      84,
+      8
+    ]
+  },
+  {
+    "scene": "seqbatch-4x8-warm",
+    "file": "seqbatch-4x8-warm.gif",
+    "bytes": 2851535,
+    "sha256": "c52f4c405c7e3c0082fd6fe13388727374412bd39cc7e5b539d995fb73405fae",
+    "frames": 81,
+    "display_ms": 10000,
+    "model_seconds": 10.28049214,
+    "representative_repeat": 4,
+    "trial_ids": [
+      56,
+      70
+    ]
+  },
+  {
+    "scene": "coldwarm-d4x8",
+    "file": "coldwarm-d4x8.gif",
+    "bytes": 3423425,
+    "sha256": "9719bd2a8a333dc38343f76fe15028d68fc31f93311668abe04e46a14cb3341d",
+    "frames": 81,
+    "display_ms": 10000,
+    "model_seconds": 6.97550479,
+    "representative_repeat": 4,
+    "trial_ids": [
+      85,
+      56
+    ]
+  }
+]
