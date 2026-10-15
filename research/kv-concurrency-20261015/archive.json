@@ -1,0 +1,8 @@
+{
+  "file": "retained-evidence.tgz",
+  "bytes": 65473358,
+  "sha256": "342f04e3c42b2e846d3e5b7859f5c2971a9fe3223b96b7dce938bd90cd7b7db1",
+  "files_including_manifest": 1136,
+  "raw_prompts_and_logs_private": true,
+  "captured_process_environment_included": false
+}

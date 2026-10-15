@@ -1,0 +1,30 @@
+[
+  {
+    "source_sha256": "fd27300bd11ce0978a6a86499d88f3841bd31085416565ffc9f96f4074c1dec8",
+    "start_character": 28102,
+    "diagnostic_character": 29102,
+    "diagnostic_marker": "BUG: KASAN",
+    "characters": 6000
+  },
+  {
+    "source_sha256": "f49dbeba46d6697764b55454f8e76cbca2e814064fb8ec11a8c8148826f99093",
+    "start_character": 28022,
+    "diagnostic_character": 29022,
+    "diagnostic_marker": "BUG: KASAN",
+    "characters": 6000
+  },
+  {
+    "source_sha256": "3d7f07f2e64cda36b1aa0f827281016a7e0dafc73af6e54e9c161d6b046bca1e",
+    "start_character": 27851,
+    "diagnostic_character": 28851,
+    "diagnostic_marker": "general protection fault",
+    "characters": 5071
+  },
+  {
+    "source_sha256": "b507f0339ea190479cd39f5efeccbd0b023d2ba90cacd30b7adcd2228861fe2a",
+    "start_character": 27844,
+    "diagnostic_character": 28844,
+    "diagnostic_marker": "general protection fault",
+    "characters": 5322
+  }
+]

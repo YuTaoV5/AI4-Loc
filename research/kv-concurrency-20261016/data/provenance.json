@@ -1,0 +1,21 @@
+{
+  "python": "3.12.3",
+  "packages": {
+    "sglang": "0.5.21",
+    "torch": "2.13.0",
+    "transformers": "5.12.1",
+    "aiohttp": "3.14.3"
+  },
+  "installed_sources_sha256": {
+    "srt/entrypoints/openai/serving_decisions.py": "156204223f138ff9d18a97c66671f9a77c4b3005d851621001132e8d594dcef7",
+    "srt/managers/scheduler.py": "b61df5b750adc748a99ceb381b8494c199fb3f704d793da5a0217bd6bbb606c4",
+    "srt/managers/scheduler_components/pool_stats_observer.py": "b9bf5271e131dd20c55fc32e3722ba9b12c0278a78b8a7e24d87abd601eb56bc",
+    "srt/observability/req_time_stats.py": "bbdbc5655e0f297c5bc3e7fa054dd851fcea973257b51e091a3d3b1c2458f9d7",
+    "srt/managers/tokenizer_manager_score_mixin.py": "37610e02eb53d5775a35f5eabd44011b3f2efe58b4a37d3cfb93561e7c7f0717",
+    "srt/mem_cache/kv_cache_configurator.py": "27ea278a26c178e28b2af5a1bd14db8bae2d7bde6383cec4e6f3a5d8ca965623"
+  },
+  "gpu": "NVIDIA A100-SXM4-80GB, 580.126.09, 81920 MiB",
+  "cgroup_memory_max": "128849018880",
+  "cpu_max": "1200000 100000",
+  "server_timezone": "Asia/Shanghai UTC+08:00"
+}

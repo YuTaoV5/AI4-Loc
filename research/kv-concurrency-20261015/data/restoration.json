@@ -1,0 +1,22 @@
+{
+  "restored": true,
+  "utc": "2026-10-15T16:15:26Z",
+  "models": {
+    "object": "list",
+    "data": [
+      {
+        "id": "Qwen3.8-27B-SystemOne",
+        "object": "model",
+        "created": 1792080926,
+        "owned_by": "sglang",
+        "root": "Qwen3.8-27B-SystemOne",
+        "parent": null,
+        "max_model_len": 8192
+      }
+    ]
+  },
+  "supervisor_state": "S",
+  "experimental_server_responding": false,
+  "sidecar_originally_running": false,
+  "gpu": "60622 MiB, 20531 MiB"
+}

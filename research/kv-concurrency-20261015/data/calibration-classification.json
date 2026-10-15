@@ -1,0 +1,5 @@
+{
+  "role": "boot-window telemetry calibration only; not fault-window main study",
+  "completed_trials": 112,
+  "sigint_cancellation_attempt": "inherited ignored SIGINT under nohup; completed normally; original attempted-stop note retained privately"
+}

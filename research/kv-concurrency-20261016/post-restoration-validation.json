@@ -1,0 +1,76 @@
+{
+  "checked_utc": "2026-10-15T16:34:51Z",
+  "synthetic_post_restore_requests_excluded_from_benchmark": 2,
+  "decision": {
+    "http_status": 200,
+    "seconds": 0.10201382637023926,
+    "response": {
+      "object": "decisions",
+      "model": "default",
+      "prompt_format_version": 1,
+      "answers": {
+        "family": {
+          "type": "choice",
+          "probabilities": {
+            "uaf": 0.9999339478501936,
+            "healthy": 6.605214980634723e-05
+          },
+          "label_mass": 0.9984211851313256,
+          "choice": "uaf"
+        }
+      },
+      "usage": {
+        "prompt_tokens": 59,
+        "total_tokens": 59,
+        "completion_tokens": 0,
+        "reasoning_tokens": 0
+      }
+    }
+  },
+  "chat": {
+    "http_status": 200,
+    "seconds": 0.059386489912867546,
+    "response": {
+      "id": "f55edad1508c4d69b73fceae65a6ac56",
+      "object": "chat.completion",
+      "created": 1792082091,
+      "model": "Qwen3.8-27B-SystemOne",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "A",
+            "reasoning_content": null,
+            "tool_calls": null
+          },
+          "logprobs": null,
+          "finish_reason": "length",
+          "matched_stop": null
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 20,
+        "total_tokens": 21,
+        "completion_tokens": 1,
+        "prompt_tokens_details": null,
+        "reasoning_tokens": 0
+      },
+      "metadata": {
+        "weight_version": "default",
+        "weight_versions": [
+          {
+            "version": "default",
+            "start": 0,
+            "end": 1
+          }
+        ]
+      }
+    }
+  },
+  "production_config": {
+    "mem_fraction_static": 0.7,
+    "max_mamba_cache_size": 9,
+    "effective_max_running_requests_per_dp": 1
+  }
+}

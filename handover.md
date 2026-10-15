@@ -1,5 +1,14 @@
 # AI 接手手册 · Kernel Insight
 
+## Qwen3.8并发、KV缓存与首响应实测（2026-10-16；最新）
+
+- 正式入口 `research/kv-concurrency-20261016/README.md`；完整中文 `REPORT.md` / `report.html`、6组SVG/PNG图、逐HTTP/原生问题/调度边界/监控CSV、冻结协议、执行源码、离线分析与核验程序均保存。文档入口 `docs/SGLang并发决策与KV缓存实测报告_20261016.md`。
+- 正式112 trial：80主实验（Decision/Chat×1/4任务×1/8顺序步骤×冷/热×5重复）+20批量8题+12额外观测敏感性；980正式HTTP、1330内部问题，全部成功，1330个内部请求唯一关联，465对完整prompt token SHA一致。4个实际诊断窗口，题干不变、选项不同；不报准确率。2全局预热、125 prime、4 token预检与SGLang启动生成单列；恢复后2次合成验证另列。
+- 热条件1×8整批Decision/Chat均值1.365656/1.544334秒（减少11.57%）；4×8为3.634252/4.084956秒（减少11.03%）。单步基本无优势。4×8热条件峰值活跃KV均值916.438/916.250MiB，linear状态16/13槽，不支持Decision节省内存。一次请求批量8题在当前配置更慢。Decision没有文本TTFT，完整概率返回与Chat真实首非空内容分开。
+- 发现生产CLI `max-running-requests=4`实际被自动9槽Mamba池限制为1（extra_buffer预算每请求5槽）。正式隔离实例30003使用`mem-fraction-static=0.78 --max-mamba-cache-size=32`，保留FP32状态，实际容量和观测批次4；不是上线改动。测试结束Supervisor已恢复，30003退出，30000原0.70/auto9/实际1配置恢复；Decision与Chat真实合成调用均HTTP200且答案通过。PPLX在本轮开始时未启动，结束保持未启动，不能沿用12日“旁路常驻在线”的旧状态。
+- 另保留`research/kv-concurrency-20261015/`完整112-trial启动区段采集校准（980HTTP/1330问题、实际批次1），不并入正式结果。最初窗口缺首诊断，正式轮改窗口并扩池；跨轮存在输入/内存预算混杂。SIGINT取消尝试因nohup继承忽略未生效，校准最终正常完成，说明与证据保留。
+- 两轮原始记录在服务器`/opt/kernel-insight/experiments/kv-concurrency-20261015/`及`...20261016/`，本地私有归档在Git忽略的`data/local-archive/kv-concurrency-<日期>/retained-evidence.tgz`。正式54899444字节、1136文件，SHA256 `66374918d1fab184a3a37898008851061e7bde02a9148bcd6c21a728c4660e99`；校准65473358字节、1136文件，SHA256 `342f04e3c42b2e846d3e5b7859f5c2971a9fe3223b96b7dce938bd90cd7b7db1`。归档排除捕获的原进程环境；业务输入不发布到Git。模型服务恢复不代表网站全部功能经过本轮验证。
+
 ## 报告修订与中文文档整理（2026-10-12；最新交付状态）
 
 - 更新全GPU实测报告，并在此前学术报告加入4节PPLX研究：方法、配对耗时、标签准确性/泄露与部署验证。新版PDF `output/pdf/AI4Loc_Decision_Academic_Report_20261012.pdf` 共25页，11组科研图；旧20261011 PDF保留。网页、Markdown、结构化正文及构建脚本同步；原135次、CPU卸载121次、全GPU121次仍分开，不改冻结数据。

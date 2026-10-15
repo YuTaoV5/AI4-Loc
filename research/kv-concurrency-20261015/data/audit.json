@@ -1,0 +1,39 @@
+{
+  "formal_http_calls": 980,
+  "formal_question_evaluations": 1330,
+  "matched_formal_server_requests": 1330,
+  "all_server_requests": 1462,
+  "unmatched_server_requests": [
+    {
+      "id": "cf28d470e13a44039458090f0fcaa698",
+      "candidates": 0
+    },
+    {
+      "id": "e41a79d3e05f481ca6df296640779de5",
+      "candidates": 0
+    },
+    {
+      "id": "8e3e05f10e6e42df8988c2831e4d1594",
+      "candidates": 0
+    },
+    {
+      "id": "ea822a816f204c5ead78c01d0f2a8fdc",
+      "candidates": 0
+    },
+    {
+      "id": "b8b48d8d57f64cdabe66e9a52db5ed35",
+      "candidates": 0
+    },
+    {
+      "id": "a8a627093575438cbde3af8bf85f5f6f",
+      "candidates": 2
+    }
+  ],
+  "excluded_client_calls": 127,
+  "trial_count": 112,
+  "all_http_ok": true,
+  "chat_valid_letters": 465,
+  "formal_chat_calls": 465,
+  "exact_link_rule": "SHA256 of complete prompt token IDs + server received timestamp within client interval +/-2ms; exactly one candidate",
+  "full_input_logs_or_env_exported": false
+}
