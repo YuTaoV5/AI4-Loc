@@ -1,0 +1,58 @@
+{
+  "files": {
+    "LICENSE": {
+      "bytes": 11544,
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+    },
+    "chat_template.jinja": {
+      "bytes": 7756,
+      "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+    },
+    "config.json": {
+      "bytes": 2832,
+      "sha256": "301173d2a0a926e63bb2819dbee97c56e2bd159df35d386f446bf60c9cf7b944"
+    },
+    "generation_config.json": {
+      "bytes": 116,
+      "sha256": "0c46d8aa4f0ae5e611c961f70b87c83fb696043c1e319337708e96f882180de1"
+    },
+    "model-00001-of-00004.safetensors": {
+      "bytes": 4942706120,
+      "sha256": "1e43bfc2c58f55acf5f6847b7e43efa51544ac92f62d193ef635e1a81049981e"
+    },
+    "model-00002-of-00004.safetensors": {
+      "bytes": 4987757928,
+      "sha256": "b6506b941cdcea2d9bc795693877ae9ecc599f07c374e234da92fd5ed5901200"
+    },
+    "model-00003-of-00004.safetensors": {
+      "bytes": 4954810240,
+      "sha256": "04ea79a3b2521436bb781d6ce1fe1cf15858d52157a66177d4699c6bcb38d41b"
+    },
+    "model-00004-of-00004.safetensors": {
+      "bytes": 3934446832,
+      "sha256": "8e2f4169a54db94d694723787e08e607655602c81be701bd9025fddadeffe462"
+    },
+    "model.safetensors.index.json": {
+      "bytes": 69253,
+      "sha256": "941305ff9f77551e145a6cea976ef456cd5cb208cbece99f168376c752fcf96c"
+    },
+    "preprocessor_config.json": {
+      "bytes": 390,
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516"
+    },
+    "tokenizer.json": {
+      "bytes": 19989325,
+      "sha256": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523"
+    },
+    "tokenizer_config.json": {
+      "bytes": 1123,
+      "sha256": "bee8eba30f0eb4af73c0fe2cd06d0f89b657d7819941c438157ec42f7c80ea87"
+    },
+    "video_preprocessor_config.json": {
+      "bytes": 385,
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+    }
+  },
+  "base_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "adapter_epoch": 1
+}

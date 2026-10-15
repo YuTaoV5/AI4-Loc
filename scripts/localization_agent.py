@@ -297,7 +297,7 @@ def run(request,progress=lambda value:None):
         final_round=requests+(len(decision_client.calls) if decision_client else 0)==maxcalls-1 or (requests>0 or preflight_count) and request.get('fastFinal',not bool(request.get('boundaryRouter'))) and (not inspector.source or inspected_source or no_diagnostic)
         if request.get('boundaryRouter') and (no_diagnostic or not inspector.source or requests>=2 and inspected_source):final_round=True
         if final_round:messages.append({'role':'user','content':'Tool budget ends now. Deliver compact diagnostic JSON using existing evidence. evidenceLines are integer numbers, never log text. Maximum two hypotheses, two locations, three nextSteps, concise Chinese. If evidence is insufficient, state that explicitly; no more tool requests.'})
-        payload={'model':request['model'],'messages':messages,'temperature':0,'max_tokens':2400}
+        payload={'model':request['model'],'messages':messages,'temperature':0,'max_tokens':2400,'chat_template_kwargs':{'enable_thinking':False}}
         if final_round:
             payload['response_format']={'type':'json_schema','json_schema':{'name':'kernel_diagnostic','strict':True,'schema':REPORT_SCHEMA}};payload['max_tokens']=1800
         else:payload.update({'tools':offered,'tool_choice':{'type':'function','function':{'name':'incident'}} if requests==0 and not preflight_count else 'auto'})
@@ -336,7 +336,7 @@ def run(request,progress=lambda value:None):
                 m=reply['message'];calls=[]
                 for index,call in enumerate(m.get('tool_calls') or []):calls.append({'id':'native-'+str(requests)+'-'+str(index),'type':'function','function':{'name':call['function']['name'],'arguments':json.dumps(call['function']['arguments'])}})
                 reply={'choices':[{'message':{'role':'assistant','content':m.get('content') or '',**({'tool_calls':calls} if calls else {})}}]}
-            message=reply['choices'][0]['message'];calls=message.get('tool_calls',[]);messages.append({k:v for k,v in message.items() if k in ['role','content','tool_calls']})
+            message=reply['choices'][0]['message'];calls=message.get('tool_calls') or [];messages.append({k:v for k,v in message.items() if k in ['role','content','tool_calls']})
             request_record['selection']={'action':'tools' if calls else 'report','tools':[c.get('function',{}).get('name','unknown') for c in calls]}
             inspector.model_request_index=requests
             # Persist the selection before executing tools, so live UI can show it.

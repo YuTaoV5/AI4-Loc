@@ -1,0 +1,13 @@
+﻿checkpoint,api,source,cases,correct,accuracy
+base,decision,all,87,66,0.7586206896551724
+base,decision,stability,42,34,0.8095238095238095
+base,decision,openharmony,45,32,0.7111111111111111
+base,chat,all,87,66,0.7586206896551724
+base,chat,stability,42,34,0.8095238095238095
+base,chat,openharmony,45,32,0.7111111111111111
+trained,decision,all,87,78,0.896551724137931
+trained,decision,stability,42,39,0.9285714285714286
+trained,decision,openharmony,45,39,0.8666666666666667
+trained,chat,all,87,78,0.896551724137931
+trained,chat,stability,42,39,0.9285714285714286
+trained,chat,openharmony,45,39,0.8666666666666667

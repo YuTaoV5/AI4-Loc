@@ -2,6 +2,7 @@ node_modules/
 data/uploads/
 data/reports/
 *.log
+!/research/jev-qwen35-9b-20261016/initial-failure/training.log
 data/state.json
 data/state.json.tmp
 data/kernels/

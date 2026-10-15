@@ -1,0 +1,95 @@
+[
+  {
+    "checkpoint": "base",
+    "temperature": 1.0,
+    "case_nll": 0.8300587172065516,
+    "case_brier": 0.28316047773150216,
+    "ece10": 0.12464895578799828,
+    "bins": [
+      {
+        "bin": 3,
+        "cases": 2,
+        "mean_confidence": 0.3521917313451231,
+        "accuracy": 1.0
+      },
+      {
+        "bin": 4,
+        "cases": 11,
+        "mean_confidence": 0.4580088083422557,
+        "accuracy": 0.5454545454545454
+      },
+      {
+        "bin": 5,
+        "cases": 6,
+        "mean_confidence": 0.544104544387033,
+        "accuracy": 0.5
+      },
+      {
+        "bin": 6,
+        "cases": 6,
+        "mean_confidence": 0.6460257156419872,
+        "accuracy": 0.8333333333333334
+      },
+      {
+        "bin": 7,
+        "cases": 10,
+        "mean_confidence": 0.7459839930604205,
+        "accuracy": 0.9
+      },
+      {
+        "bin": 8,
+        "cases": 16,
+        "mean_confidence": 0.8419078577427201,
+        "accuracy": 1.0
+      },
+      {
+        "bin": 9,
+        "cases": 36,
+        "mean_confidence": 0.9480231163896767,
+        "accuracy": 0.8611111111111112
+      }
+    ]
+  },
+  {
+    "checkpoint": "trained",
+    "temperature": 1.0,
+    "case_nll": 1.7244875992997293,
+    "case_brier": 0.176129165029292,
+    "ece10": 0.08054770885502427,
+    "bins": [
+      {
+        "bin": 6,
+        "cases": 6,
+        "mean_confidence": 0.6679431376907538,
+        "accuracy": 0.5
+      },
+      {
+        "bin": 9,
+        "cases": 81,
+        "mean_confidence": 0.9999998993116369,
+        "accuracy": 0.9259259259259259
+      }
+    ]
+  },
+  {
+    "checkpoint": "trained",
+    "temperature": 0.5,
+    "case_nll": 1.957449224539896,
+    "case_brier": 0.1762423876074234,
+    "ece10": 0.08046188803844824,
+    "bins": [
+      {
+        "bin": 6,
+        "cases": 6,
+        "mean_confidence": 0.6666973765903084,
+        "accuracy": 0.5
+      },
+      {
+        "bin": 9,
+        "cases": 81,
+        "mean_confidence": 0.9999999999975697,
+        "accuracy": 0.9259259259259259
+      }
+    ]
+  }
+]

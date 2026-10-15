@@ -1,0 +1,20 @@
+{
+  "split_disjoint": true,
+  "arms": {
+    "base": {
+      "formal_http": 980,
+      "internal_questions": 1330,
+      "accuracy_http": 522,
+      "scheduler_snapshots": 10216,
+      "repaired_agent_reports": 6
+    },
+    "trained": {
+      "formal_http": 980,
+      "internal_questions": 1330,
+      "accuracy_http": 522,
+      "scheduler_snapshots": 10256,
+      "repaired_agent_reports": 6
+    }
+  },
+  "published_agent_matches_tested_source_after_newline_normalization": true
+}

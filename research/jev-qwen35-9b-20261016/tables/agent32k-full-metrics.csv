@@ -1,0 +1,13 @@
+﻿checkpoint,variant,case,status,code_location_hit,function_hit,model_http_calls,chat_http_calls,decision_http_calls,decision_questions,toolCalls,preflightToolCalls,modelToolCalls,inputTokens,outputTokens,totalTokens,tokensComplete,observedTokensLowerBound,firstSceneSeconds,boundarySeconds,rootLocationSeconds,reportOutputSeconds,localizationSeconds
+base,chat-only,corrupt_uaf_kmalloc,completed,True,True,1,1,0,0,3,3,0,6547,534,7081,True,7081,0.0059,7.6349,7.635,7.3854,7.635
+base,chat-only,lock_mutex_abba,completed,True,True,1,1,0,0,3,3,0,5881,562,6443,True,6443,0.0059,7.1984,7.198,6.8988,7.198
+base,chat-only,lkdtm_HUNG_TASK,completed,False,True,1,1,0,0,6,6,0,19354,550,19904,True,19904,0.0056,8.7337,8.734,7.9122,8.734
+base,decision-boundary-chat-root,corrupt_uaf_kmalloc,completed,True,True,4,3,1,3,12,12,0,38729,1415,40144,True,40144,0.0059,0.8173,19.675,6.2718,19.675
+base,decision-boundary-chat-root,lock_mutex_abba,completed,True,True,4,3,1,3,11,11,0,35113,1781,36894,True,36894,0.0058,0.6587,23.691,7.6067,23.691
+base,decision-boundary-chat-root,lkdtm_HUNG_TASK,completed,False,True,2,1,1,3,13,13,0,28476,528,29004,True,29004,0.0057,0.5473,10.098,7.7487,10.098
+trained,chat-only,corrupt_uaf_kmalloc,completed,True,True,1,1,0,0,3,3,0,6547,524,7071,True,7071,0.0059,6.7709,6.771,6.5213,6.771
+trained,chat-only,lock_mutex_abba,completed,True,True,1,1,0,0,3,3,0,5881,564,6445,True,6445,0.006,6.8499,6.85,6.5504,6.85
+trained,chat-only,lkdtm_HUNG_TASK,completed,False,True,1,1,0,0,6,6,0,18028,635,18663,True,18663,0.0056,9.6076,9.608,8.7884,9.608
+trained,decision-boundary-chat-root,corrupt_uaf_kmalloc,completed,True,True,2,1,1,3,12,12,0,19968,582,20550,True,20550,0.0059,0.8101,9.341,7.3555,9.341
+trained,decision-boundary-chat-root,lock_mutex_abba,completed,True,True,2,1,1,3,11,11,0,17252,597,17849,True,17849,0.0057,0.6635,9.438,7.4957,9.438
+trained,decision-boundary-chat-root,lkdtm_HUNG_TASK,completed,False,True,2,1,1,3,13,13,0,28486,559,29045,True,29045,0.0057,0.5521,10.468,8.1184,10.468

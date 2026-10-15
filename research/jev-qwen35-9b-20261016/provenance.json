@@ -1,0 +1,36 @@
+{
+  "timestamp_ns": 1792086474215798731,
+  "base_git_commit": "a9293f9",
+  "laya_reference_commit": "4ac226d5ee88ed6df8db288a05c766d7a34ee682",
+  "source_sha256": {
+    "train.py": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca",
+    "orchestrate.py": "fa8f4127842e6791f1ca1af68a7bffc8dab787fe48b5d4264d72016e90930d8f",
+    "fetch-checkpoint.py": "95421ffafad61d334b38dbc9bdf04acae0b2c59487a605ab15a080bb7c637c7b",
+    "accuracy.py": "57fa81feb410339b5db619a71ffb92959d364d87457c46068707173a3a723b9b",
+    "sitecustomize.py": "2aebd6a7f897ebb05ba8aa3ba92f0533553aeae7aaa6e2b7bf8e20ce2e21ea2e",
+    "prepare-data.py": "1b16bfb6c44cc5267a70cb1d8701f41fa4ef9a95c6bf13c5782989ff1fc40faa",
+    "export.py": "d5466793d2cbe4ba4e985971caf0a7e8ca59ac3d1b4b639d3da9fd3e81e35cae",
+    "retain.py": "9606effddc65f4e403dd4787b07561439970d2b91cfd4af90ec3ad10579af24e",
+    "reclaim-inactive-pplx.py": "9c910d3c7d68291200dd5853d8011fd3c790738ad31d8088ebefb58f5d8ef0ad",
+    "agent-check.py": "88ff496421b03fd2646d1093dbc5aa0ef2ad5d75565f24da9d69c8ec3372fb6d",
+    "benchmark.py": "9a5061256c77c3019b76394cf22911357c2715e56ea634da00544091981cc695"
+  },
+  "packages": {
+    "torch": "2.13.0",
+    "transformers": "5.12.1",
+    "sglang": "0.5.21",
+    "triton": "3.7.1",
+    "tokenizers": "0.22.2",
+    "safetensors": "0.9.0rc1",
+    "aiohttp": "3.14.3"
+  },
+  "training_deps": {
+    "fla-core": "0.5.2",
+    "flash-linear-attention": "0.5.2",
+    "isolation": "PYTHONPATH deps, production installation unchanged"
+  },
+  "gpu": "NVIDIA A100-SXM4-80GB, 580.126.09, 81920 MiB",
+  "cpu_max": "1200000 100000",
+  "memory_max": "128849018880",
+  "server_timezone": "+0800"
+}

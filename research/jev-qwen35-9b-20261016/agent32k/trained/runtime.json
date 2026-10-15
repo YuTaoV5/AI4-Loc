@@ -1,0 +1,37 @@
+{
+  "frontend": {
+    "version": "0.5.21",
+    "dtype": "bfloat16",
+    "context_length": 32768,
+    "mem_fraction_static": 0.55,
+    "max_running_requests": 4,
+    "max_mamba_cache_size": 32,
+    "tool_call_parser": null,
+    "reasoning_parser": null
+  },
+  "scheduler": {
+    "dtype": "bfloat16",
+    "context_length": 32768,
+    "mem_fraction_static": 0.55,
+    "max_running_requests": 4,
+    "max_mamba_cache_size": 32,
+    "effective_max_running_requests_per_dp": 4,
+    "memory_usage": {
+      "weight": 17.617,
+      "kvcache": 23.98,
+      "startup_available": 33.262,
+      "token_capacity": 785771,
+      "token_capacity_swa": null,
+      "graph": {
+        "prefill": 1.752,
+        "decode": 0.035,
+        "target_verify": 0.0,
+        "draft_prefill": 0.0,
+        "draft_decode": 0.0,
+        "draft_extend": 0.0
+      }
+    },
+    "tool_call_parser": null,
+    "reasoning_parser": null
+  }
+}

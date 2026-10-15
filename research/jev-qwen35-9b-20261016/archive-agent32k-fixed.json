@@ -1,0 +1,12 @@
+{
+  "file": "retained-evidence.tgz",
+  "bytes": 3042184,
+  "sha256": "510e768d459206d132cf4c82eb383050da44a05dcc136bda65d615a2df797592",
+  "files_including_manifest": 196,
+  "process_environment_included": false,
+  "redownloadable_base_and_merged_weights_included": false,
+  "merged_checkpoint_hash_manifest_included": false,
+  "private_raw_inputs_included": true,
+  "training_adapters_included": false,
+  "metadata_correction": "Content-based adapter/manifest flags; original archive bytes and member manifest unchanged"
+}

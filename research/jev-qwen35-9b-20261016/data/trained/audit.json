@@ -1,0 +1,77 @@
+{
+  "formal_http_calls": 980,
+  "formal_question_evaluations": 1330,
+  "matched_formal_server_requests": 1330,
+  "all_server_requests": 1994,
+  "unmatched_server_requests": [
+    {
+      "id": "c3096310d22344a0948ceac3c124af22",
+      "candidates": 0
+    },
+    {
+      "id": "a376a08d59d740c5a251ce01572a9799",
+      "candidates": 0
+    },
+    {
+      "id": "315f6f97cb5040e286ce2e8551e35113",
+      "candidates": 0
+    },
+    {
+      "id": "6794d49b810147f5b58ecb0ec8a0da32",
+      "candidates": 0
+    },
+    {
+      "id": "eaf35ddc20f5429daab31b91b241efe1",
+      "candidates": 0
+    },
+    {
+      "id": "3ec88c30398141eb89f409346e65f2d9",
+      "candidates": 0
+    },
+    {
+      "id": "54c29b59bbca4453ac5d0026fcf95b63",
+      "candidates": 0
+    },
+    {
+      "id": "3936ac4cc36c48fb87d6bb970f738154",
+      "candidates": 0
+    },
+    {
+      "id": "d64fd23a4aaf463fa3f697fcb597f8e8",
+      "candidates": 0
+    },
+    {
+      "id": "d502c0ff62bb4ece93efe751884aa0d9",
+      "candidates": 0
+    },
+    {
+      "id": "9822202da3d64059abdca29f15077f08",
+      "candidates": 0
+    },
+    {
+      "id": "fe95185e234a4289be65a18505829cde",
+      "candidates": 0
+    },
+    {
+      "id": "dcca7031d1814665a4d749f742087397",
+      "candidates": 0
+    },
+    {
+      "id": "1522b725618f4535a3a3205d85b014de",
+      "candidates": 0
+    },
+    {
+      "id": "4a610596fa804c22a3d6cba0b304f1ff",
+      "candidates": 0
+    }
+  ],
+  "excluded_client_calls": 127,
+  "trial_count": 112,
+  "all_http_ok": true,
+  "chat_valid_letters": 465,
+  "formal_chat_calls": 465,
+  "exact_link_rule": "SHA256 of complete prompt token IDs + strict client interval; only if no candidate allow +/-2ms; exactly one candidate required. Strict first prevents adjacent identical Decision/Chat prompts being falsely ambiguous.",
+  "full_input_logs_or_env_exported": false,
+  "accuracy_http_calls": 522,
+  "matched_accuracy_requests": 522
+}

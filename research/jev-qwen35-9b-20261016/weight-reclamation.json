@@ -1,0 +1,65 @@
+{
+  "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+  "recovery_repository": "perplexity-ai/pplx-decider-v1-27b",
+  "files": [
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00001-of-00011.safetensors",
+      "bytes": 4997471976,
+      "sha256": "58569725c35cadab80cb8c979bc2f86dd060a7156c09ef69bc7cd759512da341"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00002-of-00011.safetensors",
+      "bytes": 4965144568,
+      "sha256": "1b2a3af03da7f7997d4e88f6d1c1c7173a8d241165c3f06b040be41827846f4c"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00003-of-00011.safetensors",
+      "bytes": 4933789248,
+      "sha256": "f72a874e019dfe8a0cb02e5d0105d3481743b8a163ea4a4275f1b0de26e5e6a6"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00004-of-00011.safetensors",
+      "bytes": 4965227496,
+      "sha256": "5912f502fbe9cf9d0e326f15ab0a50555efc411da32c8ec035b4678e84238c2e"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00005-of-00011.safetensors",
+      "bytes": 4974750552,
+      "sha256": "1a070c547f61d143662a3eb7a705f59fbad79141a91d0dfc93beeb0ae4e04433"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00006-of-00011.safetensors",
+      "bytes": 4924266240,
+      "sha256": "7d9baeef76e6bf2e898ecef17cc7998292038f494900a2504a722c4aca1df5a3"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00007-of-00011.safetensors",
+      "bytes": 4974750560,
+      "sha256": "087eb8ead9cdec86d9f30ee5af04aefc4ec2271c0f25ff2899fdebce5a72ba7f"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00008-of-00011.safetensors",
+      "bytes": 4902229944,
+      "sha256": "8c15e947d1fb961817b9fac90ff99df3a0677e4c95c6085e420fa0ce4c1f018d"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00009-of-00011.safetensors",
+      "bytes": 4996786840,
+      "sha256": "5e2821efd5ed9abfe4fca2c8e7bf7a278a928a754d74dc1de4164bb7b27fdad0"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00010-of-00011.safetensors",
+      "bytes": 4902229960,
+      "sha256": "a1a54045af3155fefcf2f36cd1a4b7dfd3c22e0f305ee8466e7a3bdd4b314649"
+    },
+    {
+      "file": "/root/gpufree-data/systemone/models/PPLX-Decider-v1-27B/model-00011-of-00011.safetensors",
+      "bytes": 2634155256,
+      "sha256": "7c849c5bcf4d5e8d4d14c8ad13a4cc320b9090f31bb865edee6354b2d4106007"
+    }
+  ],
+  "authorization": "User explicitly allowed deleting unnecessary redownloadable weights",
+  "checked_inactive": true,
+  "timestamp_ns": 1792085122661249379,
+  "deleted": true
+}

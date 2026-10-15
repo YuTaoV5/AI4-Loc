@@ -1,0 +1,17 @@
+{
+  "source_sha256": {
+    "train.py": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca",
+    "package-public.py": "bbcd70b4991ed1dd890eeeaa520c67e326de29f3c656508210d46e7c1b8adfca",
+    "orchestrate.py": "fa8f4127842e6791f1ca1af68a7bffc8dab787fe48b5d4264d72016e90930d8f",
+    "fetch-checkpoint.py": "95421ffafad61d334b38dbc9bdf04acae0b2c59487a605ab15a080bb7c637c7b",
+    "accuracy.py": "57fa81feb410339b5db619a71ffb92959d364d87457c46068707173a3a723b9b",
+    "sitecustomize.py": "2aebd6a7f897ebb05ba8aa3ba92f0533553aeae7aaa6e2b7bf8e20ce2e21ea2e",
+    "prepare-data.py": "1b16bfb6c44cc5267a70cb1d8701f41fa4ef9a95c6bf13c5782989ff1fc40faa",
+    "export.py": "4f2d0b43495b4fae4186fc7f3632d8461e82d9549234e953bf863caa00221056",
+    "retain.py": "9606effddc65f4e403dd4787b07561439970d2b91cfd4af90ec3ad10579af24e",
+    "reclaim-inactive-pplx.py": "9c910d3c7d68291200dd5853d8011fd3c790738ad31d8088ebefb58f5d8ef0ad",
+    "agent-check.py": "2a452706955e5127351cf819b6256a2489be03ba28017eb0b6e9fd8a240d2d69",
+    "benchmark.py": "9a5061256c77c3019b76394cf22911357c2715e56ea634da00544091981cc695"
+  },
+  "purpose": "current postprocessing source snapshot; training-start code hashes separately in provenance.json"
+}

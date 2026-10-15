@@ -1,0 +1,26 @@
+[
+  {
+    "case": "lkdtm_EXHAUST_STACK",
+    "source": "stability",
+    "max_absolute_logit_difference": 1.573699951171875,
+    "top1_equal": true
+  },
+  {
+    "case": "lkdtm_LOOP",
+    "source": "stability",
+    "max_absolute_logit_difference": 0.99639892578125,
+    "top1_equal": true
+  },
+  {
+    "case": "OHOS-023",
+    "source": "openharmony",
+    "max_absolute_logit_difference": 0.7340850830078125,
+    "top1_equal": true
+  },
+  {
+    "case": "OHOS-026",
+    "source": "openharmony",
+    "max_absolute_logit_difference": 3.307861328125,
+    "top1_equal": true
+  }
+]

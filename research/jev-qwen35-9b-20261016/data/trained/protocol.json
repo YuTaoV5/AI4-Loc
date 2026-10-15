@@ -1,0 +1,1261 @@
+{
+  "schema": "ai4loc-kv-concurrency/v1",
+  "frozen_utc": "2026-10-15T17:51:16Z",
+  "seed": 20261015,
+  "checkpoint_arm": "trained",
+  "schedule": [
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": false
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": false
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": false
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": false
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "batch8",
+      "repeat": 2,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "batch8",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 8,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 4,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "decision",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": false
+    },
+    {
+      "arm": "decision",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 0,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 4,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "cold",
+      "mode": "sequential",
+      "repeat": 3,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 1,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    },
+    {
+      "arm": "chat",
+      "concurrency": 1,
+      "decisions": 8,
+      "cache": "warm",
+      "mode": "sequential",
+      "repeat": 1,
+      "instrumented": true
+    }
+  ],
+  "model": "AI4Loc-Qwen9B",
+  "port": 30003,
+  "input_sha256": [
+    "1a65b2fd5554bae7e43af809c4016e41d19ca26c24be647b191dd7c9903dcbfa",
+    "198a15c7b58b227dacd48c9a99fb9eeff53a3c607612d5986f2a17b6d5f08e10",
+    "5533c4abe5f76c310c9f378186ab895ef1f8d942ed8b7f0fe6967835de043d19",
+    "c7527c21c7798d19b2f96d0da79fee70d4de14a3ddf415a401bf8ccead24bae2"
+  ],
+  "experimental_override": {
+    "mem_fraction_static": 0.55,
+    "max_mamba_cache_size": 32,
+    "required_effective_concurrency": 4,
+    "reason": "identical isolated Qwen3.5-9B runtime in both checkpoint arms; production restored unchanged"
+  },
+  "data_source": "four existing agent logs; first eligible manifest order containing diagnostic regex; window begins 1000 Unicode characters before first matched diagnostic, up to 6000 characters; no labels passed",
+  "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+  "options": [
+    {
+      "id": "family0",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "memory_lifetime",
+          "description": "memory lifetime"
+        },
+        {
+          "name": "memory_bounds",
+          "description": "memory bounds"
+        },
+        {
+          "name": "locking",
+          "description": "locking"
+        },
+        {
+          "name": "blocked_task",
+          "description": "blocked task"
+        },
+        {
+          "name": "watchdog_lockup",
+          "description": "watchdog lockup"
+        }
+      ]
+    },
+    {
+      "id": "family1",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "memory_bounds",
+          "description": "memory bounds"
+        },
+        {
+          "name": "locking",
+          "description": "locking"
+        },
+        {
+          "name": "blocked_task",
+          "description": "blocked task"
+        },
+        {
+          "name": "watchdog_lockup",
+          "description": "watchdog lockup"
+        },
+        {
+          "name": "rcu_progress",
+          "description": "rcu progress"
+        }
+      ]
+    },
+    {
+      "id": "family2",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "locking",
+          "description": "locking"
+        },
+        {
+          "name": "blocked_task",
+          "description": "blocked task"
+        },
+        {
+          "name": "watchdog_lockup",
+          "description": "watchdog lockup"
+        },
+        {
+          "name": "rcu_progress",
+          "description": "rcu progress"
+        },
+        {
+          "name": "oom",
+          "description": "oom"
+        }
+      ]
+    },
+    {
+      "id": "family3",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "blocked_task",
+          "description": "blocked task"
+        },
+        {
+          "name": "watchdog_lockup",
+          "description": "watchdog lockup"
+        },
+        {
+          "name": "rcu_progress",
+          "description": "rcu progress"
+        },
+        {
+          "name": "oom",
+          "description": "oom"
+        },
+        {
+          "name": "other_or_no_fault",
+          "description": "other or no fault"
+        }
+      ]
+    },
+    {
+      "id": "family4",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "watchdog_lockup",
+          "description": "watchdog lockup"
+        },
+        {
+          "name": "rcu_progress",
+          "description": "rcu progress"
+        },
+        {
+          "name": "oom",
+          "description": "oom"
+        },
+        {
+          "name": "other_or_no_fault",
+          "description": "other or no fault"
+        },
+        {
+          "name": "driver_io",
+          "description": "driver io"
+        }
+      ]
+    },
+    {
+      "id": "family5",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "rcu_progress",
+          "description": "rcu progress"
+        },
+        {
+          "name": "oom",
+          "description": "oom"
+        },
+        {
+          "name": "other_or_no_fault",
+          "description": "other or no fault"
+        },
+        {
+          "name": "driver_io",
+          "description": "driver io"
+        },
+        {
+          "name": "filesystem",
+          "description": "filesystem"
+        }
+      ]
+    },
+    {
+      "id": "family6",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "oom",
+          "description": "oom"
+        },
+        {
+          "name": "other_or_no_fault",
+          "description": "other or no fault"
+        },
+        {
+          "name": "driver_io",
+          "description": "driver io"
+        },
+        {
+          "name": "filesystem",
+          "description": "filesystem"
+        },
+        {
+          "name": "network",
+          "description": "network"
+        }
+      ]
+    },
+    {
+      "id": "family7",
+      "type": "choice",
+      "question": "Which fault family best describes the FIRST diagnostic in the supplied kernel log?",
+      "options": [
+        {
+          "name": "other_or_no_fault",
+          "description": "other or no fault"
+        },
+        {
+          "name": "driver_io",
+          "description": "driver io"
+        },
+        {
+          "name": "filesystem",
+          "description": "filesystem"
+        },
+        {
+          "name": "network",
+          "description": "network"
+        },
+        {
+          "name": "scheduler",
+          "description": "scheduler"
+        }
+      ]
+    }
+  ],
+  "warm_step": 11,
+  "cold": "flush once before trial, sequential calls may reuse prefix within trial",
+  "warm": "flush then prime each task stem with different option set step11, excluded from formal results",
+  "chat": "exact Decision v1 user prompt, thinking=false, max_tokens=1, temperature=0; actual first nonempty content arrival",
+  "decision": "temperature1 next-token label normalization; full probability response latency, TTFT not applicable",
+  "sampling": "Prometheus requested 50ms plus HTTP cost; scheduler snapshots every run/result boundary; NVML requested100ms",
+  "accuracy": "not an accuracy study; option sets may omit correct class; no accuracy claims",
+  "code_sha256": {
+    "sitecustomize.py": "2aebd6a7f897ebb05ba8aa3ba92f0533553aeae7aaa6e2b7bf8e20ce2e21ea2e",
+    "benchmark.py": "9a5061256c77c3019b76394cf22911357c2715e56ea634da00544091981cc695"
+  }
+}

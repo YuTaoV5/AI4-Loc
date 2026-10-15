@@ -1,0 +1,42 @@
+[
+  {
+    "variant": "agent-chat-only",
+    "case": "corrupt_uaf_kmalloc",
+    "status": "failed",
+    "error": "'NoneType' object is not iterable",
+    "model_requests": 6,
+    "seconds": 39.416
+  },
+  {
+    "variant": "agent-chat-only",
+    "case": "lock_mutex_abba",
+    "status": "failed",
+    "error": "'NoneType' object is not iterable",
+    "model_requests": 6,
+    "seconds": 40.533
+  },
+  {
+    "variant": "agent-chat-only",
+    "case": "lkdtm_HUNG_TASK",
+    "status": "failed",
+    "error": "'NoneType' object is not iterable",
+    "model_requests": 6,
+    "seconds": 39.833
+  },
+  {
+    "variant": "agent-decision-boundary-chat-root",
+    "case": "corrupt_uaf_kmalloc",
+    "status": "failed",
+    "error": "'NoneType' object is not iterable",
+    "model_requests": 6,
+    "seconds": 39.013
+  },
+  {
+    "variant": "agent-decision-boundary-chat-root",
+    "case": "lock_mutex_abba",
+    "status": "failed",
+    "error": "'NoneType' object is not iterable",
+    "model_requests": 6,
+    "seconds": 33.726
+  }
+]

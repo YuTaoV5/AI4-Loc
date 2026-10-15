@@ -1,0 +1,29 @@
+[
+  {
+    "file": "adapter-epoch0.pt",
+    "sha256": "8dc0fe69c526bca208331234adcdff86748ffb315f8817d95e74cdffa490136c",
+    "bytes": 21262861,
+    "parameters": 5308416,
+    "a_l2_squared": 130.42427741012636,
+    "b_l2_squared": 0.9456786265542433,
+    "b_nonzero_parameters": 1638384
+  },
+  {
+    "file": "adapter-epoch1.pt",
+    "sha256": "2d9a3173f509570f1a7cbd437bf2d60eb2cc9601cc2a1d9a804952055d6cfe75",
+    "bytes": 21262861,
+    "parameters": 5308416,
+    "a_l2_squared": 132.2299266394454,
+    "b_l2_squared": 1.5662130741575033,
+    "b_nonzero_parameters": 1638392
+  },
+  {
+    "file": "adapter-epoch2.pt",
+    "sha256": "e8b0279e3e3c8a5eb7ec116879b108eebf1ffe8d579514f791be697903a8e5ad",
+    "bytes": 21262861,
+    "parameters": 5308416,
+    "a_l2_squared": 132.18105498937686,
+    "b_l2_squared": 1.6652075157854858,
+    "b_nonzero_parameters": 1638392
+  }
+]

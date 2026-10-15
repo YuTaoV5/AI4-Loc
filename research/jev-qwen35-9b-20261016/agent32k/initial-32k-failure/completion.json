@@ -1,0 +1,5 @@
+{
+  "status": "interrupted",
+  "restored": true,
+  "reason": "OpenAI tool_calls:null client bug; raw partial results retained; controlled SIGTERM identity in manual-stop.json"
+}

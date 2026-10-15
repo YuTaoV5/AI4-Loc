@@ -4,6 +4,8 @@ Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核�
 
 [全部部署文档与报告索引](docs/文档导航.md) · [dsh Decision 插件](plugins/kernel-decision/README.md) · [Jev API 示例](tools/jev-demos/README.md)
 
+2026-10-16：[Qwen3.5-9B决策训练与并发复测](research/jev-qwen35-9b-20261016/REPORT.md)已完成。87例第一诊断弱标签一致性75.9%→89.7%，但NLL恶化；4任务×8步预热Decision相对单token Chat约快7.7%，没有明显KV内存收益。独立32k配置修复后12次Agent流程全部出报告，源码命中仍2/3；不宣称根因能力普遍提高。训练、原始采集和失败记录保留，参数/下载/复现入口见[训练与部署说明](research/jev-qwen35-9b-20261016/README.md)。
+
 2026-10-12研究更新：[25页学术报告](output/pdf/AI4Loc_Decision_Academic_Report_20261012.pdf)、[PPLX全GPU实测](research/pplx-timeshare-20261012/REPORT.md)、[权重下载部署与验收手册](docs/PPLX专用模型下载部署与验收手册.md)。同一A100分时独占测试，两端test均27/27，PPLX均值5.672s、通用2.563s；运行时不同，未证明纯权重速度或完整根因定位收益。说明文档已统一中文名，见[名称对照](docs/文档名称对照.md)。
 
 个人空间任务详细进展现支持 [API / 工具调用轨迹 Tab](docs/智能体接口与工具调用轨迹说明.md)，可查看已记录的 Decision 问题、选项、概率及工具参数/返回。

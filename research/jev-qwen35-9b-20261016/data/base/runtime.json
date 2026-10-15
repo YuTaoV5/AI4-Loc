@@ -1,0 +1,87 @@
+{
+  "frontend": {
+    "version": "0.5.21",
+    "dtype": "bfloat16",
+    "kv_cache_dtype": "auto",
+    "mem_fraction_static": 0.55,
+    "max_running_requests": 4,
+    "max_mamba_cache_size": 32,
+    "mamba_full_memory_ratio": 0.6,
+    "mamba_ssm_dtype": null,
+    "mamba_radix_cache_strategy": "extra_buffer",
+    "mamba_track_interval": 256,
+    "mamba_max_states_per_path": -1,
+    "context_length": 8192,
+    "disable_radix_cache": false,
+    "chunked_prefill_size": 8192,
+    "max_prefill_tokens": 16384,
+    "attention_backend": "flashinfer",
+    "linear_attn_backend": "triton",
+    "disable_overlap_schedule": false,
+    "enable_metrics": true,
+    "max_total_num_tokens": 786411,
+    "startup_time": {
+      "load_weight": 3.625589655712247,
+      "kv_cache_allocation": 0.37451960518956184,
+      "scheduler_e2e": 41.1587400957942,
+      "cuda_graph": {
+        "prefill": 30.919090019539,
+        "decode": 1.9998117201030254,
+        "target_verify": 0.0,
+        "draft_prefill": 0.0,
+        "draft_decode": 0.0,
+        "draft_extend": 0.0
+      },
+      "tokenizer_e2e": 49.809184450656176
+    }
+  },
+  "scheduler": {
+    "dtype": "bfloat16",
+    "kv_cache_dtype": "auto",
+    "mem_fraction_static": 0.55,
+    "max_running_requests": 4,
+    "max_mamba_cache_size": 32,
+    "mamba_full_memory_ratio": 0.6,
+    "mamba_ssm_dtype": null,
+    "mamba_radix_cache_strategy": "extra_buffer",
+    "mamba_track_interval": 256,
+    "mamba_max_states_per_path": -1,
+    "context_length": 8192,
+    "disable_radix_cache": false,
+    "chunked_prefill_size": 8192,
+    "max_prefill_tokens": 16384,
+    "attention_backend": "flashinfer",
+    "linear_attn_backend": "triton",
+    "disable_overlap_schedule": false,
+    "enable_metrics": true,
+    "memory_usage": {
+      "weight": 17.617,
+      "kvcache": 23.999,
+      "startup_available": 33.262,
+      "token_capacity": 786411,
+      "token_capacity_swa": null,
+      "graph": {
+        "prefill": 1.754,
+        "decode": 0.035,
+        "target_verify": 0.0,
+        "draft_prefill": 0.0,
+        "draft_decode": 0.0,
+        "draft_extend": 0.0
+      }
+    },
+    "effective_max_running_requests_per_dp": 4,
+    "startup_time": {
+      "load_weight": 3.625589655712247,
+      "kv_cache_allocation": 0.37451960518956184,
+      "scheduler_e2e": 41.1587400957942,
+      "cuda_graph": {
+        "prefill": 30.919090019539,
+        "decode": 1.9998117201030254,
+        "target_verify": 0.0,
+        "draft_prefill": 0.0,
+        "draft_decode": 0.0,
+        "draft_extend": 0.0
+      }
+    }
+  }
+}

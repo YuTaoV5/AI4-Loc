@@ -1,0 +1,90 @@
+{
+  "restored": true,
+  "utc": "2026-10-15T18:11:03Z",
+  "models": {
+    "object": "list",
+    "data": [
+      {
+        "id": "Qwen3.8-27B-SystemOne",
+        "object": "model",
+        "created": 1792087863,
+        "owned_by": "sglang",
+        "root": "Qwen3.8-27B-SystemOne",
+        "parent": null,
+        "max_model_len": 8192
+      }
+    ]
+  },
+  "supervisor_state": "S",
+  "experimental_server_responding": false,
+  "gpu": "60624 MiB, 20529 MiB",
+  "synthetic_probes": [
+    {
+      "path": "/v1/decisions",
+      "status": 200,
+      "response": {
+        "object": "decisions",
+        "model": "default",
+        "prompt_format_version": 1,
+        "answers": {
+          "x": {
+            "type": "choice",
+            "probabilities": {
+              "use_after_free": 0.9999339478706002,
+              "out_of_memory": 6.60521293998124e-05
+            },
+            "label_mass": 0.997942667470154,
+            "choice": "use_after_free"
+          }
+        },
+        "usage": {
+          "prompt_tokens": 52,
+          "total_tokens": 52,
+          "completion_tokens": 0,
+          "reasoning_tokens": 0
+        }
+      }
+    },
+    {
+      "path": "/v1/chat/completions",
+      "status": 200,
+      "response": {
+        "id": "344a484d09224f7cbd2c0e341e33b81f",
+        "object": "chat.completion",
+        "created": 1792087864,
+        "model": "default",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "OK",
+              "reasoning_content": null,
+              "tool_calls": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "matched_stop": 248046
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 16,
+          "total_tokens": 18,
+          "completion_tokens": 2,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        "metadata": {
+          "weight_version": "default",
+          "weight_versions": [
+            {
+              "version": "default",
+              "start": 0,
+              "end": 2
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/760 [00:00<?, ?it/s]Loading weights: 100%|██████████| 760/760 [00:00<00:00, 9784.34it/s]
+TRAIN_READY 5308416
+Traceback (most recent call last):
+  File "/opt/kernel-insight/experiments/jev-qwen35-9b-20261016/train.py", line 161, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/opt/kernel-insight/experiments/jev-qwen35-9b-20261016/train.py", line 99, in main
+    evaluate('dev','untrained');evaluate('test','untrained')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/kernel-insight/experiments/jev-qwen35-9b-20261016/train.py", line 93, in evaluate
+    logits,n=forward(r,classes);logits=logits[0].float().cpu().tolist()
+             ^^^^^^^^^^^^^^^^^^
+  File "/opt/kernel-insight/experiments/jev-qwen35-9b-20261016/train.py", line 84, in forward
+    x=encode(r,options)
+      ^^^^^^^^^^^^^^^^^
+  File "/opt/kernel-insight/experiments/jev-qwen35-9b-20261016/train.py", line 82, in encode
+    return torch.tensor([toks],device='cuda')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Could not infer dtype of tokenizers.Encoding

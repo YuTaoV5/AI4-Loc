@@ -1,0 +1,30 @@
+[
+  {
+    "checkpoint": "base",
+    "api": "decision",
+    "trial": 87,
+    "repeat": 0,
+    "selection": "joint closest to Decision/Chat median within this checkpoint; same repeat for endpoints"
+  },
+  {
+    "checkpoint": "base",
+    "api": "chat",
+    "trial": 45,
+    "repeat": 0,
+    "selection": "joint closest to Decision/Chat median within this checkpoint; same repeat for endpoints"
+  },
+  {
+    "checkpoint": "trained",
+    "api": "decision",
+    "trial": 84,
+    "repeat": 1,
+    "selection": "joint closest to Decision/Chat median within this checkpoint; same repeat for endpoints"
+  },
+  {
+    "checkpoint": "trained",
+    "api": "chat",
+    "trial": 8,
+    "repeat": 1,
+    "selection": "joint closest to Decision/Chat median within this checkpoint; same repeat for endpoints"
+  }
+]

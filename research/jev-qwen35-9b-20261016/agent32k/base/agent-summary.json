@@ -1,0 +1,282 @@
+[
+  {
+    "variant": "chat-only",
+    "case": "corrupt_uaf_kmalloc",
+    "status": "completed",
+    "scores": {
+      "codeLocationHit": true,
+      "functionHit": true,
+      "rootCauseMechanismCorrect": null,
+      "introducingCommitCorrect": null,
+      "requiresHumanMechanismReview": true,
+      "identifiability": "incident log supplied"
+    },
+    "metrics": {
+      "modelRequests": 1,
+      "toolCalls": 3,
+      "preflightToolCalls": 3,
+      "modelToolCalls": 0,
+      "firstSceneSeconds": 0.0059,
+      "boundarySeconds": 7.6349,
+      "localizationSeconds": 7.635,
+      "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately.",
+      "inputTokens": 6547,
+      "outputTokens": 534,
+      "totalTokens": 7081,
+      "tokensComplete": true,
+      "observedTokensLowerBound": 7081,
+      "rootLocationSeconds": 7.635,
+      "reportOutputSeconds": 7.3854,
+      "usage": [
+        {
+          "prompt_tokens": 6547,
+          "total_tokens": 7081,
+          "completion_tokens": 534,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "variant": "chat-only",
+    "case": "lock_mutex_abba",
+    "status": "completed",
+    "scores": {
+      "codeLocationHit": true,
+      "functionHit": true,
+      "rootCauseMechanismCorrect": null,
+      "introducingCommitCorrect": null,
+      "requiresHumanMechanismReview": true,
+      "identifiability": "incident log supplied"
+    },
+    "metrics": {
+      "modelRequests": 1,
+      "toolCalls": 3,
+      "preflightToolCalls": 3,
+      "modelToolCalls": 0,
+      "firstSceneSeconds": 0.0059,
+      "boundarySeconds": 7.1984,
+      "localizationSeconds": 7.198,
+      "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately.",
+      "inputTokens": 5881,
+      "outputTokens": 562,
+      "totalTokens": 6443,
+      "tokensComplete": true,
+      "observedTokensLowerBound": 6443,
+      "rootLocationSeconds": 7.198,
+      "reportOutputSeconds": 6.8988,
+      "usage": [
+        {
+          "prompt_tokens": 5881,
+          "total_tokens": 6443,
+          "completion_tokens": 562,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "variant": "chat-only",
+    "case": "lkdtm_HUNG_TASK",
+    "status": "completed",
+    "scores": {
+      "codeLocationHit": false,
+      "functionHit": true,
+      "rootCauseMechanismCorrect": null,
+      "introducingCommitCorrect": null,
+      "requiresHumanMechanismReview": true,
+      "identifiability": "incident log supplied"
+    },
+    "metrics": {
+      "modelRequests": 1,
+      "toolCalls": 6,
+      "preflightToolCalls": 6,
+      "modelToolCalls": 0,
+      "firstSceneSeconds": 0.0056,
+      "boundarySeconds": 8.7337,
+      "localizationSeconds": 8.734,
+      "counting": "Each attempted model HTTP request counts, including failures and format repairs; automatic preflight tools are counted separately.",
+      "inputTokens": 19354,
+      "outputTokens": 550,
+      "totalTokens": 19904,
+      "tokensComplete": true,
+      "observedTokensLowerBound": 19904,
+      "rootLocationSeconds": 8.734,
+      "reportOutputSeconds": 7.9122,
+      "usage": [
+        {
+          "prompt_tokens": 19354,
+          "total_tokens": 19904,
+          "completion_tokens": 550,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "variant": "decision-boundary-chat-root",
+    "case": "corrupt_uaf_kmalloc",
+    "status": "completed",
+    "scores": {
+      "codeLocationHit": true,
+      "functionHit": true,
+      "rootCauseMechanismCorrect": null,
+      "introducingCommitCorrect": null,
+      "requiresHumanMechanismReview": true,
+      "identifiability": "incident log supplied"
+    },
+    "metrics": {
+      "modelRequests": 4,
+      "toolCalls": 12,
+      "preflightToolCalls": 12,
+      "modelToolCalls": 0,
+      "firstSceneSeconds": 0.0059,
+      "boundarySeconds": 0.8173,
+      "localizationSeconds": 19.675,
+      "counting": "All attempted generation AND typed-decision HTTP requests count, including failures; decision prefill question count is recorded separately.",
+      "generationModelRequests": 3,
+      "decisionModelRequests": 1,
+      "decisionSeconds": 0.7955,
+      "decisionQuestions": 3,
+      "inputTokens": 38729,
+      "outputTokens": 1415,
+      "totalTokens": 40144,
+      "tokensComplete": true,
+      "observedTokensLowerBound": 40144,
+      "rootLocationSeconds": 19.675,
+      "reportOutputSeconds": 6.2718,
+      "usage": [
+        {
+          "prompt_tokens": 8906,
+          "total_tokens": 9369,
+          "completion_tokens": 463,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        {
+          "prompt_tokens": 9402,
+          "total_tokens": 9865,
+          "completion_tokens": 463,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        {
+          "prompt_tokens": 9359,
+          "total_tokens": 9848,
+          "completion_tokens": 489,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "variant": "decision-boundary-chat-root",
+    "case": "lock_mutex_abba",
+    "status": "completed",
+    "scores": {
+      "codeLocationHit": true,
+      "functionHit": true,
+      "rootCauseMechanismCorrect": null,
+      "introducingCommitCorrect": null,
+      "requiresHumanMechanismReview": true,
+      "identifiability": "incident log supplied"
+    },
+    "metrics": {
+      "modelRequests": 4,
+      "toolCalls": 11,
+      "preflightToolCalls": 11,
+      "modelToolCalls": 0,
+      "firstSceneSeconds": 0.0058,
+      "boundarySeconds": 0.6587,
+      "localizationSeconds": 23.691,
+      "counting": "All attempted generation AND typed-decision HTTP requests count, including failures; decision prefill question count is recorded separately.",
+      "generationModelRequests": 3,
+      "decisionModelRequests": 1,
+      "decisionSeconds": 0.6388,
+      "decisionQuestions": 3,
+      "inputTokens": 35113,
+      "outputTokens": 1781,
+      "totalTokens": 36894,
+      "tokensComplete": true,
+      "observedTokensLowerBound": 36894,
+      "rootLocationSeconds": 23.691,
+      "reportOutputSeconds": 7.6067,
+      "usage": [
+        {
+          "prompt_tokens": 8269,
+          "total_tokens": 8857,
+          "completion_tokens": 588,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        {
+          "prompt_tokens": 8890,
+          "total_tokens": 9477,
+          "completion_tokens": 587,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        {
+          "prompt_tokens": 8971,
+          "total_tokens": 9577,
+          "completion_tokens": 606,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "variant": "decision-boundary-chat-root",
+    "case": "lkdtm_HUNG_TASK",
+    "status": "completed",
+    "scores": {
+      "codeLocationHit": false,
+      "functionHit": true,
+      "rootCauseMechanismCorrect": null,
+      "introducingCommitCorrect": null,
+      "requiresHumanMechanismReview": true,
+      "identifiability": "incident log supplied"
+    },
+    "metrics": {
+      "modelRequests": 2,
+      "toolCalls": 13,
+      "preflightToolCalls": 13,
+      "modelToolCalls": 0,
+      "firstSceneSeconds": 0.0057,
+      "boundarySeconds": 0.5473,
+      "localizationSeconds": 10.098,
+      "counting": "All attempted generation AND typed-decision HTTP requests count, including failures; decision prefill question count is recorded separately.",
+      "generationModelRequests": 1,
+      "decisionModelRequests": 1,
+      "decisionSeconds": 0.5289,
+      "decisionQuestions": 3,
+      "inputTokens": 28476,
+      "outputTokens": 528,
+      "totalTokens": 29004,
+      "tokensComplete": true,
+      "observedTokensLowerBound": 29004,
+      "rootLocationSeconds": 10.098,
+      "reportOutputSeconds": 7.7487,
+      "usage": [
+        {
+          "prompt_tokens": 20945,
+          "total_tokens": 21473,
+          "completion_tokens": 528,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        }
+      ]
+    },
+    "error": null
+  }
+]

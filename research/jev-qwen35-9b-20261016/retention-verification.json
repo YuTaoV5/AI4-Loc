@@ -1,0 +1,26 @@
+{
+  "archives": [
+    {
+      "archive": "main",
+      "bytes": 114902227,
+      "sha256": "6174a2df9d0063ccc9c6300704540a573340a3d9d3dada9a453f912a2b389fd2",
+      "verified_files": 3670,
+      "process_environment_absent": true
+    },
+    {
+      "archive": "agent32k-initial",
+      "bytes": 4132298,
+      "sha256": "129d94cc75f5860b69d83e999d9223c7aecd1e105b4af3b23026882e05d93f00",
+      "verified_files": 111,
+      "process_environment_absent": true
+    },
+    {
+      "archive": "agent32k-fixed",
+      "bytes": 3042184,
+      "sha256": "510e768d459206d132cf4c82eb383050da44a05dcc136bda65d615a2df797592",
+      "verified_files": 196,
+      "process_environment_absent": true
+    }
+  ],
+  "all_verified": true
+}

@@ -1,0 +1,7 @@
+{
+  "pid": 43404,
+  "start_ticks": "1515756382",
+  "reason": "deployed client iterates OpenAI tool_calls:null; preserve partial 32k bad-client check and restart both checkpoint arms with identical normalization fix",
+  "signal": "SIGTERM",
+  "time_ns": 1792087360920951197
+}

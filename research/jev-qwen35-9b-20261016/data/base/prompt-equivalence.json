@@ -1,0 +1,26 @@
+[
+  {
+    "task": 0,
+    "prompt_tokens": 3691,
+    "exact_token_match": true,
+    "token_ids_sha256": "99845f7f93aed9a3dacfc9609c76e4bfb84ecb4a42b4acc0406126947dac893e"
+  },
+  {
+    "task": 1,
+    "prompt_tokens": 3673,
+    "exact_token_match": true,
+    "token_ids_sha256": "fc149437f7b7b1739b86a37ba21fec28d534db8c8f96e9c49cd3c23e99f5209e"
+  },
+  {
+    "task": 2,
+    "prompt_tokens": 3579,
+    "exact_token_match": true,
+    "token_ids_sha256": "157aa5b3be229629f21fe3ae0b772a017bac9c94b48c393cc58ded2f3f12ab77"
+  },
+  {
+    "task": 3,
+    "prompt_tokens": 3717,
+    "exact_token_match": true,
+    "token_ids_sha256": "47312d35b0e8283b78ce86ea361c50cf89ad6917e879b4d331e3ec30142057b2"
+  }
+]

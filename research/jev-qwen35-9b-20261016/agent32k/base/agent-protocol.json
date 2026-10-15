@@ -1,0 +1,47 @@
+{
+  "cases": [
+    "corrupt_uaf_kmalloc",
+    "lock_mutex_abba",
+    "lkdtm_HUNG_TASK"
+  ],
+  "profile": "log+source",
+  "max_model_calls": 6,
+  "timeout_seconds": 150,
+  "purpose": "exploratory end-to-end source-location check; not independent mechanism/introducing-commit gold",
+  "variants": [
+    "chat-only",
+    "decision-boundary-chat-root"
+  ],
+  "project_release": "/opt/kernel-insight/releases/task-trace-20261011",
+  "compatibility_change": "Frozen copy: explicit enable_thinking=false; normalize OpenAI tool_calls:null to empty list. Both checkpoint/agent arms use identical changes; original failed 8k and 32k checks preserved separately.",
+  "code_sha256": {
+    "run-web-benchmark.py": "8fe6664be3236db904555da4b4d5e2121e6ece01c13cdd039469da3096b6db25",
+    "dump-query.py": "1170058df7c1bf6cc4ffc8fbf1668ee4821aafd25050a63f54f2f933fdd90d2b",
+    "run-decision-holdout.py": "03a50b64757d68378a9658073aef57f95368fc11721326397b569ebb9881108d",
+    "sync-project-data.py": "8a445f8e3747e86de748060d77e68244432cfdb338d84880ed38220542123075",
+    "run-agent-benchmark.py": "6c9bea0d2f8baa18d09cb9aed072c224b006b7c9c96b448a2b6206073825893a",
+    "prepare-web-benchmark-labels.py": "ef06294c1fa49758acda33685ba5692964a12014c68e4585e5fe64b267938b4e",
+    "run-decision-experiment.py": "5a92cafa7af2d39895fe0e56d17a26a31051f79bc0961a465d3143bb983e8aef",
+    "review-localization.py": "5b5848c0691367d2f7ec227131c8d6da6b06f5a5c41bd920d8b6d0467f4242de",
+    "boundary_router.py": "82df220f843b8a65606e221f32668b96da5c1116c66f9f9f261850fdb49a845e",
+    "localization_agent.py": "4836af89be5f65acdab8889a0905b2a85183c113ba420f7045edd71b2ff95fe0",
+    "package-project-supplement.py": "3e0d3b8a7a86732e540d8051957c9a3128995d0ee05f18646af897126fcc001d",
+    "ollama-compat.py": "898bea36ba8a8ede59162fe347970a58c1252e46c80fe8057fa9f26dc4d9d509",
+    "benchmark-worker.py": "1c701e93bd7c5a6ef12028331e5085fe4a96b2d2572e8e9501b19dbe5661ffc7",
+    "kernel_triage.py": "b72a479c68c6bbc52a07e6000f4bb2258cecee0277231a8e4e2a8036c6351969",
+    "decision_plugin.py": "43abd37e5baa101e078c87c41d01110cc290a6cee19e1c237a40fd4cdf08cc69",
+    "setup-toolkit.py": "3e8c2c11e6e405822b85af9df8c2be16370f92cd2d11cc5c3b5405853467c240",
+    "summarize-agent-benchmark.py": "180f542793c6a3b60f70cb7630682604f6ae2214ba1206d380947077813947d1",
+    "manage-supervisor.py": "3d57d289923727baf3926912ad84b98156d431b8c20d68300d9ab01d7c9fec90",
+    "kernel_artifacts.py": "d1c096afd934dd110136fc4d35ce9a79594eeb6aab17550e17032df442f6096b",
+    "deployment-doctor.py": "87bead105ef08fea132480bbd678b17912a5852e847df98a6b21a65e3f079ab4",
+    "run-localization-benchmark.py": "bd4d4f4bb34a9dc05b500375a685c5ee58b3dea1efc69c79965c1eedda79d4f8",
+    "run-website-selfcheck.py": "e2d9633917da19bafedde92effc983f29f74bfa636c24cd8afaa4e0291c0b0a8",
+    "package-deployment.py": "c4c5f1caa200482eac44e1cdd83372997a1993398a3f16986c148a075859541c",
+    "audit-benchmark-leakage.py": "a146ca19b096b0ad98643fbcd4deaebb8abad557e35ff524942662d42d7416f5",
+    "run-hybrid-experiment.py": "ab0a86688f235407bf25b1ac9d7425eacc3db06c4fd5c1e9722ae3e869f8c67d",
+    "agent-runner.py": "4f8386d34c4b87f2e4072f5138fc8248e399c2fb446427a37e7ec5b9b2992492",
+    "audit-deployment.py": "7ffcb90eab07c5464c52463b5093bc73bba86f7929f534ec5d6885befc880f60",
+    "benchmark-boundary-router.py": "0d23a453890283f71b3f7280c470d9efa702a40eb75ffab6aca526fd5a3c099d"
+  }
+}
