@@ -16,6 +16,7 @@ from scipy.stats import beta, binomtest
 import research_figures
 import deck_revision
 import kv_slide_extension
+import finetune_slides
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -343,6 +344,7 @@ add(C,'复现入口：数据、图表、页面均可追溯',two(('原始证据�
 assert len(slides)==40
 slides, notes = deck_revision.revise(slides, notes, HERE, globals())
 slides, notes, kv_replay = kv_slide_extension.extend(slides, notes, HERE)
+slides, notes, ft_replay = finetune_slides.extend(slides, notes, HERE)
 
 template_path=HERE/'vendor/kelip-slide/assets/deck-template.html'
 if not template_path.is_file(): template_path=ROOT/'tools/kelip-slide/assets/deck-template.html'
@@ -382,6 +384,7 @@ template=template.replace("addEventListener('keydown',e=>{", "addEventListener('
 # Add a keyboard-only overview jump and offline provenance metadata without remote dependencies.
 template=template.replace('</head>','<meta name="description" content="48页系统设计与实证分析，含Windows真实界面、科研统计图和交互流程。">\n</head>')
 template=kv_slide_extension.inject(template,kv_replay)
+template=finetune_slides.inject(template,ft_replay)
 (HERE/'deck.html').write_text(template,encoding='utf-8')
 (HERE/'讲稿.md').write_text('# Kernel Insight 逐页讲稿\n\n适合约 30–40 分钟系统汇报。图表和数值仅来自既有记录；详细数据见 analysis-data.json。\n\n'+'\n'.join(notes),encoding='utf-8')
 source_doc='''# 资料来源与论断边界
@@ -427,3 +430,5 @@ source_doc+='''
 with (HERE/'资料来源.md').open('a',encoding='utf-8') as f:
     f.write('\n\n## 2026-10-16 并发与KV缓存实测补充\n\n新增49–58页只读取research/kv-concurrency-20261016冻结公开数据；本次制稿未调用模型。逐请求、调度及NVML时间、五次重复均值与单次回放严格区分。详见[数据与动图说明](实验数据与动图说明.md)及[完整实测报告](../../research/kv-concurrency-20261016/REPORT.md)。\n')
 print(json.dumps({'slides':len(slides),'figures':len(list(MEDIA.glob('*.svg'))),'ready':len(ready),'counts':counts,'output':str(HERE/'deck.html')},ensure_ascii=False))
+with (HERE/'资料来源.md').open('a',encoding='utf-8') as f:
+    f.write('\n\n## Qwen3.5-9B模型构建与微调：59–70页\n\n新增章节独立使用research/jev-qwen35-9b-20261016冻结数据。33/4/87划分、396微步、分类/概率/并发与32k Agent分开计量；49–58页仍为先前27B实验，不跨模型归因接口内存收益。见[动图说明](模型微调动图与数据说明.md)、[完整报告](../../research/jev-qwen35-9b-20261016/REPORT.md)与media/finetune/provenance.json源hash。\n')

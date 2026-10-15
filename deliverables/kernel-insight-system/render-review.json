@@ -1,6 +1,6 @@
 {
   "date": "2026-10-16",
-  "pages": 58,
+  "pages": 70,
   "allPngVerified": true,
   "contactSheetVisuallyInspected": true,
   "fullSizePagesVisuallyInspected": [
@@ -97,5 +97,191 @@
     "speed_and_reentry_verified": true,
     "script_errors": [],
     "deck_sha256": "723ce55fbb3c64f0dd2ed34a8aad74f1d21222bfe38dabdd5c9dfc20097d7e68"
+  },
+  "newChapterContactVisuallyInspected": true,
+  "fullSizeNewPagesVisuallyInspected": [
+    61,
+    66
+  ],
+  "newPostersVisuallyInspected": [
+    59,
+    65,
+    69
+  ],
+  "newCanvasOverlapCorrected": "Agent elapsed value and HTTP counters separated; poster re-rendered and inspected",
+  "newAnimationQa": {
+    "passed": true,
+    "pages_rendered": 70,
+    "new_animation_checks": [
+      {
+        "page": 59,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 60,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 61,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 62,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 63,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 64,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 65,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 66,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 67,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 68,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 69,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      },
+      {
+        "page": 70,
+        "no_autoplay": true,
+        "event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true
+      }
+    ],
+    "runtime_conditions": 16,
+    "script_errors": [],
+    "external_resource_requests": 0,
+    "deck_sha256": "cf2c01aed687138c4f289e196a0f405821ccf9c5594274c8062554bf6ac5da0c"
+  },
+  "newDataQa": {
+    "passed": true,
+    "source_hashes_verified": 23,
+    "training_steps": 396,
+    "paired_cases": 87,
+    "accuracy_before": 66,
+    "accuracy_after": 78,
+    "runtime_conditions": 16,
+    "replayed_http_requests": 360,
+    "kv_token_bytes": 32768,
+    "new_model_calls": 0,
+    "full_agent_runs": 12
+  },
+  "deck_sha256": "cf2c01aed687138c4f289e196a0f405821ccf9c5594274c8062554bf6ac5da0c",
+  "kvReplayQa": {
+    "passed": true,
+    "pages_rendered": 70,
+    "checks": [
+      {
+        "scene": "dchat-1x1-cold",
+        "page": 50,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "dchat-1x8-warm",
+        "page": 51,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "dchat-4x8-warm",
+        "page": 52,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "seqbatch-4x8-warm",
+        "page": 54,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      },
+      {
+        "scene": "coldwarm-d4x8",
+        "page": 55,
+        "manual_event_steps": true,
+        "play_pause": true,
+        "leave_stops": true,
+        "scrub": true,
+        "no_autoplay": true
+      }
+    ],
+    "explorer_conditions": 8,
+    "speed_and_reentry_verified": true,
+    "script_errors": [],
+    "deck_sha256": "cf2c01aed687138c4f289e196a0f405821ccf9c5594274c8062554bf6ac5da0c"
   }
 }

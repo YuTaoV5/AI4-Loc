@@ -17,7 +17,7 @@ with sync_playwright() as p:
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.on('request',lambda r: requests.append(r.url))
     page.goto(DECK.as_uri());page.evaluate('document.fonts.ready')
-    count=page.locator('.slide').count(); assert count==58,count
+    count=page.locator('.slide').count(); assert count==70,count
     reports=[]
     for n in range(1,count+1):
         if n>1:page.keyboard.press('ArrowRight')

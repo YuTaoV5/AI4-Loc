@@ -16,6 +16,7 @@ with sync_playwright() as p:
     page=browser.new_page(viewport={'width':1920,'height':1080},device_scale_factor=1)
     page.on('pageerror',lambda error:errors.append(str(error)))
     page.goto((HERE/'deck.html').as_uri());page.evaluate('document.fonts.ready')
+    count=page.locator('.slide').count()
     def goto(n):
         page.evaluate('document.activeElement.blur()')
         page.evaluate('(n)=>location.hash="#"+n',n)
@@ -26,10 +27,10 @@ with sync_playwright() as p:
         page.wait_for_function('(n)=>document.querySelectorAll(".slide")[n-1].classList.contains("active")',arg=n)
         page.evaluate('document.fonts.ready')
     if '--only-gifs' not in sys.argv and '--verify-only' not in sys.argv:
-        for n in range(1,59):
+        for n in range(1,count+1):
             goto(n);page.screenshot(path=str(OUT/f'slide-{n:02d}.png'))
-    tiles=[Image.open(OUT/f'slide-{n:02d}.png') for n in range(1,59)]
-    sheet=Image.new('RGB',(1970,4210),(200,205,212))
+    tiles=[Image.open(OUT/f'slide-{n:02d}.png') for n in range(1,count+1)]
+    sheet=Image.new('RGB',(1970,((count+3)//4)*280+10),(200,205,212))
     for i,im in enumerate(tiles):sheet.paste(im.resize((480,270),Image.Resampling.LANCZOS),(10+(i%4)*490,10+(i//4)*280))
     sheet.save(OUT/'contact.png');sheet.save(HERE/'预览-全部页面.png')
     extra=Image.new('RGB',(1970,850),(200,205,212))
@@ -76,5 +77,5 @@ with sync_playwright() as p:
     assert not errors,errors
     browser.close()
 if '--verify-only' not in sys.argv:(HERE/'media/kv/gif-manifest.json').write_text(json.dumps(reports,ensure_ascii=False,indent=2),encoding='utf-8')
-(HERE/'kv-animation-qa.json').write_text(json.dumps({'passed':True,'pages_rendered':58,'checks':checks,'explorer_conditions':8,'speed_and_reentry_verified':True,'script_errors':errors,'deck_sha256':hashlib.sha256((HERE/'deck.html').read_bytes()).hexdigest()},ensure_ascii=False,indent=2),encoding='utf-8')
-print('FULL_DECK_RENDERED',58,flush=True)
+(HERE/'kv-animation-qa.json').write_text(json.dumps({'passed':True,'pages_rendered':count,'checks':checks,'explorer_conditions':8,'speed_and_reentry_verified':True,'script_errors':errors,'deck_sha256':hashlib.sha256((HERE/'deck.html').read_bytes()).hexdigest()},ensure_ascii=False,indent=2),encoding='utf-8')
+print('FULL_DECK_RENDERED',count,flush=True)

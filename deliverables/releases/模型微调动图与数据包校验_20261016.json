@@ -1,0 +1,16 @@
+{
+  "file": "AI4Loc_模型微调动图_Slide与完整公开数据_20261016.zip",
+  "bytes": 65760884,
+  "sha256": "2860a895fa0087c61704b5e67114a1749b35e733568702932b185f1034839a2a",
+  "files": 505,
+  "slides": 70,
+  "gifs": 14,
+  "studies": [
+    "20261015 calibration",
+    "20261016 fault-window main",
+    "20261016 Qwen3.5-9B training and inference"
+  ],
+  "verified_each_member": true,
+  "private_inputs_included": false,
+  "model_weights_included": false
+}

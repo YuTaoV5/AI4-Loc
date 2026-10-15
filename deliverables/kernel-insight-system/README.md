@@ -1,6 +1,8 @@
 # Kernel Insight 系统设计与实证分析
 
-[打开 58 页 Slide](deck.html) · [逐页演讲稿](逐页演讲稿.md) · [逐页证据说明](讲稿.md) · [资料来源](资料来源.md) · [全页预览](预览-全部页面.png)
+[打开70页Slide](deck.html) · [逐页演讲稿](逐页演讲稿.md) · [逐页证据说明](讲稿.md) · [资料来源](资料来源.md) · [全页预览](预览-全部页面.png)
+
+最新59–70页：[模型微调动图与数据说明](模型微调动图与数据说明.md)；[9B完整实测数据](../../research/jev-qwen35-9b-20261016/README.md)。新版[70页Slide、14个GIF与完整公开数据包](../releases/AI4Loc_模型微调动图_Slide与完整公开数据_20261016.zip)保留三份研究的独立范围。
 
 2026-10-16新增49–58页：五组实测时间流程动图、八种工作量／缓存条件交互回放，展示响应、KV、线性状态、prefill与复用token。详见[实验数据与动图说明](实验数据与动图说明.md)，[完整公开数据](../../research/kv-concurrency-20261016/README.md)和[打包分享文件](../releases/AI4Loc_实验动图_Slide与完整公开数据_20261016.zip)。
 
@@ -10,7 +12,7 @@
 
 方向键/空格翻页，G 目录，数字跳页，F 全屏。第 15 页为整体流程动画，第 19 页为真实 UAF 工具证据回放，支持 J/K 走步、P 播放暂停和页内按钮。
 
-`逐页演讲稿.md` 是对应 58 页的完整口语稿，包含读图指引、动画操作、过渡语与备用问答，适合约 55–70 分钟汇报。`讲稿.md` 另外保留逐页证据口径，不会覆盖手写的演讲正文。
+`逐页演讲稿.md` 是对应70页的完整口语稿，包含读图指引、动画操作、过渡语与备用问答，适合约70–90分钟汇报。59–70页新增Qwen3.5-9B模型构建、真实396微步训练、概率校准、并发响应与完整Agent对照；[动图与数据说明](模型微调动图与数据说明.md)。9个新GIF在`media/finetune/`，原5个并发GIF在`media/kv/`。`讲稿.md`另外保留逐页证据口径。
 
 ## 文件与复现
 
@@ -19,7 +21,8 @@
 | `deck.html`、`media/` | 完整演示页面、科研图、真实功能截图及来源记录 |
 | `analysis-data.json`、`*.csv` | 原始结果抽取、统计口径、精确区间与来源哈希 |
 | `evidence/` | 重建报告所需的公开冻结清单、结果与标签副本 |
-| `build_deck.py`、`research_figures.py`、`deck_revision.py`、`kv_slide_extension.py` | 数值抽取、科研绘图与 58 页页面构建 |
+| `build_deck.py`、`research_figures.py`、`deck_revision.py`、`kv_slide_extension.py`、`finetune_slides.py` | 数值抽取、科研绘图与70页页面构建 |
+| `finetune_data.py`、`finetune_replay.js`、`render_finetune_replays.py` | 9B训练、分类、概率与并发动画，16种实测条件与交互核验 |
 | `kv_replay_data.py`、`kv_replay.js`、`media/kv/` | 实测时序回放、源数据映射和五个GIF |
 | `实验数据与动图说明.md`、`kv-data-qa.json`、`kv-animation-qa.json` | 字段与时钟口径、token账本和新回放交互核验 |
 | `package_experiment_slides.py`、`serve_deck.py` | 包含全部公开详细数据的分享包、本机只读预览 |
@@ -34,7 +37,8 @@
 ```powershell
 python -m pip install -r deliverables/kernel-insight-system/requirements-render.txt
 python deliverables/kernel-insight-system/build_deck.py
-python deliverables/kernel-insight-system/render_kv_replays.py
+python deliverables/kernel-insight-system/render_finetune_replays.py
+python deliverables/kernel-insight-system/render_kv_replays.py --verify-only
 python deliverables/kernel-insight-system/verify_deck.py
 python deliverables/kernel-insight-system/verify_kv_data.py
 python deliverables/kernel-insight-system/verify_publication.py

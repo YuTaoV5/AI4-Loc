@@ -1,6 +1,6 @@
 {
   "schema": "kernel-insight-deck-qa/v1",
-  "pages": 58,
+  "pages": 70,
   "pageReports": [
     {
       "title": "从故障现场到有证据的定位",
@@ -545,6 +545,102 @@
       "boxTextOverflow": [],
       "images": [],
       "page": 58
+    },
+    {
+      "title": "只训练0.056%的参数，保留原语言骨干",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 59
+    },
+    {
+      "title": "按机制隔离数据，训练只学习首诊断分类",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 60
+    },
+    {
+      "title": "396个微步，逐点回放真实训练过程",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 61
+    },
+    {
+      "title": "先用交叉熵，再加入扰动奖励学习",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 62
+    },
+    {
+      "title": "合并LoRA后，Decision直接返回选项概率",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 63
+    },
+    {
+      "title": "首诊断命中66→78，主要改善警告边界",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 64
+    },
+    {
+      "title": "分类更准，错误概率却可能更自信",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 65
+    },
+    {
+      "title": "八步约快7.7%，单步没有稳定优势",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 66
+    },
+    {
+      "title": "完整矩阵保留冷条件与单步的反例",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 67
+    },
+    {
+      "title": "微调改变答案，没有减少推理内存",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 68
+    },
+    {
+      "title": "完整Agent仍为2/3，混合流程仍更慢",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 69
+    },
+    {
+      "title": "支持有限分类改进，尚未证明因果定位提升",
+      "htmlOverflow": [],
+      "svgOverflow": [],
+      "boxTextOverflow": [],
+      "images": [],
+      "page": 70
     }
   ],
   "issues": [],

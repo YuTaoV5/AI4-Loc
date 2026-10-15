@@ -1,5 +1,14 @@
 # AI 接手手册 · Kernel Insight
 
+## 模型微调与效果对比动画更新（2026-10-16）
+
+- 用户要求将模型构建、微调过程、效果与性能做成动图、更新既有slide并上传GitHub。新增59–70页，保留原48页系统/历史定位与49–58页27B并发研究的独立分母，总70页；入口`deliverables/kernel-insight-system/deck.html#59`。
+- 新章节：冻结Qwen3.5-9B+48处rank8 LoRA、数据分组与标签隔离、396微步真实训练时钟、CE/RLCD机制、BF16合并与原LM字母概率接口、87例分类配对、概率校准、16种并发条件、微调前后KV/显存/功耗、独立32k完整Agent对照与证据边界。
+- `media/finetune/`新增9个GIF及poster、12页动画中间帧和预览；机制/统计揭示明确标教学步，训练/推理回放明确实测秒。KV按32KiB/token转换、离散零阶保持，token只在原生prefill完成时结算；不虚构算子时间、梯度或并发单请求能耗。
+- 数字保持原实测：分类66/87→78/87；NLL从0.830变1.724（T1）/1.957（T0.5），不声称置信概率可靠；四任务八步预热接口约快7.7%、无KV内存收益；完整Agent位置命中仍2/3，微调混合29.247s仍慢于纯Chat23.229s（三例合计）。无新模型调用或服务器重测。
+- 代码入口`finetune_data.py`、`finetune_slides.py`、`finetune_replay.js`、`render_finetune_replays.py`；`verify_finetune_data.py`验证23份源hash、396步、87例和16组回放360次HTTP映射。逐页演讲稿、讲稿、资料来源、说明及README均更新。详见`模型微调动图与数据说明.md`。
+- 新分享包脚本收录全部三份公开研究目录；新包`deliverables/releases/AI4Loc_模型微调动图_Slide与完整公开数据_20261016.zip`。私有归档、完整业务日志与模型权重不公开，之前的私有留存与服务恢复状态不变。后续如改动必须重新构建、渲染、核验来源与发布清单，再重打包。
+
 ## Qwen3.5-9B 决策训练与复测（2026-10-16；已完成）
 
 - 用户明确确认使用官方Qwen3.5-9B预训练骨干训练新决策能力，并授权清理不必要可下载权重。源码/公开资料入口 `research/jev-qwen35-9b-20261016/README.md`；Laya参考固定commit `4ac226d5ee88ed6df8db288a05c766d7a34ee682`，Qwen固定revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`。

@@ -1,0 +1,106 @@
+{
+  "passed": true,
+  "pages_rendered": 70,
+  "new_animation_checks": [
+    {
+      "page": 59,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 60,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 61,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 62,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 63,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 64,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 65,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 66,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 67,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 68,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 69,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    },
+    {
+      "page": 70,
+      "no_autoplay": true,
+      "event_steps": true,
+      "play_pause": true,
+      "leave_stops": true,
+      "scrub": true
+    }
+  ],
+  "runtime_conditions": 16,
+  "script_errors": [],
+  "external_resource_requests": 0,
+  "deck_sha256": "cf2c01aed687138c4f289e196a0f405821ccf9c5594274c8062554bf6ac5da0c"
+}

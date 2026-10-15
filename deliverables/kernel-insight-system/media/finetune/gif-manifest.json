@@ -1,0 +1,101 @@
+[
+  {
+    "page": 59,
+    "file": "模型构建_LoRA.gif",
+    "sha256": "42b91126680425bbb0f5c2f47a7000ac7bccdbb4c92c2c08edd469c2d23fc617",
+    "bytes": 721547,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "teaching steps, no measured timing",
+    "recorded_seconds": null
+  },
+  {
+    "page": 61,
+    "file": "真实微调_396微步.gif",
+    "sha256": "df74696676d615efbe1aee5b8d5faddc0342a818f1bd43f031ca0567a9cc52b3",
+    "bytes": 2346062,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "actual seconds, compressed equally",
+    "recorded_seconds": 343.6892767995596
+  },
+  {
+    "page": 62,
+    "file": "RLCD训练机制.gif",
+    "sha256": "15c7f649fdd9b1985f344141945d7b65b32657e6d1297d1d41be7503f6b1543b",
+    "bytes": 686669,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "teaching steps, no measured timing",
+    "recorded_seconds": null
+  },
+  {
+    "page": 63,
+    "file": "Decision与Chat接口.gif",
+    "sha256": "fcbb4bee5347b91c8f7d0331afaf59a222e4de474d61b521b1c3ce4b1e52e841",
+    "bytes": 515573,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "teaching steps, no measured timing",
+    "recorded_seconds": null
+  },
+  {
+    "page": 64,
+    "file": "分类命中配对对比.gif",
+    "sha256": "c450fa455a91ced992ed11273a31e2c2d394eeb384b939ab83dc962676353d87",
+    "bytes": 2188876,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "teaching steps, no measured timing",
+    "recorded_seconds": null
+  },
+  {
+    "page": 65,
+    "file": "概率校准对比.gif",
+    "sha256": "26d3bff015d826fc51d8caeeddb32f0c1f65dbc0bedcbe52b0ac971035341465",
+    "bytes": 512845,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "teaching steps, no measured timing",
+    "recorded_seconds": null
+  },
+  {
+    "page": 66,
+    "file": "并发响应_KV_功耗对比.gif",
+    "sha256": "2db5ad90e6d2d9314c68d54fa40aefee8ec2ca18c2982513432161a5d8b41d33",
+    "bytes": 2805475,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "actual seconds, compressed equally",
+    "recorded_seconds": 1.394771315
+  },
+  {
+    "page": 68,
+    "file": "微调前后内存对比.gif",
+    "sha256": "865d21740e3075bb1bd5e2adf740e760ac98a9563b4b3f64abcceba8475541fd",
+    "bytes": 2641400,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "actual seconds, compressed equally",
+    "recorded_seconds": 1.27505425
+  },
+  {
+    "page": 69,
+    "file": "完整Agent效果对比.gif",
+    "sha256": "9f8e5284753e0dc76ab15da4413359e3d14259e1172806fcff954eace35abf4a",
+    "bytes": 536771,
+    "requested_frames": 81,
+    "actual_frames": 81,
+    "display_ms": 12000,
+    "clock": "teaching steps, no measured timing",
+    "recorded_seconds": null
+  }
+]

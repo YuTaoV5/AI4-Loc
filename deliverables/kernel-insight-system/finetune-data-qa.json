@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "source_hashes_verified": 23,
+  "training_steps": 396,
+  "paired_cases": 87,
+  "accuracy_before": 66,
+  "accuracy_after": 78,
+  "runtime_conditions": 16,
+  "replayed_http_requests": 360,
+  "kv_token_bytes": 32768,
+  "new_model_calls": 0,
+  "full_agent_runs": 12
+}

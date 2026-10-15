@@ -1,0 +1,101 @@
+{
+  "sources": [
+    {
+      "path": "research/jev-qwen35-9b-20261016/analysis/base/tables/gpu-samples.csv",
+      "sha256": "0362702fa7ac31fca563f747ed523806600bf9697b8015df5e87cc9ba3fb993d"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/analysis/trained/tables/gpu-samples.csv",
+      "sha256": "c31aa7e5cf5d171b68c8291cc3e198169b0c41607893eddfca73202cf84d5412"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/calibration.json",
+      "sha256": "31a51b0665f1d9a107b21d62fd2ea22c4d0ae1f1e63f812ce17b24656a19b9b2"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/base/calls.jsonl",
+      "sha256": "fea4f4856e7425b47966f758b3ee66d13d1aa64354e3f3583db17e468256b362"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/base/scheduler.jsonl.gz",
+      "sha256": "99297fead80b6a0bc926e497d9f80db61b8aa0c1a1ce7efc5d7bbcfd47028642"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/base/server-requests.jsonl",
+      "sha256": "e9ec2e686155fba697caceb99a0500a378c598f3b2b36c3a495e3fc3fd4bd047"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/base/trials.jsonl",
+      "sha256": "4e6ef67c26b63b164a64b2f5d285821d77776e23e9f8d07dd6d461ce319bd1be"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/trained/calls.jsonl",
+      "sha256": "092958bdcf7f245c2544833640325b3e53f9e2f39a5db76e02ea06a8a87c4781"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/trained/scheduler.jsonl.gz",
+      "sha256": "886101e82a196836ba68efc9fa99e5286f1a03187fd1018a298a21b2bf8aaf83"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/trained/server-requests.jsonl",
+      "sha256": "5c0a175e487c54129be3b500298d24a3a7ba857cd7a55015408a252486ec069f"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/data/trained/trials.jsonl",
+      "sha256": "d7b2e3af3cdfca73adf90e83003f3d27df6d606907c978e0429d023df346a41b"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/dataset-frozen.json",
+      "sha256": "908fe58f6e72932ee99314d3c618e100afee474e0c1f52a79932621feb3114f5"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/README.md",
+      "sha256": "24b2205fae1d9bba560a31a441d8cdc2af1fd35478147695cc93b2f018aeae0c"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/REPORT.md",
+      "sha256": "07501bddda7353c50bb8c0f14a0630856d051cd0956a70bd045c2f7991a06cb3"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/agent32k-aggregate.csv",
+      "sha256": "89f91e2976e0ff9d93cf994323fe8e3169e1d85491a731b6fd29c5c5d24695d0"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/base-decision-case-predictions.csv",
+      "sha256": "fcaada2e83ddf4f997e979834fc2f2ea91fb623f1659fe0613ad3f891e95436f"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/checkpoint-concurrency-summary.csv",
+      "sha256": "bce3088d430909bb569b251e2f6a8bc36ebe58439c590b3a9a1a1de013b0ccc8"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/trained-decision-case-predictions.csv",
+      "sha256": "8227894540b4c2ed4036b7d14986b061c6617626e44d9f1535b73eb84c18b907"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/train.py",
+      "sha256": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-complete.json",
+      "sha256": "819cb03bf79bea7d188c048b6025893867b040f15a3efe5e1d68aef52776cc54"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-environment.json",
+      "sha256": "89d0890644d788855ff3ec95777368ab900d4669632bfc9cc940a1847af22782"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-protocol.json",
+      "sha256": "d140486d66392bda0a99c50943fa43593400e7cc9b952881b2250a53fad045db"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-steps.jsonl",
+      "sha256": "515d24e3a4e51e15d3bb6e91f135b9edc163be73e6c4207c5e5347c6fca6c3c0"
+    }
+  ],
+  "selection": "Within each checkpoint/condition, common repeat closest jointly to the two medians; all 5 trials remain in summary. Across checkpoints these are independent trials, never a single synchronized run.",
+  "time": "Actual trial clocks aligned at client start. Last observed KV/state/NVML values; unknown before first sample. Native prefill token counts settle at completion, no continuous token interpolation.",
+  "training": "396 microstep observations; loss is CE in epoch0 and CE+RLCD thereafter, so not directly comparable across phases. Initial elapsed includes first-step compilation. 343.689s completion includes export, not initial load.",
+  "illustrations": "LoRA/RLCD and bar reveals use teaching steps, not measured forward/backward timing.",
+  "privacy": "No original log text, credentials, private full payloads or model weights."
+}

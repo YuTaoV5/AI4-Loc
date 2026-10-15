@@ -68,7 +68,8 @@ def extend(slides,notes,here):
         head=re.split(r'^## 49 ',head,flags=re.M)[0]
         head=head.replace('48 页','58 页').replace('45–55 分钟','55–70 分钟')
         head=head.replace('谢谢大家，欢迎提问。','接下来补充同一模型在并发决策场景下的时延与缓存实测。')
-        speech.write_text(head.rstrip()+'\n\n'+'\n\n'.join(f'## {i:02d} {title}\n\n[先指出均值，再播放一次真实重复；P 播放，J/K 走步。]\n\n{note}' for i,((title,_),note) in enumerate(zip(PLAN,NOTES),49))+'\n\n'+sep+faq,encoding='utf-8')
+        speech.with_suffix('.tmp').write_text(head.rstrip()+'\n\n'+'\n\n'.join(f'## {i:02d} {title}\n\n[先指出均值，再播放一次真实重复；P 播放，J/K 走步。]\n\n{note}' for i,((title,_),note) in enumerate(zip(PLAN,NOTES),49))+'\n\n'+sep+faq,encoding='utf-8')
+        speech.with_suffix('.tmp').replace(speech)
     return slides,notes,replay
 def inject(template,replay):
     js=(HERE/'kv_replay.js').read_text(encoding='utf-8')

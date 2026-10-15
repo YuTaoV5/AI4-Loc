@@ -1,7 +1,7 @@
 """Loopback preview limited to public slide and concurrency-study directories."""
 import pathlib,argparse,urllib.parse,http.server
 HERE=pathlib.Path(__file__).resolve().parent;ROOT=HERE.parents[1]
-PUBLIC=[HERE,ROOT/'research/kv-concurrency-20261015',ROOT/'research/kv-concurrency-20261016']
+PUBLIC=[HERE,ROOT/'research/kv-concurrency-20261015',ROOT/'research/kv-concurrency-20261016',ROOT/'research/jev-qwen35-9b-20261016']
 class Handler(http.server.SimpleHTTPRequestHandler):
     def translate_path(self,path):
         raw=urllib.parse.unquote(urllib.parse.urlsplit(path).path)

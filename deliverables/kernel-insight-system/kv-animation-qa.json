@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "pages_rendered": 58,
+  "pages_rendered": 70,
   "checks": [
     {
       "scene": "dchat-1x1-cold",
@@ -51,5 +51,5 @@
   "explorer_conditions": 8,
   "speed_and_reentry_verified": true,
   "script_errors": [],
-  "deck_sha256": "723ce55fbb3c64f0dd2ed34a8aad74f1d21222bfe38dabdd5c9dfc20097d7e68"
+  "deck_sha256": "cf2c01aed687138c4f289e196a0f405821ccf9c5594274c8062554bf6ac5da0c"
 }
