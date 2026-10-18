@@ -1,0 +1,12 @@
+{
+  "status": "completed",
+  "steps": 396,
+  "best_epoch": 1,
+  "dev_nll": 0.0,
+  "temperature": 0.5,
+  "seconds": 343.6892767995596,
+  "model_path": "/root/gpufree-data/systemone/models/AI4Loc-Jev-Qwen3.5-9B",
+  "trainable_parameters": 5308416,
+  "peak_allocated_bytes": 20125219840,
+  "production_service_restored_by_controller": false
+}

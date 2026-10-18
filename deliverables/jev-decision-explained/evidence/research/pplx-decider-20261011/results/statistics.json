@@ -1,0 +1,184 @@
+{
+  "schema": "pplx-weight-evaluation/v1",
+  "model": "perplexity-ai/pplx-decider-v1-27b",
+  "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+  "formalAttempts": 121,
+  "uniquePplxCases": 60,
+  "uniqueScoredCases": 25,
+  "unsupportedUnscoredCases": 35,
+  "primary": {
+    "generic": {
+      "attempts": 27,
+      "success": 27,
+      "accuracy": 1.0,
+      "failures": 0,
+      "meanSeconds": 1.4851140623429306,
+      "medianSeconds": 1.2336539532989264,
+      "p95NearestRank": 3.0340578742325306,
+      "inputTokens": 302931,
+      "outputTokens": 0,
+      "uniqueCases": 9,
+      "majorityCorrect": 9,
+      "majorityAccuracyCI95": [
+        0.6637328831200571,
+        1
+      ],
+      "trialAccuracyInference": "Three dependent repeats per case; no independent-trial interval"
+    },
+    "pplx": {
+      "attempts": 27,
+      "success": 27,
+      "accuracy": 1.0,
+      "failures": 0,
+      "meanSeconds": 19.45479043469661,
+      "medianSeconds": 20.063210615888238,
+      "p95NearestRank": 22.867961252108216,
+      "inputTokens": 325638,
+      "outputTokens": 0,
+      "uniqueCases": 9,
+      "majorityCorrect": 9,
+      "majorityAccuracyCI95": [
+        0.6637328831200571,
+        1
+      ],
+      "trialAccuracyInference": "Three dependent repeats per case; no independent-trial interval"
+    }
+  },
+  "secondarySingleRepeat25": {
+    "generic": {
+      "attempts": 25,
+      "success": 23,
+      "accuracy": 0.92,
+      "accuracyCI95": [
+        0.7396941578947858,
+        0.9901604099812025
+      ],
+      "failures": 0,
+      "meanSeconds": 1.7747255875915289,
+      "medianSeconds": 1.895422674715519,
+      "p95NearestRank": 2.6092042550444603,
+      "inputTokens": 249643,
+      "outputTokens": 0,
+      "trainOnly": {
+        "attempts": 16,
+        "success": 14,
+        "accuracy": 0.875,
+        "accuracyCI95": [
+          0.6165237631507365,
+          0.9844863961845861
+        ],
+        "failures": 0,
+        "meanSeconds": 1.899705496034585,
+        "medianSeconds": 2.12285038176924,
+        "p95NearestRank": 2.811378976330161,
+        "inputTokens": 148666,
+        "outputTokens": 0
+      },
+      "multiclassBrier": 0.15786380797066424,
+      "ece5Bins": 0.07796270090687996,
+      "reliabilityBins": [
+        {
+          "lower": 0.8,
+          "upper": 1.0,
+          "n": 25,
+          "meanConfidence": 0.99796270090688,
+          "accuracy": 0.92
+        }
+      ]
+    },
+    "pplx": {
+      "attempts": 25,
+      "success": 23,
+      "accuracy": 0.92,
+      "accuracyCI95": [
+        0.7396941578947858,
+        0.9901604099812025
+      ],
+      "failures": 0,
+      "meanSeconds": 17.830632208958267,
+      "medianSeconds": 19.38067634962499,
+      "p95NearestRank": 22.867961252108216,
+      "inputTokens": 269203,
+      "outputTokens": 0,
+      "trainOnly": {
+        "attempts": 16,
+        "success": 14,
+        "accuracy": 0.875,
+        "accuracyCI95": [
+          0.6165237631507365,
+          0.9844863961845861
+        ],
+        "failures": 0,
+        "meanSeconds": 16.728833075263537,
+        "medianSeconds": 19.283875276334584,
+        "p95NearestRank": 22.736561860889196,
+        "inputTokens": 160657,
+        "outputTokens": 0
+      },
+      "multiclassBrier": 0.15391862171398574,
+      "ece5Bins": 0.062399475644655755,
+      "reliabilityBins": [
+        {
+          "lower": 0.8,
+          "upper": 1.0,
+          "n": 25,
+          "meanConfidence": 0.9823994756446558,
+          "accuracy": 0.92
+        }
+      ]
+    }
+  },
+  "runtimeCaveat": "PPLX uses BF16 CPU offload in Transformers; generic uses SGLang fully GPU. Latency describes these deployments, not an intrinsic or native-SGLang model comparison.",
+  "primaryMcNemar": {
+    "genericOnlyCorrect": 0,
+    "pplxOnlyCorrect": 0,
+    "exactTwoSidedP": 1.0,
+    "scope": "Exploratory paired accuracy comparison; not a noninferiority test"
+  },
+  "secondaryMcNemar": {
+    "genericOnlyCorrect": 0,
+    "pplxOnlyCorrect": 0,
+    "exactTwoSidedP": 1.0,
+    "scope": "Exploratory paired accuracy comparison; not a noninferiority test"
+  },
+  "confidenceScope": "Finite class probabilities; calibration only against mapped injection family, not root-cause truth; small mixed train/test sample.",
+  "failures": [],
+  "mismatches": [
+    {
+      "caseId": "lkdtm_LOOP",
+      "split": "train",
+      "arm": "pplx",
+      "repeat": 0,
+      "injectionFamily": "watchdog",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_LOOP",
+      "split": "train",
+      "arm": "generic",
+      "repeat": 0,
+      "injectionFamily": "watchdog",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "split": "train",
+      "arm": "pplx",
+      "repeat": 0,
+      "injectionFamily": "watchdog",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "split": "train",
+      "arm": "generic",
+      "repeat": 0,
+      "injectionFamily": "watchdog",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    }
+  ]
+}

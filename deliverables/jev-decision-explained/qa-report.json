@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "pages": 20,
+  "issues": [],
+  "script_errors": [],
+  "failed_images": [],
+  "external_resources": [],
+  "animation_checks": [
+    {
+      "page": 4,
+      "steps": 4,
+      "no_autoplay": true,
+      "keyboard_steps": true,
+      "reset": true,
+      "play_and_leave_stop": true
+    },
+    {
+      "page": 5,
+      "steps": 4,
+      "no_autoplay": true,
+      "keyboard_steps": true,
+      "reset": true,
+      "play_and_leave_stop": true
+    },
+    {
+      "page": 6,
+      "steps": 4,
+      "no_autoplay": true,
+      "keyboard_steps": true,
+      "reset": true,
+      "play_and_leave_stop": true
+    },
+    {
+      "page": 13,
+      "steps": 5,
+      "no_autoplay": true,
+      "keyboard_steps": true,
+      "reset": true,
+      "play_and_leave_stop": true
+    },
+    {
+      "page": 16,
+      "steps": 6,
+      "no_autoplay": true,
+      "keyboard_steps": true,
+      "reset": true,
+      "play_and_leave_stop": true
+    },
+    {
+      "page": 18,
+      "steps": 4,
+      "no_autoplay": true,
+      "keyboard_steps": true,
+      "reset": true,
+      "play_and_leave_stop": true
+    }
+  ],
+  "deck_sha256": "b7cb0c85000f2347fe661c2fad50ee8c59eaec822e5bb031fecf34babef26464"
+}

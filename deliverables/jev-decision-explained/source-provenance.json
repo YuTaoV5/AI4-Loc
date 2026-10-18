@@ -1,0 +1,88 @@
+{
+  "edition": "experiment-story-20",
+  "date": "2026-10-18",
+  "new_model_calls": 0,
+  "sources": [
+    {
+      "path": "docs/Jev决策模型报告答疑与通俗解读_20261018.md",
+      "sha256": "7ef69fe31ad0e58e12b7258c69a952e90e4dd01627bc14d74ccba23731b84837"
+    },
+    {
+      "path": "docs/Jev实验主线与9B分类收益解读_20261018.md",
+      "sha256": "401eb3928598546d3c65ced94ba6f4003f3f68613b9f3f6a7bf0101367c8b699"
+    },
+    {
+      "path": "docs/首诊断弱标签RCU子串误判审计_20261018.md",
+      "sha256": "0d9c817b42dfe2e73fce3e53cfb47439252423a77aa9cf4201256a5051c4d0fd"
+    },
+    {
+      "path": "research/decision-localization-20261011/report.md",
+      "sha256": "55e5d828fd0070c5396f4e4a6e758b9965abd963afe73ef92c743895e786a3e8"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/calibration.json",
+      "sha256": "31a51b0665f1d9a107b21d62fd2ea22c4d0ae1f1e63f812ce17b24656a19b9b2"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/dataset-frozen.json",
+      "sha256": "908fe58f6e72932ee99314d3c618e100afee474e0c1f52a79932621feb3114f5"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/prepare-data.py",
+      "sha256": "1b16bfb6c44cc5267a70cb1d8701f41fa4ef9a95c6bf13c5782989ff1fc40faa"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/REPORT.md",
+      "sha256": "07501bddda7353c50bb8c0f14a0630856d051cd0956a70bd045c2f7991a06cb3"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/summary.json",
+      "sha256": "afd9eda0332aad9b847550b7b103b9d8fe143d1eeb2214a7d172f4d0c0213c58"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/agent32k-aggregate.csv",
+      "sha256": "89f91e2976e0ff9d93cf994323fe8e3169e1d85491a731b6fd29c5c5d24695d0"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/train.py",
+      "sha256": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-complete.json",
+      "sha256": "819cb03bf79bea7d188c048b6025893867b040f15a3efe5e1d68aef52776cc54"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-environment.json",
+      "sha256": "89d0890644d788855ff3ec95777368ab900d4669632bfc9cc940a1847af22782"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-protocol.json",
+      "sha256": "d140486d66392bda0a99c50943fa43593400e7cc9b952881b2250a53fad045db"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-steps.jsonl",
+      "sha256": "515d24e3a4e51e15d3bb6e91f135b9edc163be73e6c4207c5e5347c6fca6c3c0"
+    },
+    {
+      "path": "research/jev-report-qa-20261018/evidence.json",
+      "sha256": "af552fcc6a5734ccc6c639ca9e4d01f9a795170ee3292b71d164d4e1a319f844"
+    },
+    {
+      "path": "research/kv-concurrency-20261016/statistics.json",
+      "sha256": "6fc5d4686613988256ef8d8b6ca00620f8527cece7662f2cb84f16b93aaf023d"
+    },
+    {
+      "path": "research/pplx-decider-20261011/results/statistics.json",
+      "sha256": "a7866ed2982ed75b3f9face678e0d3dead8491824297c9a861d478446f046af7"
+    },
+    {
+      "path": "research/pplx-timeshare-20261012/results/pplx-runtime.json",
+      "sha256": "c4be6b5dbaa2e3a2c1b4a53621af27cfd3124ed4cf0d5ec61f443ed73218a9ea"
+    },
+    {
+      "path": "research/pplx-timeshare-20261012/results/statistics.json",
+      "sha256": "760fcd4e2a03ea1549274c27e0317f36f0d6758bfddc74f4cf262e89e8829811"
+    }
+  ],
+  "measurement_scope": "warm4x8 n5 per arm; PPLX placement rounds and same-GPU cross-runtime comparison separately labelled"
+}

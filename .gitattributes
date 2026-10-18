@@ -23,3 +23,11 @@ tests/fixtures/community-v1/*.txt -text
 /research/kv-concurrency-20261016/figures/*.svg -text whitespace=-blank-at-eol,cr-at-eol
 /research/jev-qwen35-9b-20261016/** -text whitespace=cr-at-eol
 /research/jev-qwen35-9b-20261016/**/*.svg -text whitespace=-blank-at-eol,cr-at-eol
+
+# Published briefing manifests and skill acceptance fingerprint exact bytes.
+/deliverables/jev-decision-explained/** -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+/skills/** -text whitespace=cr-at-eol
+/research/jev-report-qa-20261018/** -text whitespace=cr-at-eol
+/research/decision-skills-l40-20261018/** -text whitespace=cr-at-eol
+/docs/*20261018.md -text whitespace=cr-at-eol
+/deliverables/releases/Jev_*20261018.json -text whitespace=cr-at-eol

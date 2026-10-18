@@ -1,0 +1,44 @@
+[
+  {
+    "page": 4,
+    "file": "教学流程-04.gif",
+    "frames": 4,
+    "clock": "Teaching steps, no measured duration",
+    "sha256": "e66a2ddaf4c8918cfdd163769218be23a35f0501b4f103e7c54aa72e48c56ae1"
+  },
+  {
+    "page": 5,
+    "file": "教学流程-05.gif",
+    "frames": 4,
+    "clock": "Teaching steps, no measured duration",
+    "sha256": "e497dc5449c42a64b315a3e9fc414cfe73226002b13aba14e7009722018de959"
+  },
+  {
+    "page": 6,
+    "file": "教学流程-06.gif",
+    "frames": 4,
+    "clock": "Teaching steps, no measured duration",
+    "sha256": "5b9e20ee32dbb9bcb30936b424e812c689ee3ba4f0ba5186d3f5684bca00f9e2"
+  },
+  {
+    "page": 13,
+    "file": "教学流程-13.gif",
+    "frames": 5,
+    "clock": "Teaching steps, no measured duration",
+    "sha256": "11946c02d2c7cc901f6885f21594f691ab03b2fd05c72019c0b968b0c4b5e718"
+  },
+  {
+    "page": 16,
+    "file": "教学流程-16.gif",
+    "frames": 6,
+    "clock": "Teaching steps, no measured duration",
+    "sha256": "790c983f8aff0713fc793c1b6cabd396a412952d3d8cc27409f0935b561d70f8"
+  },
+  {
+    "page": 18,
+    "file": "教学流程-18.gif",
+    "frames": 4,
+    "clock": "Teaching steps, no measured duration",
+    "sha256": "e91879347752798e46640a5a970ea91e5ca565335ccff2de5b55685cc781962a"
+  }
+]

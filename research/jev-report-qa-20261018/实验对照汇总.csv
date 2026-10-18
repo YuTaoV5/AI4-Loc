@@ -1,0 +1,21 @@
+﻿study,comparison,left_seconds,right_seconds,left_faster_percent,repeats_per_arm,scope
+20261011,Decision3 vs Chat3 JSON,1.1452867037037038,2.0746397037037037,44.795874596485035,27,9 unique cases; thinking disabled; different prompt lengths and output structure
+20261012,generic Decision vs PPLX fullGPU,2.5626488464574018,5.672470532771614,54.823055815765144,27,9 unique cases; same A100; different inference engines; fixed stage order
+20261016-9B,base cold 1x1 Decision vs one-token Chat,0.2689271638,0.2699137302,0.36551175046522316,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base cold 4x1 Decision vs one-token Chat,1.1143326668,0.9962016702,-11.858140789533486,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base cold 1x8 Decision vs one-token Chat,0.785248262,0.8281849292000001,5.184429912468409,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base cold 4x8 Decision vs one-token Chat,2.3487984610000003,2.2550565436,-4.156965272824146,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base warm 1x1 Decision vs one-token Chat,0.2661583246,0.2666238052,0.17458328585883232,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base warm 4x1 Decision vs one-token Chat,0.7640409761999999,0.7612615274,-0.36511089815517156,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base warm 1x8 Decision vs one-token Chat,0.5517526488,0.5957173488,7.380127519965904,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,base warm 4x8 Decision vs one-token Chat,1.280048965,1.3861248228,7.652691594233533,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained cold 1x1 Decision vs one-token Chat,0.2731371986,0.2739143432,0.28371811089591803,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained cold 4x1 Decision vs one-token Chat,1.0044461448,1.0034283484,-0.10143189612122312,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained cold 1x8 Decision vs one-token Chat,0.7960594698,0.8415896490000001,5.410021291742399,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained cold 4x8 Decision vs one-token Chat,2.3572576322,2.2638674892,-4.125247764965349,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained warm 1x1 Decision vs one-token Chat,0.2672821636,0.2681076398,0.3078898462631605,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained warm 4x1 Decision vs one-token Chat,0.7718524438,0.7694884308,-0.3072187839838278,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained warm 1x8 Decision vs one-token Chat,0.558874124,0.5997761159999999,6.819543311057736,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-9B,trained warm 4x8 Decision vs one-token Chat,1.2802849045999998,1.3876212164,7.735274621879164,5,batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials
+20261016-27B,cold 4x8 Decision vs one-token Chat,7.0037381931999985,7.1500505436,2.0463121135691194,5,27B independent experiment; cannot combine with 9B accuracy
+20261016-27B,warm 4x8 Decision vs one-token Chat,3.6342519779999995,4.0849561048,11.033267316395479,5,27B independent experiment; cannot combine with 9B accuracy

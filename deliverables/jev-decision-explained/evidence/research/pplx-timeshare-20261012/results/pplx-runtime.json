@@ -1,0 +1,20 @@
+{
+  "model": "perplexity-ai/pplx-decider-v1-27b",
+  "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+  "runtime": "official-reference/transformers-full-gpu",
+  "placement": "full-gpu",
+  "dtype": "bfloat16",
+  "temperature": 2.207568021892729,
+  "gpuWeightLimit": null,
+  "cpuMemoryLimit": null,
+  "deviceMap": {
+    "": "cuda:0"
+  },
+  "parameterDevices": [
+    "cuda:0"
+  ],
+  "parameterBytes": 52173271520,
+  "loadSeconds": 10.407075800001621,
+  "nativeSglangSpeedComparable": false,
+  "torch": "2.13.0+cu130"
+}

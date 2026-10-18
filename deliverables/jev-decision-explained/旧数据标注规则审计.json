@@ -1,0 +1,34 @@
+{
+  "finding": "'rcu' in 'possible circular locking dependency' evaluates True before locking branch",
+  "affected_records": [
+    {
+      "case": "lock_mutex_abba",
+      "source": "stability",
+      "split": "test",
+      "marker": "possible circular locking dependency",
+      "label": "rcu_progress"
+    },
+    {
+      "case": "lock_spin_abba",
+      "source": "stability",
+      "split": "test",
+      "marker": "possible circular locking dependency",
+      "label": "rcu_progress"
+    },
+    {
+      "case": "OHOS-060",
+      "source": "openharmony",
+      "split": "test",
+      "marker": "possible circular locking dependency",
+      "label": "rcu_progress"
+    },
+    {
+      "case": "OHOS-064",
+      "source": "openharmony",
+      "split": "test",
+      "marker": "possible circular locking dependency",
+      "label": "rcu_progress"
+    }
+  ],
+  "policy": "Frozen labels and scores retained unchanged. Rebuild and re-evaluate under a new dataset version before scientific claims."
+}

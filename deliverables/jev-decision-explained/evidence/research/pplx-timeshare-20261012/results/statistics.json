@@ -1,0 +1,190 @@
+{
+  "formalCalls": 121,
+  "warmupsExcluded": 2,
+  "uniqueCases": 60,
+  "uniqueScoredCases": 25,
+  "unsupportedUnscoredCases": 35,
+  "primary": {
+    "generic": {
+      "attempts": 27,
+      "correct": 27,
+      "agreement": 1.0,
+      "failures": 0,
+      "meanSeconds": 2.5626488464574018,
+      "medianSeconds": 2.6398064456880093,
+      "p95NearestRank": 3.092677416279912,
+      "inputTokens": 302931,
+      "outputTokens": 0,
+      "uniqueCases": 9,
+      "majorityCorrect": 9,
+      "majorityCI95": [
+        0.6637328831200571,
+        1
+      ]
+    },
+    "pplx": {
+      "attempts": 27,
+      "correct": 27,
+      "agreement": 1.0,
+      "failures": 0,
+      "meanSeconds": 5.672470532771614,
+      "medianSeconds": 5.882576171308756,
+      "p95NearestRank": 6.89120533503592,
+      "inputTokens": 325638,
+      "outputTokens": 0,
+      "uniqueCases": 9,
+      "majorityCorrect": 9,
+      "majorityCI95": [
+        0.6637328831200571,
+        1
+      ]
+    }
+  },
+  "secondaryProxy": {
+    "generic": {
+      "attempts": 25,
+      "correct": 23,
+      "agreement": 0.92,
+      "failures": 0,
+      "meanSeconds": 2.2962337554991246,
+      "medianSeconds": 2.554085273295641,
+      "p95NearestRank": 3.0507332887500525,
+      "inputTokens": 249643,
+      "outputTokens": 0,
+      "proxyCI95": [
+        0.7396941578947858,
+        0.9901604099812025
+      ],
+      "multiclassBrier": 0.15802838499595206
+    },
+    "pplx": {
+      "attempts": 25,
+      "correct": 23,
+      "agreement": 0.92,
+      "failures": 0,
+      "meanSeconds": 5.064569819793105,
+      "medianSeconds": 5.6821097657084465,
+      "p95NearestRank": 6.598276501521468,
+      "inputTokens": 269203,
+      "outputTokens": 0,
+      "proxyCI95": [
+        0.7396941578947858,
+        0.9901604099812025
+      ],
+      "multiclassBrier": 0.15391862171398574
+    }
+  },
+  "deploymentCaveat": "PPLX official reference Transformers SDPA versus generic SGLang 0.5.21. No CPU offload; runtime/kernel/prompt differences remain. Deployment comparison, not pure weight causal comparison.",
+  "orderCaveat": "PPLX then generic; same randomized shared case/repeat order in both; temporal confounding remains.",
+  "primaryCaseLatency": [
+    {
+      "caseId": "baseline",
+      "generic": 2.630121827746431,
+      "pplx": 5.886873996506135
+    },
+    {
+      "caseId": "corrupt_uaf_kmalloc",
+      "generic": 2.5111094204088054,
+      "pplx": 5.579744397973021
+    },
+    {
+      "caseId": "lkdtm_HUNG_TASK",
+      "generic": 1.7101774215698242,
+      "pplx": 3.8752172297487655
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_FROM",
+      "generic": 2.9531346888591847,
+      "pplx": 6.522174033646782
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_HEAP_SIZE_TO",
+      "generic": 2.94688807365795,
+      "pplx": 6.520546580975254
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_KERNEL",
+      "generic": 2.963288363069296,
+      "pplx": 6.609205852573116
+    },
+    {
+      "caseId": "lkdtm_USERCOPY_STACK_BEYOND",
+      "generic": 3.0896429934849343,
+      "pplx": 6.892956667890151
+    },
+    {
+      "caseId": "lock_mutex_abba",
+      "generic": 2.01590325931708,
+      "pplx": 4.59806119153897
+    },
+    {
+      "caseId": "lock_spin_abba",
+      "generic": 2.2435735700031123,
+      "pplx": 4.567454844092329
+    }
+  ],
+  "latencyComparison": {
+    "pairedUniqueCases": 9,
+    "genericMinusPplxMeanSeconds": -3.109821686314212,
+    "bootstrapCaseCI95": [
+      -3.471896123623958,
+      -2.724178413481072
+    ],
+    "exactCaseSignFlipTwoSidedP": 0.00390625,
+    "meanReductionFraction": -1.213518461810802,
+    "inferenceLimit": "Exploratory on known cases. Sequential order and different runtimes confound interpretation; no model-intrinsic speed or cross-mechanism significance claim."
+  },
+  "familySensitivity": {
+    "groups": {
+      "other_or_no_fault": -3.256752168759704,
+      "memory_lifetime": -3.068634977564215,
+      "blocked_task": -2.1650398081789413,
+      "memory_bounds": -3.6479822540034847,
+      "locking": -2.4530196031555533
+    },
+    "equalGroupMeanSeconds": -2.91828576233238,
+    "exactTwoSidedSignFlipP": 0.0625,
+    "scope": "Sensitivity to correlated cases in the same injection family. Family groups are not verified independent causal mechanisms."
+  },
+  "accuracyMcNemar": {
+    "genericOnlyCorrect": 0,
+    "pplxOnlyCorrect": 0,
+    "exactTwoSidedP": 1.0,
+    "noninferiorityProven": false
+  },
+  "mismatches": [
+    {
+      "caseId": "lkdtm_LOOP",
+      "arm": "pplx",
+      "repeat": 0,
+      "split": "train",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "arm": "pplx",
+      "repeat": 0,
+      "split": "train",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_LOOP",
+      "arm": "generic",
+      "repeat": 0,
+      "split": "train",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    },
+    {
+      "caseId": "lkdtm_SOFTLOCKUP",
+      "arm": "generic",
+      "repeat": 0,
+      "split": "train",
+      "gold": "watchdog_lockup",
+      "family": "rcu_progress"
+    }
+  ],
+  "failures": []
+}

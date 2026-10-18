@@ -1,0 +1,5 @@
+﻿checkpoint,variant,cases,completed,code_location_hits,model_http_calls,tool_calls,total_localization_seconds,mean_localization_seconds,reported_input_tokens,reported_output_tokens,all_token_counts_complete
+base,chat-only,3,3,2,3,12,23.567,7.855666666666667,31782,1646,True
+base,decision-boundary-chat-root,3,3,2,10,36,53.464,17.821333333333335,102318,3724,True
+trained,chat-only,3,3,2,3,12,23.229,7.743,30456,1723,True
+trained,decision-boundary-chat-root,3,3,2,6,36,29.247,9.749,65706,1738,True

@@ -1,0 +1,22 @@
+{
+  "seed": 20261016,
+  "base_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "adaptation": "new zero-initialized rank8 LoRA; pretrained alphabet readout retained; merged into base weights for identical SGLang serving",
+  "targets": "all text layers down_proj, full-attention q_proj and v_proj",
+  "rank": 8,
+  "alpha": 16,
+  "max_tokens": 2048,
+  "max_state_characters": 3000,
+  "epochs": 3,
+  "permutations_per_case_per_epoch": 4,
+  "gradient_accumulation": 4,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0001,
+  "weight_decay": 0.01,
+  "clip_norm": 1,
+  "loss": "epoch0 CE, epochs1-2 CE + Laya-style RLCD PG(log+spherical proper reward); noise .4 to .15",
+  "checkpoint_selection": "lowest dev NLL at epoch boundary; test never selects epoch/temperature",
+  "calibration": "temperature fitted on dev NLL, fixed grid .5..3.0; held-out test evaluated after selection",
+  "dataset_sha256": "908fe58f6e72932ee99314d3c618e100afee474e0c1f52a79932621feb3114f5",
+  "train_case_count": 33
+}

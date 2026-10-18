@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-18",
+  "edition": "experiment-story-20",
+  "pages": 20,
+  "contact_sheet_visually_inspected": true,
+  "enlarged_pages_inspected": [
+    4,
+    17,
+    18
+  ],
+  "classification_annotations_spaced": true,
+  "browser_qa_passed": true,
+  "deck_sha256": "b7cb0c85000f2347fe661c2fad50ee8c59eaec822e5bb031fecf34babef26464",
+  "new_gpu_training_executed": false,
+  "l40_acceptance": "CPU only; 11 checks passed. GPU busy; real model training and serving pending idle resources.",
+  "server_source_hashes_match_local": true,
+  "skills_validation": {
+    "passed": true,
+    "checks": [
+      "reviewed_format_accepted",
+      "circular_not_rcu_rejected",
+      "group_split_leakage_rejected",
+      "duplicate_input_rejected",
+      "injection_metadata_rejected",
+      "public_manifest_excludes_log_text",
+      "plan_does_not_download_load_or_train",
+      "both_ce_and_rlcd_workers_compile_without_torch",
+      "synthetic_gpu_execution_refused_before_model_import",
+      "probe_protocol_stub_passed_not_model_test",
+      "evaluator_six_stub_requests_recorded_without_gold_payload"
+    ],
+    "gpu_training_executed": false,
+    "real_model_api_calls": 0,
+    "scope": "Offline contracts/plan checks and eight local HTTP stub requests only; fake tokenizer for evaluator protocol checks"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "ai4loc-shared-host-skill-acceptance/v1",
+  "passed": true,
+  "utc": "2026-10-18T07:39:35.708097+00:00",
+  "python": "3.12.3 (main, Jul 15 2026, 23:46:41) [GCC 13.3.0]",
+  "seconds": 1.1795147340744734,
+  "validation": {
+    "passed": true,
+    "checks": [
+      "reviewed_format_accepted",
+      "circular_not_rcu_rejected",
+      "group_split_leakage_rejected",
+      "duplicate_input_rejected",
+      "injection_metadata_rejected",
+      "public_manifest_excludes_log_text",
+      "plan_does_not_download_load_or_train",
+      "both_ce_and_rlcd_workers_compile_without_torch",
+      "synthetic_gpu_execution_refused_before_model_import",
+      "probe_protocol_stub_passed_not_model_test",
+      "evaluator_six_stub_requests_recorded_without_gold_payload"
+    ],
+    "gpu_training_executed": false,
+    "real_model_api_calls": 0,
+    "scope": "Offline contracts/plan checks and eight local HTTP stub requests only; fake tokenizer for evaluator protocol checks"
+  },
+  "parsed_python_files": 6,
+  "source_sha256": {
+    "skills/verify_decision_skills.py": "79a20453407665de7d2e9e76fa67de753b09ac90997e9a4a25039b5e4b578b5d",
+    "skills/ai4loc-decision-finetune/scripts/train.py": "7a571d84e9a1696f1f16b72c33b0ada79f1a7d314dbd24b12c7b1bfbe1367238",
+    "skills/ai4loc-decision-finetune/scripts/probe.py": "182469dc9fd36ae166e9a510a8abd2f2a58df50ea37b62954f3fb596493ec6c0",
+    "skills/ai4loc-decision-finetune/scripts/evaluate.py": "979c7e1f38049d9cb5d3f458c7415240d443b04a9a730b821a6dae7343e39eae",
+    "skills/ai4loc-decision-data/scripts/prepare_dataset.py": "309427111aea127de28164914eeb5d04fbdcb437af52212afc6ee92a71d49d00",
+    "research/jev-qwen35-9b-20261016/train.py": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca"
+  },
+  "cuda_visible_devices": "",
+  "model_downloaded": false,
+  "gpu_training_executed": false,
+  "real_model_api_calls": 0,
+  "new_model_ports": [],
+  "foreign_python_processes_before": 3,
+  "same_identity_after": 3,
+  "signals_to_foreign_processes": 0,
+  "global_packages_modified": false,
+  "scope": "CPU data contracts, plan generation, CE/RLCD worker syntax and local HTTP protocol stubs. Not 9B GPU training or live SGLang acceptance.",
+  "gpu_execution_deferred_reason": "An existing compute workload is active; user requires no interference. No model or CUDA workload launched."
+}

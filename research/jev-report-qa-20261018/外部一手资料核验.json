@@ -1,0 +1,42 @@
+{
+  "checked_date": "2026-10-18",
+  "method": "Read original vendor documentation, original model card and author repositories through web browsing. No model calls. Third-party SEO mirrors excluded.",
+  "sources": [
+    {
+      "title": "TypeSafe: Introducing System One Models & Jev",
+      "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "nature": "vendor description and vendor-reported performance, not an AI4Loc reproduction",
+      "supports": "Vendor names RLCD, parallel typed outputs and specialized architecture; does not establish exact equivalence to Laya or our causal Qwen adaptation."
+    },
+    {
+      "title": "SGLang Decision models",
+      "url": "https://docs.sglang.io/docs/supported-models/decision_models",
+      "nature": "current implementation documentation; historical experiments remain pinned to their recorded runtime",
+      "supports": "Generic generation model option probabilities read from next-token scores; independent questions; does not require dedicated weights; not proof of calibrated domain correctness."
+    },
+    {
+      "title": "Perplexity pplx-decider-v1-27b model card",
+      "url": "https://huggingface.co/perplexity-ai/pplx-decider-v1-27b",
+      "tested_revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+      "nature": "original model publisher; only v1 was tested here",
+      "supports": "Dedicated decision weights fine-tuned from Qwen3.8-27B. No kernel-diagnostic superiority follows from general benchmark claims."
+    },
+    {
+      "title": "sshh12/nanojev",
+      "url": "https://github.com/sshh12/nanojev",
+      "nature": "author-described hypothetical reconstruction; README main observed on check date, not executed in this study",
+      "supports": "Distinct Qwen3.5-4B-Base/LoRA/pointer-head design with supervised training, fitted temperature and shared-state cache forks. Self-reported approximately 90.7 percent is from the author's own benchmark, not our 87 kernel cases."
+    },
+    {
+      "title": "NandhaKishorM/laya fixed reference",
+      "url": "https://github.com/NandhaKishorM/laya/tree/4ac226d5ee88ed6df8db288a05c766d7a34ee682",
+      "nature": "original open-source implementation, fixed version used as project reference",
+      "supports": "Encoder-based typed decision models and RLCD-style probability training. Shared terminology does not establish access to or faithful reproduction of proprietary Jev recipe."
+    }
+  ],
+  "limitations": [
+    "Nanojev current author README was read, but full training script fetch failed; no claim of complete code audit or reproduction.",
+    "No externally reported benchmark is merged with local measurements.",
+    "No vendor certification or proof of internal architectural equivalence was found in the reviewed material."
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI4Loc 决策数据与标签"
+  short_description: "准备首诊断训练数据，审核标签并冻结机制隔离划分"
+  default_prompt: "Use $ai4loc-decision-data to prepare and validate a new reviewed decision dataset for this project."

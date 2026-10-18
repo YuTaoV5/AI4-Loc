@@ -1,5 +1,35 @@
 # AI 接手手册 · Kernel Insight
 
+## 最新：20页实验主线与L40新机skill验收（2026-10-18）
+
+- 根据用户要求将旧9B分类成绩作为主要收益恢复：原冻结首诊断标签66/87→78/87，75.86%→89.66%，+13.79个百分点；两个构建均提高。Decision与单字母Chat同分，归属微调方案，不能归给接口。4条旧规则误标的审计不撤销、不改标签或历史分数。
+- 当前网页默认20页，新增四轮实验演进、33/4/87历史数据、分类对照三面板及完整Agent。第17页分类、第18页三例Agent、第19页skills。六页教学动画，20页几何/脚本/离线/控件检查通过并逐页联系图复核。原28页归档、16页旧包不覆盖。
+- 新增通俗主线文档：docs/Jev实验主线与9B分类收益解读_20261018.md；讲稿、数据来源、开发指南与导航已更新。分类、接口速度、GPU资源与完整定位的口径分开，未虚构新GPU分数。
+- 用户指定新L40服务器（SSH端口30249）。独立目录/root/gpufree-data/ai4loc-skill-validation-20261018/，无旧项目/权重环境，系统Python3.12.3，无Torch/Transformers。L40可见46068MiB，已有其他GPU任务：显存9868MiB，观测利用率35%–95%；不能把空闲显存当空闲GPU。
+- 为遵守“不影响其他进程”，仅nice19、隐藏CUDA的CPU合同/计划/worker语法/HTTP桩验收。第二轮11项通过，前后3个既有Python进程身份不变，没有向其他进程发送信号、安装全局包或启动模型端口。首次目录初始化失败已修复并保留。详见research/decision-skills-l40-20261018/README.md、summary及资源快照；完整进程快照在Git忽略归档。
+- **未完成：L40真实9B训练与SGLang验收待空闲GPU。** 没有启动后台排队/轮询/自动训练；已向用户询问空闲时间。不能把11项CPU检查说成真实模型测试。旧A100的47.5GiB resident服务配置大于该L40可见容量，不能原样复制。不能停止他人GPU任务。
+- train.py计划模式现在校验两种目标的worker变换/语法并记录SHA；verify_decision_skills.py新增两目标与合成execute拒绝检查，修复新机parents目录。已同步个人安装skill，并通过quick_validate；服务器受测Python源码SHA与本地一致。本批总结文档、两份skill、20页Slide、公开L40验收及分享包已纳入GitHub同步提交；具体提交与推送结果见本轮交付回执。本地8795预览PID37416；最新20页ZIP为Jev_开发者实验主线20页_微调Skills与复现指南_20261018.zip。
+
+
+## 16页开发者/管理层简报与微调skill（2026-10-18）
+
+- 用户要求精简展示，不在slide正文讲不确定性报告、错误尝试或审计过程。当前`deliverables/jev-decision-explained/deck.html`改为16页：价值/应用、计算路径、四任务八步预热7.7%–11.0%耗时收益、PPLX资源与推理引擎、9B LoRA及开发交付。数据条件仍保留，旧有错误标签准确率未作为优势推广。原28页归档`deck-technical-28.html`，研究/标签/分数不改写。
+- 两份项目skill：`skills/ai4loc-decision-data/`（审核JSONL、标签边界、机制隔离、公开清单与哈希）；`skills/ai4loc-decision-finetune/`（默认离线计划，显式execute才训练，支持CE-only和CE+RLCD，提供probe/evaluate）。完整参数、权重下载、环境安装、训练、合并、隔离SGLang和评估命令移到`docs/决策模型开发与微调复现指南_20261018.md`及skill references；第15页引用这些入口。
+- 两份skill已复制安装到本机`C:/Users/YuTao/.codex/skills/`，可调用`$ai4loc-decision-data`和`$ai4loc-decision-finetune`。quick_validate通过；数据边界/泄漏拒绝、公开清单、训练计划不占GPU与8次HTTP/tokenizer模拟请求测试通过。此次无真实GPU训练、模型调用或生产部署。
+- 实测资源按单位区分：PPLX参数48.59GiB、验证硬件A10080GB；9B训练torch allocated峰值18.74GiB，static0.55服务NVML resident约47.5GiB。主张infra重要，但不把跨引擎耗时差单独归因权重。
+
+## 全新28页Jev图解演示与标注审计（2026-10-18）
+
+- 新演示`deliverables/jev-decision-explained/deck.html`，独立于原70页。3–6页对照Chat/关闭thinking/单字母/Decision及输入KV、decode、三类缓存；12–18页解释9B数据与LoRA；19–23页逐项对照执行代码讲logits→扰动q→reward/adv→logdensity+CE→LoRA，区别σ、T和HTTP JSON。含逐页讲稿、5组科研图、7页手动动画、5个教学GIF、教学数值/梯度校验和公开来源副本。
+- 重要新发现：9B的`prepare-data.py`在locking判断前用`'rcu' in sig`，而circular包含rcu。公开冻结清单中4条test（lock_mutex_abba、lock_spin_abba、OHOS-060、OHOS-064）的循环锁依赖marker被标成rcu_progress。审计文档`docs/首诊断弱标签RCU子串误判审计_20261018.md`；FAQ和新slide明确标注。原数据/代码/分数不修改，未新重标/训练/调用模型；需修复并另开版本复测，不能把原66/87、78/87当独立专家正确率。
+- 单字母Chat的首token也可来自prefill，不必额外decode前向；新图避免错误地把整个前向的省时归功于Decision。真实时间/内存图与机制教学比例分开；完整Agent仍保持2/3与混合更慢的负结果。
+
+## Jev报告答疑资料整理（2026-10-18；仅文档与离线分析）
+
+- 新增`docs/Jev决策模型报告答疑与通俗解读_20261018.md`：名称对照、用户四个核心问题、20个补充追问、口述回答、证据限制和未执行的下一轮实验。已核对官方Jev/SGLang文档、PPLX原版本模型卡、nanojev作者README与Laya固定参考版本；排除非官方同名推广网站。
+- 纠正容易混用的前提：PPLX旧测试成绩持平而非证实更差；全GPU参考部署5.672s对通用Decision2.563s，但引擎不同。外部nanojev不是本项目Qwen9B，没有本任务独立复测；微调分类提升不能当小模型优于27B或因果定位提升。Laya同名RLCD不等于官方Jev配方已复现。
+- `research/jev-report-qa-20261018/build-evidence.py`汇总10份冻结公开结果，输出20个条件、训练/概率与32k Agent表及源SHA；无新模型调用、部署或服务器健康检查。原实验与标签不改写。9B计时勘误单列：首步包含编译，最后微步290.764s，343.689s到评估/导出/哈希结束，不是随机预训练9B耗时。
+
 ## 模型微调与效果对比动画更新（2026-10-16）
 
 - 用户要求将模型构建、微调过程、效果与性能做成动图、更新既有slide并上传GitHub。新增59–70页，保留原48页系统/历史定位与49–58页27B并发研究的独立分母，总70页；入口`deliverables/kernel-insight-system/deck.html#59`。

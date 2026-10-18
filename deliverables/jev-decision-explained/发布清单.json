@@ -1,0 +1,891 @@
+{
+  "edition": "experiment-story-20",
+  "date": "2026-10-18",
+  "pages": 20,
+  "active_teaching_gifs": 6,
+  "skills": 2,
+  "private_inputs_included": false,
+  "files": [
+    {
+      "path": "deliverables/jev-decision-explained/active-diagrams.json",
+      "bytes": 381,
+      "sha256": "b1fffd9a1bd4400bf39a4ec822cf48bf442a2b4625662c96014fbc53f3e46c68"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/animation.js",
+      "bytes": 1158,
+      "sha256": "0467e7d53e7c0842e0cd94617c0407bafba5eb4ecac6ca1ded37f5b9753eaf28"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/build.py",
+      "bytes": 179,
+      "sha256": "ae161a977a89e829dafa17467da39ecfddb27ac077bbd84556ec32878a2ef0e9"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/build_brief.py",
+      "bytes": 26137,
+      "sha256": "fd1f1231ce3d6270cde19e4d6f8da3314e73f3191caf42172a2a1057e1c1f3c7"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/build_technical.py",
+      "bytes": 49215,
+      "sha256": "90413e75220ac56cde6fd9377fb1bdb10b382f9525148ee97c21402fb101d9f7"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/deck-technical-28.html",
+      "bytes": 100946,
+      "sha256": "88aa4802a26f9c2cf861e0f080d5073c5641138838782b96d67cc160b76551c1"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/deck.html",
+      "bytes": 77311,
+      "sha256": "b7cb0c85000f2347fe661c2fad50ee8c59eaec822e5bb031fecf34babef26464"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/docs/Jev决策模型报告答疑与通俗解读_20261018.md",
+      "bytes": 30833,
+      "sha256": "7ef69fe31ad0e58e12b7258c69a952e90e4dd01627bc14d74ccba23731b84837"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/docs/Jev实验主线与9B分类收益解读_20261018.md",
+      "bytes": 9720,
+      "sha256": "401eb3928598546d3c65ced94ba6f4003f3f68613b9f3f6a7bf0101367c8b699"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/docs/首诊断弱标签RCU子串误判审计_20261018.md",
+      "bytes": 2430,
+      "sha256": "0d9c817b42dfe2e73fce3e53cfb47439252423a77aa9cf4201256a5051c4d0fd"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/decision-localization-20261011/report.md",
+      "bytes": 47482,
+      "sha256": "55e5d828fd0070c5396f4e4a6e758b9965abd963afe73ef92c743895e786a3e8"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/calibration.json",
+      "bytes": 2125,
+      "sha256": "31a51b0665f1d9a107b21d62fd2ea22c4d0ae1f1e63f812ce17b24656a19b9b2"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/dataset-frozen.json",
+      "bytes": 55873,
+      "sha256": "908fe58f6e72932ee99314d3c618e100afee474e0c1f52a79932621feb3114f5"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/prepare-data.py",
+      "bytes": 7490,
+      "sha256": "1b16bfb6c44cc5267a70cb1d8701f41fa4ef9a95c6bf13c5782989ff1fc40faa"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/REPORT.md",
+      "bytes": 18121,
+      "sha256": "07501bddda7353c50bb8c0f14a0630856d051cd0956a70bd045c2f7991a06cb3"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/summary.json",
+      "bytes": 57113,
+      "sha256": "afd9eda0332aad9b847550b7b103b9d8fe143d1eeb2214a7d172f4d0c0213c58"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/tables/agent32k-aggregate.csv",
+      "bytes": 503,
+      "sha256": "89f91e2976e0ff9d93cf994323fe8e3169e1d85491a731b6fd29c5c5d24695d0"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/train.py",
+      "bytes": 11662,
+      "sha256": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/training-complete.json",
+      "bytes": 339,
+      "sha256": "819cb03bf79bea7d188c048b6025893867b040f15a3efe5e1d68aef52776cc54"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/training-environment.json",
+      "bytes": 1740,
+      "sha256": "89d0890644d788855ff3ec95777368ab900d4669632bfc9cc940a1847af22782"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/training-protocol.json",
+      "bytes": 994,
+      "sha256": "d140486d66392bda0a99c50943fa43593400e7cc9b952881b2250a53fad045db"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-qwen35-9b-20261016/training-steps.jsonl",
+      "bytes": 98126,
+      "sha256": "515d24e3a4e51e15d3bb6e91f135b9edc163be73e6c4207c5e5347c6fca6c3c0"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/jev-report-qa-20261018/evidence.json",
+      "bytes": 24195,
+      "sha256": "af552fcc6a5734ccc6c639ca9e4d01f9a795170ee3292b71d164d4e1a319f844"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/kv-concurrency-20261016/statistics.json",
+      "bytes": 29247,
+      "sha256": "6fc5d4686613988256ef8d8b6ca00620f8527cece7662f2cb84f16b93aaf023d"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/pplx-decider-20261011/results/statistics.json",
+      "bytes": 5296,
+      "sha256": "a7866ed2982ed75b3f9face678e0d3dead8491824297c9a861d478446f046af7"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/pplx-timeshare-20261012/results/pplx-runtime.json",
+      "bytes": 540,
+      "sha256": "c4be6b5dbaa2e3a2c1b4a53621af27cfd3124ed4cf0d5ec61f443ed73218a9ea"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/evidence/research/pplx-timeshare-20261012/results/statistics.json",
+      "bytes": 5335,
+      "sha256": "760fcd4e2a03ea1549274c27e0317f36f0d6758bfddc74f4cf262e89e8829811"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-01.svg",
+      "bytes": 1897,
+      "sha256": "59ddf149dd1f24e740ba7e8ebfbf19b4ce19b743aaaeb0970f2b5be09c51e0fd"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-02.svg",
+      "bytes": 1957,
+      "sha256": "83a256a1fa19c74fb88d70d7664a4ef240c7a0163c2571ac96c14acff1312592"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-03.svg",
+      "bytes": 2093,
+      "sha256": "9fe6b7a59f65b01c847b24315d219d6981b49bf09b25a140a9c499e64f09dee6"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-04.svg",
+      "bytes": 2464,
+      "sha256": "ec8d8ae54c3d69c0640ec0fdc3f4849a90798b5389f2a78ca16c2e9cfb959bd6"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-05.svg",
+      "bytes": 4721,
+      "sha256": "457e17fd3749379d970b5bf3703a2ed1b4bc328740f97c76720d55505629824b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-06.svg",
+      "bytes": 2641,
+      "sha256": "d261ed5c966e3c10af8d34301662993a85978f6ceaca9bf5192b55859c00186f"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-08.svg",
+      "bytes": 2547,
+      "sha256": "efa7784789719845e9c4ce839b332c0d5a61c0fe65a81a83b5b90e911e172f4f"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-09.svg",
+      "bytes": 1986,
+      "sha256": "e5ad6424ae8b9e9f8cfaf950d64e95eff10331cb93c6e43c45f460236ca692a6"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-10.svg",
+      "bytes": 2285,
+      "sha256": "c805bac2ad206d613e06d2aea83a5be5a7c5c92ff1f3519b604f9b3541d36d17"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-11.svg",
+      "bytes": 2291,
+      "sha256": "fe73638c124b6d88fee9b31ad002f0b8bc608d0add210c93d1b0fe3f545a58c9"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-12.svg",
+      "bytes": 2690,
+      "sha256": "02b0a6b40f082a8be435ac8dd8137315008952adf7ac408f13f092bc42e82346"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-13.svg",
+      "bytes": 3295,
+      "sha256": "d66c9163a99507fbde08a4991fb897b6d3f24891ab1aadf5c3bb8cbd3c2358ee"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-14.svg",
+      "bytes": 2171,
+      "sha256": "d274f32fe5cf4e3313453cfd98c125a09317edc02ea812a0d28e34916fcfb8cd"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-15.svg",
+      "bytes": 2606,
+      "sha256": "b4576b332511671fe40208e855847de44ddc43fbf3f86a2713b7d8c473c3211b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-16.svg",
+      "bytes": 3781,
+      "sha256": "68d5ae61781ef72782e4b9d96711ae8b0e8988d6363b8aec81ccb0f92213874b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-18.svg",
+      "bytes": 3005,
+      "sha256": "b9bf48908609039fe1df51dc540c562e94660c2929f9f291e141ea54088036d2"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-19.svg",
+      "bytes": 1847,
+      "sha256": "2bfbb538c9ba355cbbcd31ab39035f896f3c35e44fa18b0eac45723fc544674e"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/diagram-20.svg",
+      "bytes": 1153,
+      "sha256": "2d30dc543adcfdf2f24a10d33014ed8ba289e57784b4355accd5a99fc6264c91"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/gif-manifest.json",
+      "bytes": 1308,
+      "sha256": "336ab31cad7c71bfd7d3771226908b1ad156aeba641ce8f788a5b70e2d01244e"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/分类与概率反例.png",
+      "bytes": 58582,
+      "sha256": "06d86304672532bcb58192b2bae14e200a4f000f5590ca10ceeb29ce9aedb3c4"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/分类与概率反例.svg",
+      "bytes": 11104,
+      "sha256": "9191b5855ac6bb12d40141bbc09805a04cf990046d4a1b56511b90066adc9006"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/完整Agent对照.png",
+      "bytes": 72480,
+      "sha256": "ef1348c12cdde5a0e0ea1cdd81b70355449c856882ddcd52120a1f2eb8c7b219"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/完整Agent对照.svg",
+      "bytes": 9038,
+      "sha256": "e005602db601b474a48de88663472b9cc672d29b72dceacbfff33e3dc634c715"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/接口性能对照.png",
+      "bytes": 102174,
+      "sha256": "e32d1fe68bc16c8a7a3e50ee2fefd4630096d1cb270489c67f2b9fd18edf16d0"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/接口性能对照.svg",
+      "bytes": 18890,
+      "sha256": "7ba7c9801976fef886d384efb4413cb27625a3fa5c3d26332a997cc416c837a5"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/教学流程-04.gif",
+      "bytes": 314959,
+      "sha256": "e66a2ddaf4c8918cfdd163769218be23a35f0501b4f103e7c54aa72e48c56ae1"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/教学流程-05.gif",
+      "bytes": 343875,
+      "sha256": "e497dc5449c42a64b315a3e9fc414cfe73226002b13aba14e7009722018de959"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/教学流程-06.gif",
+      "bytes": 240191,
+      "sha256": "5b9e20ee32dbb9bcb30936b424e812c689ee3ba4f0ba5186d3f5684bca00f9e2"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/教学流程-13.gif",
+      "bytes": 343762,
+      "sha256": "11946c02d2c7cc901f6885f21594f691ab03b2fd05c72019c0b968b0c4b5e718"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/教学流程-16.gif",
+      "bytes": 432501,
+      "sha256": "790c983f8aff0713fc793c1b6cabd396a412952d3d8cc27409f0935b561d70f8"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/教学流程-18.gif",
+      "bytes": 284376,
+      "sha256": "e91879347752798e46640a5a970ea91e5ca565335ccff2de5b55685cc781962a"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/真实训练曲线.png",
+      "bytes": 83782,
+      "sha256": "3c461fe92ccf83791c4e02591861adcd9888cd31be77c5290983e2375fc42099"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/真实训练曲线.svg",
+      "bytes": 12451,
+      "sha256": "8449b8d24571d8c0e0031c9c1ad50bd1b5125a2aaee7a98a99afd84c3c143ab0"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/简报_9B分类收益.png",
+      "bytes": 114096,
+      "sha256": "8872d89c79f4c3f2857e7ae9e3ac97dc3bf451a4224d53d84f28ae78e40a7540"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/简报_9B分类收益.svg",
+      "bytes": 17177,
+      "sha256": "11b70cf736760aa5eb5cf00cdb14e64c92ca26249b6cf3c53d8b68b0a0bdbf0c"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/简报_实测效率.png",
+      "bytes": 90855,
+      "sha256": "77fae13051dfa28267ed5453eec6be4611597c6723d78419ca66f8d428218c39"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/简报_实测效率.svg",
+      "bytes": 13239,
+      "sha256": "b6849c6fc41f0141445d5fd5a4931bbd27acb1fdd8c1cf4833280ddc383e6420"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/类别覆盖热力图.png",
+      "bytes": 108098,
+      "sha256": "bc3e7315b79abddc5f44887fa73cbc7e0cc436938e81c58bcae6ad743933a8cf"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/media/类别覆盖热力图.svg",
+      "bytes": 20264,
+      "sha256": "ebf87ef102d02f3102ca2da40de166cfe2e989a5f2bcc232731b5d634e5078ef"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/package.py",
+      "bytes": 3732,
+      "sha256": "98220efc6b178314fa34e86017d0acd8095edf64a34ff2ac7e2f77c081467cff"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/qa-report.json",
+      "bytes": 1259,
+      "sha256": "ecd5d171553e1ec9ab72b9c563d431563b0e901bb8114644480a6a8448684cc3"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/README.md",
+      "bytes": 2369,
+      "sha256": "d13a1435208ea85da864c18577118c8f2b31d637ca58abf37ce0548e3d2dec17"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/render-review.json",
+      "bytes": 1345,
+      "sha256": "aa71c85e1d7dd7f9ad0cfb7365c7f82e71c4876d83ea7f0bad751b9f9fa1400e"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/render_verify.py",
+      "bytes": 6147,
+      "sha256": "bb91d4ff12e82a51dc94d5fc32ade127593a5bece47efed669fa220d1c2556fd"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-04-step-0.png",
+      "bytes": 164713,
+      "sha256": "d4df9c0616cd9e413c7e96f1693ca89b4b1c403a6294ca750aea7dce0f30adb1"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-04-step-1.png",
+      "bytes": 164925,
+      "sha256": "570b0c677d5991e8fbb83003287501e1cb72edd2890084bbdfa47c1794cc3cf4"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-04-step-2.png",
+      "bytes": 168628,
+      "sha256": "bde39e0c7a1d2c38d2e0004008527e54197c22715445b7aaef550ba6355b1f4b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-04-step-3.png",
+      "bytes": 173046,
+      "sha256": "226ac76ca0415e85190c4e42ab3d0c6238cf44b11d292580287693c55d339486"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-05-step-0.png",
+      "bytes": 182864,
+      "sha256": "0fb0bb26d3e92d31faf3e0fe5ab0920458018a7533dbf592784aeaad5cc2d520"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-05-step-1.png",
+      "bytes": 187635,
+      "sha256": "bc5df81905ece2ee44093459256bc0a0e39f0e04b16d621f059443258e629986"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-05-step-2.png",
+      "bytes": 189280,
+      "sha256": "0f0bc13ef67d36039bac7b43ce5b9bbbd85041edf8f0d360ce9e4d3e8764bff7"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-05-step-3.png",
+      "bytes": 191588,
+      "sha256": "d593ab6bdd2c0579ccf31878f2f4b8a603d1504b3433d5fac82145764c4f39b2"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-06-step-0.png",
+      "bytes": 135887,
+      "sha256": "a34d472e7c3ba90a744264de19daf1cf24fb77a48997e3dd29ba23bce2baf0ee"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-06-step-1.png",
+      "bytes": 139595,
+      "sha256": "256c49401511284b28103a7c005d40936f4b416c01203513ebfec3723e6df5ab"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-06-step-2.png",
+      "bytes": 141939,
+      "sha256": "e63e3acd1a12992357267d0f56e229bcee07436b9bd1d569da03699ffb7caa85"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-06-step-3.png",
+      "bytes": 144612,
+      "sha256": "4e22d4de24bf0fb36c98ea1a76f029c4de45caceed848f6633e9104c34f80651"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-13-step-0.png",
+      "bytes": 160946,
+      "sha256": "cbc8679ba6cc30a36886a73cf8b43053cb8a29fd5d3fff2cb47ff17c18b6c86b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-13-step-1.png",
+      "bytes": 162504,
+      "sha256": "7b259a4380621598a9b6fdbcd7619ebbc84b78e54be56f30cb6756a2cccef4f9"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-13-step-2.png",
+      "bytes": 165417,
+      "sha256": "d70c8f1dda85ed980c1a114946ddb15e3c0ae591e36615ccdc29fe8c6f7e75a4"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-13-step-3.png",
+      "bytes": 170870,
+      "sha256": "d05382efd16fb27da16e1590be04e6d10c63e45cdd346c6ad3a54255e15b92d9"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-13-step-4.png",
+      "bytes": 175653,
+      "sha256": "bc7f9d550271e54e650667a77c39cb6c8549ff1908a9c5d8b8171c0bfdcd4c3d"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-16-step-0.png",
+      "bytes": 167455,
+      "sha256": "508a7f87fdcbe7167937c1053ddc2c9edc79d4974e70d409e9f392cde32fdeac"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-16-step-1.png",
+      "bytes": 167786,
+      "sha256": "9fa572e3f2a3623021f94d1a157dbaeef187dab4821f4affe85f5f03ae5aa6db"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-16-step-2.png",
+      "bytes": 168108,
+      "sha256": "20dcd454f323f9404cb5ef83e41f75254e6d03ddb4e8d0e7706dc14d3691928e"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-16-step-3.png",
+      "bytes": 176096,
+      "sha256": "5fbf498eb42c9c5ef639253fc47684d2b17ec0b33c69b2773594a0f1d3ff4aa7"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-16-step-4.png",
+      "bytes": 179593,
+      "sha256": "73ee7c19c5cbf814eff7ac3313269cd9ae153e6c96513b9d5e7246bc9312840b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-16-step-5.png",
+      "bytes": 180482,
+      "sha256": "10f56ca1b0fe88274fd9aef6f365bd5690fb734f8d4861ad915eadf4e75f2bee"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-18-step-0.png",
+      "bytes": 158518,
+      "sha256": "039250354b358a47b43c7d4bac367d148e978eb4964eecbb04c8feedf3d90576"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-18-step-1.png",
+      "bytes": 161574,
+      "sha256": "ce4042e051cb19f7ce955b27096d1bf09cbce831cd83b768af3c8d4aa3d77521"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-18-step-2.png",
+      "bytes": 162333,
+      "sha256": "8f733c93e336e22c3097a1b76fc62f3d653a01e41e8438ab317489debd68f009"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/page-18-step-3.png",
+      "bytes": 170420,
+      "sha256": "11ef3e1b71e11f481b64439258294ce11ae5834d63b4036b3264eb412cee1d72"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-01.png",
+      "bytes": 119170,
+      "sha256": "4b6de49f28a9f9a7e72392c876f341b0dee7910e983d722eb2be9212cae2c97d"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-02.png",
+      "bytes": 124653,
+      "sha256": "e6d9e2ddbcc6cc1e004a6ed75bc869fad409633eaa5e0119b49ca107d71f58a0"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-03.png",
+      "bytes": 125560,
+      "sha256": "079db2723d6b9a6466303d5025f68a69b1afb832008b5aceb76e6b47c378c9a2"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-04-final.png",
+      "bytes": 173036,
+      "sha256": "3a0beb9d0d94946716d69437d292ddfba05ae6fb462fbd9cebe0fcaef32c1608"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-04.png",
+      "bytes": 164713,
+      "sha256": "d4df9c0616cd9e413c7e96f1693ca89b4b1c403a6294ca750aea7dce0f30adb1"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-05-final.png",
+      "bytes": 191588,
+      "sha256": "d593ab6bdd2c0579ccf31878f2f4b8a603d1504b3433d5fac82145764c4f39b2"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-05.png",
+      "bytes": 182864,
+      "sha256": "0fb0bb26d3e92d31faf3e0fe5ab0920458018a7533dbf592784aeaad5cc2d520"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-06-final.png",
+      "bytes": 144612,
+      "sha256": "4e22d4de24bf0fb36c98ea1a76f029c4de45caceed848f6633e9104c34f80651"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-06.png",
+      "bytes": 135887,
+      "sha256": "a34d472e7c3ba90a744264de19daf1cf24fb77a48997e3dd29ba23bce2baf0ee"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-07.png",
+      "bytes": 118223,
+      "sha256": "cfc88bdfb9fbb0cefee990b10adaf2197c0db6a1a165d9fdc5c2da2f35876d8b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-08.png",
+      "bytes": 154828,
+      "sha256": "49f2134577d99f11e04588c8cb8114ae79515a7b130081d2f8ad5ac249fa0b49"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-09.png",
+      "bytes": 141658,
+      "sha256": "a80793d40cd8454262d819dea8d889020cd8276d1723949e5cbfcac2879a5ede"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-10.png",
+      "bytes": 119405,
+      "sha256": "4e3eb3b2d55254e49feffa82f67ba746fc1d651e56c3d716cb6c83c57bd19b20"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-11.png",
+      "bytes": 116381,
+      "sha256": "0d608b229776c2e32f0352a15b90aeb5e2d6fdc36a65b7c0f8cadc63f5fd0792"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-12.png",
+      "bytes": 166097,
+      "sha256": "45e19cde528d37c60031c104ab09fd349ddb2f92e031d6884bba8467bc8596a9"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-13-final.png",
+      "bytes": 175653,
+      "sha256": "bc7f9d550271e54e650667a77c39cb6c8549ff1908a9c5d8b8171c0bfdcd4c3d"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-13.png",
+      "bytes": 160946,
+      "sha256": "cbc8679ba6cc30a36886a73cf8b43053cb8a29fd5d3fff2cb47ff17c18b6c86b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-14.png",
+      "bytes": 146479,
+      "sha256": "df24c2c9e0c9b175c8e26055e54b1195be9d361993faa4fde6b79488233edc8f"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-15.png",
+      "bytes": 149485,
+      "sha256": "7af4efac2c90d8b185dfab99fe97dcbf37b63aa1a8c8f82808c1104df5dcf978"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-16-final.png",
+      "bytes": 180482,
+      "sha256": "10f56ca1b0fe88274fd9aef6f365bd5690fb734f8d4861ad915eadf4e75f2bee"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-16.png",
+      "bytes": 167455,
+      "sha256": "508a7f87fdcbe7167937c1053ddc2c9edc79d4974e70d409e9f392cde32fdeac"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-17.png",
+      "bytes": 141454,
+      "sha256": "b0513bd82d49e72734e7dc6b8f677c1afd18a2e258be5ee3bd5c73263aa19002"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-18-final.png",
+      "bytes": 170420,
+      "sha256": "11ef3e1b71e11f481b64439258294ce11ae5834d63b4036b3264eb412cee1d72"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-18.png",
+      "bytes": 158518,
+      "sha256": "039250354b358a47b43c7d4bac367d148e978eb4964eecbb04c8feedf3d90576"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-19.png",
+      "bytes": 136281,
+      "sha256": "e091b75bfa0d24aab51c4ca3ee7e8f0af1a2fabf17e337a1637dfe66871bc1a1"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/rendered/slide-20.png",
+      "bytes": 145440,
+      "sha256": "2533f24b25e38b2df83e03edd6726b8bfab1aa6f711a5dc270f23c2850140f3a"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/serve.py",
+      "bytes": 1464,
+      "sha256": "f46619bac0f8dc86f8d9a49cc7d518a0b039c49853002c19d5eea334190e26ad"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/source-provenance.json",
+      "bytes": 3627,
+      "sha256": "0ffd5b2f193c88bef0f41d1b76bb960bd713253bd3631c926a44d317fb13debc"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/vendor/kelip-slide/assets/deck-template.html",
+      "bytes": 33317,
+      "sha256": "687a5e92b75645911f6ee3cae173d862d62c8c6fe6695c6ba2a00a2e4a048086"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/vendor/kelip-slide/LICENSE",
+      "bytes": 1084,
+      "sha256": "c1fb577e8a11c467390aae05f8a9a442eb5c4bfc964d9bea86bc6343c7224904"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/教学概率与RLCD计算.json",
+      "bytes": 2992,
+      "sha256": "ecb49ab5a289fad2ee361e71bb76335033d0dbc070f35969dc0ef1a733b2cf5b"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/旧数据标注规则审计.json",
+      "bytes": 1027,
+      "sha256": "638df1c11fcf0a07b2f9156ca48af99d9085519768f326916855f05393ccc5c3"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/说明.md",
+      "bytes": 1535,
+      "sha256": "d4be7a13b2021943d032989d44d70ace83b0a355aefd8c8b56f7251ed6b5c187"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/资料来源.md",
+      "bytes": 2814,
+      "sha256": "52e7ba045206ea3d75ccbe5145fd6fdf5c283910e340cbbb24b8c045d43f6e12"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/逐页讲稿.md",
+      "bytes": 8547,
+      "sha256": "50c3e937ac6615150c939f7da99f3862f3bca29c475edc61a1ff6884c7bec721"
+    },
+    {
+      "path": "deliverables/jev-decision-explained/预览-全部页面.png",
+      "bytes": 842418,
+      "sha256": "bdbc1795c317cc20fc3d072d788f870db00250ea75677f9a2c7a9057dbc6e8f8"
+    },
+    {
+      "path": "docs/Jev决策模型报告答疑与通俗解读_20261018.md",
+      "bytes": 30833,
+      "sha256": "7ef69fe31ad0e58e12b7258c69a952e90e4dd01627bc14d74ccba23731b84837"
+    },
+    {
+      "path": "docs/Jev实验主线与9B分类收益解读_20261018.md",
+      "bytes": 9720,
+      "sha256": "401eb3928598546d3c65ced94ba6f4003f3f68613b9f3f6a7bf0101367c8b699"
+    },
+    {
+      "path": "docs/决策模型开发与微调复现指南_20261018.md",
+      "bytes": 4699,
+      "sha256": "4282e8336621cfd704a764bc5f8cf184817ba8b04bdf4e6834d5dbd7724025c9"
+    },
+    {
+      "path": "docs/首诊断弱标签RCU子串误判审计_20261018.md",
+      "bytes": 2430,
+      "sha256": "0d9c817b42dfe2e73fce3e53cfb47439252423a77aa9cf4201256a5051c4d0fd"
+    },
+    {
+      "path": "research/decision-localization-20261011/report.md",
+      "bytes": 47482,
+      "sha256": "55e5d828fd0070c5396f4e4a6e758b9965abd963afe73ef92c743895e786a3e8"
+    },
+    {
+      "path": "research/decision-skills-l40-20261018/private-archive.json",
+      "bytes": 185,
+      "sha256": "b5049efee63ff5cbb33da677d55ce208e497c91b6bd51986f3b61184899ea492"
+    },
+    {
+      "path": "research/decision-skills-l40-20261018/README.md",
+      "bytes": 4019,
+      "sha256": "15288edff985af810421179af47febb61c1ff6d36262088b3054146f5f8f8ed8"
+    },
+    {
+      "path": "research/decision-skills-l40-20261018/resource-observations.json",
+      "bytes": 708,
+      "sha256": "5e99dc0c44e548bc0ba27f4005dfee55f8ac91aa9a3c5be6a3d351b1cf7f75dd"
+    },
+    {
+      "path": "research/decision-skills-l40-20261018/summary.json",
+      "bytes": 2394,
+      "sha256": "8c570a15bca4e58371a177ad12f315234e233d5c15ba411aff6912036fd566db"
+    },
+    {
+      "path": "research/decision-skills-l40-20261018/verify_server.py",
+      "bytes": 3659,
+      "sha256": "968af04ab5d1d586a62a4a14238c41ea4de9a13a6df540cbf1ef26584e59f324"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/calibration.json",
+      "bytes": 2125,
+      "sha256": "31a51b0665f1d9a107b21d62fd2ea22c4d0ae1f1e63f812ce17b24656a19b9b2"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/dataset-frozen.json",
+      "bytes": 55873,
+      "sha256": "908fe58f6e72932ee99314d3c618e100afee474e0c1f52a79932621feb3114f5"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/fetch-checkpoint.py",
+      "bytes": 3571,
+      "sha256": "95421ffafad61d334b38dbc9bdf04acae0b2c59487a605ab15a080bb7c637c7b"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/merge-adapter.py",
+      "bytes": 1800,
+      "sha256": "49372a01d8541c953a4e9fb12612cfc7d444f28ac5fdea8c563067a4dbbaea9b"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/official-model-metadata.json",
+      "bytes": 24886,
+      "sha256": "50ef33d366dbc5b1d131f0f5fd9b5012089a52d674d16c2230ef40842a61c923"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/prepare-data.py",
+      "bytes": 7490,
+      "sha256": "1b16bfb6c44cc5267a70cb1d8701f41fa4ef9a95c6bf13c5782989ff1fc40faa"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/REPORT.md",
+      "bytes": 18121,
+      "sha256": "07501bddda7353c50bb8c0f14a0630856d051cd0956a70bd045c2f7991a06cb3"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/summary.json",
+      "bytes": 57113,
+      "sha256": "afd9eda0332aad9b847550b7b103b9d8fe143d1eeb2214a7d172f4d0c0213c58"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/agent32k-aggregate.csv",
+      "bytes": 503,
+      "sha256": "89f91e2976e0ff9d93cf994323fe8e3169e1d85491a731b6fd29c5c5d24695d0"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/train.py",
+      "bytes": 11662,
+      "sha256": "4f429608ac5f329093e36085e10b1c6b1fab77206b358806f9b78ebe1158c4ca"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-complete.json",
+      "bytes": 339,
+      "sha256": "819cb03bf79bea7d188c048b6025893867b040f15a3efe5e1d68aef52776cc54"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-environment.json",
+      "bytes": 1740,
+      "sha256": "89d0890644d788855ff3ec95777368ab900d4669632bfc9cc940a1847af22782"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-protocol.json",
+      "bytes": 994,
+      "sha256": "d140486d66392bda0a99c50943fa43593400e7cc9b952881b2250a53fad045db"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-steps.jsonl",
+      "bytes": 98126,
+      "sha256": "515d24e3a4e51e15d3bb6e91f135b9edc163be73e6c4207c5e5347c6fca6c3c0"
+    },
+    {
+      "path": "research/jev-report-qa-20261018/evidence.json",
+      "bytes": 24195,
+      "sha256": "af552fcc6a5734ccc6c639ca9e4d01f9a795170ee3292b71d164d4e1a319f844"
+    },
+    {
+      "path": "research/kv-concurrency-20261016/statistics.json",
+      "bytes": 29247,
+      "sha256": "6fc5d4686613988256ef8d8b6ca00620f8527cece7662f2cb84f16b93aaf023d"
+    },
+    {
+      "path": "research/pplx-decider-20261011/results/statistics.json",
+      "bytes": 5296,
+      "sha256": "a7866ed2982ed75b3f9face678e0d3dead8491824297c9a861d478446f046af7"
+    },
+    {
+      "path": "research/pplx-timeshare-20261012/results/pplx-runtime.json",
+      "bytes": 540,
+      "sha256": "c4be6b5dbaa2e3a2c1b4a53621af27cfd3124ed4cf0d5ec61f443ed73218a9ea"
+    },
+    {
+      "path": "research/pplx-timeshare-20261012/results/statistics.json",
+      "bytes": 5335,
+      "sha256": "760fcd4e2a03ea1549274c27e0317f36f0d6758bfddc74f4cf262e89e8829811"
+    },
+    {
+      "path": "skills/ai4loc-decision-data/agents/openai.yaml",
+      "bytes": 271,
+      "sha256": "eb2b129040af5906e5658c92ed51a97dbd7e188d3bb230c33d5e4a5e82ee7a80"
+    },
+    {
+      "path": "skills/ai4loc-decision-data/assets/reviewed-example.jsonl",
+      "bytes": 822,
+      "sha256": "e369ad6e2150c0417236f0de4aa1431caa466477dafd3ad42410bb1debc4ec60"
+    },
+    {
+      "path": "skills/ai4loc-decision-data/references/data-contract.md",
+      "bytes": 2463,
+      "sha256": "22d145fdbcefa45a2dc30ccbddc2b1458f67f6da2b1d6a6b1aae4b325cb7cad6"
+    },
+    {
+      "path": "skills/ai4loc-decision-data/scripts/prepare_dataset.py",
+      "bytes": 4976,
+      "sha256": "309427111aea127de28164914eeb5d04fbdcb437af52212afc6ee92a71d49d00"
+    },
+    {
+      "path": "skills/ai4loc-decision-data/SKILL.md",
+      "bytes": 2014,
+      "sha256": "135547aa9ce6a5e51514bf3e2ce4cba9bc5304acf9786a1277c148a640c15eb9"
+    },
+    {
+      "path": "skills/ai4loc-decision-finetune/agents/openai.yaml",
+      "bytes": 267,
+      "sha256": "12ae73717e6c2347c3fa360b900bcfa99e4906202a6910cdeb7d7ecdbc5c159e"
+    },
+    {
+      "path": "skills/ai4loc-decision-finetune/references/reproduce.md",
+      "bytes": 8958,
+      "sha256": "6ae6ead5375a9bf83f7773035314f965bb0c6516aafefd3bd24a0aed04e05fa3"
+    },
+    {
+      "path": "skills/ai4loc-decision-finetune/scripts/evaluate.py",
+      "bytes": 6118,
+      "sha256": "979c7e1f38049d9cb5d3f458c7415240d443b04a9a730b821a6dae7343e39eae"
+    },
+    {
+      "path": "skills/ai4loc-decision-finetune/scripts/probe.py",
+      "bytes": 2775,
+      "sha256": "182469dc9fd36ae166e9a510a8abd2f2a58df50ea37b62954f3fb596493ec6c0"
+    },
+    {
+      "path": "skills/ai4loc-decision-finetune/scripts/train.py",
+      "bytes": 6314,
+      "sha256": "7a571d84e9a1696f1f16b72c33b0ada79f1a7d314dbd24b12c7b1bfbe1367238"
+    },
+    {
+      "path": "skills/ai4loc-decision-finetune/SKILL.md",
+      "bytes": 2153,
+      "sha256": "405a946adc0a58a47d25c5e104ff70629b6e261b04745c3f28c74a45910a0d93"
+    },
+    {
+      "path": "skills/decision-skills-validation.json",
+      "bytes": 729,
+      "sha256": "fe10e0c5c1a6a6837735edf3e35d75465f02ad1f9a81bbab9cd6cb6806fa11f4"
+    },
+    {
+      "path": "skills/verify_decision_skills.py",
+      "bytes": 6336,
+      "sha256": "79a20453407665de7d2e9e76fa67de753b09ac90997e9a4a25039b5e4b578b5d"
+    }
+  ],
+  "self_hash_excluded": true
+}

@@ -1,0 +1,737 @@
+{
+  "date": "2026-10-18",
+  "scope": "Offline synthesis of frozen studies; no new inference, deployment or training. Not a current server health check.",
+  "latency_pairs": [
+    {
+      "study": "20261011",
+      "comparison": "Decision3 vs Chat3 JSON",
+      "left_seconds": 1.1452867037037038,
+      "right_seconds": 2.0746397037037037,
+      "left_faster_percent": 44.795874596485035,
+      "repeats_per_arm": 27,
+      "scope": "9 unique cases; thinking disabled; different prompt lengths and output structure"
+    },
+    {
+      "study": "20261012",
+      "comparison": "generic Decision vs PPLX fullGPU",
+      "left_seconds": 2.5626488464574018,
+      "right_seconds": 5.672470532771614,
+      "left_faster_percent": 54.823055815765144,
+      "repeats_per_arm": 27,
+      "scope": "9 unique cases; same A100; different inference engines; fixed stage order"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base cold 1x1 Decision vs one-token Chat",
+      "left_seconds": 0.2689271638,
+      "right_seconds": 0.2699137302,
+      "left_faster_percent": 0.36551175046522316,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base cold 4x1 Decision vs one-token Chat",
+      "left_seconds": 1.1143326668,
+      "right_seconds": 0.9962016702,
+      "left_faster_percent": -11.858140789533486,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base cold 1x8 Decision vs one-token Chat",
+      "left_seconds": 0.785248262,
+      "right_seconds": 0.8281849292000001,
+      "left_faster_percent": 5.184429912468409,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base cold 4x8 Decision vs one-token Chat",
+      "left_seconds": 2.3487984610000003,
+      "right_seconds": 2.2550565436,
+      "left_faster_percent": -4.156965272824146,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base warm 1x1 Decision vs one-token Chat",
+      "left_seconds": 0.2661583246,
+      "right_seconds": 0.2666238052,
+      "left_faster_percent": 0.17458328585883232,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base warm 4x1 Decision vs one-token Chat",
+      "left_seconds": 0.7640409761999999,
+      "right_seconds": 0.7612615274,
+      "left_faster_percent": -0.36511089815517156,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base warm 1x8 Decision vs one-token Chat",
+      "left_seconds": 0.5517526488,
+      "right_seconds": 0.5957173488,
+      "left_faster_percent": 7.380127519965904,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "base warm 4x8 Decision vs one-token Chat",
+      "left_seconds": 1.280048965,
+      "right_seconds": 1.3861248228,
+      "left_faster_percent": 7.652691594233533,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained cold 1x1 Decision vs one-token Chat",
+      "left_seconds": 0.2731371986,
+      "right_seconds": 0.2739143432,
+      "left_faster_percent": 0.28371811089591803,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained cold 4x1 Decision vs one-token Chat",
+      "left_seconds": 1.0044461448,
+      "right_seconds": 1.0034283484,
+      "left_faster_percent": -0.10143189612122312,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained cold 1x8 Decision vs one-token Chat",
+      "left_seconds": 0.7960594698,
+      "right_seconds": 0.8415896490000001,
+      "left_faster_percent": 5.410021291742399,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained cold 4x8 Decision vs one-token Chat",
+      "left_seconds": 2.3572576322,
+      "right_seconds": 2.2638674892,
+      "left_faster_percent": -4.125247764965349,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained warm 1x1 Decision vs one-token Chat",
+      "left_seconds": 0.2672821636,
+      "right_seconds": 0.2681076398,
+      "left_faster_percent": 0.3078898462631605,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained warm 4x1 Decision vs one-token Chat",
+      "left_seconds": 0.7718524438,
+      "right_seconds": 0.7694884308,
+      "left_faster_percent": -0.3072187839838278,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained warm 1x8 Decision vs one-token Chat",
+      "left_seconds": 0.558874124,
+      "right_seconds": 0.5997761159999999,
+      "left_faster_percent": 6.819543311057736,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-9B",
+      "comparison": "trained warm 4x8 Decision vs one-token Chat",
+      "left_seconds": 1.2802849045999998,
+      "right_seconds": 1.3876212164,
+      "left_faster_percent": 7.735274621879164,
+      "repeats_per_arm": 5,
+      "scope": "batch makespan; matched full prompt token IDs; no causal accuracy measured in performance trials"
+    },
+    {
+      "study": "20261016-27B",
+      "comparison": "cold 4x8 Decision vs one-token Chat",
+      "left_seconds": 7.0037381931999985,
+      "right_seconds": 7.1500505436,
+      "left_faster_percent": 2.0463121135691194,
+      "repeats_per_arm": 5,
+      "scope": "27B independent experiment; cannot combine with 9B accuracy"
+    },
+    {
+      "study": "20261016-27B",
+      "comparison": "warm 4x8 Decision vs one-token Chat",
+      "left_seconds": 3.6342519779999995,
+      "right_seconds": 4.0849561048,
+      "left_faster_percent": 11.033267316395479,
+      "repeats_per_arm": 5,
+      "scope": "27B independent experiment; cannot combine with 9B accuracy"
+    }
+  ],
+  "qwen9_accuracy": [
+    {
+      "checkpoint": "base",
+      "api": "decision",
+      "source": "all",
+      "cases": 87,
+      "correct": 66,
+      "accuracy": 0.7586206896551724
+    },
+    {
+      "checkpoint": "base",
+      "api": "decision",
+      "source": "stability",
+      "cases": 42,
+      "correct": 34,
+      "accuracy": 0.8095238095238095
+    },
+    {
+      "checkpoint": "base",
+      "api": "decision",
+      "source": "openharmony",
+      "cases": 45,
+      "correct": 32,
+      "accuracy": 0.7111111111111111
+    },
+    {
+      "checkpoint": "base",
+      "api": "chat",
+      "source": "all",
+      "cases": 87,
+      "correct": 66,
+      "accuracy": 0.7586206896551724
+    },
+    {
+      "checkpoint": "base",
+      "api": "chat",
+      "source": "stability",
+      "cases": 42,
+      "correct": 34,
+      "accuracy": 0.8095238095238095
+    },
+    {
+      "checkpoint": "base",
+      "api": "chat",
+      "source": "openharmony",
+      "cases": 45,
+      "correct": 32,
+      "accuracy": 0.7111111111111111
+    },
+    {
+      "checkpoint": "trained",
+      "api": "decision",
+      "source": "all",
+      "cases": 87,
+      "correct": 78,
+      "accuracy": 0.896551724137931
+    },
+    {
+      "checkpoint": "trained",
+      "api": "decision",
+      "source": "stability",
+      "cases": 42,
+      "correct": 39,
+      "accuracy": 0.9285714285714286
+    },
+    {
+      "checkpoint": "trained",
+      "api": "decision",
+      "source": "openharmony",
+      "cases": 45,
+      "correct": 39,
+      "accuracy": 0.8666666666666667
+    },
+    {
+      "checkpoint": "trained",
+      "api": "chat",
+      "source": "all",
+      "cases": 87,
+      "correct": 78,
+      "accuracy": 0.896551724137931
+    },
+    {
+      "checkpoint": "trained",
+      "api": "chat",
+      "source": "stability",
+      "cases": 42,
+      "correct": 39,
+      "accuracy": 0.9285714285714286
+    },
+    {
+      "checkpoint": "trained",
+      "api": "chat",
+      "source": "openharmony",
+      "cases": 45,
+      "correct": 39,
+      "accuracy": 0.8666666666666667
+    }
+  ],
+  "qwen9_calibration": [
+    {
+      "checkpoint": "base",
+      "temperature": 1.0,
+      "case_nll": 0.8300587172065516,
+      "case_brier": 0.28316047773150216,
+      "ece10": 0.12464895578799828,
+      "bins": [
+        {
+          "bin": 3,
+          "cases": 2,
+          "mean_confidence": 0.3521917313451231,
+          "accuracy": 1.0
+        },
+        {
+          "bin": 4,
+          "cases": 11,
+          "mean_confidence": 0.4580088083422557,
+          "accuracy": 0.5454545454545454
+        },
+        {
+          "bin": 5,
+          "cases": 6,
+          "mean_confidence": 0.544104544387033,
+          "accuracy": 0.5
+        },
+        {
+          "bin": 6,
+          "cases": 6,
+          "mean_confidence": 0.6460257156419872,
+          "accuracy": 0.8333333333333334
+        },
+        {
+          "bin": 7,
+          "cases": 10,
+          "mean_confidence": 0.7459839930604205,
+          "accuracy": 0.9
+        },
+        {
+          "bin": 8,
+          "cases": 16,
+          "mean_confidence": 0.8419078577427201,
+          "accuracy": 1.0
+        },
+        {
+          "bin": 9,
+          "cases": 36,
+          "mean_confidence": 0.9480231163896767,
+          "accuracy": 0.8611111111111112
+        }
+      ]
+    },
+    {
+      "checkpoint": "trained",
+      "temperature": 1.0,
+      "case_nll": 1.7244875992997293,
+      "case_brier": 0.176129165029292,
+      "ece10": 0.08054770885502427,
+      "bins": [
+        {
+          "bin": 6,
+          "cases": 6,
+          "mean_confidence": 0.6679431376907538,
+          "accuracy": 0.5
+        },
+        {
+          "bin": 9,
+          "cases": 81,
+          "mean_confidence": 0.9999998993116369,
+          "accuracy": 0.9259259259259259
+        }
+      ]
+    },
+    {
+      "checkpoint": "trained",
+      "temperature": 0.5,
+      "case_nll": 1.957449224539896,
+      "case_brier": 0.1762423876074234,
+      "ece10": 0.08046188803844824,
+      "bins": [
+        {
+          "bin": 6,
+          "cases": 6,
+          "mean_confidence": 0.6666973765903084,
+          "accuracy": 0.5
+        },
+        {
+          "bin": 9,
+          "cases": 81,
+          "mean_confidence": 0.9999999999975697,
+          "accuracy": 0.9259259259259259
+        }
+      ]
+    }
+  ],
+  "agent32k": [
+    {
+      "checkpoint": "base",
+      "variant": "chat-only",
+      "cases": "3",
+      "completed": "3",
+      "code_location_hits": "2",
+      "model_http_calls": "3",
+      "tool_calls": "12",
+      "total_localization_seconds": "23.567",
+      "mean_localization_seconds": "7.855666666666667",
+      "reported_input_tokens": "31782",
+      "reported_output_tokens": "1646",
+      "all_token_counts_complete": "True"
+    },
+    {
+      "checkpoint": "base",
+      "variant": "decision-boundary-chat-root",
+      "cases": "3",
+      "completed": "3",
+      "code_location_hits": "2",
+      "model_http_calls": "10",
+      "tool_calls": "36",
+      "total_localization_seconds": "53.464",
+      "mean_localization_seconds": "17.821333333333335",
+      "reported_input_tokens": "102318",
+      "reported_output_tokens": "3724",
+      "all_token_counts_complete": "True"
+    },
+    {
+      "checkpoint": "trained",
+      "variant": "chat-only",
+      "cases": "3",
+      "completed": "3",
+      "code_location_hits": "2",
+      "model_http_calls": "3",
+      "tool_calls": "12",
+      "total_localization_seconds": "23.229",
+      "mean_localization_seconds": "7.743",
+      "reported_input_tokens": "30456",
+      "reported_output_tokens": "1723",
+      "all_token_counts_complete": "True"
+    },
+    {
+      "checkpoint": "trained",
+      "variant": "decision-boundary-chat-root",
+      "cases": "3",
+      "completed": "3",
+      "code_location_hits": "2",
+      "model_http_calls": "6",
+      "tool_calls": "36",
+      "total_localization_seconds": "29.247",
+      "mean_localization_seconds": "9.749",
+      "reported_input_tokens": "65706",
+      "reported_output_tokens": "1738",
+      "all_token_counts_complete": "True"
+    }
+  ],
+  "training": {
+    "status": "completed",
+    "steps": 396,
+    "best_epoch": 1,
+    "dev_nll": 0.0,
+    "temperature": 0.5,
+    "seconds": 343.6892767995596,
+    "model_path": "/root/gpufree-data/systemone/models/AI4Loc-Jev-Qwen3.5-9B",
+    "trainable_parameters": 5308416,
+    "peak_allocated_bytes": 20125219840,
+    "production_service_restored_by_controller": false
+  },
+  "training_protocol": {
+    "seed": 20261016,
+    "base_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "adaptation": "new zero-initialized rank8 LoRA; pretrained alphabet readout retained; merged into base weights for identical SGLang serving",
+    "targets": "all text layers down_proj, full-attention q_proj and v_proj",
+    "rank": 8,
+    "alpha": 16,
+    "max_tokens": 2048,
+    "max_state_characters": 3000,
+    "epochs": 3,
+    "permutations_per_case_per_epoch": 4,
+    "gradient_accumulation": 4,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "clip_norm": 1,
+    "loss": "epoch0 CE, epochs1-2 CE + Laya-style RLCD PG(log+spherical proper reward); noise .4 to .15",
+    "checkpoint_selection": "lowest dev NLL at epoch boundary; test never selects epoch/temperature",
+    "calibration": "temperature fitted on dev NLL, fixed grid .5..3.0; held-out test evaluated after selection",
+    "dataset_sha256": "908fe58f6e72932ee99314d3c618e100afee474e0c1f52a79932621feb3114f5",
+    "train_case_count": 33
+  },
+  "trainable_parameter_fraction": 0.0005638180694619899,
+  "pplx_full_gpu_primary": {
+    "generic": {
+      "attempts": 27,
+      "correct": 27,
+      "agreement": 1.0,
+      "failures": 0,
+      "meanSeconds": 2.5626488464574018,
+      "medianSeconds": 2.6398064456880093,
+      "p95NearestRank": 3.092677416279912,
+      "inputTokens": 302931,
+      "outputTokens": 0,
+      "uniqueCases": 9,
+      "majorityCorrect": 9,
+      "majorityCI95": [
+        0.6637328831200571,
+        1
+      ]
+    },
+    "pplx": {
+      "attempts": 27,
+      "correct": 27,
+      "agreement": 1.0,
+      "failures": 0,
+      "meanSeconds": 5.672470532771614,
+      "medianSeconds": 5.882576171308756,
+      "p95NearestRank": 6.89120533503592,
+      "inputTokens": 325638,
+      "outputTokens": 0,
+      "uniqueCases": 9,
+      "majorityCorrect": 9,
+      "majorityCI95": [
+        0.6637328831200571,
+        1
+      ]
+    }
+  },
+  "historical_cpu_statistics": {
+    "schema": "pplx-weight-evaluation/v1",
+    "model": "perplexity-ai/pplx-decider-v1-27b",
+    "revision": "b01a5cbaca5391f73bd55103d4f27e8982cd5e60",
+    "formalAttempts": 121,
+    "uniquePplxCases": 60,
+    "uniqueScoredCases": 25,
+    "unsupportedUnscoredCases": 35,
+    "primary": {
+      "generic": {
+        "attempts": 27,
+        "success": 27,
+        "accuracy": 1.0,
+        "failures": 0,
+        "meanSeconds": 1.4851140623429306,
+        "medianSeconds": 1.2336539532989264,
+        "p95NearestRank": 3.0340578742325306,
+        "inputTokens": 302931,
+        "outputTokens": 0,
+        "uniqueCases": 9,
+        "majorityCorrect": 9,
+        "majorityAccuracyCI95": [
+          0.6637328831200571,
+          1
+        ],
+        "trialAccuracyInference": "Three dependent repeats per case; no independent-trial interval"
+      },
+      "pplx": {
+        "attempts": 27,
+        "success": 27,
+        "accuracy": 1.0,
+        "failures": 0,
+        "meanSeconds": 19.45479043469661,
+        "medianSeconds": 20.063210615888238,
+        "p95NearestRank": 22.867961252108216,
+        "inputTokens": 325638,
+        "outputTokens": 0,
+        "uniqueCases": 9,
+        "majorityCorrect": 9,
+        "majorityAccuracyCI95": [
+          0.6637328831200571,
+          1
+        ],
+        "trialAccuracyInference": "Three dependent repeats per case; no independent-trial interval"
+      }
+    },
+    "secondarySingleRepeat25": {
+      "generic": {
+        "attempts": 25,
+        "success": 23,
+        "accuracy": 0.92,
+        "accuracyCI95": [
+          0.7396941578947858,
+          0.9901604099812025
+        ],
+        "failures": 0,
+        "meanSeconds": 1.7747255875915289,
+        "medianSeconds": 1.895422674715519,
+        "p95NearestRank": 2.6092042550444603,
+        "inputTokens": 249643,
+        "outputTokens": 0,
+        "trainOnly": {
+          "attempts": 16,
+          "success": 14,
+          "accuracy": 0.875,
+          "accuracyCI95": [
+            0.6165237631507365,
+            0.9844863961845861
+          ],
+          "failures": 0,
+          "meanSeconds": 1.899705496034585,
+          "medianSeconds": 2.12285038176924,
+          "p95NearestRank": 2.811378976330161,
+          "inputTokens": 148666,
+          "outputTokens": 0
+        },
+        "multiclassBrier": 0.15786380797066424,
+        "ece5Bins": 0.07796270090687996,
+        "reliabilityBins": [
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "n": 25,
+            "meanConfidence": 0.99796270090688,
+            "accuracy": 0.92
+          }
+        ]
+      },
+      "pplx": {
+        "attempts": 25,
+        "success": 23,
+        "accuracy": 0.92,
+        "accuracyCI95": [
+          0.7396941578947858,
+          0.9901604099812025
+        ],
+        "failures": 0,
+        "meanSeconds": 17.830632208958267,
+        "medianSeconds": 19.38067634962499,
+        "p95NearestRank": 22.867961252108216,
+        "inputTokens": 269203,
+        "outputTokens": 0,
+        "trainOnly": {
+          "attempts": 16,
+          "success": 14,
+          "accuracy": 0.875,
+          "accuracyCI95": [
+            0.6165237631507365,
+            0.9844863961845861
+          ],
+          "failures": 0,
+          "meanSeconds": 16.728833075263537,
+          "medianSeconds": 19.283875276334584,
+          "p95NearestRank": 22.736561860889196,
+          "inputTokens": 160657,
+          "outputTokens": 0
+        },
+        "multiclassBrier": 0.15391862171398574,
+        "ece5Bins": 0.062399475644655755,
+        "reliabilityBins": [
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "n": 25,
+            "meanConfidence": 0.9823994756446558,
+            "accuracy": 0.92
+          }
+        ]
+      }
+    },
+    "runtimeCaveat": "PPLX uses BF16 CPU offload in Transformers; generic uses SGLang fully GPU. Latency describes these deployments, not an intrinsic or native-SGLang model comparison.",
+    "primaryMcNemar": {
+      "genericOnlyCorrect": 0,
+      "pplxOnlyCorrect": 0,
+      "exactTwoSidedP": 1.0,
+      "scope": "Exploratory paired accuracy comparison; not a noninferiority test"
+    },
+    "secondaryMcNemar": {
+      "genericOnlyCorrect": 0,
+      "pplxOnlyCorrect": 0,
+      "exactTwoSidedP": 1.0,
+      "scope": "Exploratory paired accuracy comparison; not a noninferiority test"
+    },
+    "confidenceScope": "Finite class probabilities; calibration only against mapped injection family, not root-cause truth; small mixed train/test sample.",
+    "failures": [],
+    "mismatches": [
+      {
+        "caseId": "lkdtm_LOOP",
+        "split": "train",
+        "arm": "pplx",
+        "repeat": 0,
+        "injectionFamily": "watchdog",
+        "gold": "watchdog_lockup",
+        "family": "rcu_progress"
+      },
+      {
+        "caseId": "lkdtm_LOOP",
+        "split": "train",
+        "arm": "generic",
+        "repeat": 0,
+        "injectionFamily": "watchdog",
+        "gold": "watchdog_lockup",
+        "family": "rcu_progress"
+      },
+      {
+        "caseId": "lkdtm_SOFTLOCKUP",
+        "split": "train",
+        "arm": "pplx",
+        "repeat": 0,
+        "injectionFamily": "watchdog",
+        "gold": "watchdog_lockup",
+        "family": "rcu_progress"
+      },
+      {
+        "caseId": "lkdtm_SOFTLOCKUP",
+        "split": "train",
+        "arm": "generic",
+        "repeat": 0,
+        "injectionFamily": "watchdog",
+        "gold": "watchdog_lockup",
+        "family": "rcu_progress"
+      }
+    ]
+  },
+  "source_files": [
+    {
+      "path": "research/decision-localization-20261011/results/statistics.json",
+      "sha256": "90227ad9ca7919f21900aee9cce074aad7b94e9887eb35ec52f3142adfb24706"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/summary.json",
+      "sha256": "afd9eda0332aad9b847550b7b103b9d8fe143d1eeb2214a7d172f4d0c0213c58"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/agent32k-aggregate.csv",
+      "sha256": "89f91e2976e0ff9d93cf994323fe8e3169e1d85491a731b6fd29c5c5d24695d0"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/tables/checkpoint-concurrency-summary.csv",
+      "sha256": "bce3088d430909bb569b251e2f6a8bc36ebe58439c590b3a9a1a1de013b0ccc8"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-complete.json",
+      "sha256": "819cb03bf79bea7d188c048b6025893867b040f15a3efe5e1d68aef52776cc54"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-environment.json",
+      "sha256": "89d0890644d788855ff3ec95777368ab900d4669632bfc9cc940a1847af22782"
+    },
+    {
+      "path": "research/jev-qwen35-9b-20261016/training-protocol.json",
+      "sha256": "d140486d66392bda0a99c50943fa43593400e7cc9b952881b2250a53fad045db"
+    },
+    {
+      "path": "research/kv-concurrency-20261016/statistics.json",
+      "sha256": "6fc5d4686613988256ef8d8b6ca00620f8527cece7662f2cb84f16b93aaf023d"
+    },
+    {
+      "path": "research/pplx-decider-20261011/results/statistics.json",
+      "sha256": "a7866ed2982ed75b3f9face678e0d3dead8491824297c9a861d478446f046af7"
+    },
+    {
+      "path": "research/pplx-timeshare-20261012/results/statistics.json",
+      "sha256": "760fcd4e2a03ea1549274c27e0317f36f0d6758bfddc74f4cf262e89e8829811"
+    }
+  ],
+  "external_nanojev_tested_in_this_project": false,
+  "dedicated_typesafe_jev_tested": false,
+  "comparability": "Each study retains its own task, input, engine, cache, split and denominator. Differences are not causal attribution to model architecture."
+}

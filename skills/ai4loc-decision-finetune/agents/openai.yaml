@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI4Loc 决策模型微调"
+  short_description: "生成训练计划，执行LoRA决策微调并验收SGLang服务"
+  default_prompt: "Use $ai4loc-decision-finetune to plan and reproduce Qwen decision fine-tuning with a validated dataset."

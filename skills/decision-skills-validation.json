@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "reviewed_format_accepted",
+    "circular_not_rcu_rejected",
+    "group_split_leakage_rejected",
+    "duplicate_input_rejected",
+    "injection_metadata_rejected",
+    "public_manifest_excludes_log_text",
+    "plan_does_not_download_load_or_train",
+    "both_ce_and_rlcd_workers_compile_without_torch",
+    "synthetic_gpu_execution_refused_before_model_import",
+    "probe_protocol_stub_passed_not_model_test",
+    "evaluator_six_stub_requests_recorded_without_gold_payload"
+  ],
+  "gpu_training_executed": false,
+  "real_model_api_calls": 0,
+  "scope": "Offline contracts/plan checks and eight local HTTP stub requests only; fake tokenizer for evaluator protocol checks"
+}
