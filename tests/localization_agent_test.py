@@ -4,6 +4,34 @@ sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'scripts'))
 from localization_agent import Inspector,validate_report,run,unpack_source,source_triage
 
 class LocalizationTests(unittest.TestCase):
+    def test_complete_selected_skill_body_reaches_chat_beyond_prompt_limit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp);(root/'input.log').write_text('BUG: test\n')
+            marker='SELECTED_BODY_END_ONLY';unselected='UNSELECTED_BODY_ONLY'
+            body='Read actual evidence.\n'*1800+marker
+            (root/'skills.json').write_text(json.dumps([{'id':'selected','name':'Selected Skill','version':'1','guidance':'Brief guidance only','content':body}]))
+            (root/'unselected-skill.json').write_text(json.dumps({'content':unselected}))
+            report={'summary':'unknown','category':'待专家分析','hypotheses':[],'nextSteps':[],'limitations':[],'firstScene':{'evidenceRefs':['T1']},'localization':{'status':'insufficient','locations':[],'introducingCommit':None}}
+            captured=[]
+            def respond(request,**kwargs):
+                captured.append(json.dumps(json.loads(request.data)['messages']))
+                return io.BytesIO(json.dumps({'choices':[{'message':{'role':'assistant','content':json.dumps(report)}}]}).encode())
+            with patch('urllib.request.urlopen',side_effect=respond):
+                result=run({'workspace':tmp,'baseUrl':'http://fixture/v1','model':'fixture','timeout':10,'maxModelCalls':1,'eagerBoundary':True,'userPrompt':'Apply the selected Skill'})
+            self.assertTrue(captured)
+            self.assertTrue(marker in captured[0], 'Full selected Skill body was omitted from the model request')
+            self.assertTrue(unselected not in captured[0])
+            self.assertIsNotNone(result.get('analysis'))
+            # The isolated benchmark has no skills.json mount; its explicit
+            # frozen snapshots must take precedence over any stale file.
+            captured.clear()
+            frozen_marker='FROZEN_PROFILE_BODY_ONLY'
+            with patch('urllib.request.urlopen',side_effect=respond):
+                result=run({'workspace':tmp,'baseUrl':'http://fixture/v1','model':'fixture','timeout':10,'maxModelCalls':1,'eagerBoundary':True,'skillSnapshots':[{'id':'frozen','content':frozen_marker}]})
+            self.assertTrue(frozen_marker in captured[0])
+            self.assertTrue(marker not in captured[0])
+            self.assertIsNotNone(result.get('analysis'))
+
     def test_saved_prompt_and_complete_native_usage_reach_real_request(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=pathlib.Path(tmp);(root/'input.log').write_text('BUG: test\n')

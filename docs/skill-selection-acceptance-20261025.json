@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-25",
+  "model": "MiniMax-M2.7",
+  "environment": "isolated HTTP instance of the deployed production release; synthetic logs and uploaded Markdown Skills",
+  "method": "Body-only random markers, actual log request ID, arithmetic 2400/1200=2, distinct next-step instructions, unselected Skill exclusion, saved profile precedence",
+  "beforeFix": [
+    {
+      "name": "Harness selected A",
+      "passed": true,
+      "bodyMarkerInModelRequest": null
+    },
+    {
+      "name": "Harness selected B",
+      "passed": true,
+      "bodyMarkerInModelRequest": null
+    },
+    {
+      "name": "Harness frozen A overrides temporary B",
+      "passed": true,
+      "bodyMarkerInModelRequest": null
+    },
+    {
+      "name": "closed-loop selected A",
+      "passed": false,
+      "bodyMarkerInModelRequest": false
+    },
+    {
+      "name": "closed-loop frozen A",
+      "passed": false,
+      "bodyMarkerInModelRequest": false
+    }
+  ],
+  "afterFix": [
+    {
+      "name": "draft Skill cannot be selected",
+      "passed": true
+    },
+    {
+      "name": "uploaded Skill A preserved and activated",
+      "passed": true,
+      "skillId": "6afb3af6-f678-49c3-94d6-5f3cded76dc3",
+      "bodySha256": "30c7e90f5bff24933c0a1bb3d97beb359169d8070b260d82c7dade43de4bb54e"
+    },
+    {
+      "name": "uploaded Skill B preserved and activated",
+      "passed": true,
+      "skillId": "7902c816-786f-4fd5-a6a2-36a593b8e0ba",
+      "bodySha256": "eeb40781692504e3d4248661ca46e961c4765cb657e3f75465e8c75b53971e2a"
+    },
+    {
+      "name": "Harness selected A",
+      "taskId": "becf7f8c-4616-473d-9006-7b2cab85c3cd",
+      "status": "needs_review",
+      "error": null,
+      "selectedSkillIds": [
+        "6afb3af6-f678-49c3-94d6-5f3cded76dc3"
+      ],
+      "selectedBodyExact": true,
+      "bodyMarkerInReport": true,
+      "otherSkillMarkerAbsent": true,
+      "requestIdInReport": true,
+      "ratioPresent": true,
+      "actionInReport": true,
+      "bodyMarkerInModelRequest": null,
+      "reportReady": true,
+      "passed": true
+    },
+    {
+      "name": "Harness selected B",
+      "taskId": "dfbb7b3a-6ac9-4529-b021-c26d7888d97a",
+      "status": "needs_review",
+      "error": null,
+      "selectedSkillIds": [
+        "7902c816-786f-4fd5-a6a2-36a593b8e0ba"
+      ],
+      "selectedBodyExact": true,
+      "bodyMarkerInReport": true,
+      "otherSkillMarkerAbsent": true,
+      "requestIdInReport": true,
+      "ratioPresent": true,
+      "actionInReport": true,
+      "bodyMarkerInModelRequest": null,
+      "reportReady": true,
+      "passed": true
+    },
+    {
+      "name": "Harness frozen A overrides temporary B",
+      "taskId": "d4e1a35b-9493-45f2-910e-a68fe538e8ec",
+      "status": "needs_review",
+      "error": null,
+      "selectedSkillIds": [
+        "6afb3af6-f678-49c3-94d6-5f3cded76dc3"
+      ],
+      "selectedBodyExact": true,
+      "bodyMarkerInReport": true,
+      "otherSkillMarkerAbsent": true,
+      "requestIdInReport": true,
+      "ratioPresent": true,
+      "actionInReport": true,
+      "bodyMarkerInModelRequest": null,
+      "reportReady": true,
+      "passed": true
+    },
+    {
+      "name": "closed-loop selected A",
+      "taskId": "c7a28a2a-4357-4395-bfc0-ee25c0fd54b6",
+      "status": "needs_review",
+      "error": null,
+      "selectedSkillIds": [
+        "6afb3af6-f678-49c3-94d6-5f3cded76dc3"
+      ],
+      "selectedBodyExact": true,
+      "bodyMarkerInReport": true,
+      "otherSkillMarkerAbsent": true,
+      "requestIdInReport": true,
+      "ratioPresent": true,
+      "actionInReport": true,
+      "bodyMarkerInModelRequest": true,
+      "reportReady": true,
+      "passed": true
+    },
+    {
+      "name": "closed-loop frozen A",
+      "taskId": "ae8b1ce4-794e-4515-86ec-1cf0b0bfef2f",
+      "status": "needs_review",
+      "error": null,
+      "selectedSkillIds": [
+        "6afb3af6-f678-49c3-94d6-5f3cded76dc3"
+      ],
+      "selectedBodyExact": true,
+      "bodyMarkerInReport": true,
+      "otherSkillMarkerAbsent": true,
+      "requestIdInReport": true,
+      "ratioPresent": true,
+      "actionInReport": true,
+      "bodyMarkerInModelRequest": true,
+      "reportReady": true,
+      "passed": true
+    }
+  ],
+  "checksPassed": 8,
+  "checksTotal": 8,
+  "pythonRegression": {
+    "passed": 65,
+    "failed": 0
+  },
+  "limitations": [
+    "This validates Skill selection and instruction delivery, not production root-cause accuracy.",
+    "Uploaded draft Skills become selectable only after review, benchmark and activation.",
+    "A saved personal profile intentionally overrides temporary Skill selection."
+  ]
+}

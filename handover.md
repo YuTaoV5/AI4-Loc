@@ -1,5 +1,9 @@
 # AI 接手手册 · Kernel Insight
 
+## 最新：上传 Skill 实际调用验收与正文修复（2026-10-25）
+
+用户要求验证上传日志和 Skill 后是否实际按选中 Skill 分析。已在服务器相同生产代码的独立数据实例，经真实 HTTP 投稿、审核、固定 Benchmark 和合入流程启用 A/B 两份 Markdown Skill，再上传日志进行五组真实 MiniMax 调查。Harness 三组原本通过；closed-loop 两组发现只传 guidance、完整正文未进入请求，已修复 `localization_agent.py` 读取选定的完整冻结正文，跑分 worker 也传入 profile Skill 快照。复测 8/8 检查通过，所有报告含选中正文独有标记、原始日志请求编号、数值计算和对应后续动作，无未选中 Skill 标记。Python 65/65 回归通过；服务器已重载修复，生产合成数据未混入任务或 Skill 集合。详见 [专项记录](docs/skill-selection-acceptance-20261025.json)。
+
 ## 最新：问题池、Harness 与 MiniMax Chat（2026-10-25）
 
 用户要求任意格式材料上传后在服务器问题池去重、解压，在该问题目录内使用 DeepSeek Harness SDK，按网站选定的完整 Skill 与 Prompt 自主调查并回传报告；随后提供 MiniMax API 要求接入重启后的服务器。

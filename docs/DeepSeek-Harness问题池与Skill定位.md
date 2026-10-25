@@ -30,6 +30,10 @@
 
 ## 验证
 
+2026-10-25 用户上传 Skill 专项验收：通过网站 HTTP API 上传两份不同 Markdown 正文的 Skill，执行审核、固定 Benchmark、合入，再上传日志进行真实 MiniMax 模型调查。初测 Harness 三组均通过；closed-loop 两组失败，原因是完整正文虽保存在工作区，但未进入模型请求。已修复 `localization_agent.py` 从冻结的 `skills.json` 读取全部正文；独立跑分 worker 同样传入冻结 Skill 快照。正文不再受简短 Prompt 的 30000 字符截断影响，仍受现有工具和 JSON 报告协议约束。
+
+复测 8/8 检查通过，其中五组真实模型报告验证：Harness 分别选择 A、B；Harness 个人组合 A 覆盖临时 B；closed-loop 直接选择 A；closed-loop 个人组合 A。报告包含正文独有随机标记、日志中的请求编号、2400/1200=2 的实际计算与各 Skill 指定的下一步动作，且未出现未选中 Skill 的标记。未审核草稿不可选也通过验证。新回归含超过 30000 字符的完整正文及评测显式冻结快照，Python 65/65 通过。详见 [逐项记录](skill-selection-acceptance-20261025.json)。测试使用独立数据实例，不向生产 Skill 集合或业务任务写入合成记录。
+
 2026-10-25 本地 Node 接口回归 50/50、Python 回归 64/64 通过。新增用例覆盖二进制入池、跨账号隔离、重复复用、Prompt 分离、报告净化、ZIP 全格式展开、路径穿越、链接、展开资源限额，以及 Chat 网关的凭据隔离、流式转发和截断流拒绝伪造成功。
 
 真实部署验收见 [记录](harness-minimax-acceptance-20261025.json)：MiniMax-M2.7 + 原生 Harness SDK 在约 55 秒完成合成材料调查，自动展开三份异构文件，工具轨迹、报告回传及重复复用均通过；原 closed-loop Chat 流程也生成报告。这是集成验收，不是实际故障根因能力评测。

@@ -35,7 +35,7 @@ def main():
             # Read-only bind by sandbox: link avoids copying the 1 GB ELF for each test.
             (work/name).symlink_to(source);files.append({'path':name,'kind':key,'sha256':item['sha256']})
         (work/'artifacts.json').write_text(json.dumps({'files':files,'runtimeBuildId':m['build']['buildId'],'runtimeIdentityBasis':'Guest notes matched frozen ELF by dataset validator'}))
-        request={**control['agent'],'workspace':str(work),'eagerBoundary':True,'sourceTriage':True,'fastFinal':False,'userPrompt':control['profile']['prompt']}
+        request={**control['agent'],'workspace':str(work),'eagerBoundary':True,'sourceTriage':True,'fastFinal':False,'userPrompt':control['profile']['prompt'],'skillSnapshots':control['profile']['skills']}
         # No recipe IDs, case names, expected labels, scores, or host paths enter the model context.
         if control['profile']['agentId']=='decision-chat':request['boundaryRouter']={'baseUrl':control['decisionBaseUrl'],'timeout':15,'api':control.get('decisionApi','decisions')}
         began=time.monotonic();error=None;output={};isolation=False
