@@ -12,6 +12,11 @@ def evaluate(report,label,gold,healthy=False):
     if healthy:hit=bool(report) and scene.get('panicType')=='none' and not locations and not loc.get('candidateSymbols') and not report.get('hypotheses')
     return {'stageHit':scene.get('stage')==gold.get('stage') if gold else None,'panicTypeHit':scene.get('panicType')==gold.get('panicType') if gold else None,'codeLocationHit':hit,'rootCauseMechanismCorrect':None,'introducingCommitCorrect':None}
 
+def agent_request(control,work):
+    # A legacy recipe name never opts into a website-managed Decision service.
+    return {**control['agent'],'workspace':str(work),'eagerBoundary':True,'sourceTriage':True,'fastFinal':False,
+            'userPrompt':control['profile']['prompt'],'skillSnapshots':control['profile']['skills']}
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('control',type=pathlib.Path);a=parser.parse_args();control=json.loads(a.control.read_text(encoding='utf-8-sig'))
     dataset=pathlib.Path(control['dataset']);out=pathlib.Path(control['output']);out.mkdir(parents=True,exist_ok=True)
@@ -35,9 +40,8 @@ def main():
             # Read-only bind by sandbox: link avoids copying the 1 GB ELF for each test.
             (work/name).symlink_to(source);files.append({'path':name,'kind':key,'sha256':item['sha256']})
         (work/'artifacts.json').write_text(json.dumps({'files':files,'runtimeBuildId':m['build']['buildId'],'runtimeIdentityBasis':'Guest notes matched frozen ELF by dataset validator'}))
-        request={**control['agent'],'workspace':str(work),'eagerBoundary':True,'sourceTriage':True,'fastFinal':False,'userPrompt':control['profile']['prompt'],'skillSnapshots':control['profile']['skills']}
+        request=agent_request(control,work)
         # No recipe IDs, case names, expected labels, scores, or host paths enter the model context.
-        if control['profile']['agentId']=='decision-chat':request['boundaryRouter']={'baseUrl':control['decisionBaseUrl'],'timeout':15,'api':control.get('decisionApi','decisions')}
         began=time.monotonic();error=None;output={};isolation=False
         print(json.dumps({'type':'progress','completed':index,'total':len(cases),'phase':'case','message':f'正在执行匿名样本 {index+1}/{len(cases)}'}),flush=True)
         try:

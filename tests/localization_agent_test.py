@@ -67,7 +67,7 @@ class LocalizationTests(unittest.TestCase):
             root=pathlib.Path(tmp);(root/'input.log').write_text('BUG: first\n');events=[]
             report={'summary':'unknown','category':'待专家分析','hypotheses':[],'nextSteps':[],'limitations':[],'firstScene':{'evidenceRefs':['T1']},'localization':{'status':'function_candidate','locations':[],'introducingCommit':None}}
             def respond(request,**kwargs):
-                self.assertEqual(events[0]['phase'],'boundary');self.assertEqual(json.loads(request.data)['response_format']['type'],'json_schema');return io.BytesIO(json.dumps({'choices':[{'message':{'role':'assistant','content':json.dumps(report)}}]}).encode())
+                self.assertEqual(events[0]['phase'],'boundary');self.assertEqual(json.loads(request.data)['response_format']['type'],'json_schema');self.assertEqual(json.loads(request.data)['max_tokens'],4096);return io.BytesIO(json.dumps({'choices':[{'message':{'role':'assistant','content':json.dumps(report)}}]}).encode())
             with patch('urllib.request.urlopen',side_effect=respond):result=run({'workspace':tmp,'baseUrl':'http://fixture/v1','model':'fixture','timeout':10,'maxModelCalls':5,'eagerBoundary':True},events.append)
             self.assertEqual(result['metrics']['modelRequests'],1);self.assertEqual(result['metrics']['preflightToolCalls'],1);self.assertEqual(result['metrics']['modelToolCalls'],0);self.assertIsNotNone(result['metrics']['firstSceneSeconds'])
     def test_native_ollama_wire_protocol_and_explicit_thinking_off(self):

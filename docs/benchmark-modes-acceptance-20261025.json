@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-25",
+  "release": "benchmark-modes-20261025",
+  "model": "MiniMax-M2.7",
+  "environment": "isolated acceptance instance; production accounts, Skills and leaderboard unchanged",
+  "nodeTests": {
+    "passed": 54,
+    "failed": 0
+  },
+  "pythonTests": {
+    "passed": 66,
+    "failed": 0
+  },
+  "decisionEndpointConfigured": false,
+  "suite": {
+    "available": true,
+    "reason": null,
+    "caseCount": 9,
+    "annotationCoverage": 9
+  },
+  "rulesSubmissionTest": {
+    "status": "benchmark_passed",
+    "mode": "rules",
+    "passed": true,
+    "cases": 2
+  },
+  "fullAgentSubmissionTest": {
+    "status": "benchmark_passed",
+    "mode": "agent",
+    "passed": true,
+    "completed": 4,
+    "total": 4,
+    "regressions": 0,
+    "baselineScore": 1,
+    "proposedScore": 1,
+    "reportModel": "MiniMax-M2.7",
+    "bodyMarkerInReport": true,
+    "realModelRequests": 19
+  },
+  "fullAgentSubmissionFixture": "one public incident plus one normal log; baseline and candidate each investigated both logs",
+  "oneClickRunId": "4b74379e-75f7-47b5-af71-cecd0d45d2d9",
+  "oneClick": {
+    "status": "completed",
+    "error": null,
+    "caseCount": 9,
+    "completed": 9,
+    "accuracyPoints": 57.77777777777778,
+    "isolationVerified": true,
+    "decisionControlPresent": false,
+    "model": "MiniMax-M2.7"
+  },
+  "workersWithoutForcedDecision": 9,
+  "finalReportTokenBudget": 4096,
+  "initialRun": {
+    "caseCount": 9,
+    "reportsCompleted": 8,
+    "failedCase": "lkdtm_HUNG_TASK",
+    "reason": "Final report was truncated by the legacy 1800-token output budget; failed attempt preserved and counted as zero."
+  },
+  "limitations": [
+    "Full Skill submission mode gates category accuracy and regressions; root-cause mechanism correctness is not automatically scored.",
+    "This is functional integration validation, not a blind production root-cause benchmark.",
+    "Harness free-form reports are not mixed into the structured Agent leaderboard."
+  ]
+}

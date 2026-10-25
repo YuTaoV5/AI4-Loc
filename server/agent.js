@@ -20,6 +20,7 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
   const sources=skillHarness?{files:[],errors:[]}:await require('./agent-source').prepare(log,job.agentSourceSpec,dir);
   fs.copyFileSync(path.join(__dirname,'../tools/kernel-debug/diagnostic-methods.md'),path.join(dir,'diagnostic-methods.md'));
   const request={workspace:dir,engine:configuration().engine,eagerBoundary:configuration().engine==='closed-loop',sourceTriage:configuration().engine==='closed-loop',transport:configuration().transport,model:configuration().model,baseUrl:process.env.KERNEL_AGENT_BASE_URL||(configuration().transport==='ollama-native'?'http://127.0.0.1:11434':'http://127.0.0.1:11434/v1'),timeout:configuration().timeoutSeconds,sourceRoot:job.agentSourceRoot||null};
+  if(job.agentBudget){request.timeout=job.agentBudget.timeout;request.maxModelCalls=job.agentBudget.maxModelCalls;}
   if(process.env.KERNEL_BOUNDARY_ROUTER==='decision'&&process.env.KERNEL_DECISION_BASE_URL)request.boundaryRouter={baseUrl:process.env.KERNEL_DECISION_BASE_URL,timeout:15,api:process.env.KERNEL_DECISION_API||'decisions'};
   else if(process.env.KERNEL_DECISION_BASE_URL)request.decisionPlugin={baseUrl:process.env.KERNEL_DECISION_BASE_URL,policy:'adaptive'};
   if(job.agentProfile){

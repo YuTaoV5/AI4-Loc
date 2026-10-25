@@ -307,7 +307,7 @@ def run(request,progress=lambda value:None):
         if final_round:messages.append({'role':'user','content':'Tool budget ends now. Deliver compact diagnostic JSON using existing evidence. evidenceLines are integer numbers, never log text. Maximum two hypotheses, two locations, three nextSteps, concise Chinese. If evidence is insufficient, state that explicitly; no more tool requests.'})
         payload={'model':request['model'],'messages':messages,'temperature':0,'max_tokens':2400,'chat_template_kwargs':{'enable_thinking':False}}
         if final_round:
-            payload['response_format']={'type':'json_schema','json_schema':{'name':'kernel_diagnostic','strict':True,'schema':REPORT_SCHEMA}};payload['max_tokens']=1800
+            payload['response_format']={'type':'json_schema','json_schema':{'name':'kernel_diagnostic','strict':True,'schema':REPORT_SCHEMA}};payload['max_tokens']=int(request.get('reportMaxTokens',4096))
         else:payload.update({'tools':offered,'tool_choice':{'type':'function','function':{'name':'incident'}} if requests==0 and not preflight_count else 'auto'})
         native=request.get('transport')=='ollama-native';endpoint='/api/chat' if native else '/chat/completions'
         if native:

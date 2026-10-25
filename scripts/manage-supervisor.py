@@ -26,8 +26,8 @@ def main():
     state = BASE/'data/state.json'
     if state.exists():
         saved=json.loads(state.read_text())
-        if any(j.get('status') in ('queued','running') for j in saved.get('jobs',[])+saved.get('agentBenchmarkRuns',[])):
-            raise SystemExit('Active analysis or Agent benchmark tasks exist; defer service maintenance.')
+        if any(j.get('status') in ('queued','running') for j in saved.get('jobs',[])+saved.get('agentBenchmarkRuns',[])) or any(s.get('pull',{}).get('status')=='testing' for s in saved.get('skills',[])):
+            raise SystemExit('Active analysis, Skill test or Agent benchmark tasks exist; defer service maintenance.')
     processes = supervisors()
     control = subprocess.run(CTL+['pid'], capture_output=True, text=True)
     healthy = control.returncode == 0 and control.stdout.strip().isdigit() and processes == [int(control.stdout.strip())]

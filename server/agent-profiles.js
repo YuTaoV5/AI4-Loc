@@ -1,6 +1,6 @@
 const crypto=require('crypto');
 const RECIPES=[
- {id:'decision-chat',name:'快速定界 + 深入定位',description:'Decision 输出阶段与故障类型，Chat 调用只读工具追查根因代码。',instruction:'Use finite Decision boundary hints critically, then inspect evidence and owning source with tools before reporting causal candidates.'},
+ {id:'decision-chat',name:'完整 Chat 定位（兼容旧组合）',description:'Chat 按选定 Skill 完成定界与定位；网站不强制调用 Decision 接口。',instruction:'Classify the incident and inspect evidence and owning source with tools before reporting causal candidates. Optional external decision services are governed by the selected user Skill, not required by the website.'},
  {id:'chat-investigator',name:'Chat 证据调查',description:'由 Chat 完成定界、源码调查与结构化报告。',instruction:'Classify the first diagnostic and lifecycle stage from evidence. Inspect owning source with tools, distinguish detector from faulty owner.'}
 ];
 const hash=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');

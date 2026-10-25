@@ -198,3 +198,27 @@ test('Skill Harness accepts binary materials, reuses problems and isolates repor
   assert.match(await (await fetch(base+'/api/reports/'+first.id)).text(),/完整分析内容/);
  }finally{agent.execute=execute;if(mode===undefined)delete process.env.KERNEL_AGENT_MODE;else process.env.KERNEL_AGENT_MODE=mode;}
 });
+
+test('Skill submission supports real Agent mode with protected reports and preserves rule mode',async()=>{
+ const agent=require('../server/agent'),execute=agent.execute,mode=process.env.KERNEL_AGENT_MODE,engine=process.env.KERNEL_AGENT_ENGINE;
+ process.env.KERNEL_AGENT_MODE='dsh';process.env.KERNEL_AGENT_ENGINE='closed-loop';
+ agent.execute=async({log,skills})=>({category:analyze(log,builtins,[]).category,summary:'Fixture actual execution adapter',model:'fixture',metrics:{modelRequests:1}});
+ try{
+  const created=await req('/api/skills',proposal({name:'Full Agent compatibility fixture',benchmarkMode:'agent',patterns:[],content:'Read all incident evidence before reporting.'}));assert.equal(created.status,201);const id=created.body.id;
+  assert.equal(created.body.pull.benchmarkMode,'agent');
+  assert.equal((await req('/api/skills/'+id+'/evaluate',{mode:'agent'})).status,409);
+  assert.equal((await req('/api/skills/'+id+'/review',{decision:'approve',note:'Isolated test approval'},{Authorization:'Bearer '+adminToken})).status,200);
+  assert.equal((await req('/api/skills/'+id+'/evaluate',{mode:'unknown'})).status,400);
+  assert.equal((await req('/api/skills/'+id+'/evaluate',{mode:'rules'})).status,400);
+  assert.equal((await req('/api/skills/'+id+'/evaluate',{mode:'agent'},{Authorization:'Bearer '+otherToken})).status,403);
+  const started=await req('/api/skills/'+id+'/evaluate',{mode:'agent'});assert.equal(started.status,202);
+  let skill;for(let i=0;i<100;i++){skill=(await req('/api/skills')).body.find(s=>s.id===id);if(skill.pull.status!=='testing')break;await new Promise(r=>setTimeout(r,10));}
+  assert.equal(skill.evaluation.mode,'agent');assert.equal(skill.evaluation.completed,14);assert.equal(skill.evaluation.passed,true);
+  const url=skill.evaluation.results[0].candidateReportUrl;
+  assert.equal((await req(url)).body.status,'completed');assert.equal((await req(url,undefined,{Authorization:'Bearer '+otherToken})).status,403);
+  assert.equal((await req('/api/skills/'+id+'/agent-evaluations/not-a-run/not-a-case/candidate')).status,400);
+  const previousModel=process.env.KERNEL_AGENT_MODEL;process.env.KERNEL_AGENT_MODEL='changed-after-evaluation';
+  try{assert.equal((await req('/api/skills/'+id+'/activate',{}, {Authorization:'Bearer '+adminToken})).status,409);}
+  finally{if(previousModel===undefined)delete process.env.KERNEL_AGENT_MODEL;else process.env.KERNEL_AGENT_MODEL=previousModel;}
+ }finally{agent.execute=execute;if(mode===undefined)delete process.env.KERNEL_AGENT_MODE;else process.env.KERNEL_AGENT_MODE=mode;if(engine===undefined)delete process.env.KERNEL_AGENT_ENGINE;else process.env.KERNEL_AGENT_ENGINE=engine;}
+});

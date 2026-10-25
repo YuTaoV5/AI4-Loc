@@ -16,11 +16,10 @@ module.exports=function(app,{state,save,data,profiles}){
   const cases=(m?.cases||[]).filter(c=>c.status==='ready'&&c.split==='test');
   if(!reason&&!cases.length)reason='没有 ready test 样本';
   const annotated=cases.filter(c=>ann?.cases?.[c.id]?.status==='collector_verified'&&ann.cases[c.id].rawLogSha256===c.files?.rawLog?.sha256).length;
-  const config={...agent.configuration(),maxModelCalls:8,timeoutSeconds:240,hardware:process.env.KERNEL_BENCHMARK_HARDWARE_ID||`${process.platform}/${process.arch}/${os.hostname()}`,decisionApi:process.env.KERNEL_DECISION_API||'decisions',decisionModel:process.env.KERNEL_DECISION_MODEL||'server-default',decisionEndpoint:process.env.KERNEL_DECISION_BASE_URL||null};
+  const config={...agent.configuration(),maxModelCalls:8,timeoutSeconds:240,reportMaxTokens:4096,hardware:process.env.KERNEL_BENCHMARK_HARDWARE_ID||`${process.platform}/${process.arch}/${os.hostname()}`};
   const driver=path.join(__dirname,'../scripts/run-web-benchmark.py');
   const hashes=['benchmark-score.js','../scripts/run-web-benchmark.py','../scripts/run-localization-benchmark.py','../scripts/benchmark-worker.py','../tools/kernel-lab/dataset_contract.py'].map(f=>sha(fs.readFileSync(path.join(__dirname,f))));
   const cohort=sha(JSON.stringify({manifestSha,annotationsSha,config,engine:agent.identity(),hashes,scoring:scoring.VERSION}));
-  if(!reason&&!process.env.KERNEL_DECISION_BASE_URL)reason='尚未配置 Decision 接口；请由管理员配置后再跑完整组合比较';
   return {available:!reason,reason,caseCount:cases.length,annotationCoverage:annotated,cohort,datasetSha256:manifestSha,annotationsSha256:annotationsSha,caseIds:cases.map(c=>c.id),dataset:m?.name||m?.schema||'未配置',evaluationType:'公开注入集练习评测，非盲测',rules,configuration:config,driver};
  }
  const visible=r=>{const {directory:privateDirectory,...safe}=r;return safe;};
@@ -31,7 +30,7 @@ module.exports=function(app,{state,save,data,profiles}){
   try{for(;;){const r=state.agentBenchmarkRuns.find(r=>r.status==='queued');if(!r)break;
    try{await agent.withSlot(async()=>{
     if(r.status!=='queued')return;r.status='running';r.startedAt=new Date().toISOString();r.queueSeconds=(Date.now()-Date.parse(r.createdAt))/1000;save();
-    const control={dataset:directory,output:r.directory,caseIds:r.caseIds,datasetSha256:r.datasetSha256,annotationsSha256:r.annotationsSha256,profile:r.profile,decisionBaseUrl:process.env.KERNEL_DECISION_BASE_URL,decisionApi:r.configuration.decisionApi,agent:{model:r.configuration.model,baseUrl:process.env.KERNEL_AGENT_BASE_URL||(r.configuration.transport==='ollama-native'?'http://127.0.0.1:11434':'http://127.0.0.1:11435/v1'),transport:r.configuration.transport,timeout:240,maxModelCalls:8}};
+    const control={dataset:directory,output:r.directory,caseIds:r.caseIds,datasetSha256:r.datasetSha256,annotationsSha256:r.annotationsSha256,profile:r.profile,agent:{model:r.configuration.model,baseUrl:process.env.KERNEL_AGENT_BASE_URL||(r.configuration.transport==='ollama-native'?'http://127.0.0.1:11434':'http://127.0.0.1:11435/v1'),transport:r.configuration.transport,timeout:240,maxModelCalls:8,reportMaxTokens:r.configuration.reportMaxTokens}};
     fs.mkdirSync(r.directory,{recursive:true,mode:0o700});const file=path.join(r.directory,'control.json');fs.writeFileSync(file,JSON.stringify(control),{mode:0o600});
     await new Promise((resolve,reject)=>{
      const child=spawn(process.env.KERNEL_AGENT_PYTHON||'python3',[path.join(__dirname,'../scripts/run-web-benchmark.py'),file],{cwd:path.join(__dirname,'..'),env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'},detached:process.platform==='linux',windowsHide:true,stdio:['ignore','pipe','pipe']});

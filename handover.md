@@ -1,5 +1,11 @@
 # AI 接手手册 · Kernel Insight
 
+## 最新：Benchmark 双模式与取消 Decision 固定依赖（2026-10-25）
+
+一键 Agent 跑分不再检查或注入网站配置的 Decision 端点，旧 `decision-chat` 组合 ID 仍兼容。Skill 投稿创建与审核后的测试区域均支持 `rules` / `agent`，旧请求默认规则模式。完整 Agent 模式由 `server/skill-agent-benchmark.js` 实际执行基线/候选闭环调查，记录逐例报告、进度和模型指标，仅按类别准确率及退化做门禁，不宣称机制判定。报告仅投稿者/管理员可读；基线正文与模型/Agent 指纹变化会要求重测。完整 Agent 测试中不强制匹配词，规则模式保持原要求。维护脚本新增运行中 Skill 测试保护，避免重启中断。
+
+部署为 `benchmark-modes-20261025`，最终验收：Node 54/54、Python 66/66；真实投稿规则/Agent 两模式通过，完整模式 4 次调查 / 19 次 Chat 请求；无 Decision 的九例固定套件 9/9 报告、9/9 隔离通过。初轮发生 1800 Token 截断后，将最终 JSON 报告预算改为 4096 Token，完整复验。摘要见 [验收记录](docs/benchmark-modes-acceptance-20261025.json)，原始记录保留服务器独立验收目录，不混入生产账号、Skill 集合或榜单。
+
 ## 最新：上传 Skill 实际调用验收与正文修复（2026-10-25）
 
 用户要求验证上传日志和 Skill 后是否实际按选中 Skill 分析。已在服务器相同生产代码的独立数据实例，经真实 HTTP 投稿、审核、固定 Benchmark 和合入流程启用 A/B 两份 Markdown Skill，再上传日志进行五组真实 MiniMax 调查。Harness 三组原本通过；closed-loop 两组发现只传 guidance、完整正文未进入请求，已修复 `localization_agent.py` 读取选定的完整冻结正文，跑分 worker 也传入 profile Skill 快照。复测 8/8 检查通过，所有报告含选中正文独有标记、原始日志请求编号、数值计算和对应后续动作，无未选中 Skill 标记。Python 65/65 回归通过；服务器已重载修复，生产合成数据未混入任务或 Skill 集合。详见 [专项记录](docs/skill-selection-acceptance-20261025.json)。
