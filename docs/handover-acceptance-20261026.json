@@ -1,0 +1,76 @@
+{
+  "schema": "ai4loc-handover-acceptance/v1",
+  "completedAtBeijing": "2026-10-26T01:23:33.395010+08:00",
+  "shutdownDeadlineBeijing": "2026-10-26T01:50:00+08:00",
+  "checkpointTag": "handover-20261026",
+  "lastObservedActiveRelease": "/opt/kernel-insight/releases/kirin-skill-20261026",
+  "oldServerStatusAtFinalization": "New SSH connection refused after successful backup; final source is on GitHub, not resynchronized to old host",
+  "backups": {
+    "core": {
+      "file": "core-20261026.tar.gz.aes",
+      "bytes": 505407,
+      "plaintextSha256": "d42a3cc2701dd65fab2f2b14d708cf8bc0751db5422fcf14d0b6070834833ef8",
+      "encryptedSha256": "fd8f1426c20410340d4d028a04214998ffe62cf3adce4c90f9a59a95ee52aa03",
+      "authenticationVerified": true
+    },
+    "bulk": {
+      "file": "bulk-20261026.tar.gz.aes",
+      "bytes": 2630573562,
+      "plaintextSha256": "ec94c98fb3308e4c869276f2c894106ba9912b642cb88ac1d5b1bf1765d87f85",
+      "encryptedSha256": "34d81d9b4f4f1845b88093c4f6dcd12e1af2c1b51aa9462e8124ea83d5a98d24",
+      "authenticationVerified": true,
+      "remoteSha256Matched": true,
+      "verifiedAt": "2026-10-26T01:20:12.203197+08:00"
+    },
+    "keyMaterialCommitted": false,
+    "localDirectory": "data/server-snapshots/migration-20261026",
+    "privateKeyFile": "restore-key.bin",
+    "rawBusinessDataCommitted": false
+  },
+  "restorePreflight": {
+    "installerShellSyntax": true,
+    "pinnedRequirementsDryRun": true,
+    "templateConfigParsed": true,
+    "coreRestoreMetadataRead": true,
+    "coreJobs": 35,
+    "coreSkills": 7,
+    "coreAccounts": 1,
+    "corePublishedArchiveVerified": true,
+    "credentialMode0600": true,
+    "freshHostProvisioningTested": false,
+    "finalInstallerShellSyntaxPassedLocally": true,
+    "coreArchiveMembers": 110
+  },
+  "bulkArchiveInspection": {
+    "bulkArchiveMembers": 325150,
+    "requiredEntries": 10,
+    "allRequiredPresent": true,
+    "regenerableProfilesExcluded": true,
+    "runtimeNodeIsSymlink": false,
+    "runtimeNodeResolved": "/opt/kernel-insight/runtime/node",
+    "sourceRegistryResolved": "/opt/kernel-insight/data/verified-source/4bae92d13e7edbe54f2de539b0aef72c89615511",
+    "node": "v24.19.0",
+    "python": "3.12.3"
+  },
+  "evidenceOrigin": "Preflight and tar inspection fields transcribed from successful tool results before SSH became unavailable; backup authentication was independently performed locally",
+  "regression": {
+    "nodePassed": 59,
+    "nodeTotal": 59,
+    "pythonPassed": 72,
+    "pythonTotal": 72
+  },
+  "skill": {
+    "id": "7246a41b-ca00-418d-9646-0737619246ee",
+    "name": "huawei-kirin-log-triage",
+    "version": "1.0.0",
+    "status": "merged",
+    "archiveSha256": "0db2b018f65677cb6514e5e3f784ab50200bfdd5eadce0d57c3681e5dd690275"
+  },
+  "knownLimits": [
+    "No Pura 90 hardware/firmware validation",
+    "No real root-cause accuracy claim",
+    "Fresh host provisioning not executed; installer syntax/config/dependencies and archive contents validated",
+    "Cloud model outputs are not deterministic"
+  ],
+  "privateBackupAuthenticationCompletedBeforeShutdown": true
+}

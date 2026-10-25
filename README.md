@@ -1,6 +1,10 @@
 # Kernel Insight
 
+2026-10-26 下电交接：请先读 [handover](handover.md) 与 [新服务器完整恢复/重建手册](docs/服务器迁移与完整复现_20261026.md)。当前使用 MiniMax Chat + 两条定位引擎；私有状态与完整运行数据已有加密迁移方案，Git 不含密钥与业务数据。恢复依赖固定 runtime、封存 Skill 和原冻结数据集，勿用旧 Ollama 初装脚本覆盖现配置。
+
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
+
+2026-10-26 麒麟定位 Skill：新增 [huawei-kirin-log-triage](tools/harness-skills/huawei-kirin-log-triage/SKILL.md) 与 [可上传 ZIP](deliverables/skills/huawei-kirin-log-triage-v1.zip)。参考目标 Pura 90 Pro Max / 麒麟 9030S / HarmonyOS 6.1，实际设备、版本和启动链仍从材料确认。真实网站基线/候选 14 次调查无退化，私有原生手机集 8/8，真实华为包完成属性与原文引用核对；没有 Pura 90 实机验证，不宣称真实根因准确率。另修复通用平台触发词遮盖具体故障类别的问题；Node 59/59、Python 71/71。见 [使用说明](docs/华为麒麟定位Skill.md)。
 
 2026-10-26 手机日志扩展：已采集并校验 ABRLog 的 **15 款手机、45 个采集批次、1,012 个日志文件**，按设备与采集批次提供下载；新增 8 个明确标注的合成启动链案例与独立量化评分。真实 MiniMax Harness 验收：合成集 8/8 出报告、受控场景 100/100；一份真实手机包完成检索和报告生成，Android 版本引文经原文核对。此分数不代表真实根因准确率，真实语料没有根因标签。网站入口“社区 Benchmark → 手机全阶段日志”；[操作说明](docs/手机日志数据与Benchmark.md)、[脱敏验收](docs/phone-log-acceptance-20261026.json)。回归 Node 58/58、Python 69/69。
 

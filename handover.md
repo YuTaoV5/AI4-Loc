@@ -1,3 +1,26 @@
+# 当前交接：下电迁移、手机日志与麒麟 Skill（2026-10-26）
+
+**下一位 Agent 首先读取 [服务器迁移与完整复现手册](docs/服务器迁移与完整复现_20261026.md)。这是当前权威部署入口；下面旧章节是历史，不要据旧 Qwen/Ollama 配置覆盖当前 MiniMax 部署。**
+
+用户告知旧服务器北京时间 2026-10-26 01:50 下电。代码来自本提交/`handover-20261026` 标签；恢复私有环境需要用户本机 Git 忽略目录 `data/server-snapshots/migration-20261026` 的 core/bulk 加密备份与单独恢复密钥。密码/API Key 不在 Git。详细恢复层级、命令、依赖、验证、路径和缺口见完整手册。
+
+两个加密备份均已在本机认证成功，完整包认证时间为北京时间 01:20:12；其后旧 SSH 及本机隧道不可用，最后文档以本 GitHub 提交为准，不要等待旧服务器恢复后才接手。
+
+当前服务根 `/opt/kernel-insight`，`app -> releases/kirin-skill-20261026`，网站回环 8787、MiniMax root 网关回环 11436；Node 24.19.0、Python 3.12.3、Harness SDK/runtime 0.1.5rc1。默认 closed-loop，另一引擎 skill-harness；云端 MiniMax-M2.7，不依赖本机 GPU/旧 Decision。服务账号 kernel-insight，凭据只在 root 私有文件。
+
+本轮新增：Skill 压缩包简化投稿/封存/审核/Benchmark/原生公共发布；ABRLog 15 设备/45 采集包/1012 文件；独立手机合成八例量化；已合入 `huawei-kirin-log-triage` v1.0.0（ID 7246a41b-ca00-418d-9646-0737619246ee）；通用平台触发词不再覆盖具体故障类别。原生手机 8/8、旧集合/候选 14 次调查 64 次 API 无类别退化、真实华为引用与不确定性验证通过。Node 59/59、Python 72/72（含迁移加密测试）。没有 Pura 90 真机/厂商解码/真实根因准确率证明。
+
+关键资料：
+- [麒麟 Skill 源码](tools/harness-skills/huawei-kirin-log-triage/SKILL.md)、[可上传 ZIP](deliverables/skills/huawei-kirin-log-triage-v1.zip)、[使用与验收](docs/华为麒麟定位Skill.md)、[验收 JSON](docs/kirin-skill-acceptance-20261026.json)。
+- [手机语料与独立 Benchmark](docs/手机日志数据与Benchmark.md)、[手机验收 JSON](docs/phone-log-acceptance-20261026.json)。
+- [新服务器安装脚本](scripts/install-minimax-harness-server.sh)、[当前配置模板](deployment/minimax-harness/supervisord.conf)、[固定 Python 依赖](deployment/minimax-harness/requirements.txt)、[加密归档工具](scripts/migration-archive.py)。
+
+**恢复陷阱：公共 Skill 目录不能单独迁移；state + accounts + skill-pulls 封存原包/逐文件 hash + 公共目录必须配套。冻结严格测试集及 runtime 在 bulk 中，GitHub 不包含。新主机 hardware/cohort 必须重设，旧配置 A100/Ollama 标识是历史遗留。**
+
+---
+
+## 以下为历史交接原文（配置/版本以本页顶部链接为准）
+
 # AI 接手手册 · Kernel Insight
 
 ## 最新：Benchmark 双模式与取消 Decision 固定依赖（2026-10-25）

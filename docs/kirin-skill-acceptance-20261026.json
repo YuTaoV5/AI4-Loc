@@ -1,0 +1,256 @@
+{
+  "date": "2026-10-26",
+  "skillId": "7246a41b-ca00-418d-9646-0737619246ee",
+  "skillName": "huawei-kirin-log-triage",
+  "version": "1.0.0",
+  "referenceTarget": {
+    "device": "HUAWEI Pura 90 Pro Max",
+    "soc": "Kirin 9030S",
+    "os": "HarmonyOS 6.1",
+    "actualHardwareValidation": false
+  },
+  "archiveSha256": "0db2b018f65677cb6514e5e3f784ab50200bfdd5eadce0d57c3681e5dd690275",
+  "review": "Agent-assisted technical review, not vendor certification",
+  "publication": {
+    "status": "merged",
+    "public": true,
+    "gated": true
+  },
+  "websiteBenchmark": {
+    "mode": "agent",
+    "engine": "closed-loop",
+    "model": "MiniMax-M2.7",
+    "runId": "4490e861-24fc-482c-be83-332c22f4671c",
+    "dataset": "linux-community-v1",
+    "datasetFingerprint": "5366988eabd3bc0cfb110bc0606522b9ec89b7a1b1eb738042b7658a42d98563",
+    "at": "2026-10-25T16:51:18.313Z",
+    "kind": "真实 closed-loop Agent 基线/候选逐例调查；计分类别正确率与退化，不自动判定根因机制正确性",
+    "baselineScore": 1,
+    "proposedScore": 1,
+    "candidateScore": 1,
+    "precision": null,
+    "recall": null,
+    "regressions": 0,
+    "passed": true,
+    "completed": 14,
+    "total": 14,
+    "rootCauseMechanismAccuracy": null
+  },
+  "websiteModelRequests": 64,
+  "phoneNativeBenchmark": {
+    "schema": "phone-benchmark-result/v1",
+    "dataset": "phone-synthetic-v1",
+    "origin": "synthetic",
+    "model": "MiniMax-M2.7",
+    "goldSha256": "d0f51ebb8e24c50b282e12ee4235bdab0280e61e6c9f1d72590543aba17019be",
+    "isolation": "Linux Harness sandbox; labels outside mounted worker workspace",
+    "scope": "Known constructed scenarios; not real phone root-cause accuracy",
+    "complete": true,
+    "caseCount": 8,
+    "completed": 8,
+    "score": 100,
+    "rows": [
+      {
+        "caseId": "0673a1b41d1dea88",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "8423efa9-ae0a-4612-a649-ff75f62338f9.report.json",
+        "elapsedSeconds": 23.802
+      },
+      {
+        "caseId": "f4592228e6a6cbbc",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "70cf7599-6310-47f2-82e0-d1476251e278.report.json",
+        "elapsedSeconds": 15.958
+      },
+      {
+        "caseId": "296bf29b003bddf9",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "5d0bad56-4da5-4e83-ab25-888abc85a2b2.report.json",
+        "elapsedSeconds": 29.099
+      },
+      {
+        "caseId": "c2b0566760e00699",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "ec2308fc-f1fe-4f3f-84f5-1ade75a425f1.report.json",
+        "elapsedSeconds": 34.701
+      },
+      {
+        "caseId": "cec96702bd8ff76c",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "30f73502-4e10-423b-84ff-5455e4866bdf.report.json",
+        "elapsedSeconds": 25.383
+      },
+      {
+        "caseId": "cdede261480f566b",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "e5fb0976-13b6-4356-9a2b-04636719bd9c.report.json",
+        "elapsedSeconds": 25.289
+      },
+      {
+        "caseId": "9084e2f1e5a1048a",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "dc35a802-0708-42b7-9ad8-5c0882d02a1c.report.json",
+        "elapsedSeconds": 23.8
+      },
+      {
+        "caseId": "ca3af3a7791e6434",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "4eef7ad3-d23b-498e-81ae-606db3abd672.report.json",
+        "elapsedSeconds": 28.819
+      }
+    ]
+  },
+  "nativeHelperRuns": 6,
+  "realHuaweiVerification": {
+    "passed": true,
+    "checks": {
+      "observedDeviceMatchesProperty": true,
+      "observedSocMatchesProperty": true,
+      "observedOSMatchesProperty": true,
+      "doesNotClaimReferenceTarget": true,
+      "kernelCaptureFailureReported": true,
+      "doesNotClaimVerifiedRootCause": true,
+      "allQuotesExistInInput": true,
+      "nativeSlashContentInjected": true,
+      "nativeSkillLoaded": true,
+      "helperInvoked": true,
+      "inventoryWritten": true
+    },
+    "sample": {
+      "id": "cccf54e54c54b8e8",
+      "device": "HUAWEI L29",
+      "capture": "bugreport-DEL-L29-HUAWEIDEL-L29-2026-02-05-20-35-40",
+      "origin": "real-abrlog",
+      "files": 19,
+      "bytes": 554351,
+      "sha256": "e84ba22bb903c8337d3cf1bb1a50074c0367ee8367dece7c7071f7f43fa65f9d",
+      "archive": "samples/cccf54e54c54b8e8.zip"
+    },
+    "scope": "Real Huawei retrieval and uncertainty, not root-cause scoring"
+  },
+  "regression": {
+    "nodePassed": 59,
+    "pythonPassed": 71
+  },
+  "limits": "Controlled public synthetic set and one real legacy capture; no new-target hardware or verified real root-cause accuracy."
+}
