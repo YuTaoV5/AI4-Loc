@@ -8,13 +8,16 @@ function release(){const next=waiting.shift();if(next)next();else active--;}
 async function execute({job,log,skills,data,onEvent,stageMaterials}){
  await acquire();
  try{
-  const dir=path.join(data,'agent-runs',job.id);fs.mkdirSync(dir,{recursive:true});
+  const skillHarness=job.engine==='skill-harness';
+  if(skillHarness&&process.platform==='linux'&&!process.env.KERNEL_AGENT_SANDBOX)throw Error('Skill Harness 需要配置 KERNEL_AGENT_SANDBOX');
+  const dir=skillHarness?path.join(job.problemDirectory,'runs',job.id):path.join(data,'agent-runs',job.id);fs.mkdirSync(dir,{recursive:true});
+  if(skillHarness){fs.mkdirSync(path.join(dir,'input'),{recursive:true});for(const name of ['original','manifest.json','content'])fs.cpSync(path.join(job.problemDirectory,name),path.join(dir,'input',name),{recursive:true});}
   stageMaterials?.(dir);
   fs.writeFileSync(path.join(dir,'input.log'),log);fs.writeFileSync(path.join(dir,'skills.json'),JSON.stringify(skills.map(({id,name,version,category,guidance,patterns,contributor,content})=>({id,name,version,category,guidance,patterns,contributor,content})),null,2));
   let guidanceBudget=4000;
   fs.writeFileSync(path.join(dir,'skills-brief.json'),skills.slice(0,12).map(s=>{const guidance=String(s.guidance||'').slice(0,Math.max(0,Math.min(600,guidanceBudget)));guidanceBudget-=guidance.length;return JSON.stringify({id:s.id,name:s.name,contributor:s.contributor,category:s.category,guidance});}).join('\n'));
-  onEvent?.({type:'progress',message:'正在按精确版本获取日志涉及的源码文件'});
-  const sources=await require('./agent-source').prepare(log,job.agentSourceSpec,dir);
+  onEvent?.({type:'progress',message:skillHarness?'问题池材料与所选 Skill 已就绪':'正在按精确版本获取日志涉及的源码文件'});
+  const sources=skillHarness?{files:[],errors:[]}:await require('./agent-source').prepare(log,job.agentSourceSpec,dir);
   fs.copyFileSync(path.join(__dirname,'../tools/kernel-debug/diagnostic-methods.md'),path.join(dir,'diagnostic-methods.md'));
   const request={workspace:dir,engine:configuration().engine,eagerBoundary:configuration().engine==='closed-loop',sourceTriage:configuration().engine==='closed-loop',transport:configuration().transport,model:configuration().model,baseUrl:process.env.KERNEL_AGENT_BASE_URL||(configuration().transport==='ollama-native'?'http://127.0.0.1:11434':'http://127.0.0.1:11434/v1'),timeout:configuration().timeoutSeconds,sourceRoot:job.agentSourceRoot||null};
   if(process.env.KERNEL_BOUNDARY_ROUTER==='decision'&&process.env.KERNEL_DECISION_BASE_URL)request.boundaryRouter={baseUrl:process.env.KERNEL_DECISION_BASE_URL,timeout:15,api:process.env.KERNEL_DECISION_API||'decisions'};
@@ -23,17 +26,19 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
    request.userPrompt=job.agentProfile.prompt;
    if(job.agentProfile.agentId==='chat-investigator'){delete request.boundaryRouter;delete request.decisionPlugin;request.fastFinal=false;}
   }else request.userPrompt=skills.map(s=>`Skill ${s.name}: ${s.guidance||''}`).join('\n\n').slice(0,30000);
+  if(skillHarness){request.engine='skill-harness';request.transport='openai';request.baseUrl=process.env.KERNEL_HARNESS_BASE_URL||(configuration().transport==='ollama-native'?'http://127.0.0.1:11435/v1':request.baseUrl);request.model=process.env.KERNEL_HARNESS_MODEL||request.model;request.timeout=Number(process.env.KERNEL_HARNESS_TIMEOUT_SECONDS||1800);request.maxTokens=Number(process.env.KERNEL_HARNESS_MAX_TOKENS||8192);request.userPrompt=[job.agentProfile?.prompt||'',job.userPrompt||''].filter(Boolean).join('\n\n');delete request.boundaryRouter;delete request.decisionPlugin;}
   fs.writeFileSync(path.join(dir,'request.json'),JSON.stringify(request));
   const python=process.env.KERNEL_AGENT_PYTHON||'python3',runner=path.join(__dirname,'../scripts/agent-runner.py');
   let command=python,args=[runner,path.join(dir,'request.json')];
   if(process.env.KERNEL_AGENT_SANDBOX){command=process.env.KERNEL_AGENT_SANDBOX;args=[dir,python,runner,path.join(dir,'request.json')];}
   const result=await new Promise((resolve,reject)=>{
-   const child=spawn(command,args,{cwd:dir,env:{...process.env,HOME:dir,DSH_HOME:path.join(dir,'dsh-home'),PYTHONDONTWRITEBYTECODE:'1'},windowsHide:true,stdio:['ignore','pipe','pipe']});let buffer='',stderr='',final=null,settled=false;
+   const child=spawn(command,args,{cwd:dir,env:{...process.env,...(skillHarness?{KERNEL_AGENT_API_KEY:process.env.KERNEL_HARNESS_API_KEY||process.env.KERNEL_AGENT_API_KEY||'local'}:{}),HOME:dir,DSH_HOME:path.join(dir,'dsh-home'),PYTHONDONTWRITEBYTECODE:'1'},windowsHide:true,stdio:['ignore','pipe','pipe']});let buffer='',stderr='',final=null,settled=false;
    const timeout=setTimeout(()=>{child.kill('SIGTERM');reject(Error('dsh 模型分析超过时间限制'));},(request.timeout+75)*1000);
    child.stdout.on('data',chunk=>{buffer+=chunk.toString();if(buffer.length>2*1024*1024){child.kill();return;}let i;while((i=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,i);buffer=buffer.slice(i+1);try{const event=JSON.parse(line);if(event.type==='result')final=event;else if(event.type==='progress')onEvent?.(event);}catch{}}});
    child.stderr.on('data',chunk=>stderr=(stderr+chunk.toString()).slice(-6000));
    child.on('error',error=>{clearTimeout(timeout);reject(error);});child.on('close',code=>{clearTimeout(timeout);if(code!==0||!final?.analysis)return reject(Error(final?.error||'dsh 执行失败：'+stderr.slice(-1200)));resolve(final);});
   });
+  if(skillHarness)return {...result.analysis,model:request.model,harness:result.harness,elapsedSeconds:result.elapsedSeconds,finishReason:result.finishReason};
   const normalized=require('./agent-report').normalize(result.analysis,log.split(/\r?\n/).length,result.evidence);
   normalized.limitations=[...new Set([...(result.evidence?.gaps||[]),...normalized.limitations])].slice(0,16);
   return {...normalized,firstScene:result.analysis.firstScene,localization:result.analysis.localization,metrics:result.metrics,model:request.model,provider:configuration().provider,harness:result.harness,finishReason:result.finishReason,attempts:result.attempts,firstFinishReason:result.firstFinishReason,toolCalls:result.toolCalls||[],elapsedSeconds:result.elapsedSeconds,evidence:result.evidence,sourceFiles:sources.files,sourceErrors:sources.errors,benchmarkGroundTruthProvided:false};
@@ -41,6 +46,8 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
 }
 const decisionIdentity=()=>{
  const hash=crypto.createHash('sha256').update(identity()).update(process.env.KERNEL_DECISION_BASE_URL||'disabled').update(process.env.KERNEL_BOUNDARY_ROUTER||'adaptive').update(process.env.KERNEL_DECISION_API||'decisions').update(process.env.KERNEL_DECISION_MODEL||'default');
+ hash.update(JSON.stringify([process.env.KERNEL_HARNESS_BASE_URL,process.env.KERNEL_HARNESS_MODEL,process.env.KERNEL_HARNESS_TIMEOUT_SECONDS,process.env.KERNEL_HARNESS_MAX_TOKENS]));
+ for(const name of ['problem-pool.js','../scripts/problem-extract.py','../scripts/skill-harness.py'])hash.update(fs.readFileSync(path.join(__dirname,name)));
  for(const name of ['../scripts/boundary_router.py','../scripts/decision_plugin.py','../plugins/kernel-decision/manifest.json','../plugins/kernel-decision/index.mjs']){
   const file=path.join(__dirname,name);if(fs.existsSync(file))hash.update(fs.readFileSync(file));
  }

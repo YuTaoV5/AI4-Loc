@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-25",
+  "release": "minimax-harness-20261025",
+  "provider": "minimax",
+  "model": "MiniMax-M2.7",
+  "sdk": "deepseek-harness-sdk==0.1.5rc1",
+  "nodeTests": {"passed": 50, "failed": 0},
+  "pythonTests": {"passed": 64, "failed": 0},
+  "realHarnessSmoke": {
+    "taskId": "e846435e-1382-4b7b-9c0a-e86c7602f67c",
+    "data": "synthetic log, binary and opaque encrypted sample; not production incident data",
+    "status": "needs_review",
+    "extraction": {"status": "extracted", "files": 3, "bytes": 79},
+    "elapsedSeconds": 55.175,
+    "reportReady": true,
+    "expectedMarkerFound": true,
+    "traceEntries": 22,
+    "dedupReused": true
+  },
+  "legacyChatSmoke": {"status": "needs_review", "model": "MiniMax-M2.7", "reportReady": true},
+  "production": {"website": "RUNNING", "chatGateway": "RUNNING", "llmConnected": true, "listen": "127.0.0.1:8787"},
+  "restart": {"supervisorRestartVerified": true, "bootstrapHookInstalled": true, "coldRebootTested": false},
+  "limitations": ["Synthetic integration checks do not measure production root-cause accuracy.", "Opaque encrypted materials require suitable tools and keys supplied through the Skill workflow."]
+}

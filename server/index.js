@@ -19,7 +19,7 @@ app.use((req,res,next)=>{
  }
  next();
 });
-const upload=multer({dest:uploads,limits:{fileSize:64*1024*1024,files:20},fileFilter:(_,f,cb)=>/\.(log|txt|zip|gz|tgz|tar)$/i.test(f.originalname)?cb(null,true):cb(Error('支持 .log .txt .zip .tar .gz .tgz'))});
+const upload=multer({dest:uploads,limits:{fileSize:64*1024*1024,files:20}});
 require('./accounts')(app,{data,state,save});
 const materials=require('./materials')(app,{data});
 require('./experience').install(app,{state,data});
@@ -68,8 +68,9 @@ async function readLog(file){
  let combined='';for(const n of names){const r=await run('tar',['-xOf',file.path,'--',n],{maxBuffer:32*1024*1024,timeout:30000});combined+=`\n# FILE: ${n}\n${r.stdout}`;if(Buffer.byteLength(combined)>32*1024*1024)throw Error('解压日志超过 32MB');}return combined;
 }
 function createJob(name,options={}){const j={id:crypto.randomUUID(),name,createdAt:new Date().toISOString(),status:'queued',progress:0,ownerId:options.ownerId||null,benchmarkCaseId:options.benchmarkCaseId||null,machine:options.machine||'未指定机器',isBenchmark:!!options.isBenchmark,reportReady:false};state.jobs.unshift(j);taskProgress.step(j,'queued',0,'任务已接收，等待分析执行','queued');return j;}
-function report(j){const a=j.analysis;return [`# ${j.name}`,``, `状态：${j.status} · 分析引擎：${a.engine}`,``, `## 初步定位`,a.headline,`类别：${a.category}；内核：${a.kernelVersion||'未识别'}；commit：${a.kernelCommit||'未识别'}`,``, `## 分析选用组合`,`组合：${j.skillSelection?.preset||'recommended'}；Skill ID：${(j.skillSelection?.ids||[]).join(', ')}`,``, `## Skill 贡献者`,...a.skills.map(s=>`- ${s.name} v${s.version} — ${s.contributor} / ${s.team}\n  ${s.guidance}`),``, `## 日志证据`,...a.evidence.map(e=>`- L${e.line}: ${e.text}`),``, `## 社区候选根因（待核实）`,...a.candidates.map(c=>`- ${c.rootCause}\n  来源：${c.sourceUrl}\n  修复：${c.fixTitle} (${c.fix})\n  匹配依据：${c.matchBasis}`),``, ...(a.agent?[`## dsh / Qwen 分析`,`模型：${a.agent.model}；${a.agent.harness}；耗时 ${a.agent.elapsedSeconds} 秒`,a.agent.summary,...a.agent.hypotheses.map(h=>`- ${h.cause}（${h.confidence}）\n  日志行号：${h.evidenceLines.join(", ")}\n  验证：${h.verification}`),`### 后续步骤`,...a.agent.nextSteps.map(s=>`- ${s}`),`### 模型限制`,...a.agent.limitations.map(s=>`- ${s}`)]:[]),`## 分析边界`,a.limitations,``, `输入 SHA256：${j.inputHash}`,j.review?`审核：${j.review.note}；人工基线：${j.review.baselineMinutes||'未填'} 分钟`: '尚未人工确认'].join('\n');}
+function report(j){const a=j.analysis;if(a.reportMarkdown)return a.reportMarkdown;return [`# ${j.name}`,``, `状态：${j.status} · 分析引擎：${a.engine}`,``, `## 初步定位`,a.headline,`类别：${a.category}；内核：${a.kernelVersion||'未识别'}；commit：${a.kernelCommit||'未识别'}`,``, `## 分析选用组合`,`组合：${j.skillSelection?.preset||'recommended'}；Skill ID：${(j.skillSelection?.ids||[]).join(', ')}`,``, `## Skill 贡献者`,...a.skills.map(s=>`- ${s.name} v${s.version} — ${s.contributor} / ${s.team}\n  ${s.guidance}`),``, `## 日志证据`,...a.evidence.map(e=>`- L${e.line}: ${e.text}`),``, `## 社区候选根因（待核实）`,...a.candidates.map(c=>`- ${c.rootCause}\n  来源：${c.sourceUrl}\n  修复：${c.fixTitle} (${c.fix})\n  匹配依据：${c.matchBasis}`),``, ...(a.agent?[`## Agent Chat 分析`,`模型：${a.agent.model}；${a.agent.harness}；耗时 ${a.agent.elapsedSeconds} 秒`,a.agent.summary,...a.agent.hypotheses.map(h=>`- ${h.cause}（${h.confidence}）\n  日志行号：${h.evidenceLines.join(", ")}\n  验证：${h.verification}`),`### 后续步骤`,...a.agent.nextSteps.map(s=>`- ${s}`),`### 模型限制`,...a.agent.limitations.map(s=>`- ${s}`)]:[]),`## 分析边界`,a.limitations,``, `输入 SHA256：${j.inputHash}`,j.review?`审核：${j.review.note}；人工基线：${j.review.baselineMinutes||'未填'} 分钟`: '尚未人工确认'].join('\n');}
 async function processJob(j,log,options={}){
+ if(j.engine==='skill-harness')return processHarnessJob(j,options);
  try{j.status='running';taskProgress.step(j,'reading',10,'正在读取和校验输入日志');await new Promise(r=>setImmediate(r));if(!log.trim()||log.includes('\u0000'))throw Error('请提供非空文本日志');j.inputHash=crypto.createHash('sha256').update(log).digest('hex');fs.writeFileSync(path.join(reports,j.id+'.log'),log);
  taskProgress.step(j,'extracting',30,'提取异常特征、版本和调用链');await new Promise(r=>setImmediate(r));
  const inspection=inspect(log);taskProgress.step(j,'matching',55,'匹配选定 Skill 和社区修复案例');await new Promise(r=>setImmediate(r));j.analysis=analyze(log,options.selectedSkills||state.skills,benchmark().cases,inspection);j.skillSelection={preset:options.skillPreset||'recommended',ids:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(s=>s.id)};j.progress=70;
@@ -82,26 +83,59 @@ async function processJob(j,log,options={}){
   if(jevRouter.enabled()&&agent.configuration().engine!=='closed-loop'){taskProgress.step(j,'routing',78,'SGLang 正在进行结构化多问题分诊');try{j.analysis.routing=await jevRouter.route(log);}catch(e){j.analysis.routingError=e.message;}}
   j.agentName=agent.configuration().engine+' · '+agent.configuration().model;taskProgress.step(j,'agent',80,'排队进入定位 Agent 模型分析');
   const output=await agent.execute({job:j,log,skills:options.selectedSkills||state.skills.filter(s=>s.status==='active'),data,stageMaterials:dir=>materials.stage(options.materials,dir),onEvent:event=>taskProgress.activity(j,event.message,event.phase)});
-  j.analysis.ruleCategory=j.analysis.category;j.analysis.category=output.category;j.analysis.agent=output;j.analysis.engine=agent.configuration().engine;j.analysis.limitations='dsh / Qwen 根据日志与选定经验生成待验证假设；社区候选另行检索，未向模型提供 Benchmark 答案。需要核对精确版本源码、符号信息与复现结果。';
+  j.analysis.ruleCategory=j.analysis.category;j.analysis.category=output.category;j.analysis.agent=output;j.analysis.engine=agent.configuration().engine;j.analysis.limitations='定位 Agent 根据日志与选定经验生成待验证假设；社区候选另行检索，未向模型提供 Benchmark 答案。需要核对精确版本源码、符号信息与复现结果。';
  }
  taskProgress.step(j,'report',90,'整理证据与贡献者署名，生成报告');await new Promise(r=>setImmediate(r));
  j.status='needs_review';j.progress=100;j.reportReady=true;j.analyzedAt=new Date().toISOString();j.analysisSeconds=(Date.now()-new Date(j.createdAt))/1000;fs.writeFileSync(path.join(reports,j.id+'.md'),report(j));taskProgress.step(j,'complete',100,'分析已完成，等待人工核对与验证','completed');
  }catch(e){j.status='failed';j.error=e.message;taskProgress.step(j,'failed',j.progress||0,e.message,'failed');}
 }
+async function processHarnessJob(j,options){
+ try{
+  j.status='running';j.inputHash=options.problem.sha256;j.agentName='DeepSeek Harness · '+(process.env.KERNEL_HARNESS_MODEL||agent.configuration().model);
+  const skills=options.selectedSkills||[];
+  j.skillSelection={preset:options.skillPreset,ids:skills.map(s=>s.id)};
+  taskProgress.step(j,'agent',20,'问题池材料已就绪，排队调用 Skill Harness');
+  const output=await agent.execute({job:j,log:JSON.stringify(j.problem,null,2),skills,data,stageMaterials:dir=>materials.stage(options.materials,dir),onEvent:event=>taskProgress.activity(j,event.message,event.phase)});
+  if(!output.reportMarkdown?.trim())throw Error('Harness 未生成报告');
+  j.analysis={engine:'skill-harness',category:'待专家分析',headline:'Skill Harness 定位报告',signature:j.inputHash,lineCount:0,evidence:[],frames:[],candidates:[],skills,limitations:'请按报告中的证据和验证步骤人工确认。',reportMarkdown:output.reportMarkdown,reportHtml:require('./experience').render(output.reportMarkdown),harness:output.harness,model:output.model,elapsedSeconds:output.elapsedSeconds};
+  fs.writeFileSync(path.join(reports,j.id+'.md'),output.reportMarkdown);
+  fs.writeFileSync(path.join(reports,j.id+'.log'),JSON.stringify(j.problem,null,2));
+  j.status='needs_review';j.reportReady=true;j.analyzedAt=new Date().toISOString();j.analysisSeconds=(Date.now()-new Date(j.createdAt))/1000;
+  taskProgress.step(j,'complete',100,'Skill 报告已发布，等待人工核对','completed');
+ }catch(e){j.status='failed';j.error=e.message;taskProgress.step(j,'failed',j.progress||0,e.message,'failed');}
+}
 const engineFingerprint=crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'analyzer.js'))).update(agent.identity()).digest('hex');
 function enqueueAnalysis(name,log,options,force=false){
- const fingerprint=crypto.createHash('sha256').update(JSON.stringify({agentProfile:options.agentProfile?.hash||null,owner:options.ownerId,preset:options.skillPreset||'recommended',log:log.replace(/\r\n/g,'\n').trimEnd(),skills:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(({id,version,category,patterns,guidance})=>({id,version,category,patterns,guidance})),source:options.sourceSpec||null,materials:options.materials||null,repository:options.repository||null,autoSource:!!options.autoSource,benchmark:!!options.isBenchmark,caseId:options.benchmarkCaseId||null,dataset:benchmark(),engine:engineFingerprint})).digest('hex');
+ const fingerprint=crypto.createHash('sha256').update(JSON.stringify({selectedEngine:options.engine||'default',problem:options.problem?.sha256||null,userPrompt:options.userPrompt||'',agentProfile:options.agentProfile?.hash||null,owner:options.ownerId,preset:options.skillPreset||'recommended',log:log.replace(/\r\n/g,'\n').trimEnd(),skills:(options.selectedSkills||state.skills.filter(s=>s.status==='active')).map(({id,version,category,patterns,guidance,content})=>({id,version,category,patterns,guidance,content})),source:options.sourceSpec||null,materials:options.materials||null,repository:options.repository||null,autoSource:!!options.autoSource,benchmark:!!options.isBenchmark,caseId:options.benchmarkCaseId||null,dataset:benchmark(),engine:engineFingerprint})).digest('hex');
  const previous=state.jobs.find(j=>j.dedupKey===fingerprint&&j.status!=='failed'&&(['queued','running'].includes(j.status)||j.reportReady));
  if(previous&&(!force||['queued','running'].includes(previous.status))){previous.reuseCount=(previous.reuseCount||0)+1;previous.lastSubmittedAt=new Date().toISOString();previous.submissions=previous.submissions||[];previous.submissions.push({name,machine:options.machine||'',at:previous.lastSubmittedAt});save();return {...previous,reused:true};}
- const j=createJob(name,options);j.agentProfile=options.agentProfile||null;j.materials=options.materials?{id:options.materials.id,files:options.materials.files}:null;j.dedupKey=fingerprint;j.reuseCount=0;j.submissions=[{name,machine:options.machine||'',at:j.createdAt}];save();setImmediate(()=>processJob(j,log,options));return {...j,reused:false};
+ const j=createJob(name,options);j.engine=options.engine||'default';j.userPrompt=options.userPrompt||'';if(options.problem){const {directory,...problem}=options.problem;j.problem=problem;j.problemDirectory=directory;}j.agentProfile=options.agentProfile||null;j.materials=options.materials?{id:options.materials.id,files:options.materials.files}:null;j.dedupKey=fingerprint;j.reuseCount=0;j.submissions=[{name,machine:options.machine||'',at:j.createdAt}];save();setImmediate(()=>processJob(j,log,options));return {...j,reused:false};
 }
 app.post('/api/analyze',upload.array('logs',20),wrap(async(req,res)=>{
  if(!req.files?.length&&!req.body.logText?.trim())return res.status(400).json({error:'请选择日志或粘贴日志内容'});
- const options={ownerId:ownerId(req),machine:String(req.body.machine||'').slice(0,120),autoSource:req.body.autoSource!=='false',repository:['stable','next'].includes(req.body.repository)?req.body.repository:null,sourceSpec:req.body.kernelCommit||req.body.kernelVersion?{version:req.body.kernelVersion,commit:req.body.kernelCommit,repository:req.body.repository||'mainline'}:null};
+ if(req.body.engine&&!['default','skill-harness'].includes(req.body.engine))throw Error('未知分析引擎');
+ if(req.body.engine==='skill-harness'&&!agent.enabled())throw Error('服务器尚未启用 Harness 模型服务');
+ const options={engine:req.body.engine||'default',userPrompt:String(req.body.userPrompt||'').slice(0,30000),ownerId:ownerId(req),machine:String(req.body.machine||'').slice(0,120),autoSource:req.body.autoSource!=='false',repository:['stable','next'].includes(req.body.repository)?req.body.repository:null,sourceSpec:req.body.kernelCommit||req.body.kernelVersion?{version:req.body.kernelVersion,commit:req.body.kernelCommit,repository:req.body.repository||'mainline'}:null};
  options.agentProfile=agentProfiles.select(req);options.selectedSkills=options.agentProfile?options.agentProfile.skills:skillWorkflow.select(req.body).map(s=>({...s,patterns:[...s.patterns]}));options.skillPreset=options.agentProfile?.name||req.body.skillPreset||'recommended';
  options.materials=materials.resolve(req.body.materialsId,req.user);
- const submitted=[];for(const f of req.files||[]){try{submitted.push(enqueueAnalysis(f.originalname,await readLog(f),options,req.body.forceRerun==='true'||req.body.forceRerun===true));}finally{fs.unlinkSync(f.path);}}
- if(req.body.logText?.trim())submitted.push(enqueueAnalysis('粘贴的 kernel 日志',req.body.logText,options,req.body.forceRerun==='true'||req.body.forceRerun===true));res.status(202).json(submitted);
+ const submitted=[];
+ try{
+  for(const f of req.files||[]){
+   const taskOptions={...options};
+   if(options.engine==='skill-harness')taskOptions.problem=await require('./problem-pool').ingest(data,options.ownerId,f);
+   submitted.push(enqueueAnalysis(f.originalname,taskOptions.problem?'Problem SHA256: '+taskOptions.problem.sha256:await readLog(f),taskOptions,req.body.forceRerun==='true'||req.body.forceRerun===true));
+  }
+  if(req.body.logText?.trim()){
+   const taskOptions={...options};
+   if(options.engine==='skill-harness'){
+    const temporary=path.join(uploads,crypto.randomUUID());fs.writeFileSync(temporary,req.body.logText);
+    try{taskOptions.problem=await require('./problem-pool').ingest(data,options.ownerId,{path:temporary,originalname:'input.log'});}finally{fs.unlinkSync(temporary);}
+   }
+   submitted.push(enqueueAnalysis('粘贴的日志',taskOptions.problem?'Problem SHA256: '+taskOptions.problem.sha256:req.body.logText,taskOptions,req.body.forceRerun==='true'||req.body.forceRerun===true));
+  }
+  res.status(202).json(submitted);
+ }finally{for(const f of req.files||[])if(fs.existsSync(f.path))fs.unlinkSync(f.path);}
+
 }));
 app.post('/api/benchmark/:id/analyze',wrap(async(req,res)=>{const c=benchmark().cases.find(x=>x.id===req.params.id);if(!c)return res.status(404).json({error:'案例不存在'});const options={isBenchmark:true,ownerId:ownerId(req),benchmarkCaseId:c.id,machine:'社区 benchmark',autoSource:req.body.autoSource===true,sourceSpec:{version:c.kernelVersion,commit:c.kernelCommit,repository:c.repository},selectedSkills:skillWorkflow.select({}).map(s=>({...s,patterns:[...s.patterns]}))};options.agentProfile=agentProfiles.select(req);if(options.agentProfile){options.selectedSkills=options.agentProfile.skills;options.skillPreset=options.agentProfile.name;}res.status(202).json(enqueueAnalysis(c.id+' · '+c.symbol,fs.readFileSync(path.join(benchmarkDir,c.logPath),'utf8'),options,req.body.forceRerun===true));}));
 app.get('/api/reports/:id',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.analysis)return res.status(404).json({error:'报告未就绪'});res.type('text/markdown').send(report(j));});
@@ -109,7 +143,7 @@ app.get('/api/jobs/:id/evidence',(req,res)=>{const j=state.jobs.find(x=>x.id===r
 app.get('/api/jobs/:id/log',(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.reportReady)return res.status(404).json({error:'日志不存在'});res.type('text/plain').sendFile(path.join(reports,j.id+'.log'));});
 app.post('/api/jobs/:id/review',wrap(async(req,res)=>{const j=state.jobs.find(x=>x.id===req.params.id);if(!j?.reportReady)return res.status(409).json({error:'报告尚未就绪'});if(!String(req.body.note||'').trim())return res.status(400).json({error:'请填写验证结论或退回原因'});const baseline=req.body.baselineMinutes===''||req.body.baselineMinutes==null?null:Number(req.body.baselineMinutes);if(baseline!==null&&(!Number.isFinite(baseline)||baseline<=0))return res.status(400).json({error:'人工基线必须大于 0'});if(typeof req.body.accepted!=='boolean')return res.status(400).json({error:'审核结果必须是布尔值'});const rating=req.body.rating===''||req.body.rating==null?null:Number(req.body.rating);if(rating!==null&&(!Number.isInteger(rating)||rating<1||rating>5))return res.status(400).json({error:'满意度评分必须为 1–5 的整数'});j.review={rating,accepted:req.body.accepted,note:String(req.body.note).slice(0,4000),baselineMinutes:baseline,at:new Date().toISOString()};j.status=j.review.accepted?'resolved':'needs_expert';if(j.review.accepted)j.resolvedAt=j.resolvedAt||new Date().toISOString();else delete j.resolvedAt;taskProgress.settle(j);res.json(j);}));
 app.use('/api',(_,res)=>res.status(404).json({error:'API 不存在'}));
-app.use((err,req,res,next)=>res.status(err instanceof multer.MulterError?413:400).json({error:err.message}));
+app.use((err,req,res,next)=>{for(const file of Object.values(req.files||{}).flat())if(file.path&&fs.existsSync(file.path))fs.unlinkSync(file.path);res.status(err instanceof multer.MulterError?413:400).json({error:err.message});});
 app.get('*',(_,res)=>res.sendFile(path.join(root,'public/index.html')));
 const port=process.env.PORT||8787;if(require.main===module)app.listen(port,'127.0.0.1',()=>console.log(`Kernel Insight: http://localhost:${port}`));
 module.exports=app;

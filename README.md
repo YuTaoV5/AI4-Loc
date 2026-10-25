@@ -2,6 +2,8 @@
 
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
 
+2026-10-25：新增 [DeepSeek Harness 问题池与 Skill 自主定位](docs/DeepSeek-Harness问题池与Skill定位.md)。在“新建分析 → 分析选项”选择新引擎，上传任意格式材料，按原始文件 SHA256 入池去重，由完整 Skill 正文和 Prompt 驱动工具调查并生成网站报告。服务器已恢复，现有 Chat 与新 Harness 均接入 **MiniMax-M2.7**；真实合成材料验收、重复复用与原流程报告生成均通过。Node 50/50、Python 64/64 通过；详见 [部署验收记录](docs/harness-minimax-acceptance-20261025.json)。旧章节中的 Qwen / Ollama 配置属于历史部署。
+
 [全部部署文档与报告索引](docs/文档导航.md) · [dsh Decision 插件](plugins/kernel-decision/README.md) · [Jev API 示例](tools/jev-demos/README.md)
 
 2026-10-16：[Qwen3.5-9B决策训练与并发复测](research/jev-qwen35-9b-20261016/REPORT.md)已完成。87例第一诊断弱标签一致性75.9%→89.7%，但NLL恶化；4任务×8步预热Decision相对单token Chat约快7.7%，没有明显KV内存收益。独立32k配置修复后12次Agent流程全部出报告，源码命中仍2/3；不宣称根因能力普遍提高。训练、原始采集和失败记录保留，参数/下载/复现入口见[训练与部署说明](research/jev-qwen35-9b-20261016/README.md)。

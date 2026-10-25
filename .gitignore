@@ -21,6 +21,7 @@ kernel_linux_6.6/
 
 data/toolchains/
 data/agent-runs/
+data/problem-pool/
 data/materials/
 data/agent-config/
 data/tool-evidence/

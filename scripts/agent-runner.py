@@ -15,6 +15,12 @@ def parse_response(text):
 def main():
     request=json.loads(pathlib.Path(sys.argv[1]).read_text(encoding='utf-8'))
     workspace=pathlib.Path(request['workspace']).resolve()
+    if request.get('engine') == 'skill-harness':
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('skill_harness',pathlib.Path(__file__).with_name('skill-harness.py'))
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        emit(module.run(request,emit))
+        return
     if request.get('engine')=='closed-loop':
         from localization_agent import run
         result=run(request,emit);emit(result)

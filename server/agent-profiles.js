@@ -10,7 +10,7 @@ module.exports=function(app,{state,save}){
   if(typeof body.name!=='string'||!body.name.trim()||body.name.length>80)throw Error('组合名称须为 1–80 字');
   const recipe=RECIPES.find(x=>x.id===body.agentId);if(!recipe)throw Error('请选择支持的 Agent');
   if(!Array.isArray(body.skillIds)||body.skillIds.length>12||body.skillIds.some(x=>typeof x!=='string'))throw Error('最多选择 12 个 Skill');
-  const skills=[...new Set(body.skillIds)].map(id=>{const s=state.skills.find(s=>s.id===id&&s.status==='active');if(!s)throw Error('Skill 不存在或未启用');return {id:s.id,name:s.name,version:s.version,category:s.category,patterns:[...(s.patterns||[])],guidance:String(s.guidance||'').slice(0,2000),contributor:s.contributor};});
+  const skills=[...new Set(body.skillIds)].map(id=>{const s=state.skills.find(s=>s.id===id&&s.status==='active');if(!s)throw Error('Skill 不存在或未启用');return {id:s.id,name:s.name,version:s.version,category:s.category,patterns:[...(s.patterns||[])],guidance:String(s.guidance||'').slice(0,2000),contributor:s.contributor,team:s.team,content:String(s.content||'')};});
   if(body.extraPrompt!=null&&typeof body.extraPrompt!=='string')throw Error('补充 Prompt 必须为文本');
   const extraPrompt=(body.extraPrompt||'').trim();if(extraPrompt.length>4000)throw Error('补充 Prompt 最多 4000 字');
   const prompt=[recipe.instruction,...skills.map(s=>`Skill ${s.name} v${s.version}: ${s.guidance}`),extraPrompt].filter(Boolean).join('\n\n');

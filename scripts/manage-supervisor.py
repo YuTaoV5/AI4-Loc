@@ -1,5 +1,5 @@
 """Recover only the Kernel Insight supervisor; leave platform models untouched."""
-import argparse, json, os, pathlib, signal, subprocess, time
+import argparse, configparser, json, os, pathlib, signal, subprocess, time
 
 BASE = pathlib.Path('/opt/kernel-insight')
 CONFIG = str(BASE/'supervisord.conf')
@@ -20,6 +20,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--restart', action='store_true')
     args = parser.parse_args()
+    config=configparser.ConfigParser(interpolation=None);config.read(CONFIG)
+    programs=[section.split(':',1)[1] for section in sorted(config.sections(),key=lambda section:config[section].getint('priority',999))
+              if section.startswith('program:') and config[section].getboolean('autostart',True)]
     state = BASE/'data/state.json'
     if state.exists():
         saved=json.loads(state.read_text())
@@ -29,7 +32,7 @@ def main():
     control = subprocess.run(CTL+['pid'], capture_output=True, text=True)
     healthy = control.returncode == 0 and control.stdout.strip().isdigit() and processes == [int(control.stdout.strip())]
     if healthy:
-        for command in [['reread'], ['update']] + ([['restart','kernel-insight','ollama-compat']] if args.restart else []):
+        for command in [['reread'], ['update']] + ([['restart',*programs]] if args.restart else []):
             subprocess.run(CTL+command, check=True)
     else:
         # All PIDs are verified against the exact project configuration. SIGTERM
@@ -42,6 +45,6 @@ def main():
         sock = BASE/'supervisor.sock'
         if sock.exists(): sock.unlink()
         subprocess.run([str(BASE/'runtime/venv/bin/supervisord'), '-c', CONFIG], check=True)
-    subprocess.run(CTL+['status'], check=True)
+    subprocess.run(CTL+['status',*programs], check=True)
 
 if __name__ == '__main__': main()

@@ -23,6 +23,9 @@ chmod 755 "$release/scripts/agent-sandbox.sh"
 if [[ -e "$base/app" && ! -L "$base/app" ]]; then echo 'Existing app is not a managed symlink; stop.' >&2; exit 1; fi
 previous=$(readlink -f "$base/app" 2>/dev/null || true)
 ln -sfn "$release" "$base/app"
+# Retain the installed model endpoint, gateway and private server configuration.
+# Generate defaults only on first installation.
+if [[ ! -f "$base/supervisord.conf" ]]; then
 cat > "$base/supervisord.conf" <<'CONF'
 [unix_http_server]
 file=/opt/kernel-insight/supervisor.sock
@@ -67,9 +70,10 @@ stderr_logfile=/opt/kernel-insight/data/ollama.stderr.log
 environment=OLLAMA_HOST="127.0.0.1:11434",OLLAMA_KEEP_ALIVE="60m",OLLAMA_FLASH_ATTENTION="1",OLLAMA_KV_CACHE_TYPE="q8_0"
 OLLAMA
 fi
+fi
 chmod 600 "$base/supervisord.conf"
 "$base/runtime/venv/bin/python" "$release/scripts/manage-supervisor.py" --restart
-"$base/runtime/venv/bin/supervisorctl" -c "$base/supervisord.conf" status
+"$base/runtime/venv/bin/supervisorctl" -c "$base/supervisord.conf" status kernel-insight
 curl --fail --silent --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:8787/api/health
 "$base/runtime/venv/bin/python" - "$release" "$previous" <<'PY'
 import pathlib,re,shutil,sys

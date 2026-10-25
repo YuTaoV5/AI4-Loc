@@ -1,5 +1,15 @@
 # AI 接手手册 · Kernel Insight
 
+## 最新：问题池、Harness 与 MiniMax Chat（2026-10-25）
+
+用户要求任意格式材料上传后在服务器问题池去重、解压，在该问题目录内使用 DeepSeek Harness SDK，按网站选定的完整 Skill 与 Prompt 自主调查并回传报告；随后提供 MiniMax API 要求接入重启后的服务器。
+
+- 新引擎 `skill-harness`，入口在分析选项；原始字节按账号 + SHA256 去重，目录为 `data/problem-pool/<owner-hash>/<sha256>/`。支持任意材料，自动展开 ZIP/TAR/GZIP 的全部普通文件；未知或加密格式保留原件。保留目录边界与资源限制。
+- 每次运行在问题目录下独立 `runs/<job-id>/`，输入只读，完整 Skill 正文和组合 / 本次 Prompt 冻结。报告结构遵循 Skill，网站收集 `report.md` 或最终回复，净化展示并支持下载与人工反馈。
+- 服务器现为 `/opt/kernel-insight/releases/minimax-harness-20261025`；网站与 Chat 网关 RUNNING。两条路径均接入 MiniMax-M2.7。服务器凭据仅在 root 私有文件中，Agent 通过回环网关调用，不持有真实 API Key。旧 Qwen 清单仍存在但对应权重缺失。
+- MiniMax 工具 SSE 缺少 `[DONE]`，网关在明确终止帧之后补发；截断流不补。Node 50/50、Python 64/64 通过，真实 Harness 55.175 秒产报告、22 条轨迹，重复复用及原 Chat 流程均通过。
+- 已接入容器 `/root/bootstrap.sh` 启动入口；当前重复执行与项目服务重启验证通过，未执行整机冷重启。详细数据合同、配置和访问命令见 [功能说明](docs/DeepSeek-Harness问题池与Skill定位.md) 与 [验收记录](docs/harness-minimax-acceptance-20261025.json)。
+
 ## 最新：20页实验主线与L40新机skill验收（2026-10-18）
 
 - 根据用户要求将旧9B分类成绩作为主要收益恢复：原冻结首诊断标签66/87→78/87，75.86%→89.66%，+13.79个百分点；两个构建均提高。Decision与单字母Chat同分，归属微调方案，不能归给接口。4条旧规则误标的审计不撤销、不改标签或历史分数。

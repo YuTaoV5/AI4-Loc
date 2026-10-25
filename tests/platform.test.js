@@ -169,3 +169,18 @@ test('personal Agent/Skill profiles are owned, canonical, versioned, and used by
  const removed=await fetch(base+'/api/me/agent-profiles/'+p.id,{method:'DELETE',headers:{Authorization:'Bearer '+otherToken}});assert.equal(removed.status,404);
  assert.equal((await req('/api/benchmark/runs/not-found')).status,404);
 });
+
+test('Skill Harness accepts binary materials, reuses problems and isolates reports and prompts',async()=>{
+ const agent=require('../server/agent'),execute=agent.execute,mode=process.env.KERNEL_AGENT_MODE;
+ process.env.KERNEL_AGENT_MODE='dsh';let calls=0;
+ agent.execute=async({job,skills})=>{calls++;assert.ok(fs.existsSync(path.join(job.problemDirectory,'original')));assert.ok(Array.isArray(skills));return {reportMarkdown:'# 自定义报告\n\n完整分析内容\n\n<script>unsafe()</script>',model:'mock-chat',harness:'mock SDK',elapsedSeconds:1};};
+ async function submit(prompt='调查材料',token=testerToken){const fd=new FormData();fd.set('engine','skill-harness');fd.set('userPrompt',prompt);fd.append('logs',new Blob([Buffer.from([0,255,1,2])]),'opaque.vendor');const r=await fetch(base+'/api/analyze',{method:'POST',headers:{Authorization:'Bearer '+token},body:fd});assert.equal(r.status,202);return (await r.json())[0];}
+ try{
+  const first=await submit(),done=await waitJob(first.id);assert.equal(done.status,'needs_review');assert.equal(done.problem.extraction.status,'opaque');assert.match(done.analysis.reportMarkdown,/自定义报告/);assert.doesNotMatch(done.analysis.reportHtml,/<script>/);
+  const second=await submit();assert.equal(second.id,first.id);assert.equal(second.reused,true);assert.equal(calls,1);
+  const changed=await submit('另一调查要求');await waitJob(changed.id);assert.notEqual(changed.id,first.id);assert.equal(changed.problem.id,first.problem.id);assert.equal(changed.problem.reused,true);
+  const other=await submit('调查材料',otherToken);await waitJob(other.id);assert.notEqual(other.id,first.id);assert.notEqual(other.problemDirectory,first.problemDirectory);
+  assert.equal((await fetch(base+'/api/reports/'+first.id,{headers:{Authorization:'Bearer '+otherToken}})).status,403);
+  assert.match(await (await fetch(base+'/api/reports/'+first.id)).text(),/完整分析内容/);
+ }finally{agent.execute=execute;if(mode===undefined)delete process.env.KERNEL_AGENT_MODE;else process.env.KERNEL_AGENT_MODE=mode;}
+});

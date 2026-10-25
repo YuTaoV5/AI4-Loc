@@ -10,7 +10,7 @@ function clean(value,workspace,depth=0){
  return value;
 }
 function readTrace(data,job){
- const workspace=path.join(data,'agent-runs',job.id),warnings=[],entries=[];
+ const workspace=job.engine==='skill-harness'?path.join(data,'problem-pool',require('crypto').createHash('sha256').update(job.ownerId).digest('hex'),job.problem.id,'runs',job.id):path.join(data,'agent-runs',job.id),warnings=[],entries=[];
  function read(name,jsonl=false){
   const file=path.join(workspace,name);
   try{
