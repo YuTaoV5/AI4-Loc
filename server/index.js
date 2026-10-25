@@ -40,6 +40,25 @@ app.get('/api/jobs/:id/progress',(req,res)=>{const j=state.jobs.find(j=>j.id===r
 app.get('/api/jobs/:id/trace',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});res.set('Cache-Control','no-store');res.json(require('./agent-trace').readTrace(data,j));});
 app.get('/api/jobs/:id/events',(req,res)=>{const j=state.jobs.find(j=>j.id===req.params.id);if(!j)return res.status(404).json({error:'任务不存在'});taskProgress.stream(req,res,j);});
 app.get('/api/kernels',(_,res)=>res.json(kernels.list()));
+app.get('/api/kernels/:key/files',wrap(async(req,res)=>{
+ const k=kernels.list().find(k=>k.key===req.params.key);
+ if(k?.status!=='ready'||!k.sourcePath)return res.status(409).json({error:'源码缓存尚未就绪'});
+ const relative=String(req.query.path||'');
+ if(relative.includes('\0')||relative.includes('\\')||relative.startsWith('/')||/^[A-Za-z]:/.test(relative)||relative.split('/').some(p=>p==='..'||p==='.git'))return res.status(400).json({error:'非法源码路径'});
+ const sourceRoot=fs.realpathSync(k.sourcePath),target=path.resolve(sourceRoot,relative);
+ if(target!==sourceRoot&&!target.startsWith(sourceRoot+path.sep))return res.status(400).json({error:'路径超出源码缓存'});
+ if(!fs.existsSync(target))return res.status(404).json({error:'缓存中不存在该文件'});
+ const real=fs.realpathSync(target);
+ if(real!==sourceRoot&&!real.startsWith(sourceRoot+path.sep))return res.status(400).json({error:'链接超出源码缓存'});
+ res.set('X-Content-Type-Options','nosniff');res.set('Content-Security-Policy',"default-src 'none'");
+ if(fs.statSync(real).isFile())return res.type('text/plain').sendFile(real);
+ if(!fs.statSync(real).isDirectory())return res.status(400).json({error:'只能浏览普通文件和目录'});
+ const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const link=file=>'/api/kernels/'+encodeURIComponent(k.key)+'/files?path='+encodeURIComponent(file);
+ const entries=fs.readdirSync(real,{withFileTypes:true}).filter(e=>e.name!=='.git').sort((a,b)=>Number(b.isDirectory())-Number(a.isDirectory())||a.name.localeCompare(b.name));
+ const parent=path.posix.dirname(relative);
+ res.type('html').send(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>源码缓存 ${escape(k.version)}</title><h1>${escape(k.version)} · 源码缓存</h1><p>${escape(relative||'/')}</p>${relative?`<p><a href="${link(parent==='.'?'':parent)}">返回上级</a></p>`:''}<ul>${entries.slice(0,1000).map(e=>`<li><a href="${link(path.posix.join(relative,e.name))}">${escape(e.name)}${e.isDirectory()?'/':''}</a></li>`).join('')}</ul>${entries.length>1000?'<p>当前目录仅显示前 1000 项。</p>':''}</html>`);
+}));
 app.get('/api/kernels/:key/source',wrap(async(req,res)=>{
  const k=kernels.list().find(k=>k.key===req.params.key);if(k?.status!=='ready')return res.status(409).json({error:'源码尚未就绪'});
  const file=String(req.query.file||''),line=Number(req.query.line||1);if(!/^[a-zA-Z0-9_./,-]+$/.test(file)||file.startsWith('/')||file.split('/').includes('..')||!Number.isInteger(line)||line<1)return res.status(400).json({error:'非法源码路径或行号'});

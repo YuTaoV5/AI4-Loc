@@ -13,6 +13,20 @@ test('low disk space refuses new analysis before creating a task and keeps repor
  fs.statfsSync=()=>({bavail:0,bsize:4096});
  try{const result=await req('/api/benchmark/'+manifest.cases[0].id+'/analyze',{},headers);assert.equal(result.status,507);assert.equal((await req('/api/jobs',undefined,headers)).body.length,before);}finally{fs.statfsSync=statfs;}
 });
+test('cached source links browse directories and plain files without escaping the cache',async()=>{
+ const original=kernels.list,source=path.join(temp,'source-browser');fs.mkdirSync(path.join(source,'kernel'),{recursive:true});
+ fs.writeFileSync(path.join(source,'kernel','sample.c'),'int evidence = 1;\n');fs.writeFileSync(path.join(source,'sample&notes.c'),'/* notes */');
+ kernels.list=()=>[{key:'fixture-cache',version:'6.6.1',status:'ready',sourcePath:source},{key:'pending-cache',status:'downloading'}];
+ try{
+  const listing=await fetch(base+'/api/kernels/fixture-cache/files');assert.equal(listing.status,200);const html=await listing.text();assert.match(html,/kernel\//);assert.match(html,/sample&amp;notes.c/);
+  const file=await fetch(base+'/api/kernels/fixture-cache/files?path=kernel%2Fsample.c');assert.equal(file.status,200);assert.match(file.headers.get('content-type'),/text\/plain/);assert.equal(await file.text(),'int evidence = 1;\n');
+  assert.equal((await fetch(base+'/api/kernels/fixture-cache/files?path=..%2Fstate.json')).status,400);
+  assert.equal((await fetch(base+'/api/kernels/fixture-cache/files?path=.git%2Fconfig')).status,400);
+  assert.equal((await fetch(base+'/api/kernels/fixture-cache/files?path=missing.c')).status,404);
+  assert.equal((await fetch(base+'/api/kernels/pending-cache/files')).status,409);
+  assert.equal((await nativeFetch(base+'/api/kernels/fixture-cache/files')).status,401);
+ }finally{kernels.list=original;}
+});
 test('account management is administrator-only and cannot remove the final administrator',async()=>{
  assert.equal((await req('/api/admin/users')).status,403);const rows=(await req('/api/admin/users',undefined,{Authorization:'Bearer '+adminToken})).body;assert.ok(rows.every(u=>!u.passwordHash&&!u.salt));const target=rows.find(u=>u.username==='other_user'),admin=rows.find(u=>u.username==='admin');
  assert.equal((await req('/api/admin/users/'+target.id+'/role',{role:'leader'})).status,403);assert.equal((await req('/api/admin/users/'+target.id+'/role',{role:'invalid'},{Authorization:'Bearer '+adminToken})).status,400);assert.equal((await req('/api/admin/users/'+admin.id+'/role',{role:'tester'},{Authorization:'Bearer '+adminToken})).status,409);
