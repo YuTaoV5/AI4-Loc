@@ -243,3 +243,13 @@ test('Skill archive upload extracts triggers and only publishes after review and
  assert.equal(fs.readFileSync(path.join(published,'references','details.txt'),'utf8'),'RESOURCE_KEPT');
  const profile=await req('/api/me/agent-profiles',{name:'Archived Skill snapshot',agentId:'chat-investigator',skillIds:[id],extraPrompt:''});assert.equal(profile.status,201);assert.equal(profile.body.skills[0].package.sha256,skill.package.sha256);
 });
+
+test('phone suite exposes input archives but never private scoring labels',async()=>{
+ const root=path.join(temp,'phone-benchmark','synthetic');execFileSync(process.platform==='win32'?'python':'python3',[path.join(__dirname,'../scripts/prepare-phone-benchmark.py'),root]);
+ const suite=await req('/api/phone-benchmark');assert.equal(suite.status,200);assert.equal(suite.body.cases.length,8);assert.doesNotMatch(JSON.stringify(suite.body),/ddr_training_failure|gold.json/);
+ const realRoot=path.join(temp,'phone-benchmark','abrlog');fs.mkdirSync(realRoot,{recursive:true});fs.writeFileSync(path.join(realRoot,'samples.json'),JSON.stringify({cases:[{id:'fixture',archive:'fixture.zip'}]}));fs.copyFileSync(path.join(root,suite.body.cases[0].archive),path.join(realRoot,'fixture.zip'));assert.equal((await fetch(base+'/api/phone-benchmark/real/fixture/archive')).status,200);assert.equal((await fetch(base+'/api/phone-benchmark/real/missing/archive')).status,404);
+ const id=suite.body.cases[0].id,archive=await fetch(base+'/api/phone-benchmark/cases/'+id+'/archive');assert.equal(archive.status,200);assert.match(archive.headers.get('content-disposition'),/phone-synthetic-/);
+ assert.equal((await fetch(base+'/api/phone-benchmark/cases/not-a-case/archive')).status,404);
+ assert.equal((await nativeFetch(base+'/api/phone-benchmark')).status,401);
+ const hidden=await fetch(base+'/phone-benchmark/private/gold.json');assert.match(hidden.headers.get('content-type'),/text\/html/);assert.doesNotMatch(await hidden.text(),/ddr_training_failure/);
+});

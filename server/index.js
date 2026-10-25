@@ -21,6 +21,7 @@ app.use((req,res,next)=>{
 });
 const upload=multer({dest:uploads,limits:{fileSize:64*1024*1024,files:20}});
 require('./accounts')(app,{data,state,save});
+require('./phone-benchmark')(app,{data});
 const materials=require('./materials')(app,{data});
 require('./experience').install(app,{state,data});
 const taskProgress=require('./task-progress')({state,save});

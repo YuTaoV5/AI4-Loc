@@ -54,3 +54,5 @@ data/evaluation-datasets/
 data/benchmark-acceptance*/
 deliverables/jev-huawei-soc/.render*/
 deliverables/jev-huawei-soc/slide-test.png
+
+data/phone-benchmark/

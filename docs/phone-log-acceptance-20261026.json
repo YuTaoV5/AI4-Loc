@@ -1,0 +1,230 @@
+{
+  "date": "2026-10-26",
+  "serviceAfterReboot": {
+    "website": "running",
+    "chatGateway": "running",
+    "model": "MiniMax-M2.7"
+  },
+  "realData": {
+    "license": {
+      "id": "cc-by-4.0"
+    },
+    "source": "https://zenodo.org/api/records/21892365",
+    "record": "21892365",
+    "archive": "ABRLog_Dataset.zip",
+    "publisherChecksum": "md5:8c33844d6f4855448acc36104fc84e90",
+    "archiveSha256": "d07ce32c6b71f46331b6d8c9e5f0ef8769b4dce357d62006acadbc8302a0d1b0",
+    "compressedBytes": 145233278,
+    "expandedBytes": 1221599973,
+    "fileCount": 1012,
+    "rootCauseLabels": false,
+    "earlyBootCoverage": "not asserted",
+    "purpose": "Real mobile log ingestion and retrieval; excluded from accuracy denominator"
+  },
+  "realCaptures": 45,
+  "realDevices": 15,
+  "realRetrieval": {
+    "passed": true,
+    "model": "MiniMax-M2.7",
+    "sample": {
+      "id": "cccf54e54c54b8e8",
+      "device": "HUAWEI L29",
+      "capture": "bugreport-DEL-L29-HUAWEIDEL-L29-2026-02-05-20-35-40",
+      "files": 19,
+      "bytes": 554351
+    },
+    "extraction": {
+      "status": "extracted",
+      "files": 20,
+      "bytes": 6490306
+    },
+    "reportBytes": 10426,
+    "elapsedSeconds": 101.417,
+    "scope": "Real mobile ingestion/retrieval smoke test, not root-cause scoring",
+    "releasePropertyQuotedVerbatim": true
+  },
+  "synthetic": {
+    "schema": "phone-benchmark-result/v1",
+    "dataset": "phone-synthetic-v1",
+    "origin": "synthetic",
+    "scope": "Known constructed scenarios; not real phone root-cause accuracy",
+    "complete": true,
+    "caseCount": 8,
+    "completed": 8,
+    "score": 100,
+    "rows": [
+      {
+        "caseId": "0673a1b41d1dea88",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "a48fc123-45ca-46de-ab57-0f213408ef8e.report.json",
+        "elapsedSeconds": 23.259
+      },
+      {
+        "caseId": "f4592228e6a6cbbc",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "cc8080d6-7c43-4c64-aaa6-e9cf72bda369.report.json",
+        "elapsedSeconds": 18.877
+      },
+      {
+        "caseId": "296bf29b003bddf9",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "04eae42e-3c75-4c09-933a-b2ee80ec63d3.report.json",
+        "elapsedSeconds": 19.529
+      },
+      {
+        "caseId": "c2b0566760e00699",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "e4785df0-e400-49b1-8eac-7a8b1a0070bf.report.json",
+        "elapsedSeconds": 11.322
+      },
+      {
+        "caseId": "cec96702bd8ff76c",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "7f82e989-f270-4dce-9e28-5ccc533a81bd.report.json",
+        "elapsedSeconds": 19.878
+      },
+      {
+        "caseId": "cdede261480f566b",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "0b176c2b-b9fa-4089-8611-565efda27072.report.json",
+        "elapsedSeconds": 31.551
+      },
+      {
+        "caseId": "9084e2f1e5a1048a",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "3026fd95-b7f3-49b7-ad4b-72f9cb5942fd.report.json",
+        "elapsedSeconds": 23.599
+      },
+      {
+        "caseId": "ca3af3a7791e6434",
+        "status": "completed",
+        "points": 100,
+        "checks": {
+          "stage": true,
+          "component": true,
+          "mechanism": true,
+          "nextAction": true,
+          "evidence": true
+        },
+        "weights": {
+          "stage": 20,
+          "component": 20,
+          "mechanism": 20,
+          "evidence": 30,
+          "nextAction": 10
+        },
+        "report": "2e96111f-889c-4507-a841-06e35e17c389.report.json",
+        "elapsedSeconds": 27.039
+      }
+    ]
+  },
+  "regression": {
+    "nodePassed": 58,
+    "pythonPassed": 69
+  }
+}
