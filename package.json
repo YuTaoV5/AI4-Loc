@@ -17,6 +17,7 @@
     "markdown-it-task-lists": "^2.1.1",
     "mermaid": "^12.1.0",
     "multer": "^2.0.2",
-    "sanitize-html": "^2.18.0"
+    "sanitize-html": "^2.18.0",
+    "yaml": "^2.9.1"
   }
 }

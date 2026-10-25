@@ -1,0 +1,35 @@
+{
+  "model": "MiniMax-M2.7",
+  "decisionEndpointConfigured": false,
+  "extractedTriggers": [
+    "ovl_inode_upper"
+  ],
+  "privateBeforeMerge": true,
+  "reviewSkipRejected": true,
+  "benchmarkPassed": true,
+  "publicAfterMerge": true,
+  "jobStatus": "needs_review",
+  "error": null,
+  "referenceOnlyMarkerInReport": true,
+  "logMeasurementInReport": true,
+  "nativeBodyOmittedFromSkillsJson": true,
+  "nativeSkillTrace": true,
+  "reportModel": "MiniMax-M2.7",
+  "localRegression": {
+    "node": {
+      "passed": 57,
+      "total": 57
+    },
+    "python": {
+      "passed": 66,
+      "total": 66
+    }
+  },
+  "nativeSkillCalls": [
+    {
+      "name": "skill",
+      "arguments": "{\"name\": \"archive-proof\"}"
+    }
+  ],
+  "date": "2026-10-25"
+}

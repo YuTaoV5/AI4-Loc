@@ -9,8 +9,8 @@ document.addEventListener('click',async e=>{const el=e.target.closest('[data-act
 document.addEventListener('keydown',e=>{if(e.target.matches('.experience-card')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.target.click();}});
 document.addEventListener('change',async e=>{if(e.target.id!=='experience-file')return;const file=e.target.files[0];if(!file)return;try{if(file.size>400000)throw Error('Markdown 文件过大');const content=await file.text();if(content.length>100000)throw Error('正文最多 100000 字符');document.querySelector('[name=content]').value=content;ExperienceUI.draft.content=content;state.dirty=true;}catch(err){toast(err.message,true);}e.target.value='';});
 
-document.addEventListener('input',e=>{if(e.target.closest('#pull-form')&&e.target.name)ExperienceUI.draft[e.target.name]=e.target.value;});
-document.addEventListener('change',e=>{if(e.target.closest('#pull-form')&&e.target.name)ExperienceUI.draft[e.target.name]=e.target.value;});
+document.addEventListener('input',e=>{if(e.target.closest('#pull-form')&&e.target.name&&e.target.type!=='file')ExperienceUI.draft[e.target.name]=e.target.value;});
+document.addEventListener('change',e=>{if(e.target.closest('#pull-form')&&e.target.name&&e.target.type!=='file')ExperienceUI.draft[e.target.name]=e.target.value;});
 
 function updateExperienceResults(){const t=document.createElement('template');t.innerHTML=SkillUI.hub();for(const id of ['experience-grid','experience-count','experience-more']){const target=document.getElementById(id),next=t.content.querySelector('#'+id);if(target&&next)target.innerHTML=next.innerHTML;}}
 document.addEventListener('input',e=>{if(e.target.id==='experience-search'){ExperienceUI.query=e.target.value;ExperienceUI.limit=12;updateExperienceResults();}});

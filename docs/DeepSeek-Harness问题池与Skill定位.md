@@ -60,3 +60,28 @@ ssh -p 30690 -N -L 127.0.0.1:8788:127.0.0.1:8787 root@120.209.70.195
 
 SDK 行为参考：[官方 Python SDK 文档](https://deepseek-harness.github.io/deepseek-harness/en/guide/python-sdk)。
 MiniMax 协议参考：[官方 OpenAI 兼容 API 文档](https://platform.minimax.cn/docs/api-reference/text-openai-api)。
+
+
+## Skill 压缩包投稿与原生调用（2026-10-25）
+
+当前生产 release 为 `/opt/kernel-insight/releases/skill-archives-20261025`。
+
+投稿页上传 ZIP / TAR / TGZ / GZIP 压缩包，名称可以省略，贡献者默认当前账号；补充说明可选，保留规则分类 / 完整 Agent 两种 Benchmark 方式。包内至少有一份标准 `SKILL.md`，同时保留 scripts、references 等资源，最多支持 20 份 Skill。示例：
+
+```yaml
+---
+name: kernel-oops
+description: 分析首个内核异常，按正文约定生成报告。
+triggers: [KASAN, ovl_inode_upper]
+---
+```
+
+正文写实际步骤和报告要求。名称必须为英文小写 kebab-case。触发词读取 YAML 的 triggers / keywords / patterns、metadata 下同名字段，或正文“触发词 / Keywords / Triggers”段落；无需网页手填。未声明触发词可使用完整 Agent 测试，规则模式必须有触发词。类别优先读取包内 category，其次按触发词推断，无法识别则标为待专家分析。
+
+上传时展开至 `data/skill-pulls/<id>/package/content`，原包和每个展开文件均封存 SHA256。投稿者和管理员可下载原包审查。包不能跳过人工审核；审核通过后手动运行所选 Benchmark，测试通过仍不立即发布。管理员合入时复核包指纹和基线，才发布到 `data/harness-home/skills/<name>/SKILL.md`。重名拒绝发布，避免覆盖已有 Skill。旧 JSON 投稿 API 继续兼容。
+
+普通任务仅能选择已启用 Skill。Harness 运行时把选中的已发布包复制到任务自身 `dsh-home/skills` 并只读挂载，冻结个人组合保留包指纹。原生 skill registry / filesystem / tool 插件通过 SDK patch 加载，禁止扫描其他默认目录；Prompt 可写 `/kernel-oops`。任务 JSON 只列原生 Skill 名称，模型用 `skill` 工具按需加载正文，再读该包参考资料或调用其辅助脚本。未合入包不会加入普通任务目录。
+
+Benchmark 两种模式的含义保持不变：规则模式检验类别匹配和回归；完整模式用 closed-loop Chat 对照执行 Skill 正文，尚不代表原生 Harness 脚本/资源的逐项验收。两者通过都只能说明相应测试通过，不能当作根因准确率证明。
+
+[独立实例真实验收](skill-archives-acceptance-20261025.json)覆盖上传提取、私有暂存、跳过审核拒绝、过早发布拒绝、规则测试通过后仍私有、合入后资源发布及原生 Prompt 调用。MiniMax-M2.7 实际发起 `skill(name=archive-proof)`，报告包含仅存于 references 文件的随机标记及日志测量值；Skill 正文未直接放入任务 JSON。测试数据保留在服务器独立验收目录，未写入生产投稿或榜单。本地 Node 57/57、Python 66/66 通过。

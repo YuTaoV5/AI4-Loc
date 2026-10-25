@@ -222,3 +222,24 @@ test('Skill submission supports real Agent mode with protected reports and prese
   finally{if(previousModel===undefined)delete process.env.KERNEL_AGENT_MODEL;else process.env.KERNEL_AGENT_MODEL=previousModel;}
  }finally{agent.execute=execute;if(mode===undefined)delete process.env.KERNEL_AGENT_MODE;else process.env.KERNEL_AGENT_MODE=mode;if(engine===undefined)delete process.env.KERNEL_AGENT_ENGINE;else process.env.KERNEL_AGENT_ENGINE=engine;}
 });
+
+test('Skill archive upload extracts triggers and only publishes after review and benchmark',async()=>{
+ const fixture=path.join(temp,'uploaded-skill-fixture','archive-oops');fs.mkdirSync(path.join(fixture,'references'),{recursive:true});
+ fs.writeFileSync(path.join(fixture,'SKILL.md'),'---\nname: archive-oops\ndescription: Investigate the first oops\ncategory: 内存越界\ntriggers: [ovl_inode_upper]\n---\nRead references/details.txt and original fault evidence.\n');
+ fs.writeFileSync(path.join(fixture,'references/details.txt'),'RESOURCE_KEPT');const archive=path.join(temp,'skill-upload.tar');execFileSync('tar',['-cf',archive,'-C',path.dirname(fixture),'.']);
+ const form=new FormData();form.append('archive',new Blob([fs.readFileSync(archive)]),'skill-upload.tar');form.set('benchmarkMode','rules');
+ const response=await fetch(base+'/api/skills/upload',{method:'POST',body:form});assert.equal(response.status,201);const skill=await response.json(),id=skill.id;
+ assert.equal((await fetch(base+'/api/skills/'+id+'/package')).status,200);
+ assert.equal((await fetch(base+'/api/skills/'+id+'/package',{headers:{Authorization:'Bearer '+otherToken}})).status,403);
+ assert.equal(skill.name,'archive-oops');assert.deepEqual(skill.patterns,['ovl_inode_upper']);assert.equal(skill.status,'draft');assert.equal(skill.package.published,undefined);
+ const published=path.join(temp,'harness-home','skills','archive-oops');assert.equal(fs.existsSync(published),false);
+ assert.equal((await req('/api/skills/'+id+'/activate',{}, {Authorization:'Bearer '+adminToken})).status,409);
+ assert.equal((await req('/api/skills/'+id+'/review',{decision:'skip',note:'Cannot skip package review'},{Authorization:'Bearer '+adminToken})).status,400);
+ assert.equal((await req('/api/skills/'+id+'/review',{decision:'approve',note:'Reviewed package and resources'},{Authorization:'Bearer '+adminToken})).status,200);
+ assert.equal((await req('/api/skills/'+id+'/evaluate',{mode:'rules'})).status,202);
+ let evaluated;for(let i=0;i<100;i++){evaluated=(await req('/api/skills')).body.find(s=>s.id===id);if(evaluated.pull.status!=='testing')break;await new Promise(r=>setTimeout(r,10));}
+ assert.equal(evaluated.evaluation.passed,true);assert.equal(fs.existsSync(published),false);
+ const activated=await req('/api/skills/'+id+'/activate',{}, {Authorization:'Bearer '+adminToken});assert.equal(activated.status,200);assert.equal(activated.body.package.published,true);
+ assert.equal(fs.readFileSync(path.join(published,'references','details.txt'),'utf8'),'RESOURCE_KEPT');
+ const profile=await req('/api/me/agent-profiles',{name:'Archived Skill snapshot',agentId:'chat-investigator',skillIds:[id],extraPrompt:''});assert.equal(profile.status,201);assert.equal(profile.body.skills[0].package.sha256,skill.package.sha256);
+});

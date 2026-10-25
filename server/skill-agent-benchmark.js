@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
 const agent=require('./agent');
-const fingerprint=skills=>crypto.createHash('sha256').update(JSON.stringify(skills.map(({id,version,category,patterns,guidance,content})=>({id,version,category,patterns,guidance,content})))).digest('hex');
+const fingerprint=skills=>crypto.createHash('sha256').update(JSON.stringify(skills.map(({id,version,category,patterns,guidance,content,package:bundle})=>({id,version,category,patterns,guidance,content,packageSha256:bundle?.sha256})))).digest('hex');
 const engineIdentity=()=>crypto.createHash('sha256').update(agent.identity()).update(fs.readFileSync(__filename)).digest('hex');
 
 async function run({skill,baseline,proposed,snapshot,data,onProgress}){

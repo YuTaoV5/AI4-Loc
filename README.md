@@ -2,6 +2,8 @@
 
 Linux 稳定性分析工作空间：社区案例 Benchmark、精确版本内核源码缓存、专家经验与 Skill 审核、个人任务进度和效能看板。
 
+2026-10-25 Skill 压缩包投稿：页面只保留上传与基本信息，自动读取 `SKILL.md` 名称、说明和触发词。审核、所选 Benchmark 均通过且管理员合入后，完整包才发布到 Harness 公共 Skill 目录；支持 `/skill-name` Prompt 调用。真实 MiniMax 验收确认原生 `skill` 工具加载及参考文件读取；Node 57/57、Python 66/66。见 [操作说明](docs/DeepSeek-Harness问题池与Skill定位.md#skill-压缩包投稿与原生调用2026-10-25) 与 [验收记录](docs/skill-archives-acceptance-20261025.json)。
+
 2026-10-25 Benchmark 更新：一键 Agent 跑分已取消网站固定的 Decision 接口依赖；Skill 投稿测试可选 **规则分类回归** 或 **完整 Agent 定位**。旧投稿默认规则模式；完整模式实际运行原集合 / 候选集合的 Chat 调查并提供报告。独立实例实测：投稿两种模式通过，固定九例纯 Chat 跑分 9/9 产出报告、9/9 隔离通过；Node 54/54、Python 66/66 通过。详见 [验收记录](docs/benchmark-modes-acceptance-20261025.json) 与 [评分和兼容说明](docs/一键跑分平台与评分标准.md)。
 
 2026-10-25：新增 [DeepSeek Harness 问题池与 Skill 自主定位](docs/DeepSeek-Harness问题池与Skill定位.md)。在“新建分析 → 分析选项”选择新引擎，上传任意格式材料，按原始文件 SHA256 入池去重，由完整 Skill 正文和 Prompt 驱动工具调查并生成网站报告。服务器已恢复，现有 Chat 与新 Harness 均接入 **MiniMax-M2.7**；真实合成材料验收、重复复用与原流程报告生成均通过。Node 50/50、Python 64/64 通过；详见 [部署验收记录](docs/harness-minimax-acceptance-20261025.json)。旧章节中的 Qwen / Ollama 配置属于历史部署。

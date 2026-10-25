@@ -12,8 +12,9 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
   if(skillHarness&&process.platform==='linux'&&!process.env.KERNEL_AGENT_SANDBOX)throw Error('Skill Harness 需要配置 KERNEL_AGENT_SANDBOX');
   const dir=skillHarness?path.join(job.problemDirectory,'runs',job.id):path.join(data,'agent-runs',job.id);fs.mkdirSync(dir,{recursive:true});
   if(skillHarness){fs.mkdirSync(path.join(dir,'input'),{recursive:true});for(const name of ['original','manifest.json','content'])fs.cpSync(path.join(job.problemDirectory,name),path.join(dir,'input',name),{recursive:true});}
+  const nativeSkills=skillHarness?require('./skill-packages').stage(data,skills,dir):[];
   stageMaterials?.(dir);
-  fs.writeFileSync(path.join(dir,'input.log'),log);fs.writeFileSync(path.join(dir,'skills.json'),JSON.stringify(skills.map(({id,name,version,category,guidance,patterns,contributor,content})=>({id,name,version,category,guidance,patterns,contributor,content})),null,2));
+  fs.writeFileSync(path.join(dir,'input.log'),log);fs.writeFileSync(path.join(dir,'skills.json'),JSON.stringify(skills.map(({id,name,version,category,guidance,patterns,contributor,content,package:bundle})=>({id,name,version,category,guidance,patterns,contributor,content:skillHarness&&bundle?.published?undefined:content,...(skillHarness&&bundle?.published?{nativeSkills:bundle.entries.map(e=>e.name)}:{})})),null,2));
   let guidanceBudget=4000;
   fs.writeFileSync(path.join(dir,'skills-brief.json'),skills.slice(0,12).map(s=>{const guidance=String(s.guidance||'').slice(0,Math.max(0,Math.min(600,guidanceBudget)));guidanceBudget-=guidance.length;return JSON.stringify({id:s.id,name:s.name,contributor:s.contributor,category:s.category,guidance});}).join('\n'));
   onEvent?.({type:'progress',message:skillHarness?'问题池材料与所选 Skill 已就绪':'正在按精确版本获取日志涉及的源码文件'});
@@ -28,6 +29,7 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
    if(job.agentProfile.agentId==='chat-investigator'){delete request.boundaryRouter;delete request.decisionPlugin;request.fastFinal=false;}
   }else request.userPrompt=skills.map(s=>`Skill ${s.name}: ${s.guidance||''}`).join('\n\n').slice(0,30000);
   if(skillHarness){request.engine='skill-harness';request.transport='openai';request.baseUrl=process.env.KERNEL_HARNESS_BASE_URL||(configuration().transport==='ollama-native'?'http://127.0.0.1:11435/v1':request.baseUrl);request.model=process.env.KERNEL_HARNESS_MODEL||request.model;request.timeout=Number(process.env.KERNEL_HARNESS_TIMEOUT_SECONDS||1800);request.maxTokens=Number(process.env.KERNEL_HARNESS_MAX_TOKENS||8192);request.userPrompt=[job.agentProfile?.prompt||'',job.userPrompt||''].filter(Boolean).join('\n\n');delete request.boundaryRouter;delete request.decisionPlugin;}
+  if(skillHarness)request.nativeSkills=nativeSkills;
   fs.writeFileSync(path.join(dir,'request.json'),JSON.stringify(request));
   const python=process.env.KERNEL_AGENT_PYTHON||'python3',runner=path.join(__dirname,'../scripts/agent-runner.py');
   let command=python,args=[runner,path.join(dir,'request.json')];
@@ -48,7 +50,7 @@ async function execute({job,log,skills,data,onEvent,stageMaterials}){
 const decisionIdentity=()=>{
  const hash=crypto.createHash('sha256').update(identity()).update(process.env.KERNEL_DECISION_BASE_URL||'disabled').update(process.env.KERNEL_BOUNDARY_ROUTER||'adaptive').update(process.env.KERNEL_DECISION_API||'decisions').update(process.env.KERNEL_DECISION_MODEL||'default');
  hash.update(JSON.stringify([process.env.KERNEL_HARNESS_BASE_URL,process.env.KERNEL_HARNESS_MODEL,process.env.KERNEL_HARNESS_TIMEOUT_SECONDS,process.env.KERNEL_HARNESS_MAX_TOKENS]));
- for(const name of ['problem-pool.js','../scripts/problem-extract.py','../scripts/skill-harness.py'])hash.update(fs.readFileSync(path.join(__dirname,name)));
+ for(const name of ['problem-pool.js','skill-packages.js','../scripts/problem-extract.py','../scripts/skill-harness.py'])hash.update(fs.readFileSync(path.join(__dirname,name)));
  for(const name of ['../scripts/boundary_router.py','../scripts/decision_plugin.py','../plugins/kernel-decision/manifest.json','../plugins/kernel-decision/index.mjs']){
   const file=path.join(__dirname,name);if(fs.existsSync(file))hash.update(fs.readFileSync(file));
  }

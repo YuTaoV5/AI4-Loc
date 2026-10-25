@@ -11,6 +11,7 @@ expected_runner=$(realpath -- "$(dirname -- "$0")/agent-runner.py")
 [[ "$2" == "$runtime/venv/bin/python" && "$4" == "$workspace/request.json" ]] || exit 1
 readonly_mounts=(--ro-bind "$workspace/input.log" "$workspace/input.log")
 if [[ -d "$workspace/input" ]]; then readonly_mounts+=(--ro-bind "$workspace/input" "$workspace/input"); fi
+if [[ -d "$workspace/dsh-home/skills" ]]; then readonly_mounts+=(--ro-bind "$workspace/dsh-home/skills" "$workspace/dsh-home/skills"); fi
 plugins="$(dirname "$(dirname "$runner")")/plugins"
 if [[ -d "$plugins" ]]; then readonly_mounts+=(--ro-bind "$plugins" "$plugins"); fi
 if [[ -d "$workspace/artifacts" ]]; then readonly_mounts+=(--ro-bind "$workspace/artifacts" "$workspace/artifacts" --ro-bind "$workspace/artifacts.json" "$workspace/artifacts.json"); fi
